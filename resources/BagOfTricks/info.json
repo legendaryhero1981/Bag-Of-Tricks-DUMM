@@ -1,7 +1,7 @@
-{
+ï»¿{
     "Id": "BagOfTricks",
-    "DisplayName": "°Ù±¦´üMod",
-    "Author": "ÀîÔÊ",
+    "DisplayName": "ç™¾å®è¢‹Mod",
+    "Author": "æå…",
     "Version": "1.14.0.6",
     "ManagerVersion": "0.20.0.10",
     "EntryMethod": "BagOfTricks.Main.Load",

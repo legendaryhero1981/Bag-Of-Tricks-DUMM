@@ -31,6 +31,6 @@
   </ItemGroup>
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
   <PropertyGroup>
-    <PostBuildEvent>D:\games\exe4j\11\file -cd!~ . "$(SolutionDir)\resources" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>D:\games\exe4j\11\file -cd!~::-m!~ .::* "$(SolutionDir)\resources::$(TargetDir)" "$(TargetDir)::$(TargetDir)\BagOfTricks" ?::1</PostBuildEvent>
   </PropertyGroup>
 </Project>
