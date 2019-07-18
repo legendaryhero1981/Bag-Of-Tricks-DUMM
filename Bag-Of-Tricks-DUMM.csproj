@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <Import Project="..\ReferenceLibs.props" />
+  <Import Project="ReferenceLibs.props" />
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
   <PropertyGroup>
     <ProjectGuid>{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}</ProjectGuid>
