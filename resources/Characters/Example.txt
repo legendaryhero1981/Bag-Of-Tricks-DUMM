@@ -1,0 +1,53 @@
+// for a successful import only StatType:Value is necessary
+// everything else will be ignored
+// the order of the StatTypes is irrelevant
+// if the file contains a StaType multiple times the value of the last one will be imported
+// you only have to include the StatTypes you want to change
+// the rest will remain unchanged
+// exported Character Statistics are fully supported
+ 
+
+Attributes: Base Values (Total Values)
+Strength: 15 (17)
+Dexterity: 15 (15)
+Constitution: 15 (15)
+Intelligence: 15 (15)
+Wisdom: 15 (15)
+Charisma: 15 (15)
+
+Skills: Ranks (Total Values)
+Athletics: 5 (4)
+Knowledge (Arcana): 5 (1)
+Knowledge (World): 5 (5)
+Lore (Nature): 5 (4)
+Lore (Religion): 5 (0)
+Mobility: 5 (-3)
+Perception: 5 (1)
+Persuasion: 5 (0)
+Stealth: 5 (-3)
+Thievery: 5 (-3)
+Use Magic Device: 5 (0)
+
+Social Skills: Base Values (Modified Values)
+Bluff: 5 (0)
+Diplomacy: 5 (0)
+Intimidate: 5 (0)
+
+Saves: Class Bonuses (Total Values)
+Fortitude: 5 (4)
+Reflex: 5 (2)
+Will: 5 (0)
+
+Combat: Base Values (Modified Values)
+Initiative: 5 (2)
+Base Attack Bonus: 5 (1)
+Additional Attack Bonus: 5 (0)
+Number Of Attacks Of Opportunity: 5 (1)
+Sneak Attack: 5 (0)
+Additional Damage: 5 (0)
+Additional Combat Maneuver Bonus: 5 (0)
+Additional Combat Maneuver Defense: 5 (0)
+Armour Class: 5 (18)
+Reach: 5 (5)
+Hit Points: 5 (16)
+Speed: 5 (20)

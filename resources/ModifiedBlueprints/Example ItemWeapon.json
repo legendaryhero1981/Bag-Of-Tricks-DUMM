@@ -1,0 +1,15 @@
+{
+  "m_OverrideDamageDice": true,
+  "m_DamageDice": {
+    "$id": "2",
+    "m_Rolls": 1,
+    "m_Dice": "D100"
+  },
+  "m_Cost": 1212121,
+  "m_Weight": 999.9,
+    "m_Enchantments": [
+    "Blueprint:eb2faccc4c9487d43b3575d7e77ff3f5:Enhancement2",
+    "Blueprint:7bda5277d36ad114f9f9fd21d0dab658:Shock",
+	"Blueprint:421e54078b7719d40915ce0672511d0b:Frost"
+  ]
+}

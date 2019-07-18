@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="..\ReferenceLibs.props" />
+  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
+  <PropertyGroup>
+    <ProjectGuid>{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}</ProjectGuid>
+    <NeutralLanguage>zh-CN</NeutralLanguage>
+    <OutputType>Library</OutputType>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworks>net472</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>BagOfTricks</RootNamespace>
+    <AssemblyName>BagOfTricks</AssemblyName>
+    <ApplicationVersion>1.14.0.6</ApplicationVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyVersion>1.14.0.6</AssemblyVersion>
+    <FileVersion>1.14.0.6</FileVersion>
+    <Version>1.14.0.6</Version>
+    <Authors>李允</Authors>
+    <Company>Legend</Company>
+    <Copyright>Copyright © Legend 2019</Copyright>
+    <Description>《开拓者：拥王者》百宝袋Mod，适用于DUMM的特别版本。</Description>
+    <AssemblyTitle>$(Description)</AssemblyTitle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="resources\" />
+  </ItemGroup>
+  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>D:\games\exe4j\11\file -cd!~ . "$(SolutionDir)\resources" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

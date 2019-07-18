@@ -1,0 +1,20 @@
+{
+  "m_AttackType": "ranged",
+  "m_AttackRange": {
+    "m_Value": 200.0
+  },
+  "m_BaseDamage": {
+    "m_Rolls": 1,
+    "m_Dice": "d12"
+  },
+  "m_CriticalRollEdge": 19,
+  "m_CriticalModifier": "x2",
+  "m_Weight": 1.0,
+  "m_IsTwoHanded": true,
+  "m_IsLight": true,
+  "m_IsMonk": false,
+  "m_IsNatural": false,
+  "m_IsUnarmed": false,
+  "m_OverrideAttackBonusStat": true,
+  "m_AttackBonusStatOverride": "Charisma",
+}

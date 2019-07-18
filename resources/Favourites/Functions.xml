@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <string>ItemsEquipment</string>
+  <string>CharacterCreationProgressionExperience</string>
+  <string>PartyOptions</string>
+  <string>DiceRolls</string>
+  <string>RestRations</string>
+  <string>Money</string>
+</ArrayOfString>

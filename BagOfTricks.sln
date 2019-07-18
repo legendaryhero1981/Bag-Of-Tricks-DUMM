@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bag-Of-Tricks-DUMM", "Bag-Of-Tricks-DUMM.csproj", "{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18E01567-DA6C-4360-AB58-7FC767F4F8A5}
+	EndGlobalSection
+EndGlobal

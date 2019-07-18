@@ -1,0 +1,8 @@
+{
+  "m_ArmorBonus": 40,
+  "m_ArmorChecksPenalty": 0,
+  "m_HasDexterityBonusLimit": true,
+  "m_MaxDexterityBonus": 1,
+  "m_ArcaneSpellFailureChance": 0,
+  "m_Weight": 4500.0,
+}
