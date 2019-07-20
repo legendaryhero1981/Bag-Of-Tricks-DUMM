@@ -48,7 +48,7 @@ namespace BagOfTricks
 {
     internal static class Main
     {
-        private static ModEntry m_modEntry;
+        private static ModEntry _modEntry;
 
         public static bool enabled;
 
@@ -471,7 +471,7 @@ namespace BagOfTricks
             modEntry.OnGUI = OnGUI;
             modEntry.OnSaveGUI = OnSaveGUI;
 
-            m_modEntry = modEntry;
+            _modEntry = modEntry;
 
             return true;
         }
@@ -640,7 +640,7 @@ namespace BagOfTricks
         {
             if (!GL.Button(labelString, GL.ExpandWidth(false))) return;
             //DUMM v0.20.0.11
-            m_modEntry.OnModActions.Push(m => BlueprintsByTypes(type).FindAll(e => Utilities.GetBlueprintByGuid<BlueprintItem>(e) != null && e != "c5d4962385e0e9c439ab935d83361947").ForEach(e => MenuTools.AddSingleItemAmount(e, 1, settings.addItemIdentified)));
+            _modEntry.OnModActions.Push(m => BlueprintsByTypes(type).FindAll(e => Utilities.GetBlueprintByGuid<BlueprintItem>(e) != null && e != "c5d4962385e0e9c439ab935d83361947").ForEach(e => MenuTools.AddSingleItemAmount(e, 1, settings.addItemIdentified)));
         }
 
         public static void GetCustomItemSets(string[] files, List<string> previewStrings, List<bool> togglePreview)
@@ -656,7 +656,7 @@ namespace BagOfTricks
                 togglePreview.Add(false);
                 if (GL.Button(Strings.GetText("misc_Add") + $" {Path.GetFileNameWithoutExtension(files[i])}",
                     GL.ExpandWidth(false)))
-                    m_modEntry.OnModActions.Push(m =>
+                    _modEntry.OnModActions.Push(m =>
                     {
                         for (var ii = 0; ii < lines.Length; ii++)
                         {
@@ -684,7 +684,7 @@ namespace BagOfTricks
                         }
                     });
                 if (GL.Button(Strings.GetText("button_Preview"), GL.ExpandWidth(false)))
-                    m_modEntry.OnModActions.Push(m =>
+                    _modEntry.OnModActions.Push(m =>
                     {
                         if (!togglePreview[i])
                         {
@@ -737,7 +737,7 @@ namespace BagOfTricks
                     });
                 GL.FlexibleSpace();
                 if (GL.Button(Strings.GetText("button_AddToFavourites"), GL.ExpandWidth(false)))
-                    m_modEntry.OnModActions.Push(m =>
+                    _modEntry.OnModActions.Push(m =>
                     {
                         for (var ii = 0; ii < lines.Length; ii++)
                         {
@@ -770,7 +770,7 @@ namespace BagOfTricks
                         RefreshItemFavourites();
                     });
                 if (GL.Button(Strings.GetText("button_RemoveFromFavourites"), GL.ExpandWidth(false)))
-                    m_modEntry.OnModActions.Push(m =>
+                    _modEntry.OnModActions.Push(m =>
                     {
                         for (var ii = 0; ii < lines.Length; ii++)
                         {

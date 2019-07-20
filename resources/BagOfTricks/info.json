@@ -3,7 +3,7 @@
     "DisplayName": "百宝袋Mod",
     "Author": "李允",
     "Version": "1.14.0.6",
-    "ManagerVersion": "0.20.0.10",
+    "ManagerVersion": "0.20.0.11",
     "EntryMethod": "BagOfTricks.Main.Load",
     "HomePage": "https://github.com/legendaryhero1981/Bag-Of-Tricks-DUMM",
     "Repository": "https://raw.githubusercontent.com/legendaryhero1981/Bag-Of-Tricks-DUMM/master/Repository.json"
