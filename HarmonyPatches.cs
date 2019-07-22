@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Harmony12;
+
 using JetBrains.Annotations;
+
 using Kingmaker;
 using Kingmaker.AreaLogic.QuestSystem;
 using Kingmaker.AreaLogic.SummonPool;
@@ -91,13 +94,19 @@ using Kingmaker.Visual.FogOfWar;
 using Kingmaker.Visual.HitSystem;
 using Kingmaker.Visual.LocalMap;
 using Kingmaker.Visual.Sound;
+
 using TMPro;
+
 using UberLogger;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 using UnityModManagerNet;
+
 using static Kingmaker.UnitLogic.Class.LevelUp.LevelUpState;
+
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
