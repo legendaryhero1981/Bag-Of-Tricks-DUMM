@@ -9,8 +9,8 @@ namespace BagOfTricks
 {
     public static class DevTools
     {
-        public static Settings settings = Main.settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static Settings settings = Main.Settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
         public static void Render()
         {
@@ -89,7 +89,7 @@ namespace BagOfTricks
 
     public static class SmartConsoleCommands
     {
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
         public static void Register()
         {

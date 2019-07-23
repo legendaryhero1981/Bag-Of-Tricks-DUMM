@@ -23,8 +23,8 @@ namespace BagOfTricks
 {
     public static class MenuTools
     {
-        public static Settings settings = Main.settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static Settings settings = Main.Settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
 
         public static TextFieldInt unitAlignmentTextField = new TextFieldInt();
@@ -761,8 +761,8 @@ namespace BagOfTricks
 
     public static class Strings
     {
-        public static Settings settings = Main.settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static Settings settings = Main.Settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
         public static Dictionary<string, string> current = MenuText.fallback;
         public static Dictionary<string, string> temp = new Dictionary<string, string>();
@@ -857,7 +857,7 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                Main.modLogger.Log(e.ToString());
+                Main.ModLogger.Log(e.ToString());
                 return MenuText.fallback;
             }
         }

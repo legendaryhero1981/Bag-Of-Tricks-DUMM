@@ -57,8 +57,8 @@ namespace BagOfTricks
 {
     public static class Menu
     {
-        public static Settings settings = Main.settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static Settings settings = Main.Settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
         public static SelectionGrid passSkillChecksIndividualGrid =
             new SelectionGrid(Storage.unitEntityDataSelectionGridArray, 4);
@@ -389,18 +389,18 @@ namespace BagOfTricks
                 MenuTools.ToggleButton(ref settings.togglePassSkillChecksIndividualDC99,
                     "buttonToggle_PassSkillChecksIndividualDC99", "tooltip_PassSkillChecksIndividualDC99", true);
 
-                for (var i = 0; i < Main.settings.togglePassSkillChecksIndividualArray.Count(); i++)
+                for (var i = 0; i < Main.Settings.togglePassSkillChecksIndividualArray.Count(); i++)
                 {
                     GL.BeginHorizontal();
                     if (GL.Button(
-                        Main.settings.togglePassSkillChecksIndividualArray[i] + " " +
+                        Main.Settings.togglePassSkillChecksIndividualArray[i] + " " +
                         Strings.GetText("misc_AlwaysPass") + " " + Storage.individualSkillsArray[i] + " " +
                         Strings.GetText("misc_Checks"), GL.ExpandWidth(false)))
                     {
-                        if (Main.settings.togglePassSkillChecksIndividualArray[i] == Storage.isFalseString)
-                            Main.settings.togglePassSkillChecksIndividualArray[i] = Storage.isTrueString;
-                        else if (Main.settings.togglePassSkillChecksIndividualArray[i] == Storage.isTrueString)
-                            Main.settings.togglePassSkillChecksIndividualArray[i] = Storage.isFalseString;
+                        if (Main.Settings.togglePassSkillChecksIndividualArray[i] == Storage.isFalseString)
+                            Main.Settings.togglePassSkillChecksIndividualArray[i] = Storage.isTrueString;
+                        else if (Main.Settings.togglePassSkillChecksIndividualArray[i] == Storage.isTrueString)
+                            Main.Settings.togglePassSkillChecksIndividualArray[i] = Storage.isFalseString;
                     }
 
                     GL.EndHorizontal();
@@ -1028,18 +1028,18 @@ namespace BagOfTricks
             {
                 passSavingThrowIndividualGrid.Render(ref settings.indexPassSavingThrowIndividuall);
 
-                for (var i = 0; i < Main.settings.togglePassSavingThrowIndividualArray.Count(); i++)
+                for (var i = 0; i < Main.Settings.togglePassSavingThrowIndividualArray.Count(); i++)
                 {
                     GL.BeginHorizontal();
                     if (GL.Button(
-                        Main.settings.togglePassSavingThrowIndividualArray[i] + " " +
+                        Main.Settings.togglePassSavingThrowIndividualArray[i] + " " +
                         Strings.GetText("misc_AlwaysPass") + " " + Storage.individualSavesArray[i] + " " +
                         Strings.GetText("misc_Saves"), GL.ExpandWidth(false)))
                     {
-                        if (Main.settings.togglePassSavingThrowIndividualArray[i] == Storage.isFalseString)
-                            Main.settings.togglePassSavingThrowIndividualArray[i] = Storage.isTrueString;
-                        else if (Main.settings.togglePassSavingThrowIndividualArray[i] == Storage.isTrueString)
-                            Main.settings.togglePassSavingThrowIndividualArray[i] = Storage.isFalseString;
+                        if (Main.Settings.togglePassSavingThrowIndividualArray[i] == Storage.isFalseString)
+                            Main.Settings.togglePassSavingThrowIndividualArray[i] = Storage.isTrueString;
+                        else if (Main.Settings.togglePassSavingThrowIndividualArray[i] == Storage.isTrueString)
+                            Main.Settings.togglePassSavingThrowIndividualArray[i] = Storage.isFalseString;
                     }
 
                     GL.EndHorizontal();
@@ -1371,7 +1371,7 @@ namespace BagOfTricks
 
                                     GL.Label($"{Storage.featFavouriteNames[i]}");
 
-                                    if (Main.craftMagicItems.ModIsActive() && Storage.featFavourites[i]
+                                    if (Main.CraftMagicItems.ModIsActive() && Storage.featFavourites[i]
                                             .Contains(Storage.craftMagicItemsBlueprintPrefix))
                                         GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix),
                                             GL.ExpandWidth(false));
@@ -1886,7 +1886,7 @@ namespace BagOfTricks
 
                                     GL.Label(Storage.featResultNames[i]);
 
-                                    if (Main.craftMagicItems.ModIsActive() && Storage.featResultGuids[i]
+                                    if (Main.CraftMagicItems.ModIsActive() && Storage.featResultGuids[i]
                                             .Contains(Storage.craftMagicItemsBlueprintPrefix))
                                         GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix),
                                             GL.ExpandWidth(false));
@@ -2897,7 +2897,7 @@ namespace BagOfTricks
 
                 if (Strings.ToBool(settings.toggleExperienceMultiplier))
                 {
-                    if (Main.scaleXP.ModIsActive())
+                    if (Main.ScaleXp.ModIsActive())
                         MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("warning_XPAndScaleXPActive")));
                     GL.Space(10);
                     GL.BeginHorizontal();
@@ -4153,11 +4153,11 @@ namespace BagOfTricks
                                 Storage.toggleItemFavouriteDescription[i] =
                                     GL.Toggle(Storage.toggleItemFavouriteDescription[i], $" {Storage.itemFavouriteNames[i]}", GL.ExpandWidth(false));
 
-                                if (Main.craftMagicItems.ModIsActive() && Storage.itemFavourites[i]
+                                if (Main.CraftMagicItems.ModIsActive() && Storage.itemFavourites[i]
                                         .Contains(Storage.scribeScrollBlueprintPrefix))
                                     GL.Label(Strings.Parenthesis(Storage.scribeScrollBlueprintPrefix),
                                         GL.ExpandWidth(false));
-                                else if (Main.craftMagicItems.ModIsActive() && Storage.itemFavourites[i]
+                                else if (Main.CraftMagicItems.ModIsActive() && Storage.itemFavourites[i]
                                              .Contains(Storage.craftMagicItemsBlueprintPrefix))
                                     GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix),
                                         GL.ExpandWidth(false));
@@ -4331,60 +4331,63 @@ namespace BagOfTricks
                             MenuTools.AddSingleItemAmount("efa6c2ee9e630384188a50b1ce6600fe", 6);
                         if (GL.Button(Strings.GetText("button_AddAllArtifactsAndRelics"), GL.ExpandWidth(false)))
                         {
-                            MenuTools.AddSingleItemAmount("a513944ab55fe1b43846a6f78331106c", 7);
-                            MenuTools.AddSingleItemAmount("562eaf7481f1daf4baf199eb61ad5e9a", 1);
-                            MenuTools.AddSingleItemAmount("61532117b25583048a9891954df5abc3", 1);
-                            MenuTools.AddSingleItemAmount("b2e2b1f9388942c4394a6da390d5da43", 1);
-                            MenuTools.AddSingleItemAmount("d3fe153c324901f4896502c84bb3c459", 1);
-                            MenuTools.AddSingleItemAmount("3cb994fc827107140b790ac3b48ac701", 1);
+                            Main.ModEntry.OnModActions.Push(m =>
+                            {
+                                MenuTools.AddSingleItemAmount("a513944ab55fe1b43846a6f78331106c", 7);
+                                MenuTools.AddSingleItemAmount("562eaf7481f1daf4baf199eb61ad5e9a", 1);
+                                MenuTools.AddSingleItemAmount("61532117b25583048a9891954df5abc3", 1);
+                                MenuTools.AddSingleItemAmount("b2e2b1f9388942c4394a6da390d5da43", 1);
+                                MenuTools.AddSingleItemAmount("d3fe153c324901f4896502c84bb3c459", 1);
+                                MenuTools.AddSingleItemAmount("3cb994fc827107140b790ac3b48ac701", 1);
 
-                            MenuTools.AddSingleItemAmount("4bf54205cc8503446bd4d50016399285", 10);
-                            MenuTools.AddSingleItemAmount("0102386282d8ca248bc8c5d0dc419a84", 1);
-                            MenuTools.AddSingleItemAmount("d9975af6562358142bc3ebaf3e519513", 1);
-                            MenuTools.AddSingleItemAmount("8379e20b955a87a4b85c21edef5d730b", 1);
-                            MenuTools.AddSingleItemAmount("fac63f8aab736c5448ef775ee7250202", 1);
-                            MenuTools.AddSingleItemAmount("1df75540183c031479a6531169033c0f", 1);
+                                MenuTools.AddSingleItemAmount("4bf54205cc8503446bd4d50016399285", 10);
+                                MenuTools.AddSingleItemAmount("0102386282d8ca248bc8c5d0dc419a84", 1);
+                                MenuTools.AddSingleItemAmount("d9975af6562358142bc3ebaf3e519513", 1);
+                                MenuTools.AddSingleItemAmount("8379e20b955a87a4b85c21edef5d730b", 1);
+                                MenuTools.AddSingleItemAmount("fac63f8aab736c5448ef775ee7250202", 1);
+                                MenuTools.AddSingleItemAmount("1df75540183c031479a6531169033c0f", 1);
 
-                            MenuTools.AddSingleItemAmount("6ab5e33d31f85e24f896c2460f82371e", 10);
-                            MenuTools.AddSingleItemAmount("9de4b55f4c0a5264d8ff3796f3f70746", 1);
-                            MenuTools.AddSingleItemAmount("96f746d27e0c00f428619df19269f467", 1);
-                            MenuTools.AddSingleItemAmount("d7ed5c74f53301f4c81d618fdab53497", 1);
-                            MenuTools.AddSingleItemAmount("ad5aa64554127dd4293c0f8756ef0a8e", 1);
-                            MenuTools.AddSingleItemAmount("fd51248ade706fc4480c085dbf9dd839", 1);
+                                MenuTools.AddSingleItemAmount("6ab5e33d31f85e24f896c2460f82371e", 10);
+                                MenuTools.AddSingleItemAmount("9de4b55f4c0a5264d8ff3796f3f70746", 1);
+                                MenuTools.AddSingleItemAmount("96f746d27e0c00f428619df19269f467", 1);
+                                MenuTools.AddSingleItemAmount("d7ed5c74f53301f4c81d618fdab53497", 1);
+                                MenuTools.AddSingleItemAmount("ad5aa64554127dd4293c0f8756ef0a8e", 1);
+                                MenuTools.AddSingleItemAmount("fd51248ade706fc4480c085dbf9dd839", 1);
 
-                            MenuTools.AddSingleItemAmount("4bb8dd73910b8524188984faad1b3fb8", 12);
-                            MenuTools.AddSingleItemAmount("3878c9c7d2ef3be48a009824ec79377d", 1);
-                            MenuTools.AddSingleItemAmount("e12fe25f16575ac458305f8f485831dd", 1);
-                            MenuTools.AddSingleItemAmount("816044bcf51aaa846a768f97aaad795e", 1);
-                            MenuTools.AddSingleItemAmount("f71d5d37b69e5d141aa04c6ad5b27212", 1);
-                            MenuTools.AddSingleItemAmount("e2a8ca9df166bb143987f0516a2854a3", 1);
+                                MenuTools.AddSingleItemAmount("4bb8dd73910b8524188984faad1b3fb8", 12);
+                                MenuTools.AddSingleItemAmount("3878c9c7d2ef3be48a009824ec79377d", 1);
+                                MenuTools.AddSingleItemAmount("e12fe25f16575ac458305f8f485831dd", 1);
+                                MenuTools.AddSingleItemAmount("816044bcf51aaa846a768f97aaad795e", 1);
+                                MenuTools.AddSingleItemAmount("f71d5d37b69e5d141aa04c6ad5b27212", 1);
+                                MenuTools.AddSingleItemAmount("e2a8ca9df166bb143987f0516a2854a3", 1);
 
-                            MenuTools.AddSingleItemAmount("9b1c8421ee354004881651345840b9e4", 16);
-                            MenuTools.AddSingleItemAmount("85880df1eadc4f343bfc3522a4d18f45", 1);
-                            MenuTools.AddSingleItemAmount("cd462bb1c71b258448386c760d65b699", 1);
-                            MenuTools.AddSingleItemAmount("12531e061aef4db40b337defa211512a", 1);
-                            MenuTools.AddSingleItemAmount("e60418c921346c84f8573fd9e87571d4", 1);
-                            MenuTools.AddSingleItemAmount("c4c9d4fdd66d5af468a388808157d644", 1);
+                                MenuTools.AddSingleItemAmount("9b1c8421ee354004881651345840b9e4", 16);
+                                MenuTools.AddSingleItemAmount("85880df1eadc4f343bfc3522a4d18f45", 1);
+                                MenuTools.AddSingleItemAmount("cd462bb1c71b258448386c760d65b699", 1);
+                                MenuTools.AddSingleItemAmount("12531e061aef4db40b337defa211512a", 1);
+                                MenuTools.AddSingleItemAmount("e60418c921346c84f8573fd9e87571d4", 1);
+                                MenuTools.AddSingleItemAmount("c4c9d4fdd66d5af468a388808157d644", 1);
 
-                            MenuTools.AddSingleItemAmount("1c8862cdbdc5dcf49839be298851ba98", 16);
-                            MenuTools.AddSingleItemAmount("68b4ae2a51823db41a335d7890172754", 1);
-                            MenuTools.AddSingleItemAmount("a8932aa7c77f64546b1e92a5b5660802", 1);
-                            MenuTools.AddSingleItemAmount("de37597119ec6a64ba1b36c1074bffab", 1);
-                            MenuTools.AddSingleItemAmount("56835cc33d374964aa4539ce0b9611e1", 1);
-                            MenuTools.AddSingleItemAmount("9bb0730d67d20324e9304ff4adfa7286", 1);
+                                MenuTools.AddSingleItemAmount("1c8862cdbdc5dcf49839be298851ba98", 16);
+                                MenuTools.AddSingleItemAmount("68b4ae2a51823db41a335d7890172754", 1);
+                                MenuTools.AddSingleItemAmount("a8932aa7c77f64546b1e92a5b5660802", 1);
+                                MenuTools.AddSingleItemAmount("de37597119ec6a64ba1b36c1074bffab", 1);
+                                MenuTools.AddSingleItemAmount("56835cc33d374964aa4539ce0b9611e1", 1);
+                                MenuTools.AddSingleItemAmount("9bb0730d67d20324e9304ff4adfa7286", 1);
 
-                            MenuTools.AddSingleItemAmount("3cca2f4d03e7733459c14c4a6544ddc8", 17);
-                            MenuTools.AddSingleItemAmount("1fffb377497479447918553b1ea15922", 1);
-                            MenuTools.AddSingleItemAmount("0afb3e721d4dcf2439272d7c50edc3ec", 1);
-                            MenuTools.AddSingleItemAmount("8af9e12f734d16342b6fa4f7269cedd4", 1);
-                            MenuTools.AddSingleItemAmount("a8eb937eb6c51244bbc73a683f0b731d", 1);
-                            MenuTools.AddSingleItemAmount("d0d6f17f68411bc48b60675debf745a4", 1);
+                                MenuTools.AddSingleItemAmount("3cca2f4d03e7733459c14c4a6544ddc8", 17);
+                                MenuTools.AddSingleItemAmount("1fffb377497479447918553b1ea15922", 1);
+                                MenuTools.AddSingleItemAmount("0afb3e721d4dcf2439272d7c50edc3ec", 1);
+                                MenuTools.AddSingleItemAmount("8af9e12f734d16342b6fa4f7269cedd4", 1);
+                                MenuTools.AddSingleItemAmount("a8eb937eb6c51244bbc73a683f0b731d", 1);
+                                MenuTools.AddSingleItemAmount("d0d6f17f68411bc48b60675debf745a4", 1);
 
-                            MenuTools.AddSingleItemAmount("4fe3d2e33319b9745865a86cb2d2cc9a", 1);
-                            MenuTools.AddSingleItemAmount("ba61f03932816c04c911bd1b14c3bee7", 1);
-                            MenuTools.AddSingleItemAmount("935751bcb24deea4892373237a596fe9", 1);
-                            MenuTools.AddSingleItemAmount("ce40d439d0a0ce94290dfe2710808659", 1);
-                            MenuTools.AddSingleItemAmount("0207d04092a1ff245a6140a6d0c7435b", 1);
+                                MenuTools.AddSingleItemAmount("4fe3d2e33319b9745865a86cb2d2cc9a", 1);
+                                MenuTools.AddSingleItemAmount("ba61f03932816c04c911bd1b14c3bee7", 1);
+                                MenuTools.AddSingleItemAmount("935751bcb24deea4892373237a596fe9", 1);
+                                MenuTools.AddSingleItemAmount("ce40d439d0a0ce94290dfe2710808659", 1);
+                                MenuTools.AddSingleItemAmount("0207d04092a1ff245a6140a6d0c7435b", 1);
+                            });
                         }
 
                         GL.EndHorizontal();
@@ -4673,7 +4676,7 @@ namespace BagOfTricks
 
                     GL.EndHorizontal();
 
-                    if (Main.craftMagicItems.ModIsActive())
+                    if (Main.CraftMagicItems.ModIsActive())
                     {
                         MenuTools.SingleLineLabel(
                             RichText.Bold(Strings.GetText("label_CraftMagicItemsSearchItemInfo")));
@@ -5113,11 +5116,11 @@ namespace BagOfTricks
                                         GL.Label(Strings.CleanName(itemByGuid.name));
                                     }
 
-                                    if (Main.craftMagicItems.ModIsActive() && Storage.resultItemGuids[i]
+                                    if (Main.CraftMagicItems.ModIsActive() && Storage.resultItemGuids[i]
                                             .Contains(Storage.scribeScrollBlueprintPrefix))
                                         GL.Label(Strings.Parenthesis(Storage.scribeScrollBlueprintPrefix),
                                             GL.ExpandWidth(false));
-                                    else if (Main.craftMagicItems.ModIsActive() && Storage.resultItemGuids[i]
+                                    else if (Main.CraftMagicItems.ModIsActive() && Storage.resultItemGuids[i]
                                                  .Contains(Storage.craftMagicItemsBlueprintPrefix))
                                         GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix),
                                             GL.ExpandWidth(false));
@@ -7321,8 +7324,8 @@ namespace BagOfTricks
                 GL.Label(Strings.GetText("headerOption_CameraScrollSpeed") + ": ", GL.ExpandWidth(false));
                 unsafe
                 {
-                    if (Main.cameraScrollSpeed != null)
-                        *Main.cameraScrollSpeed = GL.HorizontalSlider(*Main.cameraScrollSpeed, 0f, 250f);
+                    if (Main.CameraScrollSpeed != null)
+                        *Main.CameraScrollSpeed = GL.HorizontalSlider(*Main.CameraScrollSpeed, 0f, 250f);
                 }
 
                 GL.EndHorizontal();
@@ -9015,27 +9018,27 @@ namespace BagOfTricks
                 {
                     if (KingdomState.Instance != null)
                     {
-                        if (Main.taxSettings.initialLaunch)
+                        if (Main.TaxSettings.initialLaunch)
                         {
                             TaxCollector.resultLine_0 = "";
                             var textLineInitial = "";
-                            switch (Main.taxSettings.textLineInitialCounter)
+                            switch (Main.TaxSettings.textLineInitialCounter)
                             {
                                 case 0:
                                     if (Game.Instance?.Player?.MainCharacter.Value.Gender == Gender.Male)
-                                        Main.taxSettings.playerTitle = Strings.GetText("taxCollector_Lord");
+                                        Main.TaxSettings.playerTitle = Strings.GetText("taxCollector_Lord");
                                     else if (Game.Instance?.Player?.MainCharacter.Value.Gender == Gender.Female)
-                                        Main.taxSettings.playerTitle = Strings.GetText("taxCollector_Lady");
+                                        Main.TaxSettings.playerTitle = Strings.GetText("taxCollector_Lady");
                                     else
-                                        Main.taxSettings.playerTitle = Strings.GetText("taxCollector_Excellence");
-                                    if (Main.taxSettings.playerTitle == Strings.GetText("taxCollector_Excellence"))
+                                        Main.TaxSettings.playerTitle = Strings.GetText("taxCollector_Excellence");
+                                    if (Main.TaxSettings.playerTitle == Strings.GetText("taxCollector_Excellence"))
                                         textLineInitial =
                                             Strings.GetText("taxCollector_GreetingInitial_0_1") +
-                                            $" {Main.taxSettings.playerTitle}!";
+                                            $" {Main.TaxSettings.playerTitle}!";
                                     else
                                         textLineInitial =
                                             Strings.GetText("taxCollector_GreetingInitial_0_0") +
-                                            $" {Main.taxSettings.playerTitle}!";
+                                            $" {Main.TaxSettings.playerTitle}!";
                                     break;
                                 case 1:
                                     textLineInitial = Strings.GetText("taxCollector_GreetingInitial_1");
@@ -9052,25 +9055,25 @@ namespace BagOfTricks
                             }
 
                             MenuTools.SingleLineLabel(textLineInitial);
-                            switch (Main.taxSettings.textLineInitialCounter)
+                            switch (Main.TaxSettings.textLineInitialCounter)
                             {
                                 case 0:
                                     if (GL.Button(Strings.GetText("misc_Next"), GL.ExpandWidth(false)))
-                                        Main.taxSettings.textLineInitialCounter++;
+                                        Main.TaxSettings.textLineInitialCounter++;
                                     break;
                                 case 1:
                                     if (GL.Button(Strings.GetText("misc_Yes"), GL.ExpandWidth(false)))
-                                        Main.taxSettings.textLineInitialCounter = 2;
+                                        Main.TaxSettings.textLineInitialCounter = 2;
                                     if (GL.Button(Strings.GetText("misc_No"), GL.ExpandWidth(false)))
-                                        Main.taxSettings.textLineInitialCounter = 3;
+                                        Main.TaxSettings.textLineInitialCounter = 3;
                                     break;
                                 case 2:
                                     textLineInitial = Strings.GetText("taxCollector_GreetingInitial_2");
                                     if (GL.Button(Strings.GetText("taxCollector_ButtonAddresseMe") + ": ",
                                         GL.ExpandWidth(false)))
                                     {
-                                        Main.taxSettings.playerTitle = TaxCollector.playerTitleInput;
-                                        Main.taxSettings.textLineInitialCounter = 3;
+                                        Main.TaxSettings.playerTitle = TaxCollector.playerTitleInput;
+                                        Main.TaxSettings.textLineInitialCounter = 3;
                                     }
 
                                     TaxCollector.playerTitleInput = GL.TextField(TaxCollector.playerTitleInput, 100,
@@ -9078,30 +9081,30 @@ namespace BagOfTricks
                                     break;
                                 case 3:
                                     if (GL.Button(Strings.GetText("misc_Next"), GL.ExpandWidth(false)))
-                                        Main.taxSettings.textLineInitialCounter = 4;
+                                        Main.TaxSettings.textLineInitialCounter = 4;
                                     break;
                                 case 4:
                                     break;
                             }
 
-                            Main.taxSettings.saveTime = DateTime.Now;
+                            Main.TaxSettings.saveTime = DateTime.Now;
                             TaxCollector.saveTimeGame = DateTime.Now;
                         }
 
-                        if (Main.taxSettings.textLineInitialCounter == 4)
+                        if (Main.TaxSettings.textLineInitialCounter == 4)
                         {
                             var stats = KingdomState.Instance.Stats;
-                            Main.taxSettings.initialLaunch = false;
+                            Main.TaxSettings.initialLaunch = false;
                             if (TaxCollector.isFirstVisit)
                             {
                                 MenuTools.SingleLineLabel(Strings.GetText("taxCollector_GreetingReturn_0_0") +
-                                                          $" {Main.taxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
+                                                          $" {Main.TaxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
                                 TaxCollector.isFirstVisit = false;
                             }
                             else
                             {
                                 MenuTools.SingleLineLabel(Strings.GetText("taxCollector_GreetingReturn_0_1") +
-                                                          $" {Main.taxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
+                                                          $" {Main.TaxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
                             }
 
                             MenuTools.SingleLineLabel(Strings.GetText("taxCollector_GreetingReturn_1_0"));
@@ -9168,8 +9171,8 @@ namespace BagOfTricks
                                     TaxCollector.resultLine_0 = "";
                                 }
 
-                                Main.taxSettings.saveTime = DateTime.Now;
-                                TaxCollector.saveTimeGame = Main.taxSettings.saveTime;
+                                Main.TaxSettings.saveTime = DateTime.Now;
+                                TaxCollector.saveTimeGame = Main.TaxSettings.saveTime;
                             }
 
                             GL.EndHorizontal();

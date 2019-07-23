@@ -114,8 +114,8 @@ namespace BagOfTricks
 {
     internal static class HarmonyPatches
     {
-        public static Settings settings = Main.settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static Settings settings = Main.Settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
         public static Player player = Game.Instance.Player;
 
         public static BlueprintAbility ExtractSpell([NotNull] ItemEntity item)
@@ -1480,7 +1480,7 @@ namespace BagOfTricks
         {
             private static void Postfix(GlobalMapLocation __instance, ref bool isHover)
             {
-                if (Main.enabled && isHover)
+                if (Main.Enabled && isHover)
                     Storage.lastHoveredLocation = __instance;
                 else
                     Storage.lastHoveredLocation = null;
@@ -1498,37 +1498,37 @@ namespace BagOfTricks
                 Storage.ummScrollPosition = ___mScrollPosition;
                 Storage.ummTabId = ___tabId;
 
-                if (Main.enabled)
+                if (Main.Enabled)
                 {
                     var currentGameMode = Game.Instance.CurrentMode;
 
                     if ((currentGameMode == GameModeType.Default || currentGameMode == GameModeType.EscMode) &&
                         Strings.ToBool(settings.toggleShowAreaName) && !Game.Instance.IsPaused)
                     {
-                        Main.sceneAreaInfo.On();
-                        Main.sceneAreaInfo.Text("<b>" + Game.Instance.CurrentlyLoadedArea.AreaName + "</b>");
+                        Main.SceneAreaInfo.On();
+                        Main.SceneAreaInfo.Text("<b>" + Game.Instance.CurrentlyLoadedArea.AreaName + "</b>");
                     }
                     else
                     {
-                        Main.sceneAreaInfo.Off();
+                        Main.SceneAreaInfo.Off();
                     }
 
                     if (currentGameMode != GameModeType.None && Strings.ToBool(settings.toggleDisplayObjectInfo))
                     {
-                        if (Main.sceneAreaInfo.baseGameObject.activeSelf)
+                        if (Main.SceneAreaInfo.baseGameObject.activeSelf)
                         {
-                            var temp = Main.sceneAreaInfo.baseGameObject.GetComponent<RectTransform>().position;
-                            temp.y = Main.sceneAreaInfo.baseGameObject.GetComponent<RectTransform>().position.y -
-                                     Main.sceneAreaInfo.baseGameObject.GetComponent<RectTransform>().sizeDelta.y;
-                            Main.objectInfo.baseGameObject.GetComponent<RectTransform>().position = temp;
+                            var temp = Main.SceneAreaInfo.baseGameObject.GetComponent<RectTransform>().position;
+                            temp.y = Main.SceneAreaInfo.baseGameObject.GetComponent<RectTransform>().position.y -
+                                     Main.SceneAreaInfo.baseGameObject.GetComponent<RectTransform>().sizeDelta.y;
+                            Main.ObjectInfo.baseGameObject.GetComponent<RectTransform>().position = temp;
                         }
                         else
                         {
-                            Main.objectInfo.baseGameObject.GetComponent<RectTransform>().position =
+                            Main.ObjectInfo.baseGameObject.GetComponent<RectTransform>().position =
                                 new Vector3(Screen.width / 2f, Screen.height * 0.95f, 0);
                         }
 
-                        Main.objectInfo.On();
+                        Main.ObjectInfo.On();
                         BlueprintScriptableObject blueprint;
                         var unitUnderMouse = Common.GetUnitUnderMouse();
                         var scriptableObjectArray = ActionKey.Tooltip();
@@ -1542,11 +1542,11 @@ namespace BagOfTricks
                             blueprint = scriptableObjectArray[0];
                         }
 
-                        Main.objectInfo.Text($"<b>{blueprint.AssetGuid}\n{Utilities.GetBlueprintName(blueprint)}</b>");
+                        Main.ObjectInfo.Text($"<b>{blueprint.AssetGuid}\n{Utilities.GetBlueprintName(blueprint)}</b>");
                     }
                     else
                     {
-                        Main.objectInfo.Off();
+                        Main.ObjectInfo.Off();
                     }
 
 
@@ -1723,7 +1723,7 @@ namespace BagOfTricks
                     Storage.togglesFavourites.SerializeListString(
                         Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile);
                 if (settings.toggleEnableTaxCollector == Storage.isTrueString)
-                    TaxCollector.Serialize(Main.taxSettings,
+                    TaxCollector.Serialize(Main.TaxSettings,
                         Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
             }
         }
@@ -1743,10 +1743,10 @@ namespace BagOfTricks
                     }
 
                     cameraRotation += settings.cameraRotation;
-                    Main.rotationChanged = true;
-                    if (Main.localMap)
+                    Main.RotationChanged = true;
+                    if (Main.LocalMap)
                         // If the local map is open, call the Set method to redraw things
-                        Traverse.Create(Main.localMap).Method("Set").GetValue();
+                        Traverse.Create(Main.LocalMap).Method("Set").GetValue();
                     return true;
                 }
 
@@ -1759,12 +1759,12 @@ namespace BagOfTricks
         {
             private static bool Prefix(ref float ___m_ScrollSpeed)
             {
-                if (Main.enabled && settings.toggleEnableCameraScrollSpeed == Storage.isTrueString)
+                if (Main.Enabled && settings.toggleEnableCameraScrollSpeed == Storage.isTrueString)
                     unsafe
                     {
                         fixed (float* pointer = &___m_ScrollSpeed)
                         {
-                            Main.cameraScrollSpeed = pointer;
+                            Main.CameraScrollSpeed = pointer;
                         }
                     }
 
@@ -1805,7 +1805,7 @@ namespace BagOfTricks
         {
             private static void Prefix(LocalMap __instance)
             {
-                Main.localMap = __instance;
+                Main.LocalMap = __instance;
             }
         }
 
@@ -1814,7 +1814,7 @@ namespace BagOfTricks
         {
             private static void Postfix()
             {
-                Main.localMap = null;
+                Main.LocalMap = null;
             }
         }
 
@@ -1823,11 +1823,11 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (Main.rotationChanged)
+                if (Main.RotationChanged)
                 {
                     // If rotation has changed since drawing the map image, return that it's dirty.
                     __result = true;
-                    Main.rotationChanged = false;
+                    Main.RotationChanged = false;
                 }
             }
         }
@@ -2095,7 +2095,7 @@ namespace BagOfTricks
                 if (settings.toggleEnableTaxCollector == Storage.isTrueString)
                     try
                     {
-                        TaxCollector.Serialize(Main.taxSettings,
+                        TaxCollector.Serialize(Main.TaxSettings,
                             Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
                     }
                     catch (Exception e)
@@ -2765,7 +2765,7 @@ namespace BagOfTricks
             private static void Postfix(UnitAlignment __instance, ref Vector2 __result,
                 AlignmentShiftDirection direction)
             {
-                if (!Main.enabled) return;
+                if (!Main.Enabled) return;
                 if (Strings.ToBool(settings.toggleAlignmentFix))
                 {
                     if (direction == AlignmentShiftDirection.NeutralGood) __result = new Vector2(0, 1);
@@ -2794,7 +2794,7 @@ namespace BagOfTricks
             {
                 try
                 {
-                    if (!Main.enabled) return true;
+                    if (!Main.Enabled) return true;
 
                     if (Strings.ToBool(settings.togglePreventAlignmentChanges)) value = 0;
 
@@ -3026,7 +3026,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (!Main.enabled) return;
+                if (!Main.Enabled) return;
                 if (Strings.ToBool(settings.toggleCookingAndHuntingInDungeons)) __result = false;
             }
         }

@@ -18,7 +18,7 @@ namespace BagOfTricks
 
     public static class TaxCollector
     {
-        public static Settings settings = Main.settings;
+        public static Settings settings = Main.Settings;
 
         public static DateTime saveTimeGame = new DateTime();
 
@@ -96,7 +96,7 @@ namespace BagOfTricks
                 }
                 catch (Exception exception)
                 {
-                    Main.modLogger.Log(exception.ToString());
+                    Main.ModLogger.Log(exception.ToString());
                 }
 
             return newTax;

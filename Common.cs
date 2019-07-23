@@ -33,7 +33,7 @@ namespace BagOfTricks
 {
     public static class Common
     {
-        public static Settings settings = Main.settings;
+        public static Settings settings = Main.Settings;
 
 
         private static Canvas[] hiddenCanvases;
@@ -63,14 +63,14 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                Main.modLogger.Log("\n" + filePath + "\n" + e);
+                Main.ModLogger.Log("\n" + filePath + "\n" + e);
             }
         }
 
         public static void AddLogEntry(string message, Color color, bool gameDefaultColour = true)
         {
             var currentGameMode = Game.Instance.CurrentMode;
-            if (Main.settings.toggleAddToLog == Storage.isTrueString &&
+            if (Main.Settings.toggleAddToLog == Storage.isTrueString &&
                 (currentGameMode == GameModeType.Default || currentGameMode == GameModeType.Pause))
             {
                 if (gameDefaultColour) color = GameLogStrings.Instance.DefaultColor;
@@ -762,7 +762,7 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                Main.modLogger.Log(e.ToString());
+                Main.ModLogger.Log(e.ToString());
             }
         }
 
@@ -778,7 +778,7 @@ namespace BagOfTricks
                 }
                 catch (Exception e)
                 {
-                    Main.modLogger.Log(e.ToString());
+                    Main.ModLogger.Log(e.ToString());
                 }
         }
     }

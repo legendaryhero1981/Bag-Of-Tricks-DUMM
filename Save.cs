@@ -39,7 +39,7 @@ namespace BagOfTricks
                 }
                 catch (Exception exception)
                 {
-                    Main.modLogger.Log(exception.ToString());
+                    Main.ModLogger.Log(exception.ToString());
                 }
 
             return newSaveData;
@@ -52,27 +52,27 @@ namespace BagOfTricks
                 var name = Strings.RemoveExt(saveInfo.FileName);
                 var filePath = Storage.modEntryPath + Storage.savesFolder + "\\" + name + ".xml";
 
-                Main.saveData.fileName = name;
-                Main.saveData.lockPicks = Storage.lockPicks;
+                Main.SaveData.fileName = name;
+                Main.SaveData.lockPicks = Storage.lockPicks;
 
-                if (Main.settings.settingShowDebugInfo) Main.modLogger.Log($"PrepareSave {name}");
+                if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"PrepareSave {name}");
 
                 if (File.Exists(filePath))
                 {
-                    Serialize(Main.saveData, filePath);
-                    if (Main.settings.settingShowDebugInfo)
-                        Main.modLogger.Log($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} overwritten.");
+                    Serialize(Main.SaveData, filePath);
+                    if (Main.Settings.settingShowDebugInfo)
+                        Main.ModLogger.Log($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} overwritten.");
                 }
                 else
                 {
-                    Serialize(Main.saveData, filePath);
-                    if (Main.settings.settingShowDebugInfo)
-                        Main.modLogger.Log($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} created.");
+                    Serialize(Main.SaveData, filePath);
+                    if (Main.Settings.settingShowDebugInfo)
+                        Main.ModLogger.Log($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} created.");
                 }
             }
             catch (Exception e)
             {
-                Main.modLogger.Log(e.ToString());
+                Main.ModLogger.Log(e.ToString());
             }
         }
 
@@ -83,24 +83,24 @@ namespace BagOfTricks
                 var name = Strings.RemoveExt(saveInfo.FileName);
                 var filePath = Storage.modEntryPath + Storage.savesFolder + "\\" + name + ".xml";
 
-                if (Main.settings.settingShowDebugInfo) Main.modLogger.Log($"LoadGame {name}");
+                if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"LoadGame {name}");
 
                 if (File.Exists(filePath))
                 {
-                    Main.saveData = Deserialize(filePath);
-                    Storage.lockPicks = Main.saveData.lockPicks;
+                    Main.SaveData = Deserialize(filePath);
+                    Storage.lockPicks = Main.SaveData.lockPicks;
 
-                    if (Main.settings.settingShowDebugInfo) Main.modLogger.Log($"{filePath} loaded.");
+                    if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"{filePath} loaded.");
                 }
                 else
                 {
                     Storage.lockPicks = 5;
-                    Main.modLogger.Log($"{filePath} not found!");
+                    Main.ModLogger.Log($"{filePath} not found!");
                 }
             }
             catch (Exception e)
             {
-                Main.modLogger.Log(e.ToString());
+                Main.ModLogger.Log(e.ToString());
             }
         }
 
@@ -111,16 +111,16 @@ namespace BagOfTricks
                 var name = Strings.RemoveExt(saveInfo.FileName);
                 var filePath = Storage.modEntryPath + Storage.savesFolder + "\\" + name + ".xml";
 
-                if (Main.settings.settingShowDebugInfo) Main.modLogger.Log($"DeleteSave {name}");
+                if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"DeleteSave {name}");
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
-                    if (Main.settings.settingShowDebugInfo) Main.modLogger.Log($"{name} deleted.");
+                    if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"{name} deleted.");
                 }
             }
             catch (Exception e)
             {
-                Main.modLogger.Log(e.ToString());
+                Main.ModLogger.Log(e.ToString());
             }
         }
     }

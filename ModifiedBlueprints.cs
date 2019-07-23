@@ -104,8 +104,8 @@ namespace BagOfTricks
 
     public static class ModifiedBlueprintTools
     {
-        public static Settings settings = Main.settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static Settings settings = Main.Settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
         public static bool showModifiedBlueprints;
         public static bool blueprintLists;

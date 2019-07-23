@@ -23,8 +23,8 @@ namespace BagOfTricks
 {
     internal static class Cheats
     {
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
-        public static Settings settings = Main.settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static Settings settings = Main.Settings;
 
         public static void PatchBurnEffectBuff(int multiplier)
         {

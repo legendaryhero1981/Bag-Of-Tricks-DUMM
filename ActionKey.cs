@@ -23,8 +23,8 @@ namespace BagOfTricks
 {
     public static class ActionKey
     {
-        public static Settings settings = Main.settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+        public static Settings settings = Main.Settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
         public static readonly List<BlueprintScriptableObject> s_BlueprintInfo = new List<BlueprintScriptableObject>();
 
@@ -103,14 +103,14 @@ namespace BagOfTricks
                     break;
                 case 4:
                     Common.Buff(Common.GetUnitUnderMouse(),
-                        Storage.buffFavouritesGuids[Main.settings.actionKeyBuffIndex]);
+                        Storage.buffFavouritesGuids[Main.Settings.actionKeyBuffIndex]);
                     break;
                 case 5:
                     editUnit = Common.GetUnitUnderMouse();
                     break;
                 case 6:
                     teleportUnit = Common.GetUnitUnderMouse();
-                    if (teleportUnit != null && Strings.ToBool(Main.settings.toggleAddToLog))
+                    if (teleportUnit != null && Strings.ToBool(Main.Settings.toggleAddToLog))
                         Common.AddLogEntry(Strings.GetText("label_TeleportUnit") + $": {teleportUnit.CharacterName}",
                             Color.black);
                     break;
@@ -131,7 +131,7 @@ namespace BagOfTricks
                     break;
                 case 8:
                     rotateUnit = Common.GetUnitUnderMouse();
-                    if (rotateUnit != null && Strings.ToBool(Main.settings.toggleAddToLog))
+                    if (rotateUnit != null && Strings.ToBool(Main.Settings.toggleAddToLog))
                         Common.AddLogEntry(
                             Strings.GetText("arrayItem_ActionKeyMain_RotateUnit") + $": {rotateUnit.CharacterName}",
                             Color.black);
@@ -157,7 +157,7 @@ namespace BagOfTricks
 
         public static void KillFunctions()
         {
-            switch (Main.settings.actionKeyKillIndex)
+            switch (Main.Settings.actionKeyKillIndex)
             {
                 case 0:
                     Common.Kill(Common.GetUnitUnderMouse());
@@ -433,24 +433,24 @@ namespace BagOfTricks
             var assetGuid = blueprint.AssetGuid;
 
 
-            if (Main.settings.toggleActionKeyLogInfo == Storage.isTrueString)
+            if (Main.Settings.toggleActionKeyLogInfo == Storage.isTrueString)
             {
                 Logger.Log(blueprintName);
                 Logger.Log(assetGuid);
             }
 
-            if (Main.settings.toggleAddToLog == Storage.isTrueString)
+            if (Main.Settings.toggleAddToLog == Storage.isTrueString)
             {
                 Common.AddLogEntry(blueprintName, Color.black);
                 Common.AddLogEntry(assetGuid, Color.black);
             }
             else
             {
-                Main.modLogger.Log(blueprintName);
-                Main.modLogger.Log(assetGuid);
+                Main.ModLogger.Log(blueprintName);
+                Main.ModLogger.Log(assetGuid);
             }
 
-            if (Main.settings.toggleActionKeyShowUnitInfoBox == Storage.isTrueString)
+            if (Main.Settings.toggleActionKeyShowUnitInfoBox == Storage.isTrueString)
             {
                 var message = Strings.GetText("label_AssetGuid") + ": " + unit.Blueprint.AssetGuid + "\n";
                 message = message + Strings.GetText("label_BlueprintName") + ": " + unit.Blueprint.name + "\n";
@@ -486,7 +486,7 @@ namespace BagOfTricks
         {
             var unitUnderMouse = Common.GetUnitUnderMouse();
 
-            if (Main.settings.toggleActionKeyShowUnitInfoBox == Storage.isTrueString &&
+            if (Main.Settings.toggleActionKeyShowUnitInfoBox == Storage.isTrueString &&
                 unitUnderMouse.Descriptor != null) unit = unitUnderMouse;
 
             var scriptableObjectArray = Tooltip();
