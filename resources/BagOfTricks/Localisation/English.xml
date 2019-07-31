@@ -275,7 +275,7 @@
   <Localisation key="headerOption_MercenaryCostMultiplier" value="Mercenary Cost Multiplier" />
   <Localisation key="headerOption_ShowFavourites" value="Show Favourites" />
   <Localisation key="headerOption_ShowItemSets" value="Show Item Sets" />
-  <Localisation key="headerOption_TravelSpeedMultiplier" value="Travel Speed Multiplier" />
+  <Localisation key="headerOption_TravelSpeedMultiplier" value="Travel Time Scale Multiplier" />
   <Localisation key="headerOption_SettingsValue" value="Settings Value" />
   <Localisation key="headerOption_ChanceOnGlobalMap" value="Chance On Global Map" />
   <Localisation key="headerOption_ChanceWhenCamping" value="Chance When Camping" />
@@ -829,7 +829,7 @@
   <Localisation key="tooltip_NoResourcesClaimCost" value="Sets the cost for claiming resources to 0." />
   <Localisation key="tooltip_EnableTeleport" value="Teleport the party to the current mouse position with a key press (on foot and on the global map)." />
   <Localisation key="tooltip_TeleportPartyToPlayer" value="Teleports the party to the player character." />
-  <Localisation key="tooltip_TravelSpeedMultiplier" value="Use the input field to set a multiplier for the global map travel speed." />
+  <Localisation key="tooltip_TravelSpeedMultiplier" value="Use the input field to set a multiplier for the global map travel time scale." />
   <Localisation key="tooltip_RandomEncounterSettings" value="Use the toggles, slider and input files to configure random encounter to your liking." />
   <Localisation key="tooltip_RandomEncounterPossible" value="Disables random encounters on the global map." />
   <Localisation key="tooltip_AlwaysSucceedAtAvoidingEncounters" value="Avoiding random encounters will always be successful." />

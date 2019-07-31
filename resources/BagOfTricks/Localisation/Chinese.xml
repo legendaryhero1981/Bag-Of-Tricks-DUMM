@@ -24,8 +24,8 @@
   <Localisation key="mainCategory_Feats" value="专长" />
   <Localisation key="mainCategory_AddAbilities" value="能力" />
   <Localisation key="mainCategory_SpellsAndSpellbooks" value="法术和法术书" />
-  <Localisation key="mainCategory_BeneathTheStolenLands" value="DLC失窃之地之下" />
-  <Localisation key="mainCategory_FavouriteFunctions" value="我最喜爱的功能" />
+  <Localisation key="mainCategory_BeneathTheStolenLands" value="DLC失窃之地的暗潮" />
+  <Localisation key="mainCategory_FavouriteFunctions" value="收藏夹" />
   <Localisation key="mainCategory_Cheats" value="作弊" />
   <Localisation key="mainCategory_Mods" value="Mods" />
   <Localisation key="mainCategory_Tools" value="工具" />
@@ -61,7 +61,7 @@
   <Localisation key="header_BuildPoints" value="国库BP数" />
   <Localisation key="header_Statistics" value="王国属性统计" />
   <Localisation key="header_Experimental" value="实验性功能" />
-  <Localisation key="header_Sounds" value="声音" />
+  <Localisation key="header_Sounds" value="播放声音" />
   <Localisation key="header_GameConstants" value="游戏常量" />
   <Localisation key="header_Language" value="语言" />
   <Localisation key="header_Level" value="级别" />
@@ -105,7 +105,7 @@
   <Localisation key="label_ItemNonIdentifiedName" value="物品未鉴定时的名称" />
   <Localisation key="label_AssetGuid" value="AssetGuid" />
   <Localisation key="label_Amount" value="总数" />
-  <Localisation key="label_DisplayItemInformation" value="物品描述悬浮窗显示信息" />
+  <Localisation key="label_DisplayItemInformation" value="物品描述显示信息" />
   <Localisation key="label_Description" value="物品描述" />
   <Localisation key="label_FlavourText" value="风格文本" />
   <Localisation key="label_Armours" value="盔甲" />
@@ -190,7 +190,7 @@
   <Localisation key="label_FeatBlueprintAssetGuid" value="专长蓝图AssetGuid" />
   <Localisation key="label_FeatRank" value="专长等级" />
   <Localisation key="label_SelectLanguage" value="请选择你使用的语言" />
-  <Localisation key="label_ShowSpoilers" value="显示扰流器" />
+  <Localisation key="label_ShowSpoilers" value="显示搅局者" />
   <Localisation key="label_RomanceCounter" value="风流韵事计数器" />
   <Localisation key="label_CounterValue" value="计数器值" />
   <Localisation key="label_LowerCutoff" value="降低截止点" />
@@ -273,9 +273,9 @@
   <Localisation key="headerOption_AddCasterLevel" value="设置施法者等级（默认值：1）" />
   <Localisation key="headerOption_NoRationsRequired" value="不需要露营物资" />
   <Localisation key="headerOption_MercenaryCostMultiplier" value="雇佣兵成本倍数" />
-  <Localisation key="headerOption_ShowFavourites" value="显示我最喜爱的功能" />
+  <Localisation key="headerOption_ShowFavourites" value="显示收藏夹" />
   <Localisation key="headerOption_ShowItemSets" value="显示物品套装" />
-  <Localisation key="headerOption_TravelSpeedMultiplier" value="旅行速度倍数" />
+  <Localisation key="headerOption_TravelSpeedMultiplier" value="旅行时间缩放倍数" />
   <Localisation key="headerOption_SettingsValue" value="设置值" />
   <Localisation key="headerOption_ChanceOnGlobalMap" value="在世界地图上旅行时的遭遇几率" />
   <Localisation key="headerOption_ChanceWhenCamping" value="在露营休息时的遭遇几率" />
@@ -325,7 +325,7 @@
   <Localisation key="toggle_ShowAllLearnableSpells" value="显示可以学习的所有法术" />
   <Localisation key="toggle_AddAbilitiesAsSpells" value="从最喜爱的能力/法术中添加法术" />
   <Localisation key="toggle_AddSpellsbooks" value="添加法术书" />
-  <Localisation key="toggle_MoveFavourites" value="重新排列我最喜爱的功能" />
+  <Localisation key="toggle_MoveFavourites" value="重新排列收藏夹的项目" />
   <Localisation key="toggle_ShowInventory" value="显示物品栏" />
   <Localisation key="toggle_SpawnRandomEnemy" value="随机生成敌方单位" />
   <Localisation key="toggle_ShowModifiedItems" value="显示已修改的蓝图" />
@@ -361,9 +361,9 @@
   <Localisation key="button_SetGuid" value="设置GUID" />
   <Localisation key="button_Receive" value="获得" />
   <Localisation key="button_ExportItemInfo" value="导出物品信息（.txt）" />
-  <Localisation key="button_AddFavouritesToInventory" value="添加我最喜爱物品到物品拦" />
-  <Localisation key="button_ExportFavouritesGuids" value="导出我最喜爱物品的GUID" />
-  <Localisation key="button_ExportFavouritesNames" value="导出我最喜爱物品的名称" />
+  <Localisation key="button_AddFavouritesToInventory" value="添加收藏夹中所有物品到背包" />
+  <Localisation key="button_ExportFavouritesGuids" value="导出收藏夹中物品的GUID" />
+  <Localisation key="button_ExportFavouritesNames" value="导出收藏夹中物品的名称" />
   <Localisation key="button_AddAllArmour" value="添加所有盔甲" />
   <Localisation key="button_AddAllBelts" value="添加所有腰带" />
   <Localisation key="button_AddAllFootwear" value="添加所有鞋子" />
@@ -393,7 +393,7 @@
   <Localisation key="button_RemoveAllNegativeEffects" value="移除所有负面效果" />
   <Localisation key="button_AllBuffs" value="所有增益效果" />
   <Localisation key="button_AddToParty" value="添加到队伍" />
-  <Localisation key="button_AddFavouritesTo" value="添加我最喜爱到" />
+  <Localisation key="button_AddFavouritesTo" value="从收藏夹添加到" />
   <Localisation key="button_Default" value="默认值" />
   <Localisation key="button_BaseBPIncome" value="基本BP收入" />
   <Localisation key="button_SetLowerZoomLimit" value="设置最小缩放值限制" />
@@ -401,7 +401,7 @@
   <Localisation key="button_SetGlobalMapZoomLevel" value="设置世界地图缩放等级" />
   <Localisation key="button_CreateGameHistoryLog" value="创建游戏历史日志" />
   <Localisation key="button_DumpKingdomState" value="导出王国状态数据" />
-  <Localisation key="button_FeatSelectionMultiplier" value="专场选择倍数" />
+  <Localisation key="button_FeatSelectionMultiplier" value="专长选择倍数" />
   <Localisation key="button_SetToDefault" value="设为默认值" />
   <Localisation key="button_SorcererSupreme" value="至尊法师（混合和匹配法术）" />
   <Localisation key="button_ResetToDefault" value="重置默认值" />
@@ -422,8 +422,8 @@
   <Localisation key="button_TeleportEveryoneToPlayer" value="传送任何人到玩家" />
   <Localisation key="button_PostPartyChange" value="激活新队友并传送到玩家" />
   <Localisation key="button_Preview" value="预览" />
-  <Localisation key="button_AddToFavourites" value="添加到我最喜爱" />
-  <Localisation key="button_RemoveFromFavourites" value="从我最喜爱中移除" />
+  <Localisation key="button_AddToFavourites" value="添加收藏夹" />
+  <Localisation key="button_RemoveFromFavourites" value="移除收藏夹" />
   <Localisation key="button_LevelUp" value="升级" />
   <Localisation key="button_Downgrade" value="降级" />
   <Localisation key="button_MakeClassSkills" value="生成职业技能" />
@@ -511,7 +511,7 @@
   <Localisation key="buttonToggle_EveryoneExceptPlayerFactionRolls1" value="除玩家外，其他人总是投掷1" />
   <Localisation key="buttonToggle_experimentalIUnderstand" value="我理解" />
   <Localisation key="buttonToggle_LogInfoToFile" value="日志信息保存到文件" />
-  <Localisation key="buttonToggle_ShowOnlyClassSkills" value="经显示本职技能" />
+  <Localisation key="buttonToggle_ShowOnlyClassSkills" value="仅显示本职技能" />
   <Localisation key="buttonToggle_ShowTooltips" value="显示工具提示" />
   <Localisation key="buttonToggle_NoLevelUpRestirctions" value="无升级限制" />
   <Localisation key="buttonToggle_NeverRoll1" value="从不投掷1" />
@@ -621,7 +621,7 @@
   <Localisation key="arrayItem_ActionKeyMain_None" value="无" />
   <Localisation key="arrayItem_ActionKeyMain_GetInfo" value="获取信息" />
   <Localisation key="arrayItem_ActionKeyMain_ResurrectAndFullyRestore" value="复活并完全恢复" />
-  <Localisation key="arrayItem_ActionKeyMain_BuffFromFavourites" value="我最喜爱中收藏的增益效果" />
+  <Localisation key="arrayItem_ActionKeyMain_BuffFromFavourites" value="收藏夹中增益效果" />
   <Localisation key="arrayItem_ActionKeyMain_EditStats" value="编辑统计信息" />
   <Localisation key="arrayItem_ActionKeyMain_MakeControllable" value="可控制" />
   <Localisation key="arrayItem_ActionKeyMain_SpawnCritters" value="生成动物" />
@@ -696,7 +696,7 @@
   <Localisation key="warning_Alignment" value="改变阵营时要小心！" />
   <Localisation key="warning_TakeXAndPartyRoll20" value="队伍总是投掷20和取X已同时激活！队伍总是投掷20将覆盖取X的结果！" />
   <Localisation key="warning_InfiniteSkillPoints" value="必须在花费技能点数后禁用才能升级" />
-  <Localisation key="warning_UnresposiveAddingItems" value="添加项目时，游戏会进行异步加载，您可以关闭DUMM窗口回到游戏中做其它事情，建议等右下角的添加日志信息停止刷新后再打开物品栏以确保异步加载能全部正确运行！" />
+  <Localisation key="warning_UnresposiveAddingItems" value="添加物品时，游戏会进行异步加载，您可以关闭DUMM窗口继续进行游戏，建议等右下角的添加日志信息停止刷新后再打开物品栏以确保异步加载能全部正确运行！" />
   <Localisation key="warning_EkunQ2" value="此项会导致错误，因此无法添加。" />
   <Localisation key="warning_SpellsPerDay" value="请注意，过高的值可能会破坏准备好的施法者的魔法书界面！" />
   <Localisation key="warning_ZoomLimits_0" value="大于缩放上限" />
@@ -731,7 +731,7 @@
   <Localisation key="warning_NewSpellsAddedAlt" value="为了使用新增加的法术，你可能需要休息或使用。" />
   <Localisation key="warning_UpgradeSetllement" value="通过此菜单升级定居点不算是任务目标！&#xA;实验部分提供降级选项（杂项）。" />
   <Localisation key="warning_RandomEncounterPossible" value="完全关闭随机遭遇会导致你错过任务所需的某些遭遇，从而破坏它们！" />
-  <Localisation key="warning_StopGameTime" value="会导致召唤生物、增益效果和负面效果的问题！&#xA;要暂停王国时间线而不出现任何这些问题，请使用Kingdom Resolution mod。" />
+  <Localisation key="warning_StopGameTime" value="会导致召唤生物、增益效果和负面效果的问题！&#xA;要暂停王国时间线而不出现任何这些问题，请使用 Kingdom Resolution MOD。" />
   <Localisation key="warning_AddSpellsbooks" value="游戏中的魔法书界面不能显示超过五个魔法书！&#xA;通过此菜单添加的法术书没有完全功能（例如，没有戏法）！" />
   <Localisation key="warning_TakeX" value="在战斗开始前进行的与战斗相关的掷骰仍然受到取X的影响（例如，对毫无戒备的敌人的攻击）。" />
   <Localisation key="warning_UnlimitedCasting" value="在这一场景的最后一场战斗之后，无限制的施法会使游戏崩溃/冻结。&#xA;因此强烈建议暂时停用它！" />
@@ -938,13 +938,13 @@
   <Localisation key="misc_UnityModManager" value="Dear Unity Mod Manager" />
   <Localisation key="misc_Bandit" value="强盗" />
   <Localisation key="misc_SnakeMode" value="偷袭" />
-  <Localisation key="misc_BagOfSnakeModes" value="Bag Of Snake Modes" />
+  <Localisation key="misc_BagOfSnakeModes" value="偷袭模式" />
   <Localisation key="misc_Learn" value="学习" />
   <Localisation key="misc_AtLevel" value="级别" />
   <Localisation key="misc_AlwaysPass" value="总是通过" />
   <Localisation key="misc_Checks" value="检查" />
   <Localisation key="misc_Saves" value="保存" />
-  <Localisation key="misc_Days" value="天数" />
+  <Localisation key="misc_Days" value="天" />
   <Localisation key="misc_Sell" value="出售" />
   <Localisation key="misc_Unlock" value="解锁" />
   <Localisation key="misc_UnlockAll" value="解锁全部" />
@@ -959,7 +959,7 @@
   <Localisation key="encumbrance_Medium" value="中度" />
   <Localisation key="encumbrance_Heavy" value="重度" />
   <Localisation key="encumbrance_Overload" value="超载" />
-  <Localisation key="error_EkunQ2" value="c5d4962385e0e9c439ab935d83361947（EkunQ2_rewardArmor）导致错误，因此不会添加。" />
+  <Localisation key="error_EkunQ2" value="c5d4962385e0e9c439ab935d83361947（EkunQ2_rewardArmor）会导致错误，因此不会添加。" />
   <Localisation key="error_NotFound" value="没找到！" />
   <Localisation key="taxCollector_Lord" value="大臣" />
   <Localisation key="taxCollector_Lady" value="女士" />

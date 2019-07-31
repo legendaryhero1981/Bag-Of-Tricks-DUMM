@@ -346,7 +346,7 @@ namespace BagOfTricks
             {"headerOption_MercenaryCostMultiplier", "Mercenary Cost Multiplier"},
             {"headerOption_ShowFavourites", "Show Favourites"},
             {"headerOption_ShowItemSets", "Show Item Sets"},
-            {"headerOption_TravelSpeedMultiplier", "Travel Speed Multiplier"},
+            {"headerOption_TravelSpeedMultiplier", "Travel Time Scale Multiplier"},
             {"headerOption_SettingsValue", "Settings Value"},
             {"headerOption_ChanceOnGlobalMap", "Chance On Global Map"},
             {"headerOption_ChanceWhenCamping", "Chance When Camping"},
@@ -1120,7 +1120,7 @@ namespace BagOfTricks
             {"tooltip_TeleportPartyToPlayer", "Teleports the party to the player character."},
             {
                 "tooltip_TravelSpeedMultiplier",
-                "Use the input field to set a multiplier for the global map travel speed."
+                "Use the input field to set a multiplier for the global map travel time scale."
             },
 
             {
@@ -1421,7 +1421,7 @@ namespace BagOfTricks
             {
                 "about_KingmakerModsPW",
                 "Includes code from KingmakerMods.pw - Copyright (c) 2018 fireundubh <fireundubh@gmail.com>, MIT License (MIT)"
-            }
+            },
             //about end
         };
     }

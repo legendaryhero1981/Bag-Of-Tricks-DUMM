@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.Root;
 using Kingmaker.Cheats;
 using Kingmaker.EntitySystem.Entities;
@@ -12,12 +14,16 @@ using Kingmaker.Enums;
 using Kingmaker.UI;
 using Kingmaker.UI.Common;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Visual.Animation.Kingmaker;
 using Kingmaker.Visual.Particles;
+
 using UnityEngine;
-using UnityModManagerNet;
+
 using GL = UnityEngine.GUILayout;
+using UnityModManager = UnityModManagerNet.UnityModManager;
 
 namespace BagOfTricks
 {
@@ -60,17 +66,17 @@ namespace BagOfTricks
         private static readonly string[] experimentalKillArray =
             {Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyKill_ForceKill")};
 
-        private static UnitEntityData unit;
+        private static UnitEntityData unit = null;
 
-        public static UnitEntityData editUnit;
+        public static UnitEntityData editUnit = null;
         public static string editUnitStatsAmount = "10";
         public static int editUnitFinalStatsAmount = 10;
-        public static int editUnitSelectedSizeIndex;
+        public static int editUnitSelectedSizeIndex = 0;
 
-        public static UnitEntityData teleportUnit;
-        public static UnitEntityData rotateUnit;
+        public static UnitEntityData teleportUnit = null;
+        public static UnitEntityData rotateUnit = null;
 
-        public static int banidtCrIndex;
+        public static int banidtCrIndex = 0;
         public static string[] numberArray0t7 = {"0", "1", "2", "3", "4", "5", "6", "7"};
 
         public static string[] banditsGuids =
@@ -82,7 +88,7 @@ namespace BagOfTricks
 
         public static List<UnitAnimationType> animationTypes = new List<UnitAnimationType>();
         public static List<string> animationTypesNames = new List<string>();
-        public static int animationTypesIndex;
+        public static int animationTypesIndex = 0;
 
         public static bool load = true;
 
@@ -193,20 +199,20 @@ namespace BagOfTricks
                 if (GL.Button(Strings.GetText("button_Kill"), GL.ExpandWidth(false))) Common.Kill(unit);
                 if (GL.Button(Strings.GetText("button_Panic"), GL.ExpandWidth(false)))
                     unit.Descriptor.AddFact(
-                        Utilities.GetBlueprintByGuid<BlueprintBuff>("cf0e277e6b785f449bbaf4e993b556e0"), null,
-                        new FeatureParam());
+                        (BlueprintUnitFact) Utilities.GetBlueprintByGuid<BlueprintBuff>(
+                            "cf0e277e6b785f449bbaf4e993b556e0"), (MechanicsContext) null, new FeatureParam());
                 if (GL.Button(Strings.GetText("button_Freeze"), GL.ExpandWidth(false)))
                     unit.Descriptor.AddFact(
-                        Utilities.GetBlueprintByGuid<BlueprintBuff>("af1e2d232ebbb334aaf25e2a46a92591"), null,
-                        new FeatureParam());
+                        (BlueprintUnitFact) Utilities.GetBlueprintByGuid<BlueprintBuff>(
+                            "af1e2d232ebbb334aaf25e2a46a92591"), (MechanicsContext) null, new FeatureParam());
                 if (GL.Button(Strings.GetText("button_MakeCower"), GL.ExpandWidth(false)))
                     unit.Descriptor.AddFact(
-                        Utilities.GetBlueprintByGuid<BlueprintBuff>("6062e3a8206a4284d867cbb7120dc091"), null,
-                        new FeatureParam());
+                        (BlueprintUnitFact) Utilities.GetBlueprintByGuid<BlueprintBuff>(
+                            "6062e3a8206a4284d867cbb7120dc091"), (MechanicsContext) null, new FeatureParam());
                 if (GL.Button(Strings.GetText("button_SetOnFire"), GL.ExpandWidth(false)))
                     unit.Descriptor.AddFact(
-                        Utilities.GetBlueprintByGuid<BlueprintBuff>("315acb0b29671f74c8c7cc062b23b9d6"), null,
-                        new FeatureParam());
+                        (BlueprintUnitFact) Utilities.GetBlueprintByGuid<BlueprintBuff>(
+                            "315acb0b29671f74c8c7cc062b23b9d6"), (MechanicsContext) null, new FeatureParam());
             }
 
             GL.EndHorizontal();
@@ -248,8 +254,8 @@ namespace BagOfTricks
 
             GL.BeginHorizontal();
             if (GL.Button(
-                MenuTools.TextWithTooltip("misc_Enable", "tooltip_ActionKey",
-                    $"{settings.toggleEnableActionKey}" + " "), GL.ExpandWidth(false)))
+                MenuTools.TextWithTooltip("misc_Enable", "tooltip_ActionKey", $"{settings.toggleEnableActionKey}" + " ",
+                    ""), GL.ExpandWidth(false)))
             {
                 if (settings.toggleEnableActionKey == Storage.isFalseString)
                 {
@@ -281,7 +287,7 @@ namespace BagOfTricks
                 GL.BeginHorizontal();
                 if (GL.Button(
                     MenuTools.TextWithTooltip("label_ActionKeyEnableExperimental",
-                        "tooltip_ActionKeyEnableExperimental", $"{settings.toggleActionKeyExperimental}" + " "),
+                        "tooltip_ActionKeyEnableExperimental", $"{settings.toggleActionKeyExperimental}" + " ", ""),
                     GL.ExpandWidth(false)))
                 {
                     if (settings.toggleActionKeyExperimental == Storage.isFalseString)
@@ -337,7 +343,7 @@ namespace BagOfTricks
                         }
                         else
                         {
-                            if (Storage.buffFavouritesLoad)
+                            if (Storage.buffFavouritesLoad == true)
                             {
                                 Main.RefreshBuffFavourites();
                                 Storage.buffFavouritesLoad = false;
@@ -478,7 +484,8 @@ namespace BagOfTricks
                 message = message + Strings.GetText("label_WeaponName") + ": " + unit.GetFirstWeapon().Name + "\n";
                 message = message + Strings.GetText("label_WeaponDamage") + ": " + unit.GetFirstWeapon().Damage + "\n";
 
-                UIUtility.ShowMessageBox(message, DialogMessageBox.BoxType.Message, Common.CloseMessageBox);
+                UIUtility.ShowMessageBox(message, DialogMessageBox.BoxType.Message,
+                    new Action<DialogMessageBox.BoxButton>(Common.CloseMessageBox));
             }
         }
 
@@ -492,7 +499,7 @@ namespace BagOfTricks
             var scriptableObjectArray = Tooltip();
             if (unitUnderMouse != null)
             {
-                s_BlueprintInfo.Add(unitUnderMouse.Blueprint);
+                s_BlueprintInfo.Add((BlueprintScriptableObject) unitUnderMouse.Blueprint);
             }
             else
             {
@@ -507,97 +514,98 @@ namespace BagOfTricks
         {
             var contextTooltipData = Game.Instance.UI.TooltipsController.ContextTooltipData;
             if (contextTooltipData == null)
-                return null;
+                return (BlueprintScriptableObject[]) null;
             var itemEntity = contextTooltipData.Item;
             if (itemEntity != null)
                 return new BlueprintScriptableObject[1]
                 {
-                    itemEntity.Blueprint
+                    (BlueprintScriptableObject) itemEntity.Blueprint
                 };
             var feature = contextTooltipData.Feature;
-            if (feature != null)
+            if ((UnityEngine.Object) feature != (UnityEngine.Object) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    feature
+                    (BlueprintScriptableObject) feature
                 };
             var ability = contextTooltipData.Ability;
             if (ability != null)
                 return new BlueprintScriptableObject[1]
                 {
-                    ability.Blueprint
+                    (BlueprintScriptableObject) ability.Blueprint
                 };
             var featureSelection = contextTooltipData.FeatureSelection;
-            if (featureSelection != null)
+            if ((UnityEngine.Object) featureSelection != (UnityEngine.Object) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    featureSelection
+                    (BlueprintScriptableObject) featureSelection
                 };
             var abilityData = contextTooltipData.AbilityData;
-            if (abilityData != null)
+            if (abilityData != (AbilityData) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    abilityData.Blueprint
+                    (BlueprintScriptableObject) abilityData.Blueprint
                 };
             var activatableAbility = contextTooltipData.ActivatableAbility;
             if (activatableAbility != null)
                 return new BlueprintScriptableObject[1]
                 {
-                    activatableAbility.Blueprint
+                    (BlueprintScriptableObject) activatableAbility.Blueprint
                 };
             var buff = contextTooltipData.Buff;
             if (buff != null)
                 return new BlueprintScriptableObject[1]
                 {
-                    buff.Blueprint
+                    (BlueprintScriptableObject) buff.Blueprint
                 };
             var blueprintAbility = contextTooltipData.BlueprintAbility;
-            if (blueprintAbility != null)
+            if ((UnityEngine.Object) blueprintAbility != (UnityEngine.Object) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    blueprintAbility
+                    (BlueprintScriptableObject) blueprintAbility
                 };
             var recipe = contextTooltipData.Recipe;
-            if (recipe != null)
+            if ((UnityEngine.Object) recipe != (UnityEngine.Object) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    recipe
+                    (BlueprintScriptableObject) recipe
                 };
             var kingdomBuff = contextTooltipData.KingdomBuff;
             if (kingdomBuff != null)
                 return new BlueprintScriptableObject[1]
                 {
-                    kingdomBuff.Blueprint
+                    (BlueprintScriptableObject) kingdomBuff.Blueprint
                 };
             var unit = contextTooltipData.Unit;
             if (unit != null)
                 return new BlueprintScriptableObject[1]
                 {
-                    unit.Blueprint
+                    (BlueprintScriptableObject) unit.Blueprint
                 };
             var blueprintCharacterClass = contextTooltipData.Class;
-            if (blueprintCharacterClass != null)
+            if ((UnityEngine.Object) blueprintCharacterClass != (UnityEngine.Object) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    blueprintCharacterClass
+                    (BlueprintScriptableObject) blueprintCharacterClass
                 };
             var race = contextTooltipData.Race;
-            if (race != null)
+            if ((UnityEngine.Object) race != (UnityEngine.Object) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    race
+                    (BlueprintScriptableObject) race
                 };
             var settlementBuildingBp = contextTooltipData.SettlementBuildingBp;
-            if (settlementBuildingBp != null)
+            if ((UnityEngine.Object) settlementBuildingBp != (UnityEngine.Object) null)
                 return new BlueprintScriptableObject[1]
                 {
-                    settlementBuildingBp
+                    (BlueprintScriptableObject) settlementBuildingBp
                 };
             var settlementBuilding = contextTooltipData.SettlementBuilding;
             if (settlementBuilding == null)
-                return contextTooltipData.TutorialPage ?? null;
+                return (BlueprintScriptableObject[]) contextTooltipData.TutorialPage ??
+                       (BlueprintScriptableObject[]) null;
             return new BlueprintScriptableObject[1]
             {
-                settlementBuilding.Blueprint
+                (BlueprintScriptableObject) settlementBuilding.Blueprint
             };
         }
     }

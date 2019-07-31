@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Globalmap;
 using Kingmaker.UnitLogic;
+
 using TMPro;
+
 using UnityEngine;
 
 namespace BagOfTricks
@@ -16,7 +19,7 @@ namespace BagOfTricks
     {
         public static Settings settings;
 
-        public static string[] mainToolbarStrings =
+        public static string[] mainToolbarStrings = new string[]
         {
             RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")),
             RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")),
@@ -28,7 +31,7 @@ namespace BagOfTricks
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.0.5c";
+        public static readonly string gamerVersionAtCreation = "2.0.6";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
 
@@ -109,11 +112,11 @@ namespace BagOfTricks
 
         public static List<BlueprintScriptableObject> blueprintList = new List<BlueprintScriptableObject>();
 
-        public static string[] filesCsv = { };
+        public static string[] filesCsv = new string[] { };
         public static List<bool> togglePreviewCsv = new List<bool>();
         public static List<string> previewStringsCsv = new List<string>();
 
-        public static string[] filesTxt = { };
+        public static string[] filesTxt = new string[] { };
         public static List<bool> togglePreviewTxt = new List<bool>();
         public static List<string> previewStringsTxt = new List<string>();
 
@@ -138,7 +141,7 @@ namespace BagOfTricks
 
         public static readonly List<string> validBuffTypes = new List<string>
         {
-            "BlueprintBuff"
+            "BlueprintBuff",
         };
 
         public static List<string> buffResultNames = new List<string>();
@@ -179,7 +182,7 @@ namespace BagOfTricks
         public static int statsSelectedControllableCharacterIndex = 0;
         public static int statsSelectedControllableCharacterIndexOld = 0;
 
-        public static string[] individualSkillsArray =
+        public static string[] individualSkillsArray = new string[]
         {
             Strings.GetText("charStat_Athletics"), Strings.GetText("charStat_KnowledgeArcana"),
             Strings.GetText("charStat_KnowledgeWorld"), Strings.GetText("charStat_LoreNature"),
@@ -190,7 +193,7 @@ namespace BagOfTricks
             Strings.GetText("charStat_Diplomacy"), Strings.GetText("charStat_Intimidate")
         };
 
-        public static string[] individualSavesArray =
+        public static string[] individualSavesArray = new string[]
         {
             Strings.GetText("charStat_Fortitude"), Strings.GetText("charStat_Reflex"), Strings.GetText("charStat_Will")
         };
@@ -224,14 +227,14 @@ namespace BagOfTricks
         {
             {individualSkillsArray[11], StatType.CheckBluff},
             {individualSkillsArray[12], StatType.CheckDiplomacy},
-            {individualSkillsArray[13], StatType.CheckIntimidate}
+            {individualSkillsArray[13], StatType.CheckIntimidate},
         };
 
         public static Dictionary<string, StatType> statsSavesDict = new Dictionary<string, StatType>
         {
             {individualSavesArray[0], StatType.SaveFortitude},
             {individualSavesArray[1], StatType.SaveReflex},
-            {individualSavesArray[2], StatType.SaveWill}
+            {individualSavesArray[2], StatType.SaveWill},
         };
 
         public static Dictionary<string, StatType> statsCombatDict = new Dictionary<string, StatType>
@@ -280,7 +283,7 @@ namespace BagOfTricks
 
         public static readonly string taxCollectorFile = "Save.xml";
 
-        public static string[] alignmentsArrayKingdom =
+        public static string[] alignmentsArrayKingdom = new string[]
         {
             Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"),
             Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"),
@@ -289,7 +292,7 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_Alignments_ChaoticEvil"), Strings.GetText("arrayItem_Alignments_NoChange")
         };
 
-        public static string[] alignmentsArrayStats =
+        public static string[] alignmentsArrayStats = new string[]
         {
             Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"),
             Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"),
@@ -300,7 +303,7 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_Alignments_Chaotic")
         };
 
-        public static string[] alignmentsArrayKingdomStats =
+        public static string[] alignmentsArrayKingdomStats = new string[]
         {
             Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"),
             Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"),
@@ -312,7 +315,7 @@ namespace BagOfTricks
 
         public static int statsSelectedAlignmentIndex = 0;
 
-        public static string[] takeXArray =
+        public static string[] takeXArray = new string[]
         {
             Strings.GetText("arrayItem_takeX_Off"), Strings.GetText("arrayItem_takeX_Take10"),
             Strings.GetText("arrayItem_takeX_Take20"), Strings.GetText("arrayItem_takeX_TakeCustomValue")
@@ -321,7 +324,7 @@ namespace BagOfTricks
         public static List<string> menuItemFavourites = new List<string>();
         public static readonly string favouritesMenuItemsFile = "MenuItems.xml";
 
-        public static string[] localisationsXML = { };
+        public static string[] localisationsXML = new string[] { };
         public static List<string> localisationsXMLFiles = new List<string>();
         public static int selectedLocalisationOld = -1;
 
@@ -329,7 +332,7 @@ namespace BagOfTricks
 
         public static int partySelectedSizeIndex = 0;
 
-        public static string[] charSizeArray =
+        public static string[] charSizeArray = new string[]
         {
             Strings.GetText("arrayItem_Size_Fine"), Strings.GetText("arrayItem_Size_Diminutive"),
             Strings.GetText("arrayItem_Size_Tiny"), Strings.GetText("arrayItem_Size_Small"),
@@ -349,7 +352,7 @@ namespace BagOfTricks
         public static bool featFavouritesLoad = true;
         public static int featsParamIndex = 0;
 
-        public static string[] featsParamArray =
+        public static string[] featsParamArray = new string[]
         {
             Strings.GetText("misc_None"), Strings.GetText("arrayItem_FeatParam_FencingGrace"),
             Strings.GetText("arrayItem_FeatParam_ImprovedCritical"),
@@ -374,7 +377,7 @@ namespace BagOfTricks
 
         public static readonly List<string> validFeatTypes = new List<string>
         {
-            "BlueprintFeature"
+            "BlueprintFeature",
         };
 
         public static List<string> featResultNames = new List<string>();
@@ -412,13 +415,13 @@ namespace BagOfTricks
         public static bool romanceCounterLoadExperimental = true;
 
 
-        public static string[] neverRollXArray =
+        public static string[] neverRollXArray = new string[]
         {
             Strings.GetText("arrayItem_NeverRollX_Everyone"), Strings.GetText("arrayItem_NeverRollX_OnlyParty"),
             Strings.GetText("arrayItem_NeverRollX_OnlyEnemies")
         };
 
-        public static string[] unitEntityDataSelectionGridArray =
+        public static string[] unitEntityDataSelectionGridArray = new string[]
         {
             Strings.GetText("arrayItem_NeverRollX_Everyone"), Strings.GetText("arrayItem_NeverRollX_OnlyParty"),
             Strings.GetText("arrayItem_NeverRollX_OnlyMainChar"), Strings.GetText("arrayItem_NeverRollX_OnlyEnemies")
@@ -443,7 +446,7 @@ namespace BagOfTricks
         public static List<ClassData> classData = new List<ClassData>();
         public static float classLevelSlider = 0;
 
-        public static string[] unitEntityDataArray =
+        public static string[] unitEntityDataArray = new string[]
         {
             Strings.GetText("arrayItem_UnityEntityData_Party"),
             Strings.GetText("arrayItem_UnityEntityData_ControllableCharacters"),
@@ -497,7 +500,7 @@ namespace BagOfTricks
 
         public static readonly List<string> validAbilityTypes = new List<string>
         {
-            "BlueprintAbility"
+            "BlueprintAbility",
         };
 
         public static List<string> abilityResultNames = new List<string>();
@@ -559,7 +562,7 @@ namespace BagOfTricks
 
         public static float healthPercentageSlider = 1f;
 
-        public static string[] encumbranceArray =
+        public static string[] encumbranceArray = new string[]
         {
             Strings.GetText("encumbrance_Light"), Strings.GetText("encumbrance_Medium"),
             Strings.GetText("encumbrance_Heavy"), Strings.GetText("encumbrance_Overload")
@@ -572,7 +575,7 @@ namespace BagOfTricks
         public static List<string> inventoryItems = new List<string>();
         public static List<int> inventoryItemsCount = new List<int>();
 
-        public static string[] inventoryItemTypesArray =
+        public static string[] inventoryItemTypesArray = new string[]
         {
             RichText.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"),
             Strings.GetText("label_Belts"), Strings.GetText("label_Footwear"), Strings.GetText("label_Gloves"),
@@ -583,7 +586,7 @@ namespace BagOfTricks
         };
 
 
-        public static string[] weatherArray =
+        public static string[] weatherArray = new string[]
         {
             Strings.GetText("arrayItem_Weather_Normal"), Strings.GetText("arrayItem_Weather_Rain"),
             Strings.GetText("arrayItem_Weather_Snow")
@@ -595,7 +598,7 @@ namespace BagOfTricks
 
         public static string[] diceTypes = {"D0", "D1", "D2", "D3", "D4", "D6", "D8", "D10", "D12", "D20", "D100"};
 
-        public static List<string> spiderGuids = new List<string>
+        public static List<string> spiderGuids = new List<string>()
         {
             "ae2806b1e73ed7b4e9e9ae966de4dad6", //Corrupted_BloomInfusedSpiderMatriarch
             "d0e28afa4e4c0994cb6deae66612445a", //CR1_GiantSpiderMite
@@ -616,7 +619,7 @@ namespace BagOfTricks
             "f2327e24765fb6342975b6216bfb307b", //SpiderSwarmSummoned
             "36fe14f64d7746f429d30f9dd7b2e652", //SycamoreBoss_GiantSpider
             "af6700830836d9643939e1a1801a65af", //TrollLairFW_Zzamas
-            "254091b112392c04db701331fbea3b8f" //Zzamas
+            "254091b112392c04db701331fbea3b8f", //Zzamas
         };
 
         public static string kingdomCustomName = string.Empty;

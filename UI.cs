@@ -2,9 +2,13 @@
 using Kingmaker.PubSubSystem;
 using Kingmaker.UI.Common;
 using Kingmaker.Utility;
+
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.UI;
+
+using Object = UnityEngine.Object;
 
 namespace BagOfTricks
 {

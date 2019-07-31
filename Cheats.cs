@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Harmony;
+
 using Kingmaker;
 using Kingmaker.Cheats;
 using Kingmaker.Controllers.Rest;
@@ -17,6 +19,7 @@ using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Parts;
+
 using UnityModManagerNet;
 
 namespace BagOfTricks

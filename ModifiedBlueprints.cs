@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using Harmony12;
+
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Items;
 using Kingmaker.Blueprints.Items.Armors;
@@ -15,11 +17,14 @@ using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
 using Kingmaker.Utility;
-using Newtonsoft.Json;
-using UnityEngine;
-using UnityModManagerNet;
-using GL = UnityEngine.GUILayout;
 
+using Newtonsoft.Json;
+
+using UnityEngine;
+
+using UnityModManagerNet;
+
+using GL = UnityEngine.GUILayout;
 
 namespace BagOfTricks
 {

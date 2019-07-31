@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Media;
-using UnityEngine;
-using UnityModManagerNet;
+
 using GL = UnityEngine.GUILayout;
+using UnityModManager = UnityModManagerNet.UnityModManager;
 
 namespace BagOfTricks
 {
@@ -76,7 +76,8 @@ namespace BagOfTricks
                 if (settings.settingShowDebugInfo)
                 {
                     GL.Space(10);
-                    MenuTools.SingleLineLabel("Application.persistentDataPath: " + Application.persistentDataPath);
+                    MenuTools.SingleLineLabel("Application.persistentDataPath: " +
+                                              UnityEngine.Application.persistentDataPath);
                     MenuTools.SingleLineLabel("UberLogger.Logger.Enable: " + UberLogger.Logger.Enabled);
                     MenuTools.SingleLineLabel("UberLogger.Logger.ForwardMessages: " +
                                               UberLogger.Logger.ForwardMessages);
@@ -93,9 +94,11 @@ namespace BagOfTricks
 
         public static void Register()
         {
-            SmartConsole.RegisterCommand("beep", "", "Plays the 'beep' system sound.", Beep);
+            SmartConsole.RegisterCommand("beep", "", "Plays the 'beep' system sound.",
+                new SmartConsole.ConsoleCommandFunction(Beep));
             SmartConsole.RegisterCommand("bat", "bat fileName",
-                "Executes commands from a file in the Bag of Tricks folder.", CommandBatch);
+                "Executes commands from a file in the Bag of Tricks folder.",
+                new SmartConsole.ConsoleCommandFunction(CommandBatch));
         }
 
         public static void Beep(string parameters)

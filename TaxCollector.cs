@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+
 using UnityEngine;
-using GL = UnityEngine.GUILayout;
+
 using Random = UnityEngine.Random;
 
 namespace BagOfTricks
@@ -46,7 +47,6 @@ namespace BagOfTricks
             return result / 3;
         }
 
-
         public static int CollectBP(int rank, DateTime saveTime)
         {
             var collectTime = DateTime.Now;
@@ -70,7 +70,6 @@ namespace BagOfTricks
             var result = Mathf.RoundToInt(timeMultiplier * rank * charisma / 2 * Random.Range(0.75f, 1.5f));
             return result;
         }
-
 
         public static void Serialize(TaxCollectorSettings tax, string filePath)
         {
