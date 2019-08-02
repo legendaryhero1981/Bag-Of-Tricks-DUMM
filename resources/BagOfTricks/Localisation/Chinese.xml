@@ -85,7 +85,7 @@
   <Localisation key="label_ItemType" value="物品类型" />
   <Localisation key="label_ItemDescription" value="物品描述" />
   <Localisation key="label_ItemFlavourText" value="物品风格文本" />
-  <Localisation key="label_ItemCost" value="物品消耗" />
+  <Localisation key="label_ItemCost" value="物品购买价格" />
   <Localisation key="label_ItemSellPrice" value="物品出售价格" />
   <Localisation key="label_ItemWeight" value="物品重量" />
   <Localisation key="label_ObjectName" value="对象名称" />
@@ -121,7 +121,7 @@
   <Localisation key="label_Notes" value="笔记" />
   <Localisation key="label_Rings" value="戒指" />
   <Localisation key="label_Shields" value="盾牌" />
-  <Localisation key="label_ShoulderItems" value="背包" />
+  <Localisation key="label_ShoulderItems" value="斗篷" />
   <Localisation key="label_UsableItems" value="可用物品" />
   <Localisation key="label_Weapons" value="武器" />
   <Localisation key="label_WristItems" value="护腕" />

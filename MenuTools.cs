@@ -799,12 +799,12 @@ namespace BagOfTricks
                 var itemByGuid = Utilities.GetBlueprintByGuid<BlueprintItem>(itemGuid);
                 if (null == itemByGuid) return;
                 if (identify)
-                {
-                    var itemEntity = itemByGuid.CreateEntity();
-                    itemEntity.Identify();
                     for (var i = 0; i < itemAmount; i++)
+                    {
+                        var itemEntity = itemByGuid.CreateEntity();
+                        itemEntity.Identify();
                         Game.Instance.Player.Inventory.Add(itemEntity);
-                }
+                    }
                 else
                     Game.Instance.Player.Inventory.Add(itemByGuid, itemAmount);
             }

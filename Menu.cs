@@ -4231,6 +4231,7 @@ namespace BagOfTricks
                     }
 
                     GL.Space(10);
+
                     GL.BeginHorizontal();
                     settings.showItemSets = GL.Toggle(settings.showItemSets, new GUIContent(RichText.Bold(Strings.GetText("headerOption_ShowItemSets"))), GL.ExpandWidth(false));
                     GL.EndHorizontal();
@@ -4394,32 +4395,29 @@ namespace BagOfTricks
                     }
 
                     GL.EndVertical();
-
                     GL.Space(10);
 
                     GL.BeginHorizontal();
                     GL.Label(MenuTools.TextWithTooltip("label_AssetGuid", "tooltip_AssetGuid", "", ": "), GL.ExpandWidth(false));
-                    settings.itemGuid = GL.TextField(settings.itemGuid.Trim().TrimStart(','), GL.Width(500f));
+                    settings.itemGuid = GL.TextField(settings.itemGuid.Trim().TrimStart(','), GL.Width(800f));
                     if (!settings.itemGuid.Contains(Main.ExcludeGuid)) Storage.errorString = "";
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("label_Amount") + ": ", GL.ExpandWidth(false));
-                    settings.itemAmount = GL.TextField(settings.itemAmount, GL.Width(500f));
+                    settings.itemAmount = GL.TextField(settings.itemAmount, 2, GL.Width(50f));
                     settings.itemAmount = MenuTools.IntTestSettingStage1(settings.itemAmount);
                     settings.finalItemAmount = MenuTools.IntTestSettingStage2(settings.itemAmount, settings.finalItemAmount);
-                    GL.EndHorizontal();
-
-                    GL.BeginHorizontal();
+                    GL.Space(80);
                     settings.multipleItems = GL.Toggle(settings.multipleItems, new GUIContent(Strings.ToggleSpaceLeftFormat(Strings.GetText("toggle_AddMultipleItems")), Strings.GetText("tooltip_AddMultipleItems")), GL.ExpandWidth(false));
                     GL.EndHorizontal();
 
                     if (settings.multipleItems)
                     {
                         Storage.itemMultipleGuid = settings.itemGuid.Trim().Split(',').Select(p => p.Trim()).ToList();
-                        var allValid = Storage.itemMultipleGuid.Find(g => null == Utilities.GetBlueprintByGuid<BlueprintItem>(g));
+                        var anyInvalid = Storage.itemMultipleGuid.Find(g => null == Utilities.GetBlueprintByGuid<BlueprintItem>(g));
 
-                        if (string.IsNullOrEmpty(allValid))
+                        if (string.IsNullOrEmpty(anyInvalid))
                         {
                             GL.BeginHorizontal();
                             var items = Strings.GetText("misc_items");
@@ -4522,8 +4520,8 @@ namespace BagOfTricks
                                             Strings.GetText("label_ItemType") + $": {itemByGuid.ItemType}",
                                             Strings.GetText("label_ItemDescription") + $": {itemByGuid.Description}",
                                             Strings.GetText("label_ItemFlavourText") + $": {itemByGuid.FlavorText}",
-                                            Strings.GetText("label_ItemCost") + $": {itemByGuid.Cost}",
                                             Strings.GetText("label_ItemSellPrice") + $": {itemByGuid.SellPrice}",
+                                            Strings.GetText("label_ItemCost") + $": {itemByGuid.Cost}",
                                             Strings.GetText("label_ItemWeight") + $": {itemByGuid.Weight}",
                                             Strings.GetText("label_ObjectName") + $": {itemByGuid.name}",
                                             Strings.GetText("label_ObjectNameClean") +
