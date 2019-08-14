@@ -672,7 +672,7 @@ namespace BagOfTricks
             {"buttonToggle_UberLoggerForwardPrefix", "Add Prefix To UberLogger Logs"},
             {"buttonToggle_ExportToModFolder", "Export To Mod Folder"},
             {"buttonToggle_ShowCombatDifficulty", "Show Combat Difficulty"},
-
+            { "buttonToggle_OutOfCombatOnly", "Out Of Combat Only"},
             //buttonToggle end
 
             //arrayItem start
@@ -926,7 +926,7 @@ namespace BagOfTricks
             },
             {
                 "tooltip_AbilityPointsAtCCPlayer",
-                "﻿Use the input field to set the ability points at character creation for the player."
+                "Use the input field to set the ability points at character creation for the player."
             },
             {
                 "tooltip_AbilityPointsAtCCmerc",
@@ -1333,6 +1333,9 @@ namespace BagOfTricks
 
             {"tooltip_ArrowUp", "Click to move\nthe element up\nor shift-click\nto move it to\nthe top."},
             {"tooltip_ArrowDown", "Click to move\nthe element down\nor shift-click\nto move it to\nthe bottom."},
+
+            { "tooltip_OutOfCombatOnly_ArmourChecksPenalty0", "Set Armour Check Penalty To 0 will only be active outside of combat encounters."},
+            { "tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll", "No Arcane Spell Failure will only be active outside of combat encounters."},
             //tooltip end                               
 
 

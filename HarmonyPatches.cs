@@ -241,9 +241,17 @@ namespace BagOfTricks
         {
             static void Postfix(RuleCastSpell __instance, ref bool __result)
             {
-                if ((__instance.Spell.Caster?.Unit?.IsPlayerFaction ?? false) && (settings.toggleArcaneSpellFailureRoll == Storage.isTrueString))
+                if ((__instance.Spell.Caster?.Unit?.IsPlayerFaction ?? false) && (Strings.ToBool(settings.toggleArcaneSpellFailureRoll)))
                 {
-                    __result = false;
+                    if(!Strings.ToBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly))
+                    {
+                        __result = false;
+                    }
+                    else if(Strings.ToBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly) && !__instance.Initiator.IsInCombat)
+                    {
+                        __result = false;
+                    }
+
                 }
             }
         }
@@ -2407,6 +2415,35 @@ namespace BagOfTricks
                 {
                     Cheats.RestoreAllItemCharges();
                 }
+
+                if(inCombat && Strings.ToBool(settings.toggleArmourChecksPenalty0) && Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                {
+                    foreach (UnitEntityData unitEntityData in Game.Instance.Player.Party)
+                    {
+                        modLogger.Log(unitEntityData.CharacterName);
+
+                        if (unitEntityData.Body.Armor.HasArmor)
+                        {
+                            modLogger.Log(unitEntityData.Body.Armor.Armor.Name);
+
+                            unitEntityData.Body.Armor.Armor.RecalculateStats();
+                        }
+                    }
+                }
+                if (!inCombat && Strings.ToBool(settings.toggleArmourChecksPenalty0) && Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                {
+                    foreach (UnitEntityData unitEntityData in Game.Instance.Player.Party)
+                    {
+                        modLogger.Log(unitEntityData.CharacterName);
+
+                        if (unitEntityData.Body.Armor.HasArmor)
+                        {
+                            modLogger.Log(unitEntityData.Body.Armor.Armor.Name);
+
+                            unitEntityData.Body.Armor.Armor.RecalculateStats();
+                        }
+                    }
+                }
             }
         }
 
@@ -3400,18 +3437,6 @@ namespace BagOfTricks
             }
         }
 
-        [HarmonyPatch(typeof(BlueprintArmorType), "ArmorChecksPenalty", MethodType.Getter)]
-        public static class BlueprintArmorType_ArmorChecksPenalty_Patch
-        {
-            private static void Postfix(ref int __result)
-            {
-                if (Strings.ToBool(settings.toggleArmourChecksPenalty0))
-                {
-                    __result = 0;
-                }
-            }
-        }
-
         [HarmonyPatch(typeof(SoundState), "OnAreaLoadingComplete")]
         public static class SoundState_OnAreaLoadingComplete_Patch
         {
@@ -3830,6 +3855,51 @@ namespace BagOfTricks
                     catch (Exception e)
                     {
                         modLogger.Log(e.ToString());
+                    }
+                }
+            }
+        }
+        
+        [HarmonyPatch(typeof(RuleCalculateArmorCheckPenalty), "OnTrigger")]
+        public static class RuleCalculateArmorCheckPenalty_OnTrigger_Patch
+        {
+            private static bool Prefix(RuleCalculateArmorCheckPenalty __instance)
+            {
+                if (Strings.ToBool(settings.toggleArmourChecksPenalty0))
+                {
+                    if (!Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                    {
+                        Traverse.Create(__instance).Property("Penalty").SetValue(0);
+                        return false;
+                    }
+                    else if(Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly) && !__instance.Armor.Wielder.Unit.IsInCombat)
+                    {
+                        Traverse.Create(__instance).Property("Penalty").SetValue(0);
+                        return false;
+                    }
+
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(UIUtilityItem), "GetArmorData")]
+        public static class UIUtilityItem_GetArmorData_Patch
+        {
+            private static void Postfix(ref UIUtilityItem.ArmorData __result, ref ItemEntityArmor armor)
+            {
+                if (Strings.ToBool(settings.toggleArmourChecksPenalty0))
+                {
+                    if (!Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                    {
+                        UIUtilityItem.ArmorData armorData = __result;
+                        armorData.ArmorCheckPenalty = 0;
+                        __result = armorData;
+                    }
+                    else if (Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly) && !armor.Wielder.Unit.IsInCombat)
+                    {
+                        UIUtilityItem.ArmorData armorData = __result;
+                        armorData.ArmorCheckPenalty = 0;
+                        __result = armorData;
                     }
                 }
             }

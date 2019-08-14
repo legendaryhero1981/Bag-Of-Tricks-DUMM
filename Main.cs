@@ -75,6 +75,9 @@ namespace BagOfTricks
         public static ModEntry.ModLogger ModLogger;
         public static ModEntryCheck ScaleXp;
         public static ModEntryCheck CraftMagicItems;
+        public static ModEntryCheck advancedMartialArts;
+        public static ModEntryCheck callOfTheWild;
+        public static ModEntryCheck eldritchArcana;
         public static bool VersionMismatch = false;
         public static Vector2 ScrollPosition;
 
@@ -123,12 +126,14 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-
                 ModLogger.Log(e.ToString());
             }
 
             ScaleXp = new ModEntryCheck("ScaleXP");
             CraftMagicItems = new ModEntryCheck("CraftMagicItems");
+            advancedMartialArts = new ModEntryCheck("AdvancedMartialArts");
+            callOfTheWild = new ModEntryCheck("CallOfTheWild");
+            eldritchArcana = new ModEntryCheck("EldritchArcana");
 
             Storage.flagsBundle = AssetBundle.LoadFromFile(Storage.modEntryPath + Storage.assetBundlesFolder + "\\" + Storage.assetBunldeFlags);
 
@@ -1311,6 +1316,9 @@ namespace BagOfTricks
             ModLogger.Log("Modified Blueprints Folder: " + Storage.modEntryPath + Storage.modifiedBlueprintsFolder);
             ModLogger.Log("ScaleXP Installed: " + ScaleXp.IsInstalled());
             ModLogger.Log("CraftMagicItems Installed: " + CraftMagicItems.IsInstalled());
+            ModLogger.Log("AdvancedMartialArts Installed: " + advancedMartialArts.IsInstalled());
+            ModLogger.Log("CallOfTheWild Installed: " + callOfTheWild.IsInstalled());
+            ModLogger.Log("EldritchArcana Installed: " + eldritchArcana.IsInstalled());
             ModLogger.Log("Localisation Folder: " + Storage.modEntryPath + Storage.localisationFolder);
 
 
@@ -1726,6 +1734,48 @@ namespace BagOfTricks
                 Settings.cheatsCategories = temp.ToArray();
                 ModLogger.Log("cheatsCategories\n+BeneathTheStolenLands");
             }
+
+            if (Common.CompareVersionStrings(Settings.modVersion, "1.14.2") == -1)
+            {
+                if (Storage.togglesFavourites.Contains("toggleArmourChecksPenalty0,buttonToggle_ArmourChecksPenalty0,tooltip_ArmourChecksPenalty0"))
+                {
+                    ModLogger.Log("toggleArmourChecksPenalty0 - favourites update start");
+                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
+                    Storage.togglesFavourites.RemoveAll(IsToggleArmourChecksPenalty0);
+                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
+                    Storage.togglesFavourites.Add("ArmourChecksPenalty0");
+                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
+                    ModLogger.Log("toggleArmourChecksPenalty0 - favourites update end");
+                }
+                if (Storage.togglesFavourites.Contains("toggleArcaneSpellFailureRoll,buttonToggle_NoArcaneSpellFailure,tooltip_NoArcaneSpellFailure"))
+                {
+                    ModLogger.Log("toggleArcaneSpellFailureRoll - favourites update start");
+                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
+                    Storage.togglesFavourites.RemoveAll(IsToggleArcaneSpellFailureRoll);
+                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
+                    Storage.togglesFavourites.Add("ArcaneSpellFailureRoll");
+                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
+                    ModLogger.Log("toggleArcaneSpellFailureRoll - favourites update end");
+                }
+            }
+        }
+
+        private static bool IsToggleArmourChecksPenalty0(string s)
+        {
+            if (s == "toggleArmourChecksPenalty0,buttonToggle_ArmourChecksPenalty0,tooltip_ArmourChecksPenalty0")
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static bool IsToggleArcaneSpellFailureRoll(string s)
+        {
+            if (s == "toggleArcaneSpellFailureRoll,buttonToggle_NoArcaneSpellFailure,tooltip_NoArcaneSpellFailure")
+            {
+                return true;
+            }
+            return false;
         }
 
         public static void RefreshTogglesFavourites()

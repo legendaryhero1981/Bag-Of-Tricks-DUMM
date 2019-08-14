@@ -112,6 +112,7 @@ namespace BagOfTricks
 
         public bool showDiceRollCategory = false;
         public string toggleArcaneSpellFailureRoll = Storage.isFalseString;
+        public string toggleArcaneSpellFailureRollOutOfCombatOnly = Storage.isFalseString;
         public string toggleRoll20Initiative = Storage.isFalseString;
         public string togglePartyAlwaysRoll20 = Storage.isFalseString;
         public KeyCode togglePartyAlwaysRoll20Key = KeyCode.Insert;
@@ -498,6 +499,8 @@ namespace BagOfTricks
 
         public string toggleCookingAndHuntingInDungeons = Storage.isFalseString;
         public string toggleArmourChecksPenalty0 = Storage.isFalseString;
+        public string toggleArmourChecksPenalty0OutOfCombatOnly = Storage.isFalseString;
+
 
         public int mainToolbarIndex = 1;
 

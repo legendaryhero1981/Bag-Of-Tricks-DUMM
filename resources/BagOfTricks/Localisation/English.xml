@@ -591,6 +591,7 @@
   <Localisation key="buttonToggle_UberLoggerForwardPrefix" value="Add Prefix To UberLogger Logs" />
   <Localisation key="buttonToggle_ExportToModFolder" value="Export To Mod Folder" />
   <Localisation key="buttonToggle_ShowCombatDifficulty" value="Show Combat Difficulty" />
+  <Localisation key="buttonToggle_OutOfCombatOnly" value="Out Of Combat Only" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -919,6 +920,8 @@
   <Localisation key="tooltip_SpellFavourites" value="Spells are added to the Abilities Favourites" />
   <Localisation key="tooltip_ArrowUp" value="Click to move&#xA;the element up&#xA;or shift-click&#xA;to move it to&#xA;the top." />
   <Localisation key="tooltip_ArrowDown" value="Click to move&#xA;the element down&#xA;or shift-click&#xA;to move it to&#xA;the bottom." />
+  <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="Set Armour Check Penalty To 0 will only be active outside of combat encounters." />
+  <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="No Arcane Spell Failure will only be active outside of combat encounters." />
   <Localisation key="misc_items" value="items" />
   <Localisation key="misc_times" value="times" />
   <Localisation key="misc_item" value="item" />

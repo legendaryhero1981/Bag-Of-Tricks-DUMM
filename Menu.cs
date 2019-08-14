@@ -5349,6 +5349,22 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
+        public static void ArmourChecksPenalty0()
+        {
+            GL.BeginVertical("box");
+            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleArmourChecksPenalty0, "buttonToggle_ArmourChecksPenalty0", "tooltip_ArmourChecksPenalty0");
+            GL.FlexibleSpace();
+            MenuTools.AddFavouriteButton(nameof(ArmourChecksPenalty0));
+            GL.EndHorizontal();
+            if (Strings.ToBool(settings.toggleArmourChecksPenalty0))
+            {
+                MenuTools.ToggleButton(ref settings.toggleArmourChecksPenalty0OutOfCombatOnly, "buttonToggle_OutOfCombatOnly", "tooltip_OutOfCombatOnly_ArmourChecksPenalty0");
+            }
+            GL.EndVertical();
+        }
+
+
+
         public static void Buffs()
         {
             GL.BeginVertical("box");
@@ -6290,8 +6306,7 @@ namespace BagOfTricks
                     "buttonToggle_SpellbookAbilityAlignmentChecks", "tooltip_SpellbookAbilityAlignmentChecks",
                     nameof(settings.toggleSpellbookAbilityAlignmentChecks));
 
-                MenuTools.ToggleButton(ref settings.toggleArcaneSpellFailureRoll, "buttonToggle_NoArcaneSpellFailure",
-                    "tooltip_NoArcaneSpellFailure", nameof(settings.toggleArcaneSpellFailureRoll));
+                ArcaneSpellFailureRoll();
 
                 MenuTools.ToggleButton(ref settings.toggleAlwaysSucceedCastingDefensively,
                     "buttonToggle_AlwaysSucceedCastingDefensively", "tooltip_AlwaysSucceedCastingDefensively",
@@ -6464,7 +6479,20 @@ namespace BagOfTricks
                     MenuTools.SingleLineLabel(Strings.GetText("label_CurrentMultiplier") + $": {settings.finalCustomExperienceMultiplier}");
                 }
             }
+            GL.EndVertical();
+        }
 
+        public static void ArcaneSpellFailureRoll()
+        {
+            GL.BeginVertical("box");
+            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleArcaneSpellFailureRoll, "buttonToggle_NoArcaneSpellFailure", "tooltip_NoArcaneSpellFailure");
+            GL.FlexibleSpace();
+            MenuTools.AddFavouriteButton(nameof(ArcaneSpellFailureRoll));
+            GL.EndHorizontal();
+            if (Strings.ToBool(settings.toggleArcaneSpellFailureRoll))
+            {
+                MenuTools.ToggleButton(ref settings.toggleArcaneSpellFailureRollOutOfCombatOnly, "buttonToggle_OutOfCombatOnly", "tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll");
+            }
             GL.EndVertical();
         }
 

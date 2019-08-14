@@ -591,6 +591,7 @@
   <Localisation key="buttonToggle_UberLoggerForwardPrefix" value="向UberLogger日志添加前缀" />
   <Localisation key="buttonToggle_ExportToModFolder" value="导出到Mod目录" />
   <Localisation key="buttonToggle_ShowCombatDifficulty" value="显示战斗难度" />
+  <Localisation key="buttonToggle_OutOfCombatOnly" value="仅在战斗之外" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />
@@ -919,6 +920,8 @@
   <Localisation key="tooltip_SpellFavourites" value="法术被添加到技能收藏夹中" />
   <Localisation key="tooltip_ArrowUp" value="单击以移动&#xA;元素向上&#xA;或按住Shift键并单击&#xA;将其移至&#xA;顶部。" />
   <Localisation key="tooltip_ArrowDown" value="单击以移动&#xA;元素向下&#xA;或按住Shift键并单击&#xA;将其移至&#xA;底部。" />
+  <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="将护甲检定惩罚设置为0将仅在战斗遭遇之外有效。" />
+  <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="无奥术法术失败将只在战斗遭遇之外有效。" />
   <Localisation key="misc_items" value="物品（多个）" />
   <Localisation key="misc_times" value="次数（多个）" />
   <Localisation key="misc_item" value="物品" />

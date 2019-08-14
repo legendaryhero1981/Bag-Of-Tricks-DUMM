@@ -430,8 +430,6 @@ namespace BagOfTricks
                         return ref settings.toggleAllHitsAreCritical;
                     case "toggleCookingAndHuntingInDungeons":
                         return ref settings.toggleCookingAndHuntingInDungeons;
-                    case "toggleArmourChecksPenalty0":
-                        return ref settings.toggleArmourChecksPenalty0;
                     case "toggleInstantPartyChange":
                         return ref settings.toggleInstantPartyChange;
                     case "toggleSmartConsole":
