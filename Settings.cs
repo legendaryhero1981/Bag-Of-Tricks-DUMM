@@ -586,6 +586,7 @@ namespace BagOfTricks
         public string toggleExportToModFolder = Storage.isFalseString;
         public string toggleCombatDifficultyMessage = Storage.isFalseString;
 
+        public string toggleMakeSummmonsControllable = Storage.isFalseString;
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

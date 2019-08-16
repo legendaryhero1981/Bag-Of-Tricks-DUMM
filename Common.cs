@@ -744,6 +744,40 @@ namespace BagOfTricks
                 return "Easy";
             return num < 5 ? "Hard" : "Boss";
         }
+
+        public static void ModLoggerDebug(string message)
+        {
+            if(settings.settingShowDebugInfo)
+            {
+                Main.ModLogger.Log(message);
+            }
+        }
+        public static void ModLoggerDebug(int message)
+        {
+            if (settings.settingShowDebugInfo)
+            {
+                Main.ModLogger.Log(message.ToString());
+            }
+        }
+        public static void RecalculateArmourItemStats(UnitEntityData unitEntityData)
+        {
+            ModLoggerDebug(unitEntityData.CharacterName);
+            if (unitEntityData.Body.Armor.HasArmor)
+            {
+                ModLoggerDebug(unitEntityData.Body.Armor.Armor.Name);
+                unitEntityData.Body.Armor.Armor.RecalculateStats();
+            }
+            if (unitEntityData.Body.PrimaryHand.HasShield)
+            {
+                ModLoggerDebug(unitEntityData.Body.PrimaryHand.Shield.ArmorComponent.Name);
+                unitEntityData.Body.PrimaryHand.Shield.ArmorComponent.RecalculateStats();
+            }
+            if (unitEntityData.Body.SecondaryHand.HasShield)
+            {
+                ModLoggerDebug(unitEntityData.Body.SecondaryHand.Shield.ArmorComponent.Name);
+                unitEntityData.Body.SecondaryHand.Shield.ArmorComponent.RecalculateStats();
+            }
+        }
     }
 
     public static class Logger

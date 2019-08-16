@@ -316,8 +316,6 @@ namespace BagOfTricks
                         return ref settings.toggleInfiniteItems;
                     case "toggleEquipmentRestrictions":
                         return ref settings.toggleEquipmentRestrictions;
-                    case "toggleArcaneSpellFailureRoll":
-                        return ref settings.toggleArcaneSpellFailureRoll;
                     case "toggleUnlimitedCasting":
                         return ref settings.toggleUnlimitedCasting;
                     case "toggleMetamagic":
@@ -464,6 +462,10 @@ namespace BagOfTricks
                         return ref settings.togglePreventAlignmentChanges;
                     case "toggleExportToModFolder":
                         return ref settings.toggleExportToModFolder;
+                    case "toggleMakeSummmonsControllable":
+                        return ref settings.toggleMakeSummmonsControllable;
+                    case "toggleArmourChecksPenalty0":
+                        return ref settings.toggleArmourChecksPenalty0;
                     default:
                         throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
                 }

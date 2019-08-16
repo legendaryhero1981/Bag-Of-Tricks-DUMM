@@ -61,7 +61,6 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_ActionKeyMain_RotateUnit"), Strings.GetText("header_Animations")
         };
 
-        private static string[] currentMainArray = mainArray;
 
         private static readonly string[] experimentalKillArray =
             {Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyKill_ForceKill")};
@@ -295,14 +294,12 @@ namespace BagOfTricks
                         settings.toggleActionKeyExperimental = Storage.isTrueString;
                         settings.actionKeyIndex = 0;
                         settings.actionKeyKillIndex = 0;
-                        currentMainArray = mainExperimentalArray;
                     }
                     else if (settings.toggleActionKeyExperimental == Storage.isTrueString)
                     {
                         settings.toggleActionKeyExperimental = Storage.isFalseString;
                         settings.actionKeyIndex = 0;
                         settings.actionKeyKillIndex = 0;
-                        currentMainArray = mainArray;
                     }
                 }
 
@@ -311,7 +308,14 @@ namespace BagOfTricks
                 MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("warning_ActionKeyExperimentalMode")));
 
                 GL.BeginHorizontal();
-                settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, currentMainArray, 3);
+                if(!Strings.ToBool(settings.toggleActionKeyExperimental))
+                {
+                    settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, mainArray, 3);
+                }
+                else
+                {
+                    settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, mainExperimentalArray, 3);
+                }
                 GL.EndHorizontal();
 
                 GL.Space(10);

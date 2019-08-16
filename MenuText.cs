@@ -300,7 +300,7 @@ namespace BagOfTricks
             //label end 
 
             //message start
-            {"message_NotInGame", "Load into the game!"},
+            { "message_NotInGame", "The mod can't be accessed from the main menu.\nEither load a save file or start a new character!"},
             {"message_ExitCombat", "Exit Combat!"},
             {"message_NoEnemies", "There are no revealed enemies!"},
             {"message_NoKingdom", "No kingdom found!"},
@@ -673,6 +673,7 @@ namespace BagOfTricks
             {"buttonToggle_ExportToModFolder", "Export To Mod Folder"},
             {"buttonToggle_ShowCombatDifficulty", "Show Combat Difficulty"},
             { "buttonToggle_OutOfCombatOnly", "Out Of Combat Only"},
+            { "buttonToggle_MakeSummonsControllable", "Make Summons Controllable"},
             //buttonToggle end
 
             //arrayItem start
@@ -930,7 +931,7 @@ namespace BagOfTricks
             },
             {
                 "tooltip_AbilityPointsAtCCmerc",
-                "﻿Use the input field to set the ability points at character creation for mercenaries."
+                "Use the input field to set the ability points at character creation for mercenaries."
             },
             {
                 "tooltip_FullHitdiceEachLevel",
@@ -1233,7 +1234,7 @@ namespace BagOfTricks
                 "tooltip_NoNegativeLevels",
                 "Prevents party members from gaining negative levels.\nThe game will still display level drain messages in the battle log."
             },
-
+            { "tooltip_MakeSummonsControllable", "Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.\nIf the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible."},
             {
                 "tooltip_FreezeTimedQuestAt90Days",
                 "Freezes the time left on timed quest at 90 days.\nOnce turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.\nThus it is recommended to complete timed quest before turning it off or making sure that there is still time left."
@@ -1334,7 +1335,7 @@ namespace BagOfTricks
             {"tooltip_ArrowUp", "Click to move\nthe element up\nor shift-click\nto move it to\nthe top."},
             {"tooltip_ArrowDown", "Click to move\nthe element down\nor shift-click\nto move it to\nthe bottom."},
 
-            { "tooltip_OutOfCombatOnly_ArmourChecksPenalty0", "Set Armour Check Penalty To 0 will only be active outside of combat encounters."},
+            { "tooltip_OutOfCombatOnly_ArmourChecksPenalty0", "Set Armour Check Penalty To 0 will only be active outside of combat encounters.\nUnequipped items will always display an armour check penalty of 0."},
             { "tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll", "No Arcane Spell Failure will only be active outside of combat encounters."},
             //tooltip end                               
 

@@ -130,7 +130,8 @@ namespace BagOfTricks
                 var locationObject = GlobalMapRules.Instance.GetLocationObject(locationData.Blueprint);
                 if (!locationObject) continue;
                 locationData.ClaimResource();
-                if (settings.settingShowDebugInfo) modLogger.Log(locationData.Name + " claimed.");
+                Common.ModLoggerDebug(locationData.Name + " claimed.");
+                
             }
         }
 

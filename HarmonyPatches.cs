@@ -3833,11 +3833,8 @@ namespace BagOfTricks
         {
             static void Prefix(string filename)
             {
-                if (settings.settingShowDebugInfo)
-                {
-                    modLogger.Log("DungeonDebug.SaveStage filename: " + filename);
-                    modLogger.Log("DungeonDebug.SaveStage Path: " + Path.Combine(Application.persistentDataPath, "DungeonStages"));
-                }
+                Common.ModLoggerDebug("DungeonDebug.SaveStage filename: " + filename);
+                Common.ModLoggerDebug("DungeonDebug.SaveStage Path: " + Path.Combine(Application.persistentDataPath, "DungeonStages"));                
             }
         }
         [HarmonyPatch(typeof(DungeonDebug), "SaveStage")]
@@ -3895,11 +3892,28 @@ namespace BagOfTricks
                         armorData.ArmorCheckPenalty = 0;
                         __result = armorData;
                     }
-                    else if (Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly) && !armor.Wielder.Unit.IsInCombat)
+                    else if (Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
                     {
-                        UIUtilityItem.ArmorData armorData = __result;
-                        armorData.ArmorCheckPenalty = 0;
-                        __result = armorData;
+                        Common.ModLoggerDebug(armor.Name);
+                        if (armor.Wielder != null)
+                        {
+                            Common.ModLoggerDebug(armor.Name + ": " + armor.Wielder.CharacterName);
+                            if (!armor.Wielder.Unit.IsInCombat)
+                            {
+                                Common.ModLoggerDebug(armor.Name + ": " + armor.Wielder.CharacterName + " - " + armor.Wielder.Unit.IsInCombat);
+                                UIUtilityItem.ArmorData armorData = __result;
+                                armorData.ArmorCheckPenalty = 0;
+                                __result = armorData;
+                            }
+                        }
+                        else
+                        {
+                            Common.ModLoggerDebug("!" + armor.Name);
+                            UIUtilityItem.ArmorData armorData = __result;
+                            armorData.ArmorCheckPenalty = 0;
+                            __result = armorData;
+                        }
+
                     }
                 }
             }

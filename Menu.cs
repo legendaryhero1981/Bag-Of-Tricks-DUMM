@@ -4046,8 +4046,7 @@ namespace BagOfTricks
                 MenuTools.ToggleButton(ref settings.toggleDexBonusLimit99, "buttonToggle_DexBonusLimit99",
                     "tooltip_DexBonusLimit99", nameof(settings.toggleDexBonusLimit99));
 
-                MenuTools.ToggleButton(ref settings.toggleArmourChecksPenalty0, "buttonToggle_ArmourChecksPenalty0",
-                    "tooltip_ArmourChecksPenalty0", nameof(settings.toggleArmourChecksPenalty0));
+                ArmourChecksPenalty0();
 
                 MenuTools.ToggleButton(ref settings.toggleInfiniteItems, "buttonToggle_UnlimitedItemCharges",
                     "tooltip_UnlimitedItemCharges", nameof(settings.toggleInfiniteItems));
@@ -5352,7 +5351,26 @@ namespace BagOfTricks
         public static void ArmourChecksPenalty0()
         {
             GL.BeginVertical("box");
-            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleArmourChecksPenalty0, "buttonToggle_ArmourChecksPenalty0", "tooltip_ArmourChecksPenalty0");
+            GL.BeginHorizontal();
+            if (GL.Button(MenuTools.TextWithTooltip("buttonToggle_ArmourChecksPenalty0", "tooltip_ArmourChecksPenalty0", $"{ settings.toggleArmourChecksPenalty0} ", ""), GL.ExpandWidth(false)))
+            {
+                if (settings.toggleArmourChecksPenalty0 == Storage.isFalseString)
+                {
+                    settings.toggleArmourChecksPenalty0 = Storage.isTrueString;
+                    foreach (UnitEntityData unitEntityData in Game.Instance.Player.Party)
+                    {
+                        Common.RecalculateArmourItemStats(unitEntityData);
+                    }
+                }
+                else if (settings.toggleArmourChecksPenalty0 == Storage.isTrueString)
+                {
+                    settings.toggleArmourChecksPenalty0 = Storage.isFalseString;
+                    foreach (UnitEntityData unitEntityData in Game.Instance.Player.Party)
+                    {
+                        Common.RecalculateArmourItemStats(unitEntityData);
+                    }
+                }
+            }
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(ArmourChecksPenalty0));
             GL.EndHorizontal();
@@ -7463,6 +7481,10 @@ namespace BagOfTricks
                 GL.FlexibleSpace();
                 MenuTools.CategoryMenuElements("Misc", ref settings.cheatsCategories);
                 GL.EndHorizontal();
+
+                GL.Space(10);
+
+                MenuTools.ToggleButton(ref settings.toggleMakeSummmonsControllable, "buttonToggle_MakeSummonsControllable", "tooltip_MakeSummonsControllable", nameof(settings.toggleMakeSummmonsControllable));
 
                 GL.Space(10);
 

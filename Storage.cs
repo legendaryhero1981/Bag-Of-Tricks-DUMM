@@ -630,5 +630,7 @@ namespace BagOfTricks
 
         public static string buffDurationMultiplierValue = "1";
         public static float finalBuffDurationMultiplierValue = 1f;
+        public static bool SummonedByPlayerFaction = false;
+
     }
 }

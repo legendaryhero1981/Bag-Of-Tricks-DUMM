@@ -240,7 +240,7 @@
   <Localisation key="label_CrisisPoints" value="处理问题点数" />
   <Localisation key="label_CurrentCrisisPoints" value="当前可用处理问题点数" />
   <Localisation key="label_CombatDifficulty" value="战斗难度" />
-  <Localisation key="message_NotInGame" value="载入游戏！" />
+  <Localisation key="message_NotInGame" value="无法从主菜单访问该mod。&#xA;请先载入游戏或开始新游戏！" />
   <Localisation key="message_ExitCombat" value="退出战斗！" />
   <Localisation key="message_NoEnemies" value="找不到暴露的敌人！" />
   <Localisation key="message_NoKingdom" value="找不到王国！" />
@@ -592,6 +592,7 @@
   <Localisation key="buttonToggle_ExportToModFolder" value="导出到Mod目录" />
   <Localisation key="buttonToggle_ShowCombatDifficulty" value="显示战斗难度" />
   <Localisation key="buttonToggle_OutOfCombatOnly" value="仅在战斗之外" />
+  <Localisation key="buttonToggle_MakeSummonsControllable" value="使召唤生物可控" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />
@@ -875,7 +876,8 @@
   <Localisation key="tooltip_ScaleInventoryMoney" value="动态缩放货币显示的大小，以适合更大的数额。" />
   <Localisation key="tooltip_SortSpellbooksAlphabetically" value="按字母顺序对法术书屏幕上的法术书进行排序。" />
   <Localisation key="tooltip_SortSpellsAlphabetically" value="按字母顺序对法术书屏幕上的法术进行排序。" />
-  <Localisation key="tooltip_NoNegativeLevels" value="防止团队成员获得消极的水平。" />
+  <Localisation key="tooltip_NoNegativeLevels" value="防止团队成员获得负等级。&#xA;游戏仍然会在战斗日志中显示负等级信息。" />
+  <Localisation key="tooltip_MakeSummonsControllable" value="允许将召唤生物在队伍成员中显示。仅适用于激活此选项后调用的对象。&#xA;如果召唤生物的持续时间已用完，而你正在队伍成员栏中移动召唤生物图标，绿色预览标记将保持可见。" />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="冻结90天的定时任务剩余时间。&#xA;一旦关闭，定时任务将返回正常状态，即当选项处于活动状态时，它们会像时间进展一样作出反应。&#xA;因此建议使用 关闭之前完成定时任务或确保还有剩余时间。" />
   <Localisation key="tooltip_ActionKey" value="﻿﻿可以通过热键设置动作键来执行一系列动作。" />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="被选中的群体不会成为机会攻击的目标。" />
@@ -920,7 +922,7 @@
   <Localisation key="tooltip_SpellFavourites" value="法术被添加到技能收藏夹中" />
   <Localisation key="tooltip_ArrowUp" value="单击以移动&#xA;元素向上&#xA;或按住Shift键并单击&#xA;将其移至&#xA;顶部。" />
   <Localisation key="tooltip_ArrowDown" value="单击以移动&#xA;元素向下&#xA;或按住Shift键并单击&#xA;将其移至&#xA;底部。" />
-  <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="将护甲检定惩罚设置为0将仅在战斗遭遇之外有效。" />
+  <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="将护甲检定惩罚设置为0将仅在战斗遭遇之外有效。&#xA;未装备的物品将始终显示护甲检查惩罚0。" />
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="无奥术法术失败将只在战斗遭遇之外有效。" />
   <Localisation key="misc_items" value="物品（多个）" />
   <Localisation key="misc_times" value="次数（多个）" />

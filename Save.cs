@@ -9,9 +9,9 @@ namespace BagOfTricks
     [Serializable]
     public class SaveData
     {
+        public string  saveVersion = "1.0.0";
         public string fileName;
         public int lockPicks;
-        public string saveVersion = "1.0.0";
     }
 
     public static class SaveTools
@@ -56,19 +56,21 @@ namespace BagOfTricks
                 Main.SaveData.fileName = name;
                 Main.SaveData.lockPicks = Storage.lockPicks;
 
-                if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"PrepareSave {name}");
+                Common.ModLoggerDebug($"PrepareSave {name}");
 
                 if (File.Exists(filePath))
                 {
                     Serialize(Main.SaveData, filePath);
-                    if (Main.Settings.settingShowDebugInfo)
-                        Main.ModLogger.Log($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} overwritten.");
+
+                    Common.ModLoggerDebug($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} overwritten.");
+                    
                 }
                 else
                 {
                     Serialize(Main.SaveData, filePath);
-                    if (Main.Settings.settingShowDebugInfo)
-                        Main.ModLogger.Log($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} created.");
+
+                    Common.ModLoggerDebug($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} created.");
+                    
                 }
             }
             catch (Exception e)
@@ -84,14 +86,13 @@ namespace BagOfTricks
                 var name = Strings.RemoveExt(saveInfo.FileName);
                 var filePath = Storage.modEntryPath + Storage.savesFolder + "\\" + name + ".xml";
 
-                if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"LoadGame {name}");
+                Common.ModLoggerDebug($"LoadGame {name}");
 
                 if (File.Exists(filePath))
                 {
                     Main.SaveData = Deserialize(filePath);
                     Storage.lockPicks = Main.SaveData.lockPicks;
-
-                    if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"{filePath} loaded.");
+                    Common.ModLoggerDebug($"{filePath} loaded.");
                 }
                 else
                 {
@@ -112,11 +113,12 @@ namespace BagOfTricks
                 var name = Strings.RemoveExt(saveInfo.FileName);
                 var filePath = Storage.modEntryPath + Storage.savesFolder + "\\" + name + ".xml";
 
-                if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"DeleteSave {name}");
+                Common.ModLoggerDebug($"DeleteSave {name}");
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
-                    if (Main.Settings.settingShowDebugInfo) Main.ModLogger.Log($"{name} deleted.");
+
+                    Common.ModLoggerDebug($"{name} deleted.");                    
                 }
             }
             catch (Exception e)

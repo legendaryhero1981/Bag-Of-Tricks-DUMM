@@ -905,16 +905,13 @@ namespace BagOfTricks
             {
                 Traverse.Create(blueprint).Field(modifiedValue)
                     .SetValue(Traverse.Create(modifiedItem).Property(modifiedValue).GetValue());
-                if (settings.settingShowDebugInfo)
-                    modLogger.Log(
-                        $"{blueprint} {modifiedValue} set to {Traverse.Create(modifiedItem).Property(modifiedValue).GetValue()}.");
+                Common.ModLoggerDebug($"{blueprint} {modifiedValue} set to {Traverse.Create(modifiedItem).Property(modifiedValue).GetValue()}.");                
             }
         }
 
         public static void PatchItem<T>(FileInfo file, BlueprintScriptableObject blueprintScriptableObject, string guid)
         {
-            if (settings.settingShowDebugInfo)
-                modLogger.Log($"{guid} -> {blueprintScriptableObject} ({blueprintScriptableObject.GetType()})");
+            Common.ModLoggerDebug($"{guid} -> {blueprintScriptableObject} ({blueprintScriptableObject.GetType()})");
             var jsonItem = DeserialiseItem<T>(file);
             var blueprint = Convert.ChangeType(blueprintScriptableObject, blueprintScriptableObject.GetType());
             foreach (var property in jsonItem.GetType().GetProperties())
@@ -924,7 +921,9 @@ namespace BagOfTricks
                     var dice = (ModifiedDiceFormula) property.GetValue(jsonItem);
                     var diceFormula = new DiceFormula((int) dice.m_Rolls, (DiceType) dice.m_Dice);
                     Traverse.Create(blueprint).Field("m_BaseDamage").SetValue(diceFormula);
-                    if (settings.settingShowDebugInfo) modLogger.Log($"{blueprint} m_BaseDamage set to {diceFormula}.");
+
+                    Common.ModLoggerDebug($"{blueprint} m_BaseDamage set to {diceFormula}.");
+                    
                 }
                 else if (property.Name == "m_DamageDice" &&
                          Traverse.Create(jsonItem).Property("m_DamageDice").GetValue() != null)
@@ -932,7 +931,9 @@ namespace BagOfTricks
                     var dice = (ModifiedDiceFormula) property.GetValue(jsonItem);
                     var diceFormula = new DiceFormula((int) dice.m_Rolls, (DiceType) dice.m_Dice);
                     Traverse.Create(blueprint).Field("m_DamageDice").SetValue(diceFormula);
-                    if (settings.settingShowDebugInfo) modLogger.Log($"{blueprint} m_DamageDice set to {diceFormula}.");
+
+                    Common.ModLoggerDebug($"{blueprint} m_DamageDice set to {diceFormula}.");
+                    
                 }
                 else if (property.Name == "m_Enchantments" &&
                          Traverse.Create(jsonItem).Property("m_Enchantments").GetValue() != null)
@@ -950,8 +951,8 @@ namespace BagOfTricks
                         }
 
                         Traverse.Create(blueprint).Field("m_Enchantments").SetValue(enchantmentsBlueprints);
-                        if (settings.settingShowDebugInfo)
-                            modLogger.Log($"{blueprint} m_Enchantments set to {enchantmentsBlueprints}.");
+
+                        Common.ModLoggerDebug($"{blueprint} m_Enchantments set to {enchantmentsBlueprints}.");
                     }
                     else if (typeof(T) == typeof(ModifiedWeapon))
                     {
@@ -966,8 +967,8 @@ namespace BagOfTricks
                         }
 
                         Traverse.Create(blueprint).Field("m_Enchantments").SetValue(enchantmentsBlueprints);
-                        if (settings.settingShowDebugInfo)
-                            modLogger.Log($"{blueprint} m_Enchantments set to {enchantmentsBlueprints}.");
+
+                        Common.ModLoggerDebug($"{blueprint} m_Enchantments set to {enchantmentsBlueprints}.");
                     }
                 }
                 else
@@ -987,13 +988,15 @@ namespace BagOfTricks
                     foreach (var file in directory.GetFiles("*.json"))
                     {
                         var example = false;
-                        if (settings.settingShowDebugInfo) modLogger.Log($"{file.Name}");
+                        Common.ModLoggerDebug($"{file.Name}");
                         var json = File.ReadAllText(file.FullName);
                         var guid = Path.GetFileNameWithoutExtension(file.Name);
 
                         if (guid.Contains("Example"))
                         {
-                            if (settings.settingShowDebugInfo) modLogger.Log($"Ignoring {file.Name}");
+
+                            Common.ModLoggerDebug($"Ignoring {file.Name}");
+                            
                             example = true;
                         }
 

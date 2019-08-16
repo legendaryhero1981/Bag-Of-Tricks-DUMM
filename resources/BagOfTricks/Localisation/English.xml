@@ -240,7 +240,7 @@
   <Localisation key="label_CrisisPoints" value="Crisis Points" />
   <Localisation key="label_CurrentCrisisPoints" value="Current Crisis Points" />
   <Localisation key="label_CombatDifficulty" value="combat difficulty" />
-  <Localisation key="message_NotInGame" value="Load into the game!" />
+  <Localisation key="message_NotInGame" value="The mod can't be accessed from the main menu.&#xA;Either load a save file or start a new character!" />
   <Localisation key="message_ExitCombat" value="Exit Combat!" />
   <Localisation key="message_NoEnemies" value="There are no revealed enemies!" />
   <Localisation key="message_NoKingdom" value="No kingdom found!" />
@@ -592,6 +592,7 @@
   <Localisation key="buttonToggle_ExportToModFolder" value="Export To Mod Folder" />
   <Localisation key="buttonToggle_ShowCombatDifficulty" value="Show Combat Difficulty" />
   <Localisation key="buttonToggle_OutOfCombatOnly" value="Out Of Combat Only" />
+  <Localisation key="buttonToggle_MakeSummonsControllable" value="Make Summons Controllable" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -876,6 +877,7 @@
   <Localisation key="tooltip_SortSpellbooksAlphabetically" value="Sorts the spellbooks on the Spellbooks Screen alphabetically." />
   <Localisation key="tooltip_SortSpellsAlphabetically" value="Sorts the spells on the Spellbooks Screen alphabetically." />
   <Localisation key="tooltip_NoNegativeLevels" value="Prevents party members from gaining negative levels.&#xA;The game will still display level drain messages in the battle log." />
+  <Localisation key="tooltip_MakeSummonsControllable" value="Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.&#xA;If the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible." />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="Freezes the time left on timed quest at 90 days.&#xA;Once turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.&#xA;Thus it is recommended to complete timed quest before turning it off or making sure that there is still time left." />
   <Localisation key="tooltip_ActionKey" value="﻿﻿The action key can be set to perform a range of actions via hotkey." />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="The selected group won't be the target of attacks of opportunity." />
@@ -920,7 +922,7 @@
   <Localisation key="tooltip_SpellFavourites" value="Spells are added to the Abilities Favourites" />
   <Localisation key="tooltip_ArrowUp" value="Click to move&#xA;the element up&#xA;or shift-click&#xA;to move it to&#xA;the top." />
   <Localisation key="tooltip_ArrowDown" value="Click to move&#xA;the element down&#xA;or shift-click&#xA;to move it to&#xA;the bottom." />
-  <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="Set Armour Check Penalty To 0 will only be active outside of combat encounters." />
+  <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="Set Armour Check Penalty To 0 will only be active outside of combat encounters.&#xA;Unequipped items will always display an armour check penalty of 0." />
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="No Arcane Spell Failure will only be active outside of combat encounters." />
   <Localisation key="misc_items" value="items" />
   <Localisation key="misc_times" value="times" />
