@@ -1,10 +1,10 @@
 {
-	"Releases":
-	[
+    "Releases":
+    [
         {
             "Id": "BagOfTricks",
             "Version": "1.14.3.11",
             "DownloadUrl": "https://github.com/legendaryhero1981/Bag-Of-Tricks-DUMM/releases/download/v1.14.3.11/BagOfTricks.zip"
         }
-	]
+    ]
 }

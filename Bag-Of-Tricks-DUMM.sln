@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.28922.388
+VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bag-Of-Tricks-DUMM", "Bag-Of-Tricks-DUMM.csproj", "{1F83BD73-4CF3-4EF0-BE0E-AE78C3683033}"
 EndProject
