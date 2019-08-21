@@ -246,49 +246,28 @@ namespace BagOfTricks
 
         public static void Tooltips()
         {
-            /*
-            if (GUI.tooltip.Length >= 30)
+            var tooltipString = new GUIContent(GUI.tooltip);
+            var styleRect = GUI.skin.box;
+            var tooltipSize = styleRect.CalcSize(tooltipString);
+            var styleTooltip = new GUIStyle();
+            var background = new Texture2D(1, 1);
+            var textHeight = styleRect.CalcHeight(tooltipString, tooltipSize.x);
+            if (!string.IsNullOrEmpty(GUI.tooltip))
             {
-                string[] words = GUI.tooltip.Split(null);
-                int length = 0;
-                string newTooltip = "";
-                for (int i = 0; i < words.Length; i++)
-                {
-                    length += words[i].Length;
-                    if (length > 29)
-                    {
-                        newTooltip += "\n";
-                        length = 0;
-                    }
-                    newTooltip += words[i] + " ";
-
-                }
-                GUI.tooltip = newTooltip;
-            }*/
-            GUIContent tooltipString = new GUIContent(GUI.tooltip);
-            GUIStyle styleRect = GUI.skin.box;
-            Vector2 tooltipSize = styleRect.CalcSize(tooltipString);
-            GUIStyle styleTooltip = new GUIStyle();
-            Texture2D background = new Texture2D(1, 1);
-            float textHeight = styleRect.CalcHeight(tooltipString, tooltipSize.x);
-            if (GUI.tooltip != "" && GUI.tooltip != null)
-            {
-                background.SetPixels32(new Color32[] { new Color32(0, 0, 0, 220) });
-                GUIStyleState stylestate = new GUIStyleState();
-                stylestate.background = background;
-                styleTooltip.normal = stylestate;
+                background.SetPixels32(new[] { new Color32(0, 0, 0, 220) });
+                var state = new GUIStyleState { background = background };
+                styleTooltip.normal = state;
             }
             else
             {
-                background.SetPixels32(new Color32[] { new Color32(0, 0, 0, 0) });
+                background.SetPixels32(new[] { new Color32(0, 0, 0, 0) });
             }
-            float rectX = Input.mousePosition.x - Storage.ummRect.min.x + Storage.ummScrollPosition[Storage.ummTabId].x - 8;
+            var rectX = Input.mousePosition.x - Storage.ummRect.min.x + Storage.ummScrollPosition[Storage.ummTabId].x - 8;
             if (rectX > 470)
             {
                 rectX = rectX - tooltipSize.x + 8;
             }
-            float rectY = Screen.height - Storage.ummRect.min.y + Storage.ummScrollPosition[Storage.ummTabId].y - Input.mousePosition.y - 65 - textHeight;
-
+            var rectY = Screen.height - Storage.ummRect.min.y + Storage.ummScrollPosition[Storage.ummTabId].y - Input.mousePosition.y - 65 - textHeight;
             GUI.Label(new Rect(rectX, rectY, tooltipSize.x, tooltipSize.y), GUI.tooltip, styleTooltip);
         }
 
@@ -595,8 +574,8 @@ namespace BagOfTricks
             GL.BeginHorizontal();
             GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
             setValue = GL.TextField(setValue, 6, GL.Width(50f));
-            setValue = MenuTools.FloatTestSettingStage1(setValue);
-            finalSetValue = MenuTools.FloatTestSettingStage2(setValue, finalSetValue);
+            setValue = FloatTestSettingStage1(setValue);
+            finalSetValue = FloatTestSettingStage2(setValue, finalSetValue);
             GL.EndHorizontal();
         }
 
@@ -689,11 +668,11 @@ namespace BagOfTricks
             GL.BeginVertical("box");
             GL.BeginHorizontal();
             GL.Label($"{stat}: {charStats.GetStat(statType).BaseValue} ({charStats.GetStat(statType).ModifiedValue})");
-            if (GL.Button("<b>+</b>"))
+            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
             {
                 charStats.GetStat(statType).BaseValue++;
             }
-            if (GL.Button("<b>-</b>"))
+            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
             {
                 charStats.GetStat(statType).BaseValue--;
             }
@@ -746,13 +725,13 @@ namespace BagOfTricks
         public static void UnitAlignment(UnitEntityData unit)
         {
             GL.BeginVertical("box");
-            MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("header_Alignment")));
-            MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("warning_Alignment")));
+            SingleLineLabel(RichText.Bold(Strings.GetText("header_Alignment")));
+            SingleLineLabel(RichText.Bold(Strings.GetText("warning_Alignment")));
 
             if (Strings.ToBool(settings.togglePreventAlignmentChanges))
             {
                 GL.Space(10);
-                MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("warning_PreventAlignmentChanges")));
+                SingleLineLabel(RichText.Bold(Strings.GetText("warning_PreventAlignmentChanges")));
                 GL.Space(10);
             }
 
@@ -764,14 +743,14 @@ namespace BagOfTricks
             GL.BeginHorizontal();
             if (Storage.statsSelectedAlignmentIndex < 9)
             {
-                if (GL.Button(MenuTools.TextWithTooltip("button_SetAlignment", "tooltip_SetAlignment", "", $" {Storage.alignmentsArrayStats[Storage.statsSelectedAlignmentIndex]}"), GL.ExpandWidth(false)))
+                if (GL.Button(TextWithTooltip("button_SetAlignment", "tooltip_SetAlignment", "", $" {Storage.alignmentsArrayStats[Storage.statsSelectedAlignmentIndex]}"), GL.ExpandWidth(false)))
                 {
                     unit.Descriptor.Alignment.Set((Alignment)Common.IndexToAligment(Storage.statsSelectedAlignmentIndex));
                 }
             }
             else
             {
-                if (GL.Button(MenuTools.TextWithTooltip("button_AlignmentCantBeSetTo", "tooltip_SetAlignment", "", $"<b> {Storage.alignmentsArrayStats[Storage.statsSelectedAlignmentIndex]} {Strings.GetText("button_AlignmentUseShiftInstead")}</b>", true), GL.ExpandWidth(false)))
+                if (GL.Button(TextWithTooltip("button_AlignmentCantBeSetTo", "tooltip_SetAlignment", "", $"<b> {Storage.alignmentsArrayStats[Storage.statsSelectedAlignmentIndex]} {Strings.GetText("button_AlignmentUseShiftInstead")}</b>", true), GL.ExpandWidth(false)))
                 {
                 }
             }
@@ -781,13 +760,13 @@ namespace BagOfTricks
             GL.Space(10);
             unitAlignmentTextField.Render();
             GL.BeginHorizontal();
-            if (GL.Button(MenuTools.TextWithTooltip("button_ShiftAlignmentTowards", "tooltip_ShiftAlignmentTowards", "", $" {Storage.alignmentsArrayStats[Storage.statsSelectedAlignmentIndex]} {Strings.GetText("misc_By")} {unitAlignmentTextField.finalAmount}"), GL.ExpandWidth(false)))
+            if (GL.Button(TextWithTooltip("button_ShiftAlignmentTowards", "tooltip_ShiftAlignmentTowards", "", $" {Storage.alignmentsArrayStats[Storage.statsSelectedAlignmentIndex]} {Strings.GetText("misc_By")} {unitAlignmentTextField.finalAmount}"), GL.ExpandWidth(false)))
             {
                 unit.Descriptor.Alignment.Shift((AlignmentShiftDirection)Storage.statsSelectedAlignmentIndex, unitAlignmentTextField.finalAmount, (IAlignmentShiftProvider)null);
             }
             GL.EndHorizontal();
             GL.Space(10);
-            MenuTools.SingleLineLabel(Strings.GetText("label_CurrentAlignment") + ": " + Common.AlignmentToString(unit.Descriptor.Alignment.Value));
+            SingleLineLabel(Strings.GetText("label_CurrentAlignment") + ": " + Common.AlignmentToString(unit.Descriptor.Alignment.Value));
             GL.EndVertical();
         }
 
@@ -965,48 +944,48 @@ namespace BagOfTricks
         }
         public static void RefreshStrings()
         {
-            Storage.fadeToBlackState = Strings.GetText("misc_Enable");
-            Storage.notificationEkunQ2rewardArmor = Strings.GetText("error_EkunQ2");
-            Storage.individualSkillsArray = new string[] { Strings.GetText("charStat_Athletics"), Strings.GetText("charStat_KnowledgeArcana"), Strings.GetText("charStat_KnowledgeWorld"), Strings.GetText("charStat_LoreNature"), Strings.GetText("charStat_LoreReligion"), Strings.GetText("charStat_Mobility"), Strings.GetText("charStat_Perception"), Strings.GetText("charStat_Persuasion"), Strings.GetText("charStat_Stealth"), Strings.GetText("charStat_Thievery"), Strings.GetText("charStat_UseMagicDevice"), Strings.GetText("charStat_Bluff"), Strings.GetText("charStat_Diplomacy"), Strings.GetText("charStat_Intimidate") };
-            Storage.individualSavesArray = new string[] { Strings.GetText("charStat_Fortitude"), Strings.GetText("charStat_Reflex"), Strings.GetText("charStat_Will") };
+            Storage.fadeToBlackState = GetText("misc_Enable");
+            Storage.notificationEkunQ2rewardArmor = GetText("error_EkunQ2");
+            Storage.individualSkillsArray = new[] { GetText("charStat_Athletics"), GetText("charStat_KnowledgeArcana"), GetText("charStat_KnowledgeWorld"), GetText("charStat_LoreNature"), GetText("charStat_LoreReligion"), GetText("charStat_Mobility"), GetText("charStat_Perception"), GetText("charStat_Persuasion"), GetText("charStat_Stealth"), GetText("charStat_Thievery"), GetText("charStat_UseMagicDevice"), GetText("charStat_Bluff"), GetText("charStat_Diplomacy"), GetText("charStat_Intimidate") };
+            Storage.individualSavesArray = new[] { GetText("charStat_Fortitude"), GetText("charStat_Reflex"), GetText("charStat_Will") };
             Storage.statsAttributesDict = new Dictionary<string, StatType>
             {
-                { Strings.GetText("charStat_Strength"), StatType.Strength},
-                { Strings.GetText("charStat_Dexterity"), StatType.Dexterity},
-                { Strings.GetText("charStat_Constitution"), StatType.Constitution},
-                { Strings.GetText("charStat_Intelligence"), StatType.Intelligence},
-                { Strings.GetText("charStat_Wisdom"), StatType.Wisdom},
-                { Strings.GetText("charStat_Charisma"), StatType.Charisma}
+                { GetText("charStat_Strength"), StatType.Strength},
+                { GetText("charStat_Dexterity"), StatType.Dexterity},
+                { GetText("charStat_Constitution"), StatType.Constitution},
+                { GetText("charStat_Intelligence"), StatType.Intelligence},
+                { GetText("charStat_Wisdom"), StatType.Wisdom},
+                { GetText("charStat_Charisma"), StatType.Charisma}
             };
             Storage.statsCombatDict = new Dictionary<string, StatType>
             {
-                { Strings.GetText("charStat_Initiative"), StatType.Initiative},
-                { Strings.GetText("charStat_BaseAttackBonus"), StatType.BaseAttackBonus},
-                { Strings.GetText("charStat_AdditionalAttackBonus"), StatType.AdditionalAttackBonus},
-                { Strings.GetText("charStat_NumberOfAttacksOfOpportunity"), StatType.AttackOfOpportunityCount},
-                { Strings.GetText("charStat_SneakAttack"), StatType.SneakAttack},
-                { Strings.GetText("charStat_AdditionalDamage"), StatType.AdditionalDamage},
-                { Strings.GetText("charStat_AdditionalCombatManeuverBonus"), StatType.AdditionalCMB},
-                { Strings.GetText("charStat_AdditionalCombatManeuverDefense"), StatType.AdditionalCMD},
-                { Strings.GetText("charStat_ArmourClass"), StatType.AC},
-                { Strings.GetText("charStat_Reach"), StatType.Reach},
-                { Strings.GetText("charStat_HitPoints"), StatType.HitPoints},
-                { Strings.GetText("charStat_Speed"), StatType.Speed}
+                { GetText("charStat_Initiative"), StatType.Initiative},
+                { GetText("charStat_BaseAttackBonus"), StatType.BaseAttackBonus},
+                { GetText("charStat_AdditionalAttackBonus"), StatType.AdditionalAttackBonus},
+                { GetText("charStat_NumberOfAttacksOfOpportunity"), StatType.AttackOfOpportunityCount},
+                { GetText("charStat_SneakAttack"), StatType.SneakAttack},
+                { GetText("charStat_AdditionalDamage"), StatType.AdditionalDamage},
+                { GetText("charStat_AdditionalCombatManeuverBonus"), StatType.AdditionalCMB},
+                { GetText("charStat_AdditionalCombatManeuverDefense"), StatType.AdditionalCMD},
+                { GetText("charStat_ArmourClass"), StatType.AC},
+                { GetText("charStat_Reach"), StatType.Reach},
+                { GetText("charStat_HitPoints"), StatType.HitPoints},
+                { GetText("charStat_Speed"), StatType.Speed}
             };
-            Storage.globalString = Strings.GetText("button_SetGlobalMapZoomLevel");
-            Storage.alignmentsArrayKingdom = new string[] { Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"), Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"), Strings.GetText("arrayItem_Alignments_TrueNeutral"), Strings.GetText("arrayItem_Alignments_ChaoticNeutral"), Strings.GetText("arrayItem_Alignments_LawfulEvil"), Strings.GetText("arrayItem_Alignments_NeutralEvil"), Strings.GetText("arrayItem_Alignments_ChaoticEvil"), Strings.GetText("arrayItem_Alignments_NoChange") };
-            Storage.alignmentsArrayStats = new string[] { Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"), Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"), Strings.GetText("arrayItem_Alignments_TrueNeutral"), Strings.GetText("arrayItem_Alignments_ChaoticNeutral"), Strings.GetText("arrayItem_Alignments_LawfulEvil"), Strings.GetText("arrayItem_Alignments_NeutralEvil"), Strings.GetText("arrayItem_Alignments_ChaoticEvil"), Strings.GetText("arrayItem_Alignments_Good"), Strings.GetText("arrayItem_Alignments_Evil"), Strings.GetText("arrayItem_Alignments_Lawful"), Strings.GetText("arrayItem_Alignments_Chaotic") };
-            Storage.alignmentsArrayKingdomStats = new string[] { Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"), Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"), Strings.GetText("arrayItem_Alignments_TrueNeutral"), Strings.GetText("arrayItem_Alignments_ChaoticNeutral"), Strings.GetText("arrayItem_Alignments_LawfulEvil"), Strings.GetText("arrayItem_Alignments_NeutralEvil"), Strings.GetText("arrayItem_Alignments_ChaoticEvil") };
-            Storage.takeXArray = new string[] { Strings.GetText("arrayItem_takeX_Off"), Strings.GetText("arrayItem_takeX_Take10"), Strings.GetText("arrayItem_takeX_Take20"), Strings.GetText("arrayItem_takeX_TakeCustomValue") };
-            Storage.charSizeArray = new string[] { Strings.GetText("arrayItem_Size_Fine"), Strings.GetText("arrayItem_Size_Diminutive"), Strings.GetText("arrayItem_Size_Tiny"), Strings.GetText("arrayItem_Size_Small"), Strings.GetText("arrayItem_Size_Medium"), Strings.GetText("arrayItem_Size_Large"), Strings.GetText("arrayItem_Size_Huge"), Strings.GetText("arrayItem_Size_Gargantuan"), Strings.GetText("arrayItem_Size_Colossal") };
-            Storage.featsParamArray = new string[] { Strings.GetText("misc_None"), Strings.GetText("arrayItem_FeatParam_FencingGrace"), Strings.GetText("arrayItem_FeatParam_ImprovedCritical"), Strings.GetText("arrayItem_FeatParam_SlashingGrace"), Strings.GetText("arrayItem_FeatParam_SwordSaintChosenWeapon"), Strings.GetText("arrayItem_FeatParam_WeaponFocus"), Strings.GetText("arrayItem_FeatParam_WeaponFocusGreater"), Strings.GetText("arrayItem_FeatParam_WeaponMastery"), Strings.GetText("arrayItem_FeatParam_WeaponSpecialization"), Strings.GetText("arrayItem_FeatParam_WeaponSpecializationGreater"), Strings.GetText("arrayItem_FeatParam_SpellFocus"), Strings.GetText("arrayItem_FeatParam_GreaterSpellFocus") };
-            Storage.neverRollXArray = new string[] { Strings.GetText("arrayItem_NeverRollX_Everyone"), Strings.GetText("arrayItem_NeverRollX_OnlyParty"), Strings.GetText("arrayItem_NeverRollX_OnlyEnemies") };
-            Storage.unitEntityDataSelectionGridArray = new string[] { Strings.GetText("arrayItem_NeverRollX_Everyone"), Strings.GetText("arrayItem_NeverRollX_OnlyParty"), Strings.GetText("arrayItem_NeverRollX_OnlyMainChar"), Strings.GetText("arrayItem_NeverRollX_OnlyEnemies") };
-            Storage.unitEntityDataArray = new string[] { Strings.GetText("arrayItem_UnityEntityData_Party"), Strings.GetText("arrayItem_UnityEntityData_ControllableCharacters"), Strings.GetText("arrayItem_UnityEntityData_ActiveCompanions"), Strings.GetText("arrayItem_UnityEntityData_AllCharacters"), Strings.GetText("arrayItem_UnityEntityData_Mercenaries"), Strings.GetText("arrayItem_UnityEntityData_Pets"), Strings.GetText("arrayItem_UnityEntityData_Enemies") };
+            Storage.globalString = GetText("button_SetGlobalMapZoomLevel");
+            Storage.alignmentsArrayKingdom = new[] { GetText("arrayItem_Alignments_LawfulGood"), GetText("arrayItem_Alignments_NeutralGood"), GetText("arrayItem_Alignments_ChaoticGood"), GetText("arrayItem_Alignments_LawfulNeutral"), GetText("arrayItem_Alignments_TrueNeutral"), GetText("arrayItem_Alignments_ChaoticNeutral"), GetText("arrayItem_Alignments_LawfulEvil"), GetText("arrayItem_Alignments_NeutralEvil"), GetText("arrayItem_Alignments_ChaoticEvil"), GetText("arrayItem_Alignments_NoChange") };
+            Storage.alignmentsArrayStats = new[] { GetText("arrayItem_Alignments_LawfulGood"), GetText("arrayItem_Alignments_NeutralGood"), GetText("arrayItem_Alignments_ChaoticGood"), GetText("arrayItem_Alignments_LawfulNeutral"), GetText("arrayItem_Alignments_TrueNeutral"), GetText("arrayItem_Alignments_ChaoticNeutral"), GetText("arrayItem_Alignments_LawfulEvil"), GetText("arrayItem_Alignments_NeutralEvil"), GetText("arrayItem_Alignments_ChaoticEvil"), GetText("arrayItem_Alignments_Good"), GetText("arrayItem_Alignments_Evil"), GetText("arrayItem_Alignments_Lawful"), GetText("arrayItem_Alignments_Chaotic") };
+            Storage.alignmentsArrayKingdomStats = new[] { GetText("arrayItem_Alignments_LawfulGood"), GetText("arrayItem_Alignments_NeutralGood"), GetText("arrayItem_Alignments_ChaoticGood"), GetText("arrayItem_Alignments_LawfulNeutral"), GetText("arrayItem_Alignments_TrueNeutral"), GetText("arrayItem_Alignments_ChaoticNeutral"), GetText("arrayItem_Alignments_LawfulEvil"), GetText("arrayItem_Alignments_NeutralEvil"), GetText("arrayItem_Alignments_ChaoticEvil") };
+            Storage.takeXArray = new[] { GetText("arrayItem_takeX_Off"), GetText("arrayItem_takeX_Take10"), GetText("arrayItem_takeX_Take20"), GetText("arrayItem_takeX_TakeCustomValue") };
+            Storage.charSizeArray = new[] { GetText("arrayItem_Size_Fine"), GetText("arrayItem_Size_Diminutive"), GetText("arrayItem_Size_Tiny"), GetText("arrayItem_Size_Small"), GetText("arrayItem_Size_Medium"), GetText("arrayItem_Size_Large"), GetText("arrayItem_Size_Huge"), GetText("arrayItem_Size_Gargantuan"), GetText("arrayItem_Size_Colossal") };
+            Storage.featsParamArray = new[] { GetText("misc_None"), GetText("arrayItem_FeatParam_FencingGrace"), GetText("arrayItem_FeatParam_ImprovedCritical"), GetText("arrayItem_FeatParam_SlashingGrace"), GetText("arrayItem_FeatParam_SwordSaintChosenWeapon"), GetText("arrayItem_FeatParam_WeaponFocus"), GetText("arrayItem_FeatParam_WeaponFocusGreater"), GetText("arrayItem_FeatParam_WeaponMastery"), GetText("arrayItem_FeatParam_WeaponSpecialization"), GetText("arrayItem_FeatParam_WeaponSpecializationGreater"), GetText("arrayItem_FeatParam_SpellFocus"), GetText("arrayItem_FeatParam_GreaterSpellFocus") };
+            Storage.neverRollXArray = new[] { GetText("arrayItem_NeverRollX_Everyone"), GetText("arrayItem_NeverRollX_OnlyParty"), GetText("arrayItem_NeverRollX_OnlyEnemies") };
+            Storage.unitEntityDataSelectionGridArray = new[] { GetText("arrayItem_NeverRollX_Everyone"), GetText("arrayItem_NeverRollX_OnlyParty"), GetText("arrayItem_NeverRollX_OnlyMainChar"), GetText("arrayItem_NeverRollX_OnlyEnemies") };
+            Storage.unitEntityDataArray = new[] { GetText("arrayItem_UnityEntityData_Party"), GetText("arrayItem_UnityEntityData_ControllableCharacters"), GetText("arrayItem_UnityEntityData_ActiveCompanions"), GetText("arrayItem_UnityEntityData_AllCharacters"), GetText("arrayItem_UnityEntityData_Mercenaries"), GetText("arrayItem_UnityEntityData_Pets"), GetText("arrayItem_UnityEntityData_Enemies") };
             Storage.unitEntityDataArrayNoEnemies = Storage.unitEntityDataArray.Take(Storage.unitEntityDataArray.Count() - 1).ToArray();
-            Storage.encumbranceArray = new string[] { Strings.GetText("encumbrance_Light"), Strings.GetText("encumbrance_Medium"), Strings.GetText("encumbrance_Heavy"), Strings.GetText("encumbrance_Overload") };
-            Storage.inventoryItemTypesArray = new string[] { RichText.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"), Strings.GetText("label_Belts"), Strings.GetText("label_Footwear"), Strings.GetText("label_Gloves"), Strings.GetText("label_Headwear"), Strings.GetText("label_Neckwear"), Strings.GetText("label_NonUsable"), Strings.GetText("misc_Other"), Strings.GetText("label_Rings"), Strings.GetText("label_Shields"), Strings.GetText("label_ShoulderItems"), Strings.GetText("label_UsableItems"), Strings.GetText("label_Weapons"), Strings.GetText("label_WristItems") };
-            Storage.weatherArray = new string[] { Strings.GetText("arrayItem_Weather_Normal"), Strings.GetText("arrayItem_Weather_Rain"), Strings.GetText("arrayItem_Weather_Snow") };
+            Storage.encumbranceArray = new[] { GetText("encumbrance_Light"), GetText("encumbrance_Medium"), GetText("encumbrance_Heavy"), GetText("encumbrance_Overload") };
+            Storage.inventoryItemTypesArray = new[] { RichText.Bold(GetText("misc_All")), GetText("label_Armours"), GetText("label_Belts"), GetText("label_Footwear"), GetText("label_Gloves"), GetText("label_Headwear"), GetText("label_Neckwear"), GetText("label_NonUsable"), GetText("misc_Other"), GetText("label_Rings"), GetText("label_Shields"), GetText("label_ShoulderItems"), GetText("label_UsableItems"), GetText("label_Weapons"), GetText("label_WristItems") };
+            Storage.weatherArray = new[] { GetText("arrayItem_Weather_Normal"), GetText("arrayItem_Weather_Rain"), GetText("arrayItem_Weather_Snow") };
 
         }
 
@@ -1092,9 +1071,9 @@ namespace BagOfTricks
                     break;
             }
 
-            this.CheckIndex();
-            this.UpdateUnityEntityData();
-            this.CheckUnityEntityDataCount();
+            CheckIndex();
+            UpdateUnityEntityData();
+            CheckUnityEntityDataCount();
         }
 
         private void CheckIndex()

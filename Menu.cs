@@ -5241,78 +5241,49 @@ namespace BagOfTricks
                 switch (inventoryItemTypesGrid.selected)
                 {
                     case 0:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 1:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Armor)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Armor).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 2:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Belt)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Belt).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 3:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Feet)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Feet).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 4:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Gloves)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Gloves).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 5:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Head)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Head).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 6:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Neck)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Neck).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 7:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.NonUsable)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.NonUsable).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 8:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Other)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Other).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 9:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Ring)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Ring).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 10:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Shield)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Shield).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 11:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Shoulders)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Shoulders).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 12:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Usable)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Usable).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 13:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Weapon)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Weapon).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     case 14:
-                        foreach (var item in Game.Instance.Player.Inventory.Items.OrderBy(i => i.Name))
-                            if (item.Blueprint.ItemType == ItemsFilter.ItemType.Wrist)
-                                RenderInventoryItem(item);
+                        Game.Instance.Player.Inventory.Items.Where(e => e.Blueprint.ItemType == ItemsFilter.ItemType.Wrist).Take(Main.QueryLimit).OrderBy(i => i.Name).ForEach(e => RenderInventoryItem(e));
                         break;
                     default:
                         MenuTools.SingleLineLabel(RichText.WarningLargeRedFormat("ERROR"));
@@ -7119,25 +7090,38 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
-                GL.BeginHorizontal();
-                GL.Label(MenuTools.TextWithTooltip("header_TakeX", "tooltip_TakeX", true), GL.ExpandWidth(false));
-                GL.EndHorizontal();
+                TakeX();
+            }
+            GL.EndVertical();
+        }
 
+        public static void TakeX()
+        {
+            GL.BeginVertical("box");
+            GL.BeginHorizontal();
+            GL.Label(MenuTools.TextWithTooltip("header_TakeX", "tooltip_TakeX", true), GL.ExpandWidth(false));
+            GL.FlexibleSpace();
+            MenuTools.AddFavouriteButton(nameof(TakeX));
+            GL.EndHorizontal();
+
+            GL.BeginHorizontal();
+            settings.takeXIndex = GL.SelectionGrid(settings.takeXIndex, Storage.takeXArray, 4);
+            GL.EndHorizontal();
+            if (settings.togglePartyAlwaysRoll20 == Storage.isTrueString && settings.takeXIndex != 0)
+            {
+                MenuTools.SingleLineLabel(RichText.WarningLargeRedFormat(Strings.GetText("warning_TakeXAndPartyRoll20")));
+            }
+            if (settings.takeXIndex != 0)
+            {
+                MenuTools.SingleLineLabel(Strings.GetText("warning_TakeX"));
+            }
+            if (settings.takeXIndex == 3)
+            {
                 GL.BeginHorizontal();
-                settings.takeXIndex = GL.SelectionGrid(settings.takeXIndex, Storage.takeXArray, 4);
+                GL.Label("Custom Value: ", GL.ExpandWidth(false));
+                settings.takeXCustom = GL.HorizontalSlider(settings.takeXCustom, 1f, 20f, GL.Width(300f));
+                GL.Label($" {Mathf.RoundToInt(settings.takeXCustom)}", GL.ExpandWidth(false));
                 GL.EndHorizontal();
-                if (settings.togglePartyAlwaysRoll20 == Storage.isTrueString && settings.takeXIndex != 0)
-                    MenuTools.SingleLineLabel(
-                        RichText.WarningLargeRedFormat(Strings.GetText("warning_TakeXAndPartyRoll20")));
-                if (settings.takeXIndex != 0) MenuTools.SingleLineLabel(Strings.GetText("warning_TakeX"));
-                if (settings.takeXIndex == 3)
-                {
-                    GL.BeginHorizontal();
-                    GL.Label("Custom Value: ", GL.ExpandWidth(false));
-                    settings.takeXCustom = GL.HorizontalSlider(settings.takeXCustom, 1f, 20f, GL.Width(300f));
-                    GL.Label($" {Mathf.RoundToInt(settings.takeXCustom)}", GL.ExpandWidth(false));
-                    GL.EndHorizontal();
-                }
             }
 
             GL.EndVertical();
@@ -7843,65 +7827,7 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                settings.showRomanceCounters = GL.Toggle(settings.showRomanceCounters, RichText.Bold(Strings.GetText("header_RomanceCounters")), GL.ExpandWidth(false));
-                GL.EndHorizontal();
-                if (settings.showRomanceCounters)
-                {
-                    GL.Space(10);
-                    MenuTools.SingleLineLabel(Strings.GetText("label_EditingInExperimental"));
-                    GL.Space(10);
-
-                    GL.BeginHorizontal();
-                    settings.showRomanceCountersSpoilers = GL.Toggle(settings.showRomanceCountersSpoilers, Strings.GetText("label_ShowSpoilers"), GL.ExpandWidth(false));
-                    GL.EndHorizontal();
-
-                    GL.Space(10);
-
-                    if (Storage.romanceCounterLoad)
-                    {
-                        Storage.blueprintRomanceCounters = Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
-                        Storage.romanceCounterLoad = false;
-                    }
-
-                    foreach (var bpc in Storage.blueprintRomanceCounters)
-                        if (!settings.showRomanceCountersSpoilers)
-                        {
-                            if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0")
-                            {
-                                MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", "") + " " +
-                                                          Strings.GetText("label_RomanceCounter"));
-                                if (settings.settingShowDebugInfo) MenuTools.SingleLineLabel(bpc.AssetGuid);
-                                MenuTools.SingleLineLabel(Strings.GetText("label_CounterValue") + ": " +
-                                                          bpc.CounterFlag.Value.ToString());
-                                MenuTools.SingleLineLabel(Strings.GetText("label_LowerCutoff") + ": " +
-                                                          bpc.MinValueFlag.Value.ToString());
-                                MenuTools.SingleLineLabel(Strings.GetText("label_UpperCutoff") + ": " +
-                                                          bpc.MaxValueFlag.Value.ToString());
-                                GL.Space(10);
-                            }
-                        }
-                        else
-                        {
-                            MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", ""));
-                            if (settings.settingShowDebugInfo) MenuTools.SingleLineLabel(bpc.AssetGuid);
-                            MenuTools.SingleLineLabel(bpc.CounterFlag.ToString() + ": " +
-                                                      bpc.CounterFlag.Value.ToString());
-                            MenuTools.SingleLineLabel(bpc.MinValueFlag.ToString() + ": " +
-                                                      bpc.MinValueFlag.Value.ToString());
-                            MenuTools.SingleLineLabel(bpc.MaxValueFlag.ToString() + ": " +
-                                                      bpc.MaxValueFlag.Value.ToString());
-                            GL.Space(10);
-                        }
-                }
-                else
-                {
-                    Storage.romanceCounterLoad = true;
-                }
-
-                GL.EndVertical();
-
+                RomanceCounterDisplay();
                 if (settings.settingShowDebugInfo)
                 {
                     MenuTools.SingleLineLabel(Strings.GetText("label_CurrentGameLocale") + ": " +
@@ -8001,233 +7927,14 @@ namespace BagOfTricks
                         GL.Space(10);
 
                         GL.BeginHorizontal();
-                        if (GL.Button(RichText.Bold(Strings.GetText("button_TeleportEveryoneToPlayer")),
-                            GL.ExpandWidth(false))) Common.TeleportEveryoneToPlayer();
+                        if (GL.Button(RichText.Bold(Strings.GetText("button_TeleportEveryoneToPlayer")), GL.ExpandWidth(false)))
+                            Common.TeleportEveryoneToPlayer();
                         GL.EndHorizontal();
 
                         GL.Space(10);
 
-                        GL.BeginVertical("box");
-                        GL.BeginHorizontal();
-                        settings.showRomanceCountersExperimental = GL.Toggle(settings.showRomanceCountersExperimental, RichText.Bold(Strings.GetText("header_RomanceCounters")), GL.ExpandWidth(false));
-                        GL.EndHorizontal();
-                        if (settings.showRomanceCountersExperimental)
-                        {
-                            GL.Space(10);
+                        RomanceCounterExperimental();
 
-                            GL.BeginHorizontal();
-                            settings.showRomanceCountersSpoilers = GL.Toggle(settings.showRomanceCountersSpoilers, Strings.GetText("label_ShowSpoilers"), GL.ExpandWidth(false));
-                            GL.EndHorizontal();
-
-                            GL.BeginHorizontal();
-                            GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
-                            settings.romanceCounterSetValue =
-                                GL.TextField(settings.romanceCounterSetValue, 6, GL.Width(100f));
-                            settings.romanceCounterSetValue =
-                                MenuTools.FloatTestSettingStage1(settings.romanceCounterSetValue);
-                            settings.finalRomanceCounterSetValue =
-                                MenuTools.FloatTestSettingStage2(settings.romanceCounterSetValue,
-                                    settings.finalRomanceCounterSetValue);
-                            GL.EndHorizontal();
-
-                            if (Storage.romanceCounterLoadExperimental)
-                            {
-                                Storage.blueprintRomanceCounters =
-                                    Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
-                                Storage.romanceCounterLoadExperimental = false;
-                            }
-
-                            foreach (var bpc in Storage.blueprintRomanceCounters)
-                                if (!settings.showRomanceCountersSpoilers)
-                                {
-                                    if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0")
-                                    {
-                                        MenuTools.SingleLineLabel(
-                                            bpc.name.Replace("RomanceCounter", "") + " " +
-                                            Strings.GetText("label_RomanceCounter"));
-                                        if (settings.settingShowDebugInfo) MenuTools.SingleLineLabel(bpc.AssetGuid);
-
-                                        GL.BeginHorizontal();
-                                        GL.Label(Strings.GetText("label_CounterValue") + ": " +
-                                                 bpc.CounterFlag.Value.ToString());
-                                        GL.FlexibleSpace();
-                                        if (GL.Button("<b>+</b>"))
-                                        {
-                                            bpc.CounterFlag.Value++;
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        if (GL.Button("<b>-</b>"))
-                                        {
-                                            bpc.CounterFlag.Value--;
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        if (GL.Button(
-                                            Strings.GetText("button_SetTo") +
-                                            $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}",
-                                            GL.ExpandWidth(false)))
-                                        {
-                                            bpc.CounterFlag.Value =
-                                                Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        GL.EndHorizontal();
-
-                                        GL.BeginHorizontal();
-                                        GL.Label(Strings.GetText("label_LowerCutoff") + ": " +
-                                                 bpc.MinValueFlag.Value.ToString());
-                                        GL.FlexibleSpace();
-                                        if (GL.Button("<b>+</b>"))
-                                        {
-                                            bpc.MinValueFlag.Value++;
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        if (GL.Button("<b>-</b>"))
-                                        {
-                                            bpc.MinValueFlag.Value--;
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        if (GL.Button(
-                                            Strings.GetText("button_SetTo") +
-                                            $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}",
-                                            GL.ExpandWidth(false)))
-                                        {
-                                            bpc.MinValueFlag.Value =
-                                                Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        GL.EndHorizontal();
-
-                                        GL.BeginHorizontal();
-                                        GL.Label(Strings.GetText("label_UpperCutoff") + ": " +
-                                                 bpc.MaxValueFlag.Value.ToString());
-                                        GL.FlexibleSpace();
-                                        if (GL.Button("<b>+</b>"))
-                                        {
-                                            bpc.MaxValueFlag.Value++;
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        if (GL.Button("<b>-</b>"))
-                                        {
-                                            bpc.MaxValueFlag.Value--;
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        if (GL.Button(
-                                            Strings.GetText("button_SetTo") +
-                                            $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}",
-                                            GL.ExpandWidth(false)))
-                                        {
-                                            bpc.MaxValueFlag.Value =
-                                                Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
-                                            Storage.romanceCounterLoadExperimental = true;
-                                        }
-
-                                        GL.EndHorizontal();
-
-                                        GL.Space(10);
-                                    }
-                                }
-                                else
-                                {
-                                    MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", ""));
-                                    if (settings.settingShowDebugInfo) MenuTools.SingleLineLabel(bpc.AssetGuid);
-                                    GL.BeginHorizontal();
-                                    GL.Label(Strings.GetText("label_CounterValue") + ": " +
-                                             bpc.CounterFlag.Value.ToString());
-                                    GL.FlexibleSpace();
-                                    if (GL.Button("<b>+</b>"))
-                                    {
-                                        bpc.CounterFlag.Value++;
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    if (GL.Button("<b>-</b>"))
-                                    {
-                                        bpc.CounterFlag.Value--;
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    if (GL.Button(
-                                        Strings.GetText("button_SetTo") +
-                                        $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}",
-                                        GL.ExpandWidth(false)))
-                                    {
-                                        bpc.CounterFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    GL.EndHorizontal();
-
-                                    GL.BeginHorizontal();
-                                    GL.Label(Strings.GetText("label_LowerCutoff") + ": " +
-                                             bpc.MinValueFlag.Value.ToString());
-                                    GL.FlexibleSpace();
-                                    if (GL.Button("<b>+</b>"))
-                                    {
-                                        bpc.MinValueFlag.Value++;
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    if (GL.Button("<b>-</b>"))
-                                    {
-                                        bpc.MinValueFlag.Value--;
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    if (GL.Button(
-                                        Strings.GetText("button_SetTo") +
-                                        $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}",
-                                        GL.ExpandWidth(false)))
-                                    {
-                                        bpc.MinValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    GL.EndHorizontal();
-
-                                    GL.BeginHorizontal();
-                                    GL.Label(Strings.GetText("label_UpperCutoff") + ": " +
-                                             bpc.MaxValueFlag.Value.ToString());
-                                    GL.FlexibleSpace();
-                                    if (GL.Button("<b>+</b>"))
-                                    {
-                                        bpc.MaxValueFlag.Value++;
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    if (GL.Button("<b>-</b>"))
-                                    {
-                                        bpc.MaxValueFlag.Value--;
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    if (GL.Button(
-                                        Strings.GetText("button_SetTo") +
-                                        $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}",
-                                        GL.ExpandWidth(false)))
-                                    {
-                                        bpc.MaxValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
-                                        Storage.romanceCounterLoadExperimental = true;
-                                    }
-
-                                    GL.EndHorizontal();
-
-                                    GL.Space(10);
-                                }
-                        }
-                        else
-                        {
-                            Storage.romanceCounterLoadExperimental = true;
-                        }
-
-                        GL.EndVertical();
                         GL.Space(10);
 
                         GL.BeginHorizontal();
@@ -8570,6 +8277,253 @@ namespace BagOfTricks
                 GL.EndVertical();
             }
 
+            GL.EndVertical();
+        }
+
+        public static void RomanceCounterExperimental()
+        {
+            GL.BeginVertical("box");
+            GL.BeginHorizontal();
+            settings.showRomanceCountersExperimental = GL.Toggle(settings.showRomanceCountersExperimental, RichText.Bold($"{Strings.GetText("header_RomanceCounters")} ({Strings.GetText("header_Experimental")})"), GL.ExpandWidth(false));
+            GL.FlexibleSpace();
+            MenuTools.AddFavouriteButton(nameof(RomanceCounterExperimental));
+            GL.EndHorizontal();
+            if (settings.showRomanceCountersExperimental)
+            {
+                GL.Space(10);
+
+                GL.BeginHorizontal();
+                settings.showRomanceCountersSpoilers = GL.Toggle(settings.showRomanceCountersSpoilers, Strings.GetText("label_ShowSpoilers"), GL.ExpandWidth(false));
+                GL.EndHorizontal();
+
+                GL.BeginHorizontal();
+                GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
+                settings.romanceCounterSetValue = GL.TextField(settings.romanceCounterSetValue, 6, GL.Width(100f));
+                settings.romanceCounterSetValue = MenuTools.FloatTestSettingStage1(settings.romanceCounterSetValue);
+                settings.finalRomanceCounterSetValue = MenuTools.FloatTestSettingStage2(settings.romanceCounterSetValue, settings.finalRomanceCounterSetValue);
+                GL.EndHorizontal();
+
+                if (Storage.romanceCounterLoadExperimental)
+                {
+                    Storage.blueprintRomanceCounters = Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
+                    Storage.romanceCounterLoadExperimental = false;
+                }
+
+                foreach (BlueprintRomanceCounter bpc in Storage.blueprintRomanceCounters)
+                {
+                    if (!settings.showRomanceCountersSpoilers)
+                    {
+                        if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0")
+                        {
+                            MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", "") + " " + Strings.GetText("label_RomanceCounter"));
+                            if (settings.settingShowDebugInfo)
+                            {
+                                MenuTools.SingleLineLabel(bpc.AssetGuid);
+                            }
+
+                            GL.BeginHorizontal();
+                            GL.Label(Strings.GetText("label_CounterValue") + ": " + bpc.CounterFlag.Value.ToString());
+                            GL.FlexibleSpace();
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                            {
+                                bpc.CounterFlag.Value++;
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                            {
+                                bpc.CounterFlag.Value--;
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                            {
+                                bpc.CounterFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            GL.EndHorizontal();
+
+                            GL.BeginHorizontal();
+                            GL.Label(Strings.GetText("label_LowerCutoff") + ": " + bpc.MinValueFlag.Value.ToString());
+                            GL.FlexibleSpace();
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                            {
+                                bpc.MinValueFlag.Value++;
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                            {
+                                bpc.MinValueFlag.Value--;
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                            {
+                                bpc.MinValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            GL.EndHorizontal();
+
+                            GL.BeginHorizontal();
+                            GL.Label(Strings.GetText("label_UpperCutoff") + ": " + bpc.MaxValueFlag.Value.ToString());
+                            GL.FlexibleSpace();
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                            {
+                                bpc.MaxValueFlag.Value++;
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                            {
+                                bpc.MaxValueFlag.Value--;
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                            {
+                                bpc.MaxValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
+                                Storage.romanceCounterLoadExperimental = true;
+                            }
+                            GL.EndHorizontal();
+
+                            GL.Space(10);
+                        }
+                    }
+                    else
+                    {
+                        MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", ""));
+                        if (settings.settingShowDebugInfo)
+                        {
+                            MenuTools.SingleLineLabel(bpc.AssetGuid);
+                        }
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("label_CounterValue") + ": " + bpc.CounterFlag.Value.ToString());
+                        GL.FlexibleSpace();
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                        {
+                            bpc.CounterFlag.Value++;
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                        {
+                            bpc.CounterFlag.Value--;
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                        {
+                            bpc.CounterFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        GL.EndHorizontal();
+
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("label_LowerCutoff") + ": " + bpc.MinValueFlag.Value.ToString());
+                        GL.FlexibleSpace();
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                        {
+                            bpc.MinValueFlag.Value++;
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                        {
+                            bpc.MinValueFlag.Value--;
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                        {
+                            bpc.MinValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        GL.EndHorizontal();
+
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("label_UpperCutoff") + ": " + bpc.MaxValueFlag.Value.ToString());
+                        GL.FlexibleSpace();
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                        {
+                            bpc.MaxValueFlag.Value++;
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                        {
+                            bpc.MaxValueFlag.Value--;
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                        {
+                            bpc.MaxValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
+                            Storage.romanceCounterLoadExperimental = true;
+                        }
+                        GL.EndHorizontal();
+
+                        GL.Space(10);
+                    }
+                }
+            }
+            else
+            {
+                Storage.romanceCounterLoadExperimental = true;
+            }
+            GL.EndVertical();
+        }
+
+        public static void RomanceCounterDisplay()
+        {
+            GL.BeginVertical("box");
+            GL.BeginHorizontal();
+            settings.showRomanceCounters = GL.Toggle(settings.showRomanceCounters, RichText.Bold(Strings.GetText("header_RomanceCounters")), GL.ExpandWidth(false));
+            GL.FlexibleSpace();
+            MenuTools.AddFavouriteButton(nameof(RomanceCounterDisplay));
+            GL.EndHorizontal();
+            if (settings.showRomanceCounters)
+            {
+                GL.Space(10);
+                MenuTools.SingleLineLabel(Strings.GetText("label_EditingInExperimental"));
+                GL.Space(10);
+
+                GL.BeginHorizontal();
+                settings.showRomanceCountersSpoilers = GL.Toggle(settings.showRomanceCountersSpoilers, Strings.GetText("label_ShowSpoilers"), GL.ExpandWidth(false));
+                GL.EndHorizontal();
+
+                GL.Space(10);
+
+                if (Storage.romanceCounterLoad)
+                {
+                    Storage.blueprintRomanceCounters = Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
+                    Storage.romanceCounterLoad = false;
+                }
+
+
+                foreach (BlueprintRomanceCounter bpc in Storage.blueprintRomanceCounters)
+                {
+                    if (!settings.showRomanceCountersSpoilers)
+                    {
+                        if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0")
+                        {
+                            MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", "") + " " + Strings.GetText("label_RomanceCounter"));
+                            if (settings.settingShowDebugInfo)
+                            {
+                                MenuTools.SingleLineLabel(bpc.AssetGuid);
+                            }
+                            MenuTools.SingleLineLabel(Strings.GetText("label_CounterValue") + ": " + bpc.CounterFlag.Value.ToString());
+                            MenuTools.SingleLineLabel(Strings.GetText("label_LowerCutoff") + ": " + bpc.MinValueFlag.Value.ToString());
+                            MenuTools.SingleLineLabel(Strings.GetText("label_UpperCutoff") + ": " + bpc.MaxValueFlag.Value.ToString());
+                            GL.Space(10);
+                        }
+                    }
+                    else
+                    {
+                        MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", ""));
+                        if (settings.settingShowDebugInfo)
+                        {
+                            MenuTools.SingleLineLabel(bpc.AssetGuid);
+                        }
+                        MenuTools.SingleLineLabel(bpc.CounterFlag.ToString() + ": " + bpc.CounterFlag.Value.ToString());
+                        MenuTools.SingleLineLabel(bpc.MinValueFlag.ToString() + ": " + bpc.MinValueFlag.Value.ToString());
+                        MenuTools.SingleLineLabel(bpc.MaxValueFlag.ToString() + ": " + bpc.MaxValueFlag.Value.ToString());
+                        GL.Space(10);
+                    }
+                }
+            }
+            else
+            {
+                Storage.romanceCounterLoad = true;
+            }
             GL.EndVertical();
         }
 

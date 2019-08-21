@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Xml;
 using System.Xml.Serialization;
-
+using System.Threading.Tasks;
 using Harmony12;
 
 using Kingmaker;
@@ -621,13 +622,13 @@ namespace BagOfTricks
 
         public static List<string> BlueprintsByTypes(string[] validTypes)
         {
-            return ResourcesLibrary.LibraryObject.GetAllBlueprints().FindAll(e => validTypes.Contains(e.GetType().Name)).Select(e => e.AssetGuid).ToList();
+            return ResourcesLibrary.LibraryObject.GetAllBlueprints().Where(e => validTypes.Contains(e.GetType().Name)).Select(e => e.AssetGuid).ToList();
         }
 
-        public static void CreateFilteredItemSet(string labelString, string[] type)
+        public static void CreateFilteredItemSet(string labelString, string[] types)
         {
             if (!GL.Button(labelString, GL.ExpandWidth(false))) return;
-            ModEntry.OnModActions.Push(m => BlueprintsByTypes(type).FindAll(e => Utilities.GetBlueprintByGuid<BlueprintItem>(e) != null && e != ExcludeGuid).ForEach(e => MenuTools.AddSingleItemAmount(e, 1, Settings.addItemIdentified)));
+            ModEntry.OnModActions.Push(m => Parallel.ForEach(BlueprintsByTypes(types).Where(e => ExcludeGuid != e && null != Utilities.GetBlueprintByGuid<BlueprintItem>(e)), e => MenuTools.AddSingleItemAmount(e, 1, Settings.addItemIdentified)));
         }
 
         public static void GetCustomItemSets(string[] files, List<string> previewStrings, List<bool> togglePreview)

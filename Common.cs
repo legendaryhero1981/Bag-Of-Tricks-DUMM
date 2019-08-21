@@ -759,6 +759,14 @@ namespace BagOfTricks
                 Main.ModLogger.Log(message.ToString());
             }
         }
+        public static void ModLoggerDebug(bool message)
+        {
+            if (settings.settingShowDebugInfo)
+            {
+                Main.ModLogger.Log(message.ToString());
+            }
+        }
+
         public static void RecalculateArmourItemStats(UnitEntityData unitEntityData)
         {
             ModLoggerDebug(unitEntityData.CharacterName);

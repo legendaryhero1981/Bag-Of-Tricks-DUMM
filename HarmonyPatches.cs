@@ -3236,6 +3236,12 @@ namespace BagOfTricks
                 {
                     unit.Descriptor.Stats.GetStat(StatType.Speed).BaseValue = settings.setSpeedOnSummonValue;
                 }
+                if (Strings.ToBool(settings.toggleMakeSummmonsControllable) && Storage.SummonedByPlayerFaction)
+                {
+                    Common.ModLoggerDebug($"SummonPool.Register: Unit [{unit.CharacterName}]");
+                    Common.Charm(unit);
+                    Storage.SummonedByPlayerFaction = false;
+                }
             }
         }
 
@@ -3771,10 +3777,12 @@ namespace BagOfTricks
                     level = 20;
                 }
 
-                if (settings.settingShowDebugInfo)
+                if (Strings.ToBool(settings.toggleMakeSummmonsControllable))
                 {
-                    modLogger.Log("Initiator: " + initiator.CharacterName + "\nBlueprint: " + blueprint.CharacterName + "\nPosition: " + position.ToString() + "\nDuration: " + duration.Value + "\nLevel: " + level);
+                    Storage.SummonedByPlayerFaction = initiator.IsPlayerFaction;
                 }
+
+                Common.ModLoggerDebug("Initiator: " + initiator.CharacterName + $"(PlayerFaction : {initiator.IsPlayerFaction})" + "\nBlueprint: " + blueprint.CharacterName + "\nPosition: " + position.ToString() + "\nDuration: " + duration.Value + "\nLevel: " + level);
             }
         }
 
