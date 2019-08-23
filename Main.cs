@@ -63,6 +63,10 @@ namespace BagOfTricks
         /// [1.14.1.8] 查询结果数量限制
         /// </summary>
         internal const int QueryLimit = 100;
+        /// <summary>
+        /// [1.14.4.13] 显示控件的文本提示
+        /// </summary>
+        internal static void ShowTooltip() => UnityModManager.UI.ShowTooltip();
 
         public static bool Enabled;
 
@@ -614,10 +618,7 @@ namespace BagOfTricks
                 MenuTools.SingleLineLabel(Strings.GetText("message_GameLoading"));
             }
 
-            if (Settings.toggleShowTooltips == Storage.isTrueString)
-            {
-                MenuTools.Tooltips();
-            }
+            if (Settings.toggleShowTooltips == Storage.isTrueString) ShowTooltip();
         }
 
         public static List<string> BlueprintsByTypes(string[] validTypes)
