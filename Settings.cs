@@ -587,6 +587,7 @@ namespace BagOfTricks
         public string toggleCombatDifficultyMessage = Storage.isFalseString;
 
         public string toggleMakeSummmonsControllable = Storage.isFalseString;
+        public string toggleDisableWarpaintedSkullAbilityForSummonedBarbarians = Storage.isFalseString;
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

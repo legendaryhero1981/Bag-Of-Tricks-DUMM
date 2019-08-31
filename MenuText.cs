@@ -278,10 +278,7 @@ namespace BagOfTricks
             },
             {"label_Weather", "Weather"},
             {"label_Intensity", "Intensity"},
-            {
-                "label_ItemModdingInfo",
-                "JSON files named after the AssetGUID of the item you wish to edit have to be placed inside of the ModifiedBlueprints folder (e.g. 'efa6c2ee9e630384188a50b1ce6600fe.json'.\nEither remove values you don't want to change or set them to null.\nExample files for each supported category are included in the ModifiedBlueprints folder.\nThe AsserGUIDs can be acquired from spacehamster's JSON Blueprint Dump on github or you can directly edit most values through the item search or this menu.\n<b>Adding enchantments of the wrong type might cause display issues in the inventory!</b>"
-            },
+            { "label_ItemModdingInfo", "JSON files named after the AssetGUID of the item you wish to edit have to be placed inside of the ModifiedBlueprints folder (e.g. 'efa6c2ee9e630384188a50b1ce6600fe.json'.\nSome edits might require a game restart or manual patching (button below).\nEither remove values you don't want to change or set them to null.\nExample files for each supported category are included in the ModifiedBlueprints folder.\nThe AsserGUIDs can be acquired from spacehamster's JSON Blueprint Dump on github or you can directly edit most values through the item search or this menu.\n<b>Adding enchantments of the wrong type might cause display issues in the inventory!</b>"},
             {"label_CustomGender", "Custom Gender"},
             {"label_CurrentName", "Current Name"},
             {"label_CampingSpecialAbility", "Camping Special Ability"},
@@ -674,6 +671,7 @@ namespace BagOfTricks
             {"buttonToggle_ShowCombatDifficulty", "Show Combat Difficulty"},
             { "buttonToggle_OutOfCombatOnly", "Out Of Combat Only"},
             { "buttonToggle_MakeSummonsControllable", "Make Summons Controllable"},
+            { "buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Disable Warpainted Skull's Ability For Summoned Barbarians"},
             //buttonToggle end
 
             //arrayItem start
@@ -941,7 +939,7 @@ namespace BagOfTricks
                 "tooltip_RollHitDiceEachLevel",
                 "Instead of adding half the hit die value every level up the added value is determined by a roll."
             },
-            {"tooltip_AddCasterLevel", "﻿Use the input field to set the caster level."},
+            {"tooltip_AddCasterLevel", "Use the input field to set the caster level."},
             {
                 "tooltip_NoLevelUpRestirctions",
                 "You can level up even when you don't meet the experience requirements or are already level 20.\nThe UI indicators won't immediately update to show that a level up is available/unavailable."
@@ -1235,6 +1233,7 @@ namespace BagOfTricks
                 "Prevents party members from gaining negative levels.\nThe game will still display level drain messages in the battle log."
             },
             { "tooltip_MakeSummonsControllable", "Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.\nIf the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible."},
+            { "tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself."},
             {
                 "tooltip_FreezeTimedQuestAt90Days",
                 "Freezes the time left on timed quest at 90 days.\nOnce turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.\nThus it is recommended to complete timed quest before turning it off or making sure that there is still time left."

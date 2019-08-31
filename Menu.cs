@@ -7469,6 +7469,10 @@ namespace BagOfTricks
                 GL.Space(10);
 
                 MenuTools.ToggleButton(ref settings.toggleMakeSummmonsControllable, "buttonToggle_MakeSummonsControllable", "tooltip_MakeSummonsControllable", nameof(settings.toggleMakeSummmonsControllable));
+                if(Strings.ToBool(settings.toggleMakeSummmonsControllable))
+                {
+                    MenuTools.ToggleButton(ref settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians, "buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians", "tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians", nameof(settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians));
+                }
 
                 GL.Space(10);
 

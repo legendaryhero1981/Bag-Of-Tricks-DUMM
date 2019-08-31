@@ -445,6 +445,8 @@ namespace BagOfTricks
                         return ref settings.toggleMakeSummmonsControllable;
                     case "toggleArmourChecksPenalty0":
                         return ref settings.toggleArmourChecksPenalty0;
+                    case "toggleDisableWarpaintedSkullAbilityForSummonedBarbarians":
+                        return ref settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians;
                     default:
                         throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
                 }

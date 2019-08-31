@@ -230,7 +230,7 @@
   <Localisation key="label_SmartConsoleInfo" value="Type &lt;b&gt;'help'&lt;/b&gt; into the Smart Console to get a list of all console commands." />
   <Localisation key="label_Weather" value="Weather" />
   <Localisation key="label_Intensity" value="Intensity" />
-  <Localisation key="label_ItemModdingInfo" value="JSON files named after the AssetGUID of the item you wish to edit have to be placed inside of the ModifiedBlueprints folder (e.g. 'efa6c2ee9e630384188a50b1ce6600fe.json'.&#xA;Either remove values you don't want to change or set them to null.&#xA;Example files for each supported category are included in the ModifiedBlueprints folder.&#xA;The AsserGUIDs can be acquired from spacehamster's JSON Blueprint Dump on github or you can directly edit most values through the item search or this menu.&#xA;&lt;b&gt;Adding enchantments of the wrong type might cause display issues in the inventory!&lt;/b&gt;" />
+  <Localisation key="label_ItemModdingInfo" value="JSON files named after the AssetGUID of the item you wish to edit have to be placed inside of the ModifiedBlueprints folder (e.g. 'efa6c2ee9e630384188a50b1ce6600fe.json'.&#xA;Some edits might require a game restart or manual patching (button below).&#xA;Either remove values you don't want to change or set them to null.&#xA;Example files for each supported category are included in the ModifiedBlueprints folder.&#xA;The AsserGUIDs can be acquired from spacehamster's JSON Blueprint Dump on github or you can directly edit most values through the item search or this menu.&#xA;&lt;b&gt;Adding enchantments of the wrong type might cause display issues in the inventory!&lt;/b&gt;" />
   <Localisation key="label_CustomGender" value="Custom Gender" />
   <Localisation key="label_CurrentName" value="Current Name" />
   <Localisation key="label_CampingSpecialAbility" value="Camping Special Ability" />
@@ -593,6 +593,7 @@
   <Localisation key="buttonToggle_ShowCombatDifficulty" value="Show Combat Difficulty" />
   <Localisation key="buttonToggle_OutOfCombatOnly" value="Out Of Combat Only" />
   <Localisation key="buttonToggle_MakeSummonsControllable" value="Make Summons Controllable" />
+  <Localisation key="buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Disable Warpainted Skull's Ability For Summoned Barbarians" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -878,6 +879,7 @@
   <Localisation key="tooltip_SortSpellsAlphabetically" value="Sorts the spells on the Spellbooks Screen alphabetically." />
   <Localisation key="tooltip_NoNegativeLevels" value="Prevents party members from gaining negative levels.&#xA;The game will still display level drain messages in the battle log." />
   <Localisation key="tooltip_MakeSummonsControllable" value="Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.&#xA;If the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible." />
+  <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself." />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="Freezes the time left on timed quest at 90 days.&#xA;Once turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.&#xA;Thus it is recommended to complete timed quest before turning it off or making sure that there is still time left." />
   <Localisation key="tooltip_ActionKey" value="﻿﻿The action key can be set to perform a range of actions via hotkey." />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="The selected group won't be the target of attacks of opportunity." />

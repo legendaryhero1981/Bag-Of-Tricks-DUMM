@@ -230,7 +230,7 @@
   <Localisation key="label_SmartConsoleInfo" value="在智能控制台中键入&lt;b&gt;“帮助”&lt;/b&gt;以获取所有控制台命令的列表。" />
   <Localisation key="label_Weather" value="天气" />
   <Localisation key="label_Intensity" value="强度" />
-  <Localisation key="label_ItemModdingInfo" value="以您要编辑物品的 AssetGUID 命名的 JSON 文件必须放在 ModifiedBlueprints 文件夹中（例如“efa6c2ee9e63084188a50b1ce660fe.json”）。&#xA;删除不想更改的值或将其设置为空。&#xA;每个支持类别的示例文件都包含在 ModifiedBlueprints 文件夹中。&#xA;AsserGUID 可以从 GitHub 上 &lt;b&gt;spacehamster&lt;/b&gt; 的 JSON 蓝图转储中获取，也可以通过项目搜索或此菜单直接编辑大多数值。&#xA;&lt;b&gt;添加错误类型的附加物可能会导致库存中的显示问题！&lt;/b&gt;" />
+  <Localisation key="label_ItemModdingInfo" value="以您要编辑物品的 AssetGUID 命名的 JSON 文件必须放在 ModifiedBlueprints 文件夹中（例如“efa6c2ee9e63084188a50b1ce660fe.json”）。&#xA;有些编辑可能需要重新启动游戏或手动修补（下面的按钮）。&#xA;删除不想更改的值或将其设置为空。&#xA;每个支持类别的示例文件都包含在 ModifiedBlueprints 文件夹中。&#xA;AsserGUID 可以从 GitHub 上 &lt;b&gt;spacehamster&lt;/b&gt; 的 JSON 蓝图转储中获取，也可以通过项目搜索或此菜单直接编辑大多数值。&#xA;&lt;b&gt;添加错误类型的附加物可能会导致库存中的显示问题！&lt;/b&gt;" />
   <Localisation key="label_CustomGender" value="自定义性别" />
   <Localisation key="label_CurrentName" value="自定义名称" />
   <Localisation key="label_CampingSpecialAbility" value="野外生存特殊能力" />
@@ -593,6 +593,7 @@
   <Localisation key="buttonToggle_ShowCombatDifficulty" value="显示战斗难度" />
   <Localisation key="buttonToggle_OutOfCombatOnly" value="仅在战斗之外" />
   <Localisation key="buttonToggle_MakeSummonsControllable" value="使召唤生物可控" />
+  <Localisation key="buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="使被召唤的野蛮人丧失变形颅骨的能力" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />
@@ -878,6 +879,7 @@
   <Localisation key="tooltip_SortSpellsAlphabetically" value="按字母顺序对法术书屏幕上的法术进行排序。" />
   <Localisation key="tooltip_NoNegativeLevels" value="防止团队成员获得负等级。&#xA;游戏仍然会在战斗日志中显示负等级信息。" />
   <Localisation key="tooltip_MakeSummonsControllable" value="允许将召唤生物在队伍成员中显示。仅适用于激活此选项后调用的对象。&#xA;如果召唤生物的持续时间已用完，而你正在队伍成员栏中移动召唤生物图标，绿色预览标记将保持可见。" />
+  <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="被杜提卡的扭曲头骨召唤的野蛮人将无法使用杜提卡的扭曲头骨的自身能力。" />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="冻结90天的定时任务剩余时间。&#xA;一旦关闭，定时任务将返回正常状态，即当选项处于活动状态时，它们会像时间进展一样作出反应。&#xA;因此建议使用 关闭之前完成定时任务或确保还有剩余时间。" />
   <Localisation key="tooltip_ActionKey" value="﻿﻿可以通过热键设置动作键来执行一系列动作。" />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="被选中的群体不会成为机会攻击的目标。" />

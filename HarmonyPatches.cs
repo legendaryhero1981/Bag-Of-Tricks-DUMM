@@ -3238,8 +3238,17 @@ namespace BagOfTricks
                 }
                 if (Strings.ToBool(settings.toggleMakeSummmonsControllable) && Storage.SummonedByPlayerFaction)
                 {
-                    Common.ModLoggerDebug($"SummonPool.Register: Unit [{unit.CharacterName}]");
+                    Common.ModLoggerDebug($"SummonPool.Register: Unit [{unit.CharacterName}] [{unit.UniqueId}]");
                     Common.Charm(unit);
+
+                    if(unit.Blueprint.AssetGuid == "6fdf7a3f850a1eb48bfbf44d9d0f45dd" && Strings.ToBool(settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians)) // WarpaintedSkullSummonedBarbarians
+                    {
+                        if(unit.Body.Head.HasItem && unit.Body.Head.Item?.Blueprint?.AssetGuid == "5d343648bb8887d42b24cbadfeb36991") // WarpaintedSkullItem
+                        {
+                            unit.Body.Head.Item.Ability.Deactivate();
+                            Common.ModLoggerDebug(unit.Body.Head.Item.Name + "'s ability active: " + unit.Body.Head.Item.Ability.Active);
+                        }
+                    }
                     Storage.SummonedByPlayerFaction = false;
                 }
             }

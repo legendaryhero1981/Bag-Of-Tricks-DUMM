@@ -64,7 +64,7 @@ namespace BagOfTricks
         /// </summary>
         internal const int QueryLimit = 100;
         /// <summary>
-        /// [1.14.4.13] 显示控件的文本提示
+        /// [1.14.5.13] 显示控件的文本提示
         /// </summary>
         internal static void ShowTooltip() => UnityModManager.UI.ShowTooltip();
 
