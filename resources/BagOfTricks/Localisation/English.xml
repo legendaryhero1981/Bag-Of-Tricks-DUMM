@@ -240,6 +240,9 @@
   <Localisation key="label_CrisisPoints" value="Crisis Points" />
   <Localisation key="label_CurrentCrisisPoints" value="Current Crisis Points" />
   <Localisation key="label_CombatDifficulty" value="combat difficulty" />
+  <Localisation key="label_RegionREInformation" value="Current Region's Random Encounter Information" />
+  <Localisation key="label_EncounterChanceReduced" value="Encounter Chance Reduced" />
+  <Localisation key="label_EncounterChanceInformation" value="Note that these settings are not the only parameters for random encounter chance calculation.&#xA;The actual chances for the current region can be seen in the box above." />
   <Localisation key="message_NotInGame" value="The mod can't be accessed from the main menu.&#xA;Either load a save file or start a new character!" />
   <Localisation key="message_ExitCombat" value="Exit Combat!" />
   <Localisation key="message_NoEnemies" value="There are no revealed enemies!" />
@@ -311,6 +314,7 @@
   <Localisation key="headerOption_UseSlider" value="Use Slider" />
   <Localisation key="headerOption_VendorSellMultiplier" value="Vendor Sell Multiplier" />
   <Localisation key="headerOption_CrittersInsteadOfBloodChance" value="Critters Instead Of Blood Chance" />
+  <Localisation key="headerOption_HardEncounterChanceOnGlobalMap" value="Hard Encounter Chance On Global Map" />
   <Localisation key="toggle_AddItemIdentified" value="Add Items Identified" />
   <Localisation key="toggle_AddMultipleItems" value="Add Multiple Items" />
   <Localisation key="toggle_SearchCsvForCustomItemSets" value="Search .csv files for Custom Item sets" />

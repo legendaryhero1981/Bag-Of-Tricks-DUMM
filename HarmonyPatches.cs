@@ -617,7 +617,7 @@ namespace BagOfTricks
 
             public static void Postfix(ref int __result)
             {
-                __result = __result * settings.companionCostMultiplier;
+                __result = Mathf.RoundToInt(__result * settings.companionCostMultiplier);
             }
         }
 

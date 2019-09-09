@@ -294,6 +294,9 @@ namespace BagOfTricks
             {"label_CrisisPoints", "Crisis Points"},
             {"label_CurrentCrisisPoints", "Current Crisis Points"},
             {"label_CombatDifficulty", "combat difficulty"},
+            { "label_RegionREInformation", "Current Region's Random Encounter Information"},
+            { "label_EncounterChanceReduced", "Encounter Chance Reduced"},
+            { "label_EncounterChanceInformation", "Note that these settings are not the only parameters for random encounter chance calculation.\nThe actual chances for the current region can be seen in the box above."},
             //label end 
 
             //message start
@@ -321,6 +324,7 @@ namespace BagOfTricks
             },
             {"message_RecreateUnitDescriptor", "Requires you to reload the area (e.g. leave and enter again)."},
             {"message_NoModItems", "No modified blueprints found!"},
+            { "message_NoRegion", "No region found!\n Try again further into the game or on the global map."},
             //message end
 
             //logMessage start
@@ -346,6 +350,7 @@ namespace BagOfTricks
             {"headerOption_TravelSpeedMultiplier", "Travel Time Scale Multiplier"},
             {"headerOption_SettingsValue", "Settings Value"},
             {"headerOption_ChanceOnGlobalMap", "Chance On Global Map"},
+            { "headerOption_HardEncounterChanceOnGlobalMap", "Hard Encounter Chance On Global Map"},
             {"headerOption_ChanceWhenCamping", "Chance When Camping"},
             {"headerOption_ChanceWhenCampingAfterAttackDuringRest", "Chance When Camping After Attack During Rest"},
             {"headerOption_HardEncounterChance", "Hard Encounter Chance"},
@@ -944,7 +949,7 @@ namespace BagOfTricks
                 "tooltip_NoLevelUpRestirctions",
                 "You can level up even when you don't meet the experience requirements or are already level 20.\nThe UI indicators won't immediately update to show that a level up is available/unavailable."
             },
-            {"tooltip_InfiniteSkillPoints", "﻿Gain infinite skill points."},
+            {"tooltip_InfiniteSkillPoints", "Gain infinite skill points."},
             {
                 "tooltip_IgnorePrerequisites",
                 "﻿Ignore restrictions when picking classes and feats.\nIf you pick a Prestige Class at character creation you will start without equipment\nand might lack important Weapon Proficiencies!"

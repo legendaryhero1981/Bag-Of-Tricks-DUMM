@@ -59,7 +59,7 @@
   <Localisation key="header_RandomEncounterSettings" value="随机遭遇设置" />
   <Localisation key="header_BuildingTimeModifier" value="建筑物建造时间修改" />
   <Localisation key="header_BuildPoints" value="国库BP数" />
-  <Localisation key="header_Statistics" value="王国属性统计" />
+  <Localisation key="header_Statistics" value="点数统计" />
   <Localisation key="header_Experimental" value="实验性功能" />
   <Localisation key="header_Sounds" value="播放声音" />
   <Localisation key="header_GameConstants" value="游戏常量" />
@@ -240,6 +240,9 @@
   <Localisation key="label_CrisisPoints" value="处理问题点数" />
   <Localisation key="label_CurrentCrisisPoints" value="当前可用处理问题点数" />
   <Localisation key="label_CombatDifficulty" value="战斗难度" />
+  <Localisation key="label_RegionREInformation" value="当前区域的随机遭遇信息" />
+  <Localisation key="label_EncounterChanceReduced" value="遭遇几率降低" />
+  <Localisation key="label_EncounterChanceInformation" value="请注意，这些设置不是随机遭遇几率计算的唯一参数。&#xA;当前区域的实际几率可以在上面的框中看到。" />
   <Localisation key="message_NotInGame" value="无法从主菜单访问该mod。&#xA;请先载入游戏或开始新游戏！" />
   <Localisation key="message_ExitCombat" value="退出战斗！" />
   <Localisation key="message_NoEnemies" value="找不到暴露的敌人！" />
@@ -311,6 +314,7 @@
   <Localisation key="headerOption_UseSlider" value="使用滑块" />
   <Localisation key="headerOption_VendorSellMultiplier" value="物品卖出价格倍数" />
   <Localisation key="headerOption_CrittersInsteadOfBloodChance" value="遭遇非血腥动物的几率" />
+  <Localisation key="headerOption_HardEncounterChanceOnGlobalMap" value="世界地图上的遭遇战几率" />
   <Localisation key="toggle_AddItemIdentified" value="添加物品后自动辨识" />
   <Localisation key="toggle_AddMultipleItems" value="添加多个物品" />
   <Localisation key="toggle_SearchCsvForCustomItemSets" value="在.csv文件中查询自定义物品套装" />
@@ -778,8 +782,8 @@
   <Localisation key="tooltip_RepeatableLockPickingWeariness" value="每次尝试取锁都会导致疲劳。 低于此值时可以自定义(1.0 =每次尝试1小时的疲劳)。" />
   <Localisation key="tooltip_1EqualsHourWeariness" value="1.0 =每次尝试1小时的疲劳。" />
   <Localisation key="tooltip_RepeatableLockPickingLockPicks" value="这是一个简单的锁选择系统的概念的证明;你的队伍有一个有限的锁选择基于他们的诡计。数量根据技能卷。 如果您使用此功能，请提供反馈!" />
-  <Localisation key="tooltip_RepeatableLockPickingLockPicksInventoryText" value="在库存界面中显示锁选次数&#xA;需要加载保存或更改界面才能生效。" />
-  <Localisation key="tooltip_CustomName" value="需要加载保存或更改界面才能完全生效。" />
+  <Localisation key="tooltip_RepeatableLockPickingLockPicksInventoryText" value="在库存界面中显示锁选次数&#xA;需要加载存档或更改界面才能生效。" />
+  <Localisation key="tooltip_CustomName" value="需要加载存档或更改界面才能完全生效。" />
   <Localisation key="tooltip_CustomGender" value="允许您设置角色性别的切换。" />
   <Localisation key="tooltip_ShowClassDataOptions" value="允许更改与级别无关的职业，并添加角色不可用的职业。&#xA;经常保存并谨慎使用！" />
   <Localisation key="tooltip_RemoveEquippedItems" value="﻿移除所选角色身上装备的物品。" />
@@ -823,7 +827,7 @@
   <Localisation key="tooltip_InstantCooldownMainChar" value="仅对主角禁用冷却时间（仍会发生某些延迟）。" />
   <Localisation key="tooltip_NoBurnKineticist" value="燃烧成本要么完全移除，要么不应用。" />
   <Localisation key="tooltip_MaximiseAcceptedBurnKineticist" value="将可接受的燃烧值设置为其最大值，并将其保持在该值，直到禁用。&#xA;更改为燃烧最大值或团队组成/新级别，因为动理学家可能需要切换此选项。" />
-  <Localisation key="tooltip_NoTempHPKineticist" value="移除由烧伤引起的临时命中点减少。&#xA;要求您返回主菜单并重新加载保存的游戏存档！" />
+  <Localisation key="tooltip_NoTempHPKineticist" value="移除由烧伤引起的临时命中点减少。&#xA;要求您返回主菜单并重新加载存档的游戏存档！" />
   <Localisation key="tooltip_SpellsPerDay" value="使用滑块或自定义倍数来设置每日/记忆法术的数量。" />
   <Localisation key="tooltip_InstantPartyChange" value="交换全球地图上的阵营成员。" />
   <Localisation key="tooltip_SetPartySpeedToFastestMember" value="设置整个团队队员的速度以达到最快的的速度。" />
@@ -870,7 +874,7 @@
   <Localisation key="tooltip_ShowAreaName" value="在屏幕上方显示当前区域的名称。" />
   <Localisation key="tooltip_ShowCombatDifficulty" value="遭遇开始就显示遭遇难度和CR。&#xA;如果启用了开发工具，则将使用其显示遭遇难度。&#xA;禁用需要重启！" />
   <Localisation key="tooltip_UnityModManagerButton" value="﻿﻿添加一个按钮，将Unity Mod Manager UI打开到ESC菜单。需要加载或保存区域才能生效。" />
-  <Localisation key="tooltip_UnityModManagerButtonIndex" value="调整按钮的位置（0=底部，6=顶部）。 要求加载保存或更改区域以便生效。" />
+  <Localisation key="tooltip_UnityModManagerButtonIndex" value="调整按钮的位置（0=底部，6=顶部）。 要求加载存档或更改区域以便生效。" />
   <Localisation key="tooltip_AlignmentFix" value="例如。 当合法中立时，中立良好的对齐转换&#xA;将带你走向合法的好而不是中立好" />
   <Localisation key="tooltip_AutoEquipConsumables" value="物品快速补充。" />
   <Localisation key="tooltip_ShowPetInventory" value="允许通过选择宠物并按下库存键查看宠物的库存。" />

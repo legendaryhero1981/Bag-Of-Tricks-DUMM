@@ -178,7 +178,7 @@ namespace BagOfTricks
         public string toggleMetamagic = Storage.isFalseString;
         public string toggleMaterialComponent = Storage.isFalseString;
         public string toggleSpontaneousCopyScrolls = Storage.isFalseString;
-        public int companionCostMultiplier = 1;
+        public float companionCostMultiplier = 1;
         public string companionCostMultiplierString = "1";
         public string toggleNoInactiveCamp = Storage.isFalseString;
         public string toggleInfiniteAbilities = Storage.isFalseString;

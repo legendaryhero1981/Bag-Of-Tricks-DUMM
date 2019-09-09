@@ -575,6 +575,7 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
+        public static string isEncounterChanceInCurrentRegionReduced = "";
         public static void RandomEncounterSettings()
         {
             GL.BeginHorizontal();
@@ -605,13 +606,38 @@ namespace BagOfTricks
                 GL.EndHorizontal();
                 GL.EndVertical();
 
-                GL.BeginVertical("box");
-                MenuTools.ToggleButton(ref settings.toggleEnableAvoidanceSuccess,
-                    "buttonToggle_AlwaysSucceedAtAvoidingEncounters", "tooltip_AlwaysSucceedAtAvoidingEncounters",
-                    nameof(settings.toggleEnableAvoidanceSuccess));
-                GL.EndVertical();
+                MenuTools.ToggleButton(ref settings.toggleEnableAvoidanceSuccess, "buttonToggle_AlwaysSucceedAtAvoidingEncounters", "tooltip_AlwaysSucceedAtAvoidingEncounters", nameof(settings.toggleEnableAvoidanceSuccess));
 
                 GL.Space(10);
+
+                GL.BeginVertical("box");
+                if(KingdomState.Instance != null)
+                {
+                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_RegionREInformation") + " " + Strings.Parenthesis(((IList<BlueprintRegion>)BlueprintRoot.Instance.Kingdom.Regions).FirstOrDefault<BlueprintRegion>((Func<BlueprintRegion, bool>)(r => r.Id == Game.Instance.Player.GlobalMap.CurrentRegion)).LocalizedName)));
+                }
+                else
+                {
+                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_RegionREInformation")));
+                }
+                GL.Space(10);
+                if (settings.settingShowDebugInfo && KingdomState.Instance != null != null)
+                {
+                    MenuTools.SingleLineLabel("REModifierClaimed: " + Game.Instance.Player.Kingdom.REModifierClaimed);
+                    MenuTools.SingleLineLabel("REModifierUnclaimed: " + Game.Instance.Player.Kingdom.REModifierUnclaimed);
+                    MenuTools.SingleLineLabel("REModifierUpgraded: " + Game.Instance.Player.Kingdom.REModifierUpgraded);
+                    MenuTools.SingleLineLabel("IsEncounterChanceInCurrentRegionReduced: " + Game.Instance.Player.REManager.IsEncounterChanceInCurrentRegionReduced);
+                    GL.Space(10);
+
+                }
+                isEncounterChanceInCurrentRegionReduced = Game.Instance.Player.REManager.IsEncounterChanceInCurrentRegionReduced ? Storage.isTrueString : Storage.isFalseString;
+                MenuTools.SingleLineLabel(Strings.GetText("label_EncounterChanceReduced") + ": " + isEncounterChanceInCurrentRegionReduced);
+                MenuTools.SingleLineLabel(Strings.GetText("headerOption_ChanceOnGlobalMap") + ": " + Game.Instance.Player.REManager.GlobalMapEncounterChance);
+                MenuTools.SingleLineLabel(Strings.GetText("headerOption_HardEncounterChanceOnGlobalMap") + ": " + Game.Instance.Player.REManager.GlobalMapHardEncounterChance);
+                MenuTools.SingleLineLabel(Strings.GetText("headerOption_ChanceWhenCamping") + ": " + Game.Instance.Player.REManager.CampEncounterChance);
+                GL.EndVertical();
+                GL.Space(10);
+                MenuTools.SingleLineLabelGT("label_EncounterChanceInformation", true);
+                
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
@@ -3169,12 +3195,27 @@ namespace BagOfTricks
                     settings.customMoneyMultiplier = tempCustomMoneyMultiplier;
                 }
 
-                if (GL.Button($"-{settings.moneyAmount}" + Strings.GetText("button_Money")))
+                if (GL.Button($"-{settings.moneyAmount} " + Strings.GetText("button_Money")))
                 {
                     Game.Instance.Player.GainMoney(settings.finalMoneyAmount * -1);
                     Common.AddLogEntry(
                         Strings.GetText("logMessage_Removed") + " " + settings.finalMoneyAmount + " " +
                         Strings.GetText("logMessage_Gold"), Color.black);
+                }
+                if (GL.Button($"{Strings.GetText("button_SetTo")} {settings.moneyAmount}"))
+                {
+                    if (Game.Instance.Player.Money > settings.finalMoneyAmount)
+                    {
+                        long setMoney = (Game.Instance.Player.Money - settings.finalMoneyAmount) * -1;
+                        Game.Instance.Player.GainMoney(setMoney);
+                        Common.AddLogEntry(Strings.GetText("logMessage_Removed") + " " + setMoney + " " + Strings.GetText("logMessage_Gold"), Color.black);
+                    }
+                    else if (Game.Instance.Player.Money < settings.finalMoneyAmount)
+                    {
+                        long setMoney = settings.finalMoneyAmount - Game.Instance.Player.Money;
+                        Game.Instance.Player.GainMoney(setMoney);
+                        Common.AddLogEntry(Strings.GetText("logMessage_Received") + " " + setMoney + " " + Strings.GetText("logMessage_Gold"), Color.black);
+                    }
                 }
 
                 GL.EndHorizontal();
