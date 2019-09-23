@@ -31,7 +31,7 @@ namespace BagOfTricks
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.0.6";
+        public static readonly string gamerVersionAtCreation = "2.0.7b";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
 

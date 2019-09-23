@@ -264,6 +264,7 @@
   <Localisation key="message_AddAbilitiesAsSpells" value="The abilities will be added to the current spellbook at the selected spell level." />
   <Localisation key="message_RecreateUnitDescriptor" value="Requires you to reload the area (e.g. leave and enter again)." />
   <Localisation key="message_NoModItems" value="No modified blueprints found!" />
+  <Localisation key="message_NoRegion" value="No region found!&#xA; Try again further into the game or on the global map." />
   <Localisation key="logMessage_Received" value="Received:" />
   <Localisation key="logMessage_Removed" value="Removed:" />
   <Localisation key="logMessage_Gold" value="Gold" />
@@ -281,6 +282,7 @@
   <Localisation key="headerOption_TravelSpeedMultiplier" value="Travel Time Scale Multiplier" />
   <Localisation key="headerOption_SettingsValue" value="Settings Value" />
   <Localisation key="headerOption_ChanceOnGlobalMap" value="Chance On Global Map" />
+  <Localisation key="headerOption_HardEncounterChanceOnGlobalMap" value="Hard Encounter Chance On Global Map" />
   <Localisation key="headerOption_ChanceWhenCamping" value="Chance When Camping" />
   <Localisation key="headerOption_ChanceWhenCampingAfterAttackDuringRest" value="Chance When Camping After Attack During Rest" />
   <Localisation key="headerOption_HardEncounterChance" value="Hard Encounter Chance" />
@@ -314,7 +316,6 @@
   <Localisation key="headerOption_UseSlider" value="Use Slider" />
   <Localisation key="headerOption_VendorSellMultiplier" value="Vendor Sell Multiplier" />
   <Localisation key="headerOption_CrittersInsteadOfBloodChance" value="Critters Instead Of Blood Chance" />
-  <Localisation key="headerOption_HardEncounterChanceOnGlobalMap" value="Hard Encounter Chance On Global Map" />
   <Localisation key="toggle_AddItemIdentified" value="Add Items Identified" />
   <Localisation key="toggle_AddMultipleItems" value="Add Multiple Items" />
   <Localisation key="toggle_SearchCsvForCustomItemSets" value="Search .csv files for Custom Item sets" />
@@ -598,6 +599,7 @@
   <Localisation key="buttonToggle_OutOfCombatOnly" value="Out Of Combat Only" />
   <Localisation key="buttonToggle_MakeSummonsControllable" value="Make Summons Controllable" />
   <Localisation key="buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Disable Warpainted Skull's Ability For Summoned Barbarians" />
+  <Localisation key="buttonToggle_RemoveSummonsGlow" value="Remove Summons' Glow" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -884,6 +886,7 @@
   <Localisation key="tooltip_NoNegativeLevels" value="Prevents party members from gaining negative levels.&#xA;The game will still display level drain messages in the battle log." />
   <Localisation key="tooltip_MakeSummonsControllable" value="Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.&#xA;If the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible." />
   <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself." />
+  <Localisation key="tooltip__RemoveSummonsGlow" value="Removes the permanent glow from summons.&#xA;Does not apply to already summoned units." />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="Freezes the time left on timed quest at 90 days.&#xA;Once turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.&#xA;Thus it is recommended to complete timed quest before turning it off or making sure that there is still time left." />
   <Localisation key="tooltip_ActionKey" value="﻿﻿The action key can be set to perform a range of actions via hotkey." />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="The selected group won't be the target of attacks of opportunity." />

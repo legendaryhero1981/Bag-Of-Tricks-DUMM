@@ -264,6 +264,7 @@
   <Localisation key="message_AddAbilitiesAsSpells" value="这些技能将被添加到当前选定法术等级的法术书中。" />
   <Localisation key="message_RecreateUnitDescriptor" value="要求您重新加载该区域(例如，离开并再次进入)。" />
   <Localisation key="message_NoModItems" value="没找到修改过的蓝图!" />
+  <Localisation key="message_NoRegion" value="找不到区域！&#xA; 在游戏或世界地图上再试一次。" />
   <Localisation key="logMessage_Received" value="收到：" />
   <Localisation key="logMessage_Removed" value="删除：" />
   <Localisation key="logMessage_Gold" value="金币" />
@@ -281,6 +282,7 @@
   <Localisation key="headerOption_TravelSpeedMultiplier" value="旅行时间缩放倍数" />
   <Localisation key="headerOption_SettingsValue" value="设置值" />
   <Localisation key="headerOption_ChanceOnGlobalMap" value="在世界地图上旅行时的遭遇几率" />
+  <Localisation key="headerOption_HardEncounterChanceOnGlobalMap" value="世界地图上的遭遇战几率" />
   <Localisation key="headerOption_ChanceWhenCamping" value="在露营休息时的遭遇几率" />
   <Localisation key="headerOption_ChanceWhenCampingAfterAttackDuringRest" value="遇袭后在露营休息时的遭遇几率" />
   <Localisation key="headerOption_HardEncounterChance" value="罕见事件的遭遇几率" />
@@ -314,7 +316,6 @@
   <Localisation key="headerOption_UseSlider" value="使用滑块" />
   <Localisation key="headerOption_VendorSellMultiplier" value="物品卖出价格倍数" />
   <Localisation key="headerOption_CrittersInsteadOfBloodChance" value="遭遇非血腥动物的几率" />
-  <Localisation key="headerOption_HardEncounterChanceOnGlobalMap" value="世界地图上的遭遇战几率" />
   <Localisation key="toggle_AddItemIdentified" value="添加物品后自动辨识" />
   <Localisation key="toggle_AddMultipleItems" value="添加多个物品" />
   <Localisation key="toggle_SearchCsvForCustomItemSets" value="在.csv文件中查询自定义物品套装" />
@@ -598,6 +599,7 @@
   <Localisation key="buttonToggle_OutOfCombatOnly" value="仅在战斗之外" />
   <Localisation key="buttonToggle_MakeSummonsControllable" value="使召唤生物可控" />
   <Localisation key="buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="使被召唤的野蛮人丧失变形颅骨的能力" />
+  <Localisation key="buttonToggle_RemoveSummonsGlow" value="移除召唤生物身上的微光" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />
@@ -884,6 +886,7 @@
   <Localisation key="tooltip_NoNegativeLevels" value="防止团队成员获得负等级。&#xA;游戏仍然会在战斗日志中显示负等级信息。" />
   <Localisation key="tooltip_MakeSummonsControllable" value="允许将召唤生物在队伍成员中显示。仅适用于激活此选项后调用的对象。&#xA;如果召唤生物的持续时间已用完，而你正在队伍成员栏中移动召唤生物图标，绿色预览标记将保持可见。" />
   <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="被杜提卡的扭曲头骨召唤的野蛮人将无法使用杜提卡的扭曲头骨的自身能力。" />
+  <Localisation key="tooltip__RemoveSummonsGlow" value="移除召唤生物身上的永久微光。&#xA;不适用于已经召唤的生物。" />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="冻结90天的定时任务剩余时间。&#xA;一旦关闭，定时任务将返回正常状态，即当选项处于活动状态时，它们会像时间进展一样作出反应。&#xA;因此建议使用 关闭之前完成定时任务或确保还有剩余时间。" />
   <Localisation key="tooltip_ActionKey" value="﻿﻿可以通过热键设置动作键来执行一系列动作。" />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="被选中的群体不会成为机会攻击的目标。" />

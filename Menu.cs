@@ -560,18 +560,13 @@ namespace BagOfTricks
             GL.EndHorizontal();
 
             RepeatableLockPickingOptions();
-            MenuTools.ToggleButton(ref settings.toggleRollHitDiceEachLevel, "buttonToggle_RollHitDiceEachLevel",
-                "tooltip_RollHitDiceEachLevel", nameof(settings.toggleRollHitDiceEachLevel));
-            Main.ToggleActiveWarning(ref settings.toggleRollHitDiceEachLevel, ref settings.toggleFullHitdiceEachLevel,
-                "buttonToggle_FullHitdiceEachLevel");
-            MenuTools.ToggleButton(ref settings.toggleAlignmentFix, "buttonToggle_AlignmentFix", "tooltip_AlignmentFix",
-                nameof(settings.toggleAlignmentFix));
-            MenuTools.ToggleButton(ref settings.togglAutoEquipConsumables, "buttonToggle_AutoEquipConsumables",
-                "tooltip_AutoEquipConsumables", nameof(settings.togglAutoEquipConsumables));
-            MenuTools.ToggleButton(ref settings.toggleNoInactiveCamp, "buttonToggle_NoInactiveCampsite",
-                "tooltip_NoInactiveCampsite", nameof(settings.toggleNoInactiveCamp));
-            MenuTools.ToggleButton(ref settings.toggleSpiderBegone, "buttonToggle_SpiderBegone", "tooltip_SpiderBegone",
-                nameof(settings.toggleSpiderBegone));
+            MenuTools.ToggleButton(ref settings.toggleRollHitDiceEachLevel, "buttonToggle_RollHitDiceEachLevel", "tooltip_RollHitDiceEachLevel", nameof(settings.toggleRollHitDiceEachLevel));
+            Main.ToggleActiveWarning(ref settings.toggleRollHitDiceEachLevel, ref settings.toggleFullHitdiceEachLevel, "buttonToggle_FullHitdiceEachLevel");
+            MenuTools.ToggleButton(ref settings.toggleAlignmentFix, "buttonToggle_AlignmentFix", "tooltip_AlignmentFix", nameof(settings.toggleAlignmentFix));
+            MenuTools.ToggleButton(ref settings.togglAutoEquipConsumables, "buttonToggle_AutoEquipConsumables", "tooltip_AutoEquipConsumables", nameof(settings.togglAutoEquipConsumables));
+            MenuTools.ToggleButton(ref settings.toggleNoInactiveCamp, "buttonToggle_NoInactiveCampsite", "tooltip_NoInactiveCampsite", nameof(settings.toggleNoInactiveCamp));
+            MenuTools.ToggleButton(ref settings.toggleRemoveSummonsGlow, "buttonToggle_RemoveSummonsGlow", "tooltip__RemoveSummonsGlow", nameof(settings.toggleRemoveSummonsGlow));
+            MenuTools.ToggleButton(ref settings.toggleSpiderBegone, "buttonToggle_SpiderBegone", "tooltip_SpiderBegone", nameof(settings.toggleSpiderBegone));
             GL.EndVertical();
         }
 

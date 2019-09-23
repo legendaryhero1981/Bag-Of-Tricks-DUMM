@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-
-using Harmony12;
+﻿using Harmony12;
 
 using JetBrains.Annotations;
 
@@ -18,6 +11,7 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
+using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.Items;
 using Kingmaker.Blueprints.Items.Armors;
 using Kingmaker.Blueprints.Items.Components;
@@ -94,6 +88,13 @@ using Kingmaker.Visual.FogOfWar;
 using Kingmaker.Visual.HitSystem;
 using Kingmaker.Visual.LocalMap;
 using Kingmaker.Visual.Sound;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 
 using TMPro;
 
@@ -932,9 +933,10 @@ namespace BagOfTricks
         [HarmonyPatch(new Type[] { typeof(UnitDescriptor), typeof(LevelUpState.CharBuildMode) })]
         public static class LevelUpState_Patch
         {
+            [HarmonyPriority(Priority.Low)]
             public static void Postfix(UnitDescriptor unit, LevelUpState.CharBuildMode mode, ref LevelUpState __instance)
             {
-                if (__instance.NextLevel == 1)
+                if (__instance.IsFirstLevel)
                 {
                     if (mode != CharBuildMode.PreGen)
                     {
@@ -3249,6 +3251,11 @@ namespace BagOfTricks
                         }
                     }
                     Storage.SummonedByPlayerFaction = false;
+                }
+
+                if(Strings.ToBool(settings.toggleRemoveSummonsGlow))
+                {
+                    unit.Buffs.RemoveFact(Utilities.GetBlueprintByGuid<BlueprintFact>("706c182e86d9be848b59ddccca73d13e")); // SummonedCreatureVisual
                 }
             }
         }

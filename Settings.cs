@@ -589,6 +589,8 @@ namespace BagOfTricks
         public string toggleMakeSummmonsControllable = Storage.isFalseString;
         public string toggleDisableWarpaintedSkullAbilityForSummonedBarbarians = Storage.isFalseString;
 
+        public string toggleRemoveSummonsGlow = Storage.isFalseString;
+
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             Save(this, modEntry);
