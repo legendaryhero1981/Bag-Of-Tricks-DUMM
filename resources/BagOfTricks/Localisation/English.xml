@@ -886,7 +886,7 @@
   <Localisation key="tooltip_NoNegativeLevels" value="Prevents party members from gaining negative levels.&#xA;The game will still display level drain messages in the battle log." />
   <Localisation key="tooltip_MakeSummonsControllable" value="Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.&#xA;If the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible." />
   <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself." />
-  <Localisation key="tooltip__RemoveSummonsGlow" value="Removes the permanent glow from summons.&#xA;Does not apply to already summoned units." />
+  <Localisation key="tooltip_RemoveSummonsGlow" value="Removes the permanent glow from summons.&#xA;Does not apply to already summoned units." />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="Freezes the time left on timed quest at 90 days.&#xA;Once turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.&#xA;Thus it is recommended to complete timed quest before turning it off or making sure that there is still time left." />
   <Localisation key="tooltip_ActionKey" value="﻿﻿The action key can be set to perform a range of actions via hotkey." />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="The selected group won't be the target of attacks of opportunity." />

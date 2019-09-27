@@ -1240,7 +1240,7 @@ namespace BagOfTricks
             },
             { "tooltip_MakeSummonsControllable", "Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.\nIf the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible."},
             { "tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself."},
-            { "tooltip__RemoveSummonsGlow", "Removes the permanent glow from summons.\nDoes not apply to already summoned units."},
+            { "tooltip_RemoveSummonsGlow", "Removes the permanent glow from summons.\nDoes not apply to already summoned units."},
             {
                 "tooltip_FreezeTimedQuestAt90Days",
                 "Freezes the time left on timed quest at 90 days.\nOnce turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.\nThus it is recommended to complete timed quest before turning it off or making sure that there is still time left."
