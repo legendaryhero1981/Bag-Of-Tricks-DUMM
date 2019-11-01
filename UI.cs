@@ -42,7 +42,6 @@ namespace BagOfTricks
             canvasScaler.referenceResolution = new Vector2(1920, 1080);
 
             var graphicRaycaster = baseGameObject.AddComponent<GraphicRaycaster>();
-
             var canvasGroup = baseGameObject.AddComponent<CanvasGroup>();
             canvasGroup.blocksRaycasts = false;
         }

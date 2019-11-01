@@ -25,6 +25,7 @@
   <Localisation key="mainCategory_AddAbilities" value="能力" />
   <Localisation key="mainCategory_SpellsAndSpellbooks" value="法术和法术书" />
   <Localisation key="mainCategory_BeneathTheStolenLands" value="DLC失窃之地的暗潮" />
+  <Localisation key="mainCategory_SpawnUnits" value="生成单元" />
   <Localisation key="mainCategory_FavouriteFunctions" value="收藏夹" />
   <Localisation key="mainCategory_Cheats" value="作弊" />
   <Localisation key="mainCategory_Mods" value="Mods" />
@@ -132,9 +133,9 @@
   <Localisation key="label_CurrentScene" value="当前场景" />
   <Localisation key="label_BuffName" value="增益效果名称" />
   <Localisation key="label_BuffObjectName" value="增益对象名称" />
-  <Localisation key="label_BuffBlueprintName" value="增益蓝图名称" />
-  <Localisation key="label_BuffBlueprintAssetGuid" value="增益蓝图AssetGuid" />
+  <Localisation key="label_BuffGuid" value="增益效果Guid" />
   <Localisation key="label_BuffDescription" value="增益效果描述" />
+  <Localisation key="label_BuffTickTime" value="增益效果计时" />
   <Localisation key="label_Remove" value="移除" />
   <Localisation key="label_RemoveAll" value="移除所有" />
   <Localisation key="label_SearchBy" value="查询条件" />
@@ -173,7 +174,7 @@
   <Localisation key="label_TogglePartyAlwaysRolls20" value="切换队伍投角色掷骰子时总是取值20" />
   <Localisation key="label_CurrentSearchResultLimit" value="当前查询结果限制" />
   <Localisation key="label_CurrentFlyingHeight" value="当前飞行高度" />
-  <Localisation key="label_CurrentMinimalUnitSpeed" value="当前最小单位速度" />
+  <Localisation key="label_CurrentMinimalUnitSpeed" value="当前最小单元速度" />
   <Localisation key="label_CurrentMinimalWeaponRange" value="当前最小武器攻击距离" />
   <Localisation key="label_CurrentStealthDCIncrement" value="当前潜行难度值增量" />
   <Localisation key="label_ResetCutsceneLock" value="最好与摄像机焦点配合使用" />
@@ -186,6 +187,7 @@
   <Localisation key="label_ActionKeyEnableExperimental" value="启用实验模式" />
   <Localisation key="label_FeatDescription" value="专长描述" />
   <Localisation key="label_FeatName" value="专长名称" />
+  <Localisation key="label_FeatGUID" value="专长GUID" />
   <Localisation key="label_FeatObjectName" value="专长对象名称" />
   <Localisation key="label_FeatBlueprintAssetGuid" value="专长蓝图AssetGuid" />
   <Localisation key="label_FeatRank" value="专长等级" />
@@ -199,10 +201,16 @@
   <Localisation key="label_ParametrizedFeats" value="参数化专长" />
   <Localisation key="label_SearchInfoParametrizedFeats" value="如果在查询中找不到专长，请尝试参数化专长选项。" />
   <Localisation key="label_BlueprintName" value="蓝图名称" />
-  <Localisation key="label_UnitName" value="单位名称" />
+  <Localisation key="label_UnitName" value="单元名称" />
+  <Localisation key="label_UnitType" value="单元类型" />
+  <Localisation key="label_UnitGUID" value="单元GUID" />
+  <Localisation key="label_Race" value="种族" />
+  <Localisation key="label_Gender" value="性别" />
   <Localisation key="label_WeaponName" value="武器名称" />
   <Localisation key="label_WeaponDamage" value="武器伤害值" />
   <Localisation key="label_ChallengeRating" value="挑战等级" />
+  <Localisation key="label_SpawnHostileBandits1" value="生成敌对的强盗" />
+  <Localisation key="label_SpawnHostileBandits2" value="当已收藏单元或存储单元处于活动状态时，不能生成单元！" />
   <Localisation key="label_EditingInExperimental" value="可以在“实验”子菜单中编辑这些值。" />
   <Localisation key="label_KingdomName" value="王国名称" />
   <Localisation key="label_ArtisanMasterPieceChance" value="工匠杰作机会" />
@@ -213,6 +221,13 @@
   <Localisation key="label_UnityModManagerButtonIndex" value="DUMM按钮位置" />
   <Localisation key="label_AbilityDescription" value="能力描述" />
   <Localisation key="label_AbilityName" value="能力名称" />
+  <Localisation key="label_AbilityGuid" value="能力GUID" />
+  <Localisation key="label_AbilityRange" value="能力范围" />
+  <Localisation key="label_AbilityType" value="能力类型" />
+  <Localisation key="label_AbilityEffectOnAlly" value="对盟友的能力效果" />
+  <Localisation key="label_AbilityEffectOnEnemy" value="对敌人的能力效果" />
+  <Localisation key="label_AbilityResourceLogic" value="能力资源逻辑" />
+  <Localisation key="label_AbilityRequiredResource" value="能力所需资源" />
   <Localisation key="label_AbilityObjectName" value="能力对象名称" />
   <Localisation key="label_AbilityBlueprintAssetGuid" value="能力蓝图AssetGuid" />
   <Localisation key="label_CustomName" value="自定义名称" />
@@ -243,6 +258,23 @@
   <Localisation key="label_RegionREInformation" value="当前区域的随机遭遇信息" />
   <Localisation key="label_EncounterChanceReduced" value="遭遇几率降低" />
   <Localisation key="label_EncounterChanceInformation" value="请注意，这些设置不是随机遭遇几率计算的唯一参数。&#xA;当前区域的实际几率可以在上面的框中看到。" />
+  <Localisation key="label_DowngradeSettlements" value="降级处理" />
+  <Localisation key="label_CopyToClipboard" value="复制到剪贴板" />
+  <Localisation key="label_CopyItemInformationToClipboard" value="复制项目信息到剪贴板" />
+  <Localisation key="label_CopyAbilityInformationToClipboard" value="复制能力信息到剪贴板" />
+  <Localisation key="label_CopyBuffInformationToClipboard" value="复制增益效果信息到剪贴板" />
+  <Localisation key="label_CopyFeatInformationToClipboard" value="复制专长信息到剪贴板" />
+  <Localisation key="label_CopyUnitInformationToClipboard" value="复制单元信息到剪贴板" />
+  <Localisation key="label_SpellAbilityRangeMultiplier" value="法术 &amp; 能力范围倍数" />
+  <Localisation key="label_UnitSearchFiltersInfo" value="当使用多个过滤器时，用分号分隔它们（例如：cr:20,19&lt;b&gt;;&lt;/b&gt;gender:m 只显示CR 20 或19的男性单元）。&#xA;您可以使用感叹号来否定筛选器（例如：&lt;b&gt;!&lt;/b&gt;type:wolf;&lt;b&gt;!&lt;/b&gt;cr:12 将显示 &lt;b&gt;除&lt;/b&gt; 类型为狼或CR 12以外的所有结果）。&#xA;&lt;b&gt;Challenge Rating (整数) ➡&lt;/b&gt;  cr:12 | cr:5,7,8 | cr:0-24 | cr:&lt;5 | cr:&gt;8&#xA;&lt;b&gt;Type (完整或部分类型名称) ➡&lt;/b&gt;  type:wolf | type:wer | type:dog,wo&#xA;&lt;b&gt;Race (全名或部分种族名称) ➡&lt;/b&gt;  race:human | race:dwa | race:elf,hu&#xA;&lt;b&gt;Gender (f/m) ➡&lt;/b&gt;  gender:f | gender:m" />
+  <Localisation key="label_StoredUnits" value="存储单元" />
+  <Localisation key="label_ClearStoredUnits" value="清空存储单元" />
+  <Localisation key="label_AddFavouritesToStoredUnits" value="将收藏夹添加到存储单元" />
+  <Localisation key="label_AddResultsToStoredUnits" value="将结果添加到存储单元" />
+  <Localisation key="label_EnableActionKeyToSpawnHotkey" value="通过热键启用操作键生成单元" />
+  <Localisation key="label_ActionKeyNotSetToSpawnUnits" value="操作键未设置为生成单元" />
+  <Localisation key="label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored" value="未启用通过操作键从单元收藏夹或存储单元生成单元：" />
+  <Localisation key="label_SetToSpawnUnits" value="设置为生成单元" />
   <Localisation key="message_NotInGame" value="无法从主菜单访问该mod。&#xA;请先载入游戏或开始新游戏！" />
   <Localisation key="message_ExitCombat" value="退出战斗！" />
   <Localisation key="message_NoEnemies" value="找不到暴露的敌人！" />
@@ -251,13 +283,13 @@
   <Localisation key="message_NoValidGuids" value="输入的GUID非法！" />
   <Localisation key="message_NoValidGuid" value="输入一个合法的GUID！" />
   <Localisation key="message_NoResult" value="无结果！" />
-  <Localisation key="message_NoUnitSelected" value="没有选择单位！" />
+  <Localisation key="message_NoUnitSelected" value="没有选择单元！" />
   <Localisation key="message_NoValidEntriesFound" value="找不到有效条目。" />
   <Localisation key="message_GameLoading" value="正在加载游戏，请稍候。" />
   <Localisation key="message_NoLockPicksLeft" value="没有开锁工具！" />
   <Localisation key="message_LockPickSaved" value="开锁成功！" />
   <Localisation key="message_LockPickLost" value="开锁失败！" />
-  <Localisation key="message_NoUnitFound" value="没找到单位—请尝试不同的设置！" />
+  <Localisation key="message_NoUnitFound" value="没找到单元—请尝试不同的设置！" />
   <Localisation key="message_RenamedTo" value="重命名为" />
   <Localisation key="message_NoSpellbooksFound" value="没找到法术书！" />
   <Localisation key="message_NoSpellsFound" value="没找到法术！" />
@@ -279,6 +311,7 @@
   <Localisation key="headerOption_MercenaryCostMultiplier" value="雇佣兵成本倍数" />
   <Localisation key="headerOption_ShowFavourites" value="显示收藏夹" />
   <Localisation key="headerOption_ShowItemSets" value="显示物品套装" />
+  <Localisation key="headerOption_ShowUnitSets" value="显示单元套装" />
   <Localisation key="headerOption_TravelSpeedMultiplier" value="旅行时间缩放倍数" />
   <Localisation key="headerOption_SettingsValue" value="设置值" />
   <Localisation key="headerOption_ChanceOnGlobalMap" value="在世界地图上旅行时的遭遇几率" />
@@ -318,8 +351,8 @@
   <Localisation key="headerOption_CrittersInsteadOfBloodChance" value="遭遇非血腥动物的几率" />
   <Localisation key="toggle_AddItemIdentified" value="添加物品后自动辨识" />
   <Localisation key="toggle_AddMultipleItems" value="添加多个物品" />
-  <Localisation key="toggle_SearchCsvForCustomItemSets" value="在.csv文件中查询自定义物品套装" />
-  <Localisation key="toggle_SearchTxtForCustomItemSets" value="在.txt文件中查询自定义物品套装" />
+  <Localisation key="toggle_SearchCsvForCustomSets" value="在.csv文件中查询自定义套装" />
+  <Localisation key="toggle_SearchTxtForCustomSets" value="在.txt文件中查询自定义套装" />
   <Localisation key="toggle_RememberLastEnteredGuids" value="记住最近输入的GUID" />
   <Localisation key="toggle_RememberOpenCategories" value="记住最近打开的类别" />
   <Localisation key="toggle_RememberOpenSubMenus" value="记住最近打开的子菜单和查询设置" />
@@ -332,7 +365,7 @@
   <Localisation key="toggle_AddSpellsbooks" value="添加法术书" />
   <Localisation key="toggle_MoveFavourites" value="重新排列收藏夹的项目" />
   <Localisation key="toggle_ShowInventory" value="显示物品栏" />
-  <Localisation key="toggle_SpawnRandomEnemy" value="随机生成敌方单位" />
+  <Localisation key="toggle_SpawnRandomEnemy" value="随机生成敌方单元" />
   <Localisation key="toggle_ShowModifiedItems" value="显示已修改的蓝图" />
   <Localisation key="toggle_ShowItemTypes" value="显示和编辑物品类型蓝图" />
   <Localisation key="button_PartyExperience" value="队伍经验值" />
@@ -366,6 +399,10 @@
   <Localisation key="button_SetGuid" value="设置GUID" />
   <Localisation key="button_Receive" value="获得" />
   <Localisation key="button_ExportItemInfo" value="导出物品信息（.txt）" />
+  <Localisation key="button_ExportAbilityInfo" value="导出能力信息（.txt）" />
+  <Localisation key="button_ExportFeatInfo" value="导出专长信息（.txt）" />
+  <Localisation key="button_ExportBuffInfo" value="导出增益效果信息（.txt）" />
+  <Localisation key="button_ExportUnitInfo" value="导出单元信息（.txt）" />
   <Localisation key="button_AddFavouritesToInventory" value="添加收藏夹中所有物品到背包" />
   <Localisation key="button_ExportFavouritesGuids" value="导出收藏夹中物品的GUID" />
   <Localisation key="button_ExportFavouritesNames" value="导出收藏夹中物品的名称" />
@@ -410,7 +447,7 @@
   <Localisation key="button_SetToDefault" value="设为默认值" />
   <Localisation key="button_SorcererSupreme" value="至尊法师（混合和匹配法术）" />
   <Localisation key="button_ResetToDefault" value="重置默认值" />
-  <Localisation key="button_MinimalUnitSpeed" value="最小单位速度" />
+  <Localisation key="button_MinimalUnitSpeed" value="最小单元速度" />
   <Localisation key="button_MinimalWeaponRange" value="最小武器攻击距离" />
   <Localisation key="button_StealthDCIncrement" value="潜行难度等级增量" />
   <Localisation key="button_InstantRest" value="立即休息" />
@@ -461,6 +498,7 @@
   <Localisation key="button_PatchManually" value="手动修补" />
   <Localisation key="button_RestoreAllItemCharges" value="恢复所有物品价格" />
   <Localisation key="button_RemoveEquippedItems" value="移除所有已装备物品" />
+  <Localisation key="button_Spawn" value="生成" />
   <Localisation key="buttonToggle_PartyAlwaysRolls20" value="队伍总是投掷20" />
   <Localisation key="buttonToggle_InfiniteSkillPoints" value="无限技能点数" />
   <Localisation key="buttonToggle_IgnoreClassAlignment" value="忽略职业阵营限制" />
@@ -529,7 +567,7 @@
   <Localisation key="buttonToggle_IgnorenFeaturePrerequisites" value="选择专长时忽略专长先决条件" />
   <Localisation key="buttonToggle_IgnorenFeatureListPrerequisites" value="选择专长时忽略专长先决条件（列表）" />
   <Localisation key="buttonToggle_FeaturesIgnorePrerequisites" value="选择专长时总是忽略先决条件" />
-  <Localisation key="buttonToggle_ShowUnitInfoBox" value="显示单位信息框" />
+  <Localisation key="buttonToggle_ShowUnitInfoBox" value="显示单元信息框" />
   <Localisation key="buttonToggle_StopGameTime" value="停止时间流逝" />
   <Localisation key="buttonToggle_NoDamageFromEnemies" value="敌人不会对队伍造成伤害" />
   <Localisation key="buttonToggle_PartyOneHitKills" value="队伍成员对敌人一击必杀" />
@@ -559,6 +597,7 @@
   <Localisation key="buttonToggle_ExtraAttacksParty" value="每轮额外攻击" />
   <Localisation key="buttonToggle_AlignmentFix" value="中立阵营不会导致在守序或混乱轴上移动" />
   <Localisation key="buttonToggle_SpellbookAbilityAlignmentChecks" value="忽略法术书和阵营能力检查" />
+  <Localisation key="buttonToggle_TabletopSpellAbilityRange" value="桌游法术 &amp; 能力范围（25 ft, 100 ft, 400 ft）" />
   <Localisation key="buttonToggle_SetSpeedOnSummon" value="设置召唤生物的移动速度" />
   <Localisation key="buttonToggle_EnableFocusCameraSelectedUnit" value="启用选定的头像自动获得焦点" />
   <Localisation key="buttonToggle_ClaimResources" value="自动获得你土地上所有的资源" />
@@ -600,6 +639,8 @@
   <Localisation key="buttonToggle_MakeSummonsControllable" value="使召唤生物可控" />
   <Localisation key="buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="使被召唤的野蛮人丧失变形颅骨的能力" />
   <Localisation key="buttonToggle_RemoveSummonsGlow" value="移除召唤生物身上的微光" />
+  <Localisation key="buttonToggle_AutomaticallyLoadLastSave" value="自动载入最近一次存档" />
+  <Localisation key="buttonToggle_ActionKeySpawnUnitsFromUnitFavourites" value="从单元收藏夹或存储单元生成单元" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />
@@ -635,8 +676,8 @@
   <Localisation key="arrayItem_ActionKeyMain_MakeControllable" value="可控制" />
   <Localisation key="arrayItem_ActionKeyMain_SpawnCritters" value="生成动物" />
   <Localisation key="arrayItem_ActionKeyMain_AddToParty" value="添加到队伍" />
-  <Localisation key="arrayItem_ActionKeyMain_SpawnEnemy" value="生成敌人" />
-  <Localisation key="arrayItem_ActionKeyMain_RotateUnit" value="旋转单位" />
+  <Localisation key="arrayItem_ActionKeyMain_SpawnUnit" value="生成单元" />
+  <Localisation key="arrayItem_ActionKeyMain_RotateUnit" value="旋转单元" />
   <Localisation key="arrayItem_ActionKeyMain_RecreateUnitDescriptor" value="重新创建单元描述符" />
   <Localisation key="arrayItem_ActionKeyKill_Kill" value="杀死" />
   <Localisation key="arrayItem_ActionKeyKill_ForceKill" value="强制杀死" />
@@ -699,7 +740,10 @@
   <Localisation key="charStat_ArmourClass" value="盔甲等级" />
   <Localisation key="charStat_Reach" value="接触" />
   <Localisation key="charStat_HitPoints" value="生命点数" />
+  <Localisation key="charStat_MaxHitPoints" value="最大生命点数" />
   <Localisation key="charStat_Speed" value="移动速度" />
+  <Localisation key="warning_FilterPatternError1" value="您的条目与筛选模式不匹配！" />
+  <Localisation key="warning_FilterPatternError2" value="有关详细信息，请查看日志。" />
   <Localisation key="warning_Buffs" value="在添加或删除不熟悉的增益效果之前一定要保存！" />
   <Localisation key="warning_Experimental" value="在使用这些选项之前，请确保保存并创建备份！" />
   <Localisation key="warning_Alignment" value="改变阵营时要小心！" />
@@ -746,6 +790,8 @@
   <Localisation key="warning_UnlimitedCasting" value="在这一场景的最后一场战斗之后，无限制的施法会使游戏崩溃/冻结。&#xA;因此强烈建议暂时停用它！" />
   <Localisation key="warning_NoDamageFromEnemies" value="如果你还没有清除该区域的所有战斗遭遇，强烈建议暂时禁用该区域的“敌人不能伤害队伍”！&#xA;否则同伴的任务可能会失败！" />
   <Localisation key="warning_PreventAlignmentChanges" value="阻止阵营改变处于活动状态！" />
+  <Localisation key="warning_RevealLocations" value="不能反转已暴露位置！" />
+  <Localisation key="warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites" value="随机生成敌对单元（实验）和从单元收藏夹或存储单元中生成敌人同时激活！" />
   <Localisation key="tooltip_BuffDurationMultiplier" value="选择所产生的增益效果持续时间将乘以所选值。&#xA;请注意，非常高的倍数可能会阻止它应用于持续时间非常长的增益效果。&#xA;如果是这种情况，您将能够在日志中看到错误（System.OverflowException）。" />
   <Localisation key="tooltip_SetEncumbrance" value="设置负重上限为单个角色和队伍共享都的选择值。" />
   <Localisation key="tooltip_MaxAbilityScoreAtCC" value="使用文本输入框设置角色创建时的最大属性点数。" />
@@ -810,8 +856,10 @@
   <Localisation key="tooltip_AddMultipleItems" value="允许插入逗号分隔的多个ID。" />
   <Localisation key="tooltip_ShowEnemies" value="显示敌人而不是队伍。" />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿启用此选项将允许您添加游戏中通常不包括的壮举版本，例如击剑恩典（巨木棒Greatclub？）。" />
+  <Localisation key="tooltip_SpellAbilityRange" value="使用滑块或自定义倍数调整法术和能力范围。" />
   <Localisation key="tooltip_RestoreSpellsAbilites" value="恢复你的队伍的法术和能力。&#xA;不影响伤害 - 改为使用即时休息。" />
   <Localisation key="tooltip_SpellbookAbilityAlignmentChecks" value="禁用对法术书访问的对齐检查以及何时使用&#xA;例如。 允许你在混乱邪恶中使用圣骑士的能力。" />
+  <Localisation key="tooltip_TabletopSpellAbilityRange" value="﻿设置法术 &amp; 能力范围： 25 ft（近距）, 100 ft（中距）, 400 ft（远距）。&#xA;不考虑施法者等级！" />
   <Localisation key="tooltip_NoArcaneSpellFailure" value="为你的团队禁用奥术法术失败。" />
   <Localisation key="tooltip_AlwaysSucceedCastingDefensively" value="﻿防止队员的防御性施法失败。" />
   <Localisation key="tooltip_AlwaysSucceedConcentration" value="防止团队成员无法集中检查。" />
@@ -912,7 +960,7 @@
   <Localisation key="tooltip_NoInactiveCampsite" value="﻿不保留不使用的营地。" />
   <Localisation key="tooltip_SpiderBegone" value="﻿用狼交换蜘蛛模型，用鼠群交换蜘蛛群。&#xA;注意，这不会影响小的不能相互作用的蜘蛛！&#xA;更改设置后，强烈建议重新启动/重新加载游戏！" />
   <Localisation key="tooltip_PreventQuestFailure" value="﻿而主动任务不会失败。" />
-  <Localisation key="tooltip_DevTools" value="启用内置开发工具（例如控制台）并添加新命令。。" />
+  <Localisation key="tooltip_DevTools" value="启用内置开发工具（例如控制台）并添加新命令。" />
   <Localisation key="tooltip_LogToUMM" value="将所有智能控制台日志写入统一MOD管理日志。" />
   <Localisation key="tooltip_UberLogger" value="启用内置Logger" />
   <Localisation key="tooltip_UberLoggerForward" value="转出UberLogger的日志信息到Unity的输出日志。" />
@@ -921,6 +969,7 @@
   <Localisation key="tooltip_PatchManually" value="立即应用项目修改。" />
   <Localisation key="tooltip_ToggleHUD" value="通过热键切换HUD。" />
   <Localisation key="tooltip_DisplayObjectInfo" value="显示一个对象的信息和ID。" />
+  <Localisation key="tooltip_AutomaticallyLoadLastSave" value="在游戏开始时自动载入最近一次存档。" />
   <Localisation key="tooltip_TaxCollector" value="税务员将在您离开时为您收集建造点和金钱（根据您的角色和王国统计数据）。" />
   <Localisation key="tooltip_ShowTooltips" value="通过mod禁用工具提示的显示。" />
   <Localisation key="tooltip_LogMessages" value="禁用mod创建的游戏内日志消息。" />
@@ -933,6 +982,11 @@
   <Localisation key="tooltip_ArrowDown" value="单击以移动&#xA;元素向下&#xA;或按住Shift键并单击&#xA;将其移至&#xA;底部。" />
   <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="将护甲检定惩罚设置为0将仅在战斗遭遇之外有效。&#xA;未装备的物品将始终显示护甲检查惩罚0。" />
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="无奥术法术失败将只在战斗遭遇之外有效。" />
+  <Localisation key="tooltip_ActionKeySpawnUnitsFromUnitFavourites" value="使选择的敌人从单元收藏夹或储存单元中产生。" />
+  <Localisation key="tooltip_AddMultipleToStorage" value="单击以删除&#xA;已存储单元&#xA;或按住shift键单击&#xA;再次添加。" />
+  <Localisation key="misc_Friendly" value="友好的" />
+  <Localisation key="misc_Passive" value="消极的" />
+  <Localisation key="misc_Hostile" value="敌对的" />
   <Localisation key="misc_items" value="物品（多个）" />
   <Localisation key="misc_times" value="次数（多个）" />
   <Localisation key="misc_item" value="物品" />

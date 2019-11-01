@@ -4,18 +4,17 @@
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
   <PropertyGroup>
     <ProjectGuid>{E557B19F-AA0F-4C2B-9484-68EAB7A5B8FB}</ProjectGuid>
-    <NeutralLanguage>zh-CN</NeutralLanguage>
     <OutputType>Library</OutputType>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworks>net472</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>BagOfTricks</RootNamespace>
     <AssemblyName>BagOfTricks</AssemblyName>
-    <ApplicationVersion>1.14.7.16</ApplicationVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyVersion>1.14.7.16</AssemblyVersion>
-    <FileVersion>1.14.7.16</FileVersion>
-    <Version>1.14.7.16</Version>
+    <ApplicationVersion>1.15.0.17</ApplicationVersion>
+    <AssemblyVersion>1.15.0.17</AssemblyVersion>
+    <FileVersion>1.15.0.17</FileVersion>
+    <Version>1.15.0.17</Version>
     <Authors>李允</Authors>
     <Company>Legend</Company>
     <Copyright>Copyright © Legend 2019</Copyright>

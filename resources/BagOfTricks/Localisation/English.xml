@@ -25,6 +25,7 @@
   <Localisation key="mainCategory_AddAbilities" value="Abilities" />
   <Localisation key="mainCategory_SpellsAndSpellbooks" value="Spells &amp; Spellbooks" />
   <Localisation key="mainCategory_BeneathTheStolenLands" value="Beneath The Stolen Lands" />
+  <Localisation key="mainCategory_SpawnUnits" value="Spawn Units" />
   <Localisation key="mainCategory_FavouriteFunctions" value="Favourite Functions" />
   <Localisation key="mainCategory_Cheats" value="Cheats" />
   <Localisation key="mainCategory_Mods" value="Mods" />
@@ -132,9 +133,9 @@
   <Localisation key="label_CurrentScene" value="Current Scene" />
   <Localisation key="label_BuffName" value="Buff Name" />
   <Localisation key="label_BuffObjectName" value="Buff Object Name" />
-  <Localisation key="label_BuffBlueprintName" value="Buff Blueprint Name" />
-  <Localisation key="label_BuffBlueprintAssetGuid" value="Buff Blueprint AssetGuid" />
+  <Localisation key="label_BuffGuid" value="Buff Guid" />
   <Localisation key="label_BuffDescription" value="Buff Description" />
+  <Localisation key="label_BuffTickTime" value="Buff Tick Time" />
   <Localisation key="label_Remove" value="Remove" />
   <Localisation key="label_RemoveAll" value="Remove All" />
   <Localisation key="label_SearchBy" value="Search by" />
@@ -186,6 +187,7 @@
   <Localisation key="label_ActionKeyEnableExperimental" value="Enable Experimental Mode" />
   <Localisation key="label_FeatDescription" value="Feat Description" />
   <Localisation key="label_FeatName" value="Feat Name" />
+  <Localisation key="label_FeatGUID" value="Feat GUID" />
   <Localisation key="label_FeatObjectName" value="Feat Object Name" />
   <Localisation key="label_FeatBlueprintAssetGuid" value="Feat Blueprint AssetGuid" />
   <Localisation key="label_FeatRank" value="Feat Rank" />
@@ -200,9 +202,15 @@
   <Localisation key="label_SearchInfoParametrizedFeats" value="If you can't find a feat through the search try the Parametrized Feats option." />
   <Localisation key="label_BlueprintName" value="Blueprint Name" />
   <Localisation key="label_UnitName" value="Unit Name" />
+  <Localisation key="label_UnitType" value="Unit Type" />
+  <Localisation key="label_UnitGUID" value="Unit GUID" />
+  <Localisation key="label_Race" value="Race" />
+  <Localisation key="label_Gender" value="Gender" />
   <Localisation key="label_WeaponName" value="Weapon Name" />
   <Localisation key="label_WeaponDamage" value="Weapon Damage" />
   <Localisation key="label_ChallengeRating" value="Challenge Rating" />
+  <Localisation key="label_SpawnHostileBandits1" value="Spawn Hostile Bandits" />
+  <Localisation key="label_SpawnHostileBandits2" value="not possible while Spawn Units From Unit Favourites / Stored Units is active!" />
   <Localisation key="label_EditingInExperimental" value="The values can be edited in the Experimental sub-menu." />
   <Localisation key="label_KingdomName" value="Kingdom Name" />
   <Localisation key="label_ArtisanMasterPieceChance" value="Artisan Masterpiece Chance" />
@@ -213,6 +221,13 @@
   <Localisation key="label_UnityModManagerButtonIndex" value="Unity Mod Manger Button Position" />
   <Localisation key="label_AbilityDescription" value="Ability Description" />
   <Localisation key="label_AbilityName" value="Ability Name" />
+  <Localisation key="label_AbilityGuid" value="Ability GUID" />
+  <Localisation key="label_AbilityRange" value="Ability Range" />
+  <Localisation key="label_AbilityType" value="Ability Type" />
+  <Localisation key="label_AbilityEffectOnAlly" value="Ability Effect On Ally" />
+  <Localisation key="label_AbilityEffectOnEnemy" value="Ability Effect On Enemy" />
+  <Localisation key="label_AbilityResourceLogic" value="Ability Resource Logic" />
+  <Localisation key="label_AbilityRequiredResource" value="Ability Required Resource" />
   <Localisation key="label_AbilityObjectName" value="Ability Object Name" />
   <Localisation key="label_AbilityBlueprintAssetGuid" value="Ability Blueprint AssetGuid" />
   <Localisation key="label_CustomName" value="Custom Name" />
@@ -243,6 +258,23 @@
   <Localisation key="label_RegionREInformation" value="Current Region's Random Encounter Information" />
   <Localisation key="label_EncounterChanceReduced" value="Encounter Chance Reduced" />
   <Localisation key="label_EncounterChanceInformation" value="Note that these settings are not the only parameters for random encounter chance calculation.&#xA;The actual chances for the current region can be seen in the box above." />
+  <Localisation key="label_DowngradeSettlements" value="Downgrade Settlements" />
+  <Localisation key="label_CopyToClipboard" value="Copy To Clipboard" />
+  <Localisation key="label_CopyItemInformationToClipboard" value="Copy Item Information To Clipboard" />
+  <Localisation key="label_CopyAbilityInformationToClipboard" value="Copy Ability Information To Clipboard" />
+  <Localisation key="label_CopyBuffInformationToClipboard" value="Copy Buff Information To Clipboard" />
+  <Localisation key="label_CopyFeatInformationToClipboard" value="Copy Feat Information To Clipboard" />
+  <Localisation key="label_CopyUnitInformationToClipboard" value="Copy Unit Information To Clipboard" />
+  <Localisation key="label_SpellAbilityRangeMultiplier" value="Spell &amp; Ability Range Multiplier" />
+  <Localisation key="label_UnitSearchFiltersInfo" value="When using multiple filters separate them with a semi-colon (e.g. cr:20,19&lt;b&gt;;&lt;/b&gt;gender:m will only display male units with CR 20 or 19).&#xA;You can use an exclamation mark to negate a filter (e.g. &lt;b&gt;!&lt;/b&gt;type:wolf;&lt;b&gt;!&lt;/b&gt;cr:12 will display all results &lt;b&gt;except&lt;/b&gt; those of the wolf type or CR 12.&#xA;&lt;b&gt;Challenge Rating (integers) ➡&lt;/b&gt;  cr:12 | cr:5,7,8 | cr:0-24 | cr:&lt;5 | cr:&gt;8&#xA;&lt;b&gt;Type (full or partial type name) ➡&lt;/b&gt;  type:wolf | type:wer | type:dog,wo&#xA;&lt;b&gt;Race (full or partial race name) ➡&lt;/b&gt;  race:human | race:dwa | race:elf,hu&#xA;&lt;b&gt;Gender (f/m) ➡&lt;/b&gt;  gender:f | gender:m" />
+  <Localisation key="label_StoredUnits" value="Stored Units" />
+  <Localisation key="label_ClearStoredUnits" value="Clear Stored Units" />
+  <Localisation key="label_AddFavouritesToStoredUnits" value="Add Favourites To Stored Units" />
+  <Localisation key="label_AddResultsToStoredUnits" value="Add Results To Stored Units" />
+  <Localisation key="label_EnableActionKeyToSpawnHotkey" value="Enable the Action Key to Spawn Units via hotkey" />
+  <Localisation key="label_ActionKeyNotSetToSpawnUnits" value="The Action Key is not set to Spawn Units" />
+  <Localisation key="label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored" value="Spawn Units From Unit Favourites / Stored Units via the Action Key isn't enabled:" />
+  <Localisation key="label_SetToSpawnUnits" value="Set To Spawn Units" />
   <Localisation key="message_NotInGame" value="The mod can't be accessed from the main menu.&#xA;Either load a save file or start a new character!" />
   <Localisation key="message_ExitCombat" value="Exit Combat!" />
   <Localisation key="message_NoEnemies" value="There are no revealed enemies!" />
@@ -279,6 +311,7 @@
   <Localisation key="headerOption_MercenaryCostMultiplier" value="Mercenary Cost Multiplier" />
   <Localisation key="headerOption_ShowFavourites" value="Show Favourites" />
   <Localisation key="headerOption_ShowItemSets" value="Show Item Sets" />
+  <Localisation key="headerOption_ShowUnitSets" value="Show Unit Sets" />
   <Localisation key="headerOption_TravelSpeedMultiplier" value="Travel Time Scale Multiplier" />
   <Localisation key="headerOption_SettingsValue" value="Settings Value" />
   <Localisation key="headerOption_ChanceOnGlobalMap" value="Chance On Global Map" />
@@ -318,8 +351,8 @@
   <Localisation key="headerOption_CrittersInsteadOfBloodChance" value="Critters Instead Of Blood Chance" />
   <Localisation key="toggle_AddItemIdentified" value="Add Items Identified" />
   <Localisation key="toggle_AddMultipleItems" value="Add Multiple Items" />
-  <Localisation key="toggle_SearchCsvForCustomItemSets" value="Search .csv files for Custom Item sets" />
-  <Localisation key="toggle_SearchTxtForCustomItemSets" value="Search .txt files for Custom Item sets" />
+  <Localisation key="toggle_SearchCsvForCustomSets" value="Search .csv files for custom sets" />
+  <Localisation key="toggle_SearchTxtForCustomSets" value="Search .txt files for custom sets" />
   <Localisation key="toggle_RememberLastEnteredGuids" value="Remember last entered Guid(s)" />
   <Localisation key="toggle_RememberOpenCategories" value="Remember open categories" />
   <Localisation key="toggle_RememberOpenSubMenus" value="Remember open sub-menus and search settings" />
@@ -366,6 +399,10 @@
   <Localisation key="button_SetGuid" value="Set Guid" />
   <Localisation key="button_Receive" value="Receive" />
   <Localisation key="button_ExportItemInfo" value="Export Item Information (.txt)" />
+  <Localisation key="button_ExportAbilityInfo" value="Export Ability Information (.txt)" />
+  <Localisation key="button_ExportFeatInfo" value="Export Feat Information (.txt)" />
+  <Localisation key="button_ExportBuffInfo" value="Export Buff Information (.txt)" />
+  <Localisation key="button_ExportUnitInfo" value="Export Unit Information (.txt)" />
   <Localisation key="button_AddFavouritesToInventory" value="Add Favourites To Inventory" />
   <Localisation key="button_ExportFavouritesGuids" value="Export Favourites' Guids" />
   <Localisation key="button_ExportFavouritesNames" value="Export Favourites' Names" />
@@ -461,6 +498,7 @@
   <Localisation key="button_PatchManually" value="Patch Manually" />
   <Localisation key="button_RestoreAllItemCharges" value="Restore All Item Charges" />
   <Localisation key="button_RemoveEquippedItems" value="Remove All Equipped Items" />
+  <Localisation key="button_Spawn" value="Spawn" />
   <Localisation key="buttonToggle_PartyAlwaysRolls20" value="Party Always Rolls 20" />
   <Localisation key="buttonToggle_InfiniteSkillPoints" value="Infinite Skill Points" />
   <Localisation key="buttonToggle_IgnoreClassAlignment" value="Ignore Class Alignment Restrictions" />
@@ -559,6 +597,7 @@
   <Localisation key="buttonToggle_ExtraAttacksParty" value="Extra Attacks Per Round" />
   <Localisation key="buttonToggle_AlignmentFix" value="Neutral Alignment Shifts Don't Cause Movement On The Law/Chaos Axis" />
   <Localisation key="buttonToggle_SpellbookAbilityAlignmentChecks" value="Ignore Spellbook And Ability Alignment Checks" />
+  <Localisation key="buttonToggle_TabletopSpellAbilityRange" value="Tabletop Spell &amp; Ability Ranges (25 ft, 100 ft, 400 ft)" />
   <Localisation key="buttonToggle_SetSpeedOnSummon" value="Set Creature's Speed When Summoned" />
   <Localisation key="buttonToggle_EnableFocusCameraSelectedUnit" value="Enable Focus On Selected Portrait" />
   <Localisation key="buttonToggle_ClaimResources" value="Claim All Revealed Resources In Your Lands" />
@@ -600,6 +639,8 @@
   <Localisation key="buttonToggle_MakeSummonsControllable" value="Make Summons Controllable" />
   <Localisation key="buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Disable Warpainted Skull's Ability For Summoned Barbarians" />
   <Localisation key="buttonToggle_RemoveSummonsGlow" value="Remove Summons' Glow" />
+  <Localisation key="buttonToggle_AutomaticallyLoadLastSave" value="Automatically Load Last Save" />
+  <Localisation key="buttonToggle_ActionKeySpawnUnitsFromUnitFavourites" value="Spawn Units From Unit Favourites / Stored Units" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -635,7 +676,7 @@
   <Localisation key="arrayItem_ActionKeyMain_MakeControllable" value="Make Controllable" />
   <Localisation key="arrayItem_ActionKeyMain_SpawnCritters" value="Spawn Critters" />
   <Localisation key="arrayItem_ActionKeyMain_AddToParty" value="Add To Party" />
-  <Localisation key="arrayItem_ActionKeyMain_SpawnEnemy" value="Spawn Enemy" />
+  <Localisation key="arrayItem_ActionKeyMain_SpawnUnit" value="Spawn Unit" />
   <Localisation key="arrayItem_ActionKeyMain_RotateUnit" value="Rotate Unit" />
   <Localisation key="arrayItem_ActionKeyMain_RecreateUnitDescriptor" value="Recreate Unit Descriptor" />
   <Localisation key="arrayItem_ActionKeyKill_Kill" value="Kill" />
@@ -699,7 +740,10 @@
   <Localisation key="charStat_ArmourClass" value="Armour Class" />
   <Localisation key="charStat_Reach" value="Reach" />
   <Localisation key="charStat_HitPoints" value="Hit Points" />
+  <Localisation key="charStat_MaxHitPoints" value="Max Hit Points" />
   <Localisation key="charStat_Speed" value="Speed" />
+  <Localisation key="warning_FilterPatternError1" value="Your entry does not match the filter pattern!" />
+  <Localisation key="warning_FilterPatternError2" value="Check the log for more information." />
   <Localisation key="warning_Buffs" value="Make sure to save before adding or removing unfamiliar buffs!" />
   <Localisation key="warning_Experimental" value="Make sure to save and create backups before using any of these options!" />
   <Localisation key="warning_Alignment" value="Be careful when changing alignment!" />
@@ -746,6 +790,8 @@
   <Localisation key="warning_UnlimitedCasting" value="Unlimited Casting is known to crash/freeze the game after the final fight of this scene.&#xA;Thus it is highly recommended to deactivate it temporarily!" />
   <Localisation key="warning_NoDamageFromEnemies" value="If you haven't cleared all combat encounters in this area is highly recommended to temporarily disable 'Enemies Don't Deal Damage To The Party' in this area!&#xA;Otherwise a companion quest might break!" />
   <Localisation key="warning_PreventAlignmentChanges" value="Prevent Alignment Changes is active!" />
+  <Localisation key="warning_RevealLocations" value="Revealing locations can't be reversed!" />
+  <Localisation key="warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites" value="Spawn Random Hostile Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!" />
   <Localisation key="tooltip_BuffDurationMultiplier" value="The duration of buffs cast by the selection will be multiplied by the selected value.&#xA;Note that extremely high multipliers might prevent it from being applied to very long running buffs.&#xA;If that is the case you will be able to see an error in the log (System.OverflowException)." />
   <Localisation key="tooltip_SetEncumbrance" value="Sets the encumbrance for individual characters and the party as a whole to the chosen value." />
   <Localisation key="tooltip_MaxAbilityScoreAtCC" value="Use the input field to set the maximal ability score at character creation." />
@@ -810,8 +856,10 @@
   <Localisation key="tooltip_AddMultipleItems" value="Allows you to insert multiple Guid separated by commas." />
   <Localisation key="tooltip_ShowEnemies" value="Display enemies instead of party members." />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿Enabling this options will allow you to add versions of feats the game doesn't normally include e.g. Fencing Grace (Greatclub)." />
+  <Localisation key="tooltip_SpellAbilityRange" value="Use the slider or a custom multiplier to adjust spell and ability ranges." />
   <Localisation key="tooltip_RestoreSpellsAbilites" value="Restore your party's spells and abilities﻿.&#xA;Does not affect Burn - use Instant Rest instead." />
   <Localisation key="tooltip_SpellbookAbilityAlignmentChecks" value="Disable alignment checks for spellbooks access and when using ability&#xA;e.g. allowing you to use Paladin abilities while being Chaotic Evil." />
+  <Localisation key="tooltip_TabletopSpellAbilityRange" value="﻿Sets the Spell &amp; Ability Ranges to 25 ft (close), 100 ft (medium), 400 ft (long).&#xA;Caster level isn't taken into account!" />
   <Localisation key="tooltip_NoArcaneSpellFailure" value="﻿Disables arcane spell failure for your party." />
   <Localisation key="tooltip_AlwaysSucceedCastingDefensively" value="﻿Prevents party members from failing casting defensively." />
   <Localisation key="tooltip_AlwaysSucceedConcentration" value="Prevents party members from failing concentration checks." />
@@ -921,6 +969,7 @@
   <Localisation key="tooltip_PatchManually" value="Applies the item modification immediately." />
   <Localisation key="tooltip_ToggleHUD" value="Enables toggling of the HUD via hotkey." />
   <Localisation key="tooltip_DisplayObjectInfo" value="Displays an object's name and GUID when hovering your cursor over it." />
+  <Localisation key="tooltip_AutomaticallyLoadLastSave" value="Automatically loads the last on game start." />
   <Localisation key="tooltip_TaxCollector" value="The Tax Collector will collect build points and money (based on your character and kingdom stats) for you while you are gone." />
   <Localisation key="tooltip_ShowTooltips" value="﻿﻿Disables the display of tooltips by the mod." />
   <Localisation key="tooltip_LogMessages" value="﻿Disables in-game log messages created by the mod." />
@@ -933,6 +982,11 @@
   <Localisation key="tooltip_ArrowDown" value="Click to move&#xA;the element down&#xA;or shift-click&#xA;to move it to&#xA;the bottom." />
   <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="Set Armour Check Penalty To 0 will only be active outside of combat encounters.&#xA;Unequipped items will always display an armour check penalty of 0." />
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="No Arcane Spell Failure will only be active outside of combat encounters." />
+  <Localisation key="tooltip_ActionKeySpawnUnitsFromUnitFavourites" value="Enables picking enemies to spawn from the unit favourites / stored units." />
+  <Localisation key="tooltip_AddMultipleToStorage" value="Click to remove&#xA;the unit from storage&#xA;or shift-click to&#xA;add it again." />
+  <Localisation key="misc_Friendly" value="Friendly" />
+  <Localisation key="misc_Passive" value="Passive" />
+  <Localisation key="misc_Hostile" value="Hostile" />
   <Localisation key="misc_items" value="items" />
   <Localisation key="misc_times" value="times" />
   <Localisation key="misc_item" value="item" />

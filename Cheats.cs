@@ -100,8 +100,7 @@ namespace BagOfTricks
             foreach (var itemEntity in Game.Instance.Player.Inventory) itemEntity.RestoreCharges();
         }
 
-        private static void UpdateMap(GlobalMapRules instance, GlobalMapState globalMap,
-            HashSet<BlueprintMapEdge> blueprintMapEdgeSet)
+        private static void UpdateMap(GlobalMapRules instance, GlobalMapState globalMap, IEnumerable<BlueprintMapEdge> blueprintMapEdgeSet)
         {
             foreach (var blueprint in blueprintMapEdgeSet)
                 try
@@ -135,12 +134,13 @@ namespace BagOfTricks
             }
         }
 
-        public static void RevealAllLocationsExceptWaypointHidden()
+
+        public static void RevealLocationsByType(List<LocationType> types)
         {
             var instance = GlobalMapRules.Instance;
             var globalMap = Game.Instance.Player.GlobalMap;
             foreach (var blueprint in Utilities.GetScriptableObjects<BlueprintLocation>())
-                if (!Common.IsHiddenOrWaypoint(blueprint))
+                if (types.Contains(blueprint.Type))
                     try
                     {
                         var locationData = globalMap.GetLocationData(blueprint);
@@ -157,34 +157,17 @@ namespace BagOfTricks
                         modLogger.Log(ex.ToString());
                     }
 
-            UpdateMap(instance, globalMap,
-                (HashSet<BlueprintMapEdge>) Utilities.GetScriptableObjects<BlueprintMapEdge>());
-        }
-
-        public static void RevealLocationsByType(LocationType type)
-        {
-            var instance = GlobalMapRules.Instance;
-            var globalMap = Game.Instance.Player.GlobalMap;
-            foreach (var blueprint in Utilities.GetScriptableObjects<BlueprintLocation>())
-                if (blueprint.Type == type)
-                    try
-                    {
-                        var locationData = globalMap.GetLocationData(blueprint);
-                        locationData.EdgesOpened = true;
-                        locationData.Reveal();
-
-                        var locationObject = instance.GetLocationObject(blueprint);
-                        if ((bool) instance)
-                            if ((bool) locationObject)
-                                instance.RevealLocation(locationObject);
-                    }
-                    catch (Exception ex)
-                    {
-                        modLogger.Log(ex.ToString());
-                    }
-
-            UpdateMap(instance, globalMap,
-                (HashSet<BlueprintMapEdge>) Utilities.GetScriptableObjects<BlueprintMapEdge>());
+            foreach (var blueprint in Utilities.GetScriptableObjects<BlueprintMapEdge>())
+                try
+                {
+                    globalMap.GetEdgeData(blueprint).UpdateExplored(1f, 1);
+                    if ((bool)((UnityEngine.Object)instance))
+                        instance.GetEdgeObject(blueprint).UpdateRenderers();
+                }
+                catch (Exception ex)
+                {
+                    UberDebug.LogException(ex);
+                }
         }
 
         public static void RevealAllLocations()

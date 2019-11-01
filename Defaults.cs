@@ -27,7 +27,6 @@
 
         public static readonly float sillyBloddChance = 0.1f;
         public static readonly float debugTimeScale = 1f;
-
         public static readonly float artisanMasterpieceChance = 0.33f;
         public static readonly int defaultMapResourceCost = 15;
     }

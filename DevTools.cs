@@ -20,7 +20,6 @@ namespace BagOfTricks
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton("DevToolsRender");
             GL.EndHorizontal();
-
             MenuTools.ToggleButton(ref settings.toggleDevTools, "misc_Enable", "tooltip_DevTools");
 
             if (Strings.ToBool(settings.toggleDevTools))

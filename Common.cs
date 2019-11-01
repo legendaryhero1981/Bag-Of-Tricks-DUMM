@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml.Serialization;
-
-using Kingmaker;
+﻿using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -16,8 +10,6 @@ using Kingmaker.Designers;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.Enums;
 using Kingmaker.GameModes;
-using Kingmaker.Globalmap.Blueprints;
-using Kingmaker.Globalmap.State;
 using Kingmaker.RuleSystem;
 using Kingmaker.UI;
 using Kingmaker.UI.Log;
@@ -27,6 +19,12 @@ using Kingmaker.UnitLogic.Commands;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Utility;
 using Kingmaker.View;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
 
 using UnityEngine;
 
@@ -126,10 +124,9 @@ namespace BagOfTricks
             unit.Descriptor.ResurrectAndFullRestore();
         }
 
-        public static void Buff(UnitEntityData unit, string guid)
+        public static void Buff(UnitEntityData unit, string buffGuid)
         {
-            unit.Descriptor.AddFact((BlueprintUnitFact) Utilities.GetBlueprintByGuid<BlueprintBuff>(guid),
-                (MechanicsContext) null, new FeatureParam());
+            unit.Descriptor.AddFact((BlueprintUnitFact)Utilities.GetBlueprintByGuid<BlueprintBuff>(buffGuid), (MechanicsContext)null, new FeatureParam());
         }
 
         public static void Charm(UnitEntityData unit)
@@ -208,6 +205,27 @@ namespace BagOfTricks
             return new Vector3();
         }
 
+        public static void SpawnPassiveUnit(Vector3 position, string guid)
+        {
+            GameModeType currentMode = Game.Instance.CurrentMode;
+            if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
+            {
+                UnitEntityData player = Game.Instance.Player.MainCharacter.Value;
+                UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);                
+                unit.Descriptor.SwitchFactions(Utilities.GetBlueprintByGuid<BlueprintFaction>("d8de50cc80eb4dc409a983991e0b77ad"), true); // d8de50cc80eb4dc409a983991e0b77ad Neutrals
+                unit.AttackFactions.Clear();
+            }
+        }
+        public static void SpawnFriendlyUnit(Vector3 position, string guid)
+        {
+            GameModeType currentMode = Game.Instance.CurrentMode;
+            if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
+            {
+                UnitEntityData player = Game.Instance.Player.MainCharacter.Value;
+                UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);
+                unit.Descriptor.SwitchFactions(Game.Instance.BlueprintRoot.PlayerFaction, true);
+            }
+        }
         public static void SpawnHostileUnit(Vector3 position, string guid)
         {
             var currentMode = Game.Instance.CurrentMode;
@@ -628,46 +646,6 @@ namespace BagOfTricks
             return enumerable.ElementAt(index);
         }
 
-        public static bool IsHiddenOrWaypoint(LocationData location)
-        {
-            switch (location.Blueprint.Type)
-            {
-                case LocationType.HiddenLocation:
-                case LocationType.Waypoint:
-                case LocationType.SystemWaypoint:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        public static bool IsHiddenOrWaypoint(BlueprintLocation location)
-        {
-            switch (location.Type)
-            {
-                case LocationType.HiddenLocation:
-                case LocationType.Waypoint:
-                case LocationType.SystemWaypoint:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        public static bool IsEarlierVersion(string modEntryVersion)
-        {
-            if (CompareVersionStrings(settings.modVersion, modEntryVersion) == -1)
-                return true;
-            else
-                return false;
-        }
-
-        public static int CompareVersionStrings(string v1, string v2)
-        {
-            return new Version(v1).CompareTo(new Version(v2));
-        }
-
-
         private static Canvas[] hiddenCanvases;
 
         public static void ToggleHUD()
@@ -764,6 +742,19 @@ namespace BagOfTricks
             if (settings.settingShowDebugInfo)
             {
                 Main.ModLogger.Log(message.ToString());
+            }
+        }
+
+        public static void RefreshArrayFromFile(ref string [] array, string folder, string fileFormat)
+        {
+            try
+            {
+                array = Directory.GetFiles(Storage.modEntryPath + folder, $"*.{fileFormat}");
+                Array.Sort<string>(array);
+            }
+            catch (IOException exception)
+            {
+                Main.ModLogger.Log(exception.ToString());
             }
         }
 

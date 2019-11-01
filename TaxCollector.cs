@@ -52,7 +52,6 @@ namespace BagOfTricks
             var collectTime = DateTime.Now;
             var timePassed = collectTime.Subtract(saveTime);
             var timeMultiplier = (int) Math.Floor(timePassed.TotalHours);
-
             if (timeMultiplier < 1) return 0;
             if (timeMultiplier > 72) timeMultiplier = 72;
             var result = Mathf.RoundToInt(timeMultiplier * rank * Random.Range(0.75f, 1.5f));

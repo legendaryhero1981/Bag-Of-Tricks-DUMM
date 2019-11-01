@@ -289,7 +289,6 @@ namespace BagOfTricks
         public string toggleOverwriteFogOfWar = Storage.isFalseString;
         public string toggleFogOfWarFull = Storage.isTrueString;
         public bool toggleFogOfWarBool = true;
-        public bool toggleFogOfWarBoolDefault = true;
 
         public int selectedLocalisation = 0;
         public string selectedLocalisationName = "English";
@@ -524,6 +523,7 @@ namespace BagOfTricks
             "MapTravel",
             "Kingdom",
             "DiceRolls",
+            "SpawnUnitsMenu",
             "BeneathTheStolenLands",
             "Misc"
         };
@@ -590,6 +590,25 @@ namespace BagOfTricks
         public string toggleDisableWarpaintedSkullAbilityForSummonedBarbarians = Storage.isFalseString;
 
         public string toggleRemoveSummonsGlow = Storage.isFalseString;
+
+        public string toggleSpellAbilityRangeMultiplier = Storage.isFalseString;
+        public float spellAbilityRangeMultiplier = 1f;
+        public float customSpellAbilityRangeMultiplier = 1f;
+        public bool useCustomSpellAbilityRangeMultiplier = false;
+
+        public string toggleTabletopSpellAbilityRange = Storage.isFalseString;
+
+        public bool showSpawnUnitsCategory = false;
+        public string unitSearch = "";
+        public string toggleSearchByUnitObjectName = Storage.isTrueString;
+        public string toggleSearchByUnitCharacterName = Storage.isTrueString;
+        public string toggleSearchByUnitType = Storage.isFalseString;
+        public string unitSearchFilters = "";
+        public bool showUnitsFavourites = false;
+        public string toggleSpawnEnemiesFromUnitFavourites = Storage.isFalseString;
+
+        public string toggleAutomaticallyLoadLastSave = Storage.isFalseString;
+        public bool showUnitSets = false;
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

@@ -49,6 +49,7 @@ namespace BagOfTricks
             }
             GL.EndHorizontal();
         }
+
         public static void ToggleButtonActionAtOn(ref string toggle, Action action, string buttonText, string buttonTooltip)
         {
             GL.BeginHorizontal();
@@ -89,6 +90,21 @@ namespace BagOfTricks
         public static void ToggleButtonFavouritesMenu(ref string toggle, string buttonText, string buttonTooltip, bool boldText = false)
         {
             GL.BeginHorizontal();
+            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", "", boldText), GL.ExpandWidth(false)))
+            {
+                if (toggle == Storage.isFalseString)
+                {
+                    toggle = Storage.isTrueString;
+
+                }
+                else if (toggle == Storage.isTrueString)
+                {
+                    toggle = Storage.isFalseString;
+                }
+            }
+        }
+        public static void ToggleButtonNoGroup(ref string toggle, string buttonText, string buttonTooltip, bool boldText = false)
+        {
             if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", "", boldText), GL.ExpandWidth(false)))
             {
                 if (toggle == Storage.isFalseString)
@@ -182,6 +198,29 @@ namespace BagOfTricks
             }
         }
 
+        public static void SingleLineLabelCopyBlueprintDetail(string labelString)
+        {
+            GL.BeginHorizontal();
+            GL.Label(labelString);
+            GL.FlexibleSpace();
+            if (GL.Button(Strings.GetText("label_CopyToClipboard")))
+            {
+                if (labelString != null)
+                {
+                    string clipboardString = labelString.Split(':')[1].Substring(5);
+                    try
+                    {
+                        GUIUtility.systemCopyBuffer = clipboardString;
+                    }
+                    catch (Exception e)
+                    {
+
+                        modLogger.Log(e.ToString());
+                    }
+                }
+            }
+            GL.EndHorizontal();
+        }
         public static void SingleLineLabel(string labelString)
         {
             GL.BeginHorizontal();
@@ -449,6 +488,12 @@ namespace BagOfTricks
                         return ref settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians;
                     case "toggleRemoveSummonsGlow":
                         return ref settings.toggleRemoveSummonsGlow;
+                    case "toggleTabletopSpellAbilityRange":
+                        return ref settings.toggleTabletopSpellAbilityRange;
+                    case "toggleAutomaticallyLoadLastSave":
+                        return ref settings.toggleAutomaticallyLoadLastSave;
+                    case "toggleSpawnEnemiesFromUnitFavourites":
+                        return ref settings.toggleSpawnEnemiesFromUnitFavourites;
                     default:
                         throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
                 }
@@ -459,7 +504,6 @@ namespace BagOfTricks
                 throw;
             }
         }
-
 
         public static void AddFavouriteButton(string methodName)
         {
@@ -499,6 +543,120 @@ namespace BagOfTricks
                 }
             }
         }
+        public static void FlexibleSpaceFavouriteButtonEndHorizontal(string methodName)
+        {
+            GL.FlexibleSpace();
+            AddFavouriteButton(methodName);
+            GL.EndHorizontal();
+        }
+        public static void FlexibleSpaceCategoryMenuElementsEndHorizontal(string methodName)
+        {
+            GL.FlexibleSpace();
+            CategoryMenuElements(methodName, ref settings.cheatsCategories);
+            GL.EndHorizontal();
+        }
+
+        public static void AddRemoveButton(ref List<string> favouritesList, string guid, ref bool favouritesLoad, string buttonTrue, string buttonFalse)
+        {
+            if (favouritesList.Contains(guid))
+            {
+                if (GL.Button(buttonTrue, GL.ExpandWidth(false)))
+                {
+                    favouritesList.Remove(guid);
+                    favouritesLoad = true;
+                }
+            }
+            else
+            {
+                if (GL.Button(buttonFalse, GL.ExpandWidth(false)))
+                {
+                    favouritesList.Add(guid);
+                    favouritesLoad = true;
+                }
+            }
+        }
+
+        public static void AddRemoveButtonShiftAdd(ref List<string> favouritesList, string guid, ref bool favouritesLoad, string buttonTrue, string buttonFalse, string tooltip)
+        {
+            if (favouritesList.Contains(guid))
+            {
+                if (GL.Button(new GUIContent(buttonTrue, tooltip), GL.ExpandWidth(false)))
+                {
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    {
+                        favouritesList.Add(guid);
+                        favouritesLoad = true;
+                    }
+                    else
+                    {
+                        favouritesList.Remove(guid);
+                        favouritesLoad = true;
+                    }
+                }
+            }
+            else
+            {
+                if (GL.Button(buttonFalse, GL.ExpandWidth(false)))
+                {
+                    favouritesList.Add(guid);
+                    favouritesLoad = true;
+                }
+            }
+        }
+        public static void ExportCopyGuidsNamesButtons(string[] resultGuids, string[] resultNames, string filename)
+        {
+            CopyExportButtons("button_ExportCurrentSearchResultGuids", $"{filename}-guids.txt", resultGuids);
+            CopyExportButtons("button_ExportCurrentSearchResultNames", $"{filename}-names.txt", resultNames);
+        }
+        public static void ExportButton(string label, string fileNameWithFormat, string[] infomration)
+        {
+            if (GL.Button(Strings.GetText(label), GL.ExpandWidth(false)))
+            {
+                File.WriteAllLines(Path.Combine(Common.ExportPath(), fileNameWithFormat), infomration);
+            }
+        }
+        public static void ButtonCopy(string content, string label = "label_CopyToClipboard")
+        {
+            if (GL.Button(Strings.GetText(label)))
+            {
+                try
+                {
+                    GUIUtility.systemCopyBuffer = content;
+                }
+                catch (Exception e)
+                {
+
+                    modLogger.Log(e.ToString());
+                }
+            }
+        }
+        public static void CopyExportButtons(string exportLabel, string fileNameWithFormat, string[] information, string labelCopy = "label_CopyToClipboard")
+        {
+            GL.BeginHorizontal();
+            ExportButton(exportLabel, fileNameWithFormat, information);
+            GL.FlexibleSpace();
+            ButtonCopy(string.Join("\n", information), labelCopy);
+            GL.EndHorizontal();
+            GL.BeginHorizontal();
+            GL.Label(" " + Strings.GetText("label_Location") + $": {Path.Combine(Common.ExportPath(), fileNameWithFormat)}");
+            GL.EndHorizontal();
+        }
+
+        public static void FilterButton(ref string toggle, string label, Action<string, string> searchMethod, string searchTerm, string filters)
+        {
+            if (GL.Button($"{toggle} " + Strings.GetText(label), GL.ExpandWidth(false)))
+            {
+                if (toggle == Storage.isTrueString)
+                {
+                    toggle = Storage.isFalseString;
+                }
+                else
+                {
+                    toggle = Storage.isTrueString;
+                }
+                searchMethod(searchTerm, filters);
+            }
+        }
 
         public static void AddUpDownButtons(string methodName, ref string[] methods, int size)
         {
@@ -506,7 +664,7 @@ namespace BagOfTricks
             {
                 if (GL.Button(new GUIContent(RichText.Size(Storage.upArrow, size), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false)))
                 {
-                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                     {
                         Common.MakeArrayElementFirst(ref methods, methodName);
                     }
@@ -520,7 +678,7 @@ namespace BagOfTricks
             {
                 if (GL.Button(new GUIContent(RichText.Size(Storage.downArrow, size), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false)))
                 {
-                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                     {
                         Common.MakeArrayElementLast(ref methods, methodName);
                     }
@@ -537,7 +695,7 @@ namespace BagOfTricks
             {
                 if (GL.Button(new GUIContent(RichText.Size(Storage.upArrow, size), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false)))
                 {
-                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                     {
                         Common.MakeListElementFirst(ref methods, methodName);
                     }
@@ -551,7 +709,7 @@ namespace BagOfTricks
             {
                 if (GL.Button(new GUIContent(RichText.Size(Storage.downArrow, size), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false)))
                 {
-                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                     {
                         Common.MakeListElementLast(ref methods, methodName);
                     }
@@ -990,9 +1148,7 @@ namespace BagOfTricks
             Storage.encumbranceArray = new[] { GetText("encumbrance_Light"), GetText("encumbrance_Medium"), GetText("encumbrance_Heavy"), GetText("encumbrance_Overload") };
             Storage.inventoryItemTypesArray = new[] { RichText.Bold(GetText("misc_All")), GetText("label_Armours"), GetText("label_Belts"), GetText("label_Footwear"), GetText("label_Gloves"), GetText("label_Headwear"), GetText("label_Neckwear"), GetText("label_NonUsable"), GetText("misc_Other"), GetText("label_Rings"), GetText("label_Shields"), GetText("label_ShoulderItems"), GetText("label_UsableItems"), GetText("label_Weapons"), GetText("label_WristItems") };
             Storage.weatherArray = new[] { GetText("arrayItem_Weather_Normal"), GetText("arrayItem_Weather_Rain"), GetText("arrayItem_Weather_Snow") };
-
         }
-
     }
 
     public static class RichText
@@ -1207,12 +1363,109 @@ namespace BagOfTricks
             selected = GL.SelectionGrid(selected, texts, xCount);
             GL.EndHorizontal();
         }
+        public void RenderNoGroup()
+        {
+            selected = GL.SelectionGrid(selected, texts, xCount, GL.ExpandWidth(false));
+        }
 
         public void Render(ref int index)
         {
             GL.BeginHorizontal();
             index = GL.SelectionGrid(index, texts, xCount);
             GL.EndHorizontal();
+        }
+    }
+
+    public class MultiplierCustom
+    {
+        private float sliderMin;
+        private float sliderMax;
+        private float multiplierSlider = 1f;
+        private bool useCustom = false;
+        private TextFieldFloat customMultiplierTextFieldFloat = new TextFieldFloat();
+        private bool settingsLoaded = false;
+
+
+
+        public MultiplierCustom(float min, float max)
+        {
+            sliderMin = min;
+            sliderMax = max;
+        }
+
+        public void LoadSettings(float settingSlider, float settingCustom, bool settingUseCustom)
+        {
+            if (!settingsLoaded)
+            {
+                multiplierSlider = Mathf.Clamp(settingSlider, sliderMin, sliderMax);
+                customMultiplierTextFieldFloat.amount = settingCustom.ToString();
+                customMultiplierTextFieldFloat.finalAmount = settingCustom;
+                useCustom = settingUseCustom;
+                settingsLoaded = true;
+            }
+        }
+
+        public void Render(ref float settingSlider, ref float settingCustom, ref bool settingUseCustom)
+        {
+            GL.BeginHorizontal();
+            GL.Label(MenuTools.TextWithTooltip("header_Multiplier", "tooltip_Multiplier", "", " "), GL.ExpandWidth(false));
+            multiplierSlider = GL.HorizontalSlider(multiplierSlider, sliderMin, sliderMax, GL.Width(300f));
+            settingSlider = multiplierSlider;
+            GL.Label($" {Math.Round(multiplierSlider, 1)}", GL.ExpandWidth(false));
+            GL.EndHorizontal();
+
+            GL.BeginHorizontal();
+            GL.Label(MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "), GL.ExpandWidth(false));
+            useCustom = GL.Toggle(useCustom, new GUIContent("", Strings.GetText("tooltip_CustomMultiplier")), GL.ExpandWidth(false));
+            GL.EndHorizontal();
+            settingUseCustom = useCustom;
+            if (useCustom == true)
+            {
+                customMultiplierTextFieldFloat.Render();
+                settingCustom = customMultiplierTextFieldFloat.finalAmount;
+                GL.BeginHorizontal();
+                GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {customMultiplierTextFieldFloat.finalAmount}", GL.Width(150f));
+                GL.EndHorizontal();
+            }
+        }
+    }
+
+    public class SimpleShowHideButton
+    {
+        private string buttonText;
+        public string GetButtonText { get => buttonText; }
+
+        public SimpleShowHideButton(bool defaultHide)
+        {
+            if (defaultHide)
+            {
+                buttonText = Strings.GetText("misc_Hide");
+            }
+            else
+            {
+                buttonText = Strings.GetText("misc_Display");
+            }
+
+        }
+
+        public void Render()
+        {
+            if (GL.Button(buttonText, GL.ExpandWidth(false)))
+            {
+                if (buttonText == Strings.GetText("misc_Hide"))
+                {
+                    buttonText = Strings.GetText("misc_Display");
+                }
+                else if (buttonText == Strings.GetText("misc_Display"))
+                {
+                    buttonText = Strings.GetText("misc_Hide");
+
+                }
+                else
+                {
+                    buttonText = Strings.GetText("misc_Display");
+                }
+            }
         }
     }
 }

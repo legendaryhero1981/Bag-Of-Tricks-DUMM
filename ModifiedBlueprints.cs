@@ -111,7 +111,6 @@ namespace BagOfTricks
     {
         public static Settings settings = Main.Settings;
         public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
-
         public static bool showModifiedBlueprints;
         public static bool blueprintLists;
 

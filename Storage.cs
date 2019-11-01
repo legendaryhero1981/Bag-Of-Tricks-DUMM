@@ -107,18 +107,18 @@ namespace BagOfTricks
 
         public static bool itemFavouritesLoad = true;
         public static List<string> itemFavouritesGuids = new List<string>();
-        public static List<string> itemFavouriteNames = new List<string>();
+        public static List<string> itemFavouritesNames = new List<string>();
         public static List<bool> toggleItemFavouriteDescription = new List<bool>();
 
         public static List<BlueprintScriptableObject> blueprintList = new List<BlueprintScriptableObject>();
 
-        public static string[] filesCsv = new string[] { };
-        public static List<bool> togglePreviewCsv = new List<bool>();
-        public static List<string> previewStringsCsv = new List<string>();
+        public static string[] itemSetsCsv = new string[] { };
+        public static List<bool> toggleItemSetsPreviewCsv = new List<bool>();
+        public static List<string> previewItemSetsStringsCsv = new List<string>();
 
-        public static string[] filesTxt = new string[] { };
-        public static List<bool> togglePreviewTxt = new List<bool>();
-        public static List<string> previewStringsTxt = new List<string>();
+        public static string[] itemSetsTxt = new string[] { };
+        public static List<bool> toggleItemSeitsPreviewTxt = new List<bool>();
+        public static List<string> previewItemSetisStringsTxt = new List<string>();
 
         public static List<string> validItemObjectNames = new List<string>();
         public static List<string> validItemNames = new List<string>();
@@ -151,7 +151,7 @@ namespace BagOfTricks
 
         public static bool buffFavouritesLoad = true;
         public static List<string> buffFavouritesGuids = new List<string>();
-        public static List<string> buffFavouriteNames = new List<string>();
+        public static List<string> buffFavouritesNames = new List<string>();
         public static List<bool> buffToggleFavouriteDescription = new List<bool>();
         public static List<string> buffFavouritesDescriptions = new List<string>();
 
@@ -369,7 +369,7 @@ namespace BagOfTricks
         public static List<string> featFavourites = new List<string>();
         public static readonly string favouritesFeatsFile = "Feats.xml";
         public static List<string> featFavouritesGuids = new List<string>();
-        public static List<string> featFavouriteNames = new List<string>();
+        public static List<string> featFavouritesNames = new List<string>();
         public static List<bool> featToggleFavouriteDescription = new List<bool>();
         public static List<string> featFavouritesDescriptions = new List<string>();
 
@@ -631,6 +631,10 @@ namespace BagOfTricks
         public static string buffDurationMultiplierValue = "1";
         public static float finalBuffDurationMultiplierValue = 1f;
         public static bool SummonedByPlayerFaction = false;
+
+        public static bool toggleFogOfWarBoolDefault = true;
+
+        public static bool firstStart = true;
 
     }
 }

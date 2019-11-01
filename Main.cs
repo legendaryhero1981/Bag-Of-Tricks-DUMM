@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Xml;
-using System.Xml.Serialization;
-using System.Threading.Tasks;
-using Harmony12;
+﻿using Harmony12;
 
 using Kingmaker;
 using Kingmaker.Assets.UI;
@@ -35,6 +24,17 @@ using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -110,11 +110,26 @@ namespace BagOfTricks
             if (File.Exists(modEntry.Path + "debug"))
             {
                 Settings.settingShowDebugInfo = true;
+                Settings.toggleAutomaticallyLoadLastSave = Storage.isTrueString;
             }
 
-            if (File.Exists(modEntry.Path + "devtool"))
+            if (File.Exists(modEntry.Path + "devtools"))
             {
                 Settings.toggleDevTools = Storage.isTrueString;
+            }
+
+            if (File.Exists(modEntry.Path + "fastload"))
+            {
+                Settings.toggleAutomaticallyLoadLastSave = Storage.isTrueString;
+            }
+
+            try
+            {
+                CreateDirectories();
+            }
+            catch (Exception e)
+            {
+                ModLogger.Log(e.ToString());
             }
 
             if (File.Exists(modEntry.Path + "dictxml"))
@@ -123,16 +138,6 @@ namespace BagOfTricks
             }
 
             Logger.Clear();
-
-            try
-            {
-                CreateDirectories();
-
-            }
-            catch (Exception e)
-            {
-                ModLogger.Log(e.ToString());
-            }
 
             ScaleXp = new ModEntryCheck("ScaleXP");
             CraftMagicItems = new ModEntryCheck("CraftMagicItems");
@@ -215,6 +220,8 @@ namespace BagOfTricks
             Storage.featFavouritesGuids = Storage.featFavourites;
             Storage.abilitiesFavouritesGuids = Storage.abilitiesFavourites;
 
+            SpawnUnits.FavouritesGuids = SpawnUnits.UnitsFavourites;
+
             if (!Settings.settingKeepGuids)
             {
                 Settings.itemGuid = "";
@@ -262,13 +269,17 @@ namespace BagOfTricks
 
                 if (Settings.settingSearchForCsv)
                 {
-                    Storage.filesCsv = Directory.GetFiles(modEntry.Path + Storage.itemSetsFolder, "*.csv");
-                    Array.Sort<string>(Storage.filesCsv);
+                    Common.RefreshArrayFromFile(ref Storage.itemSetsCsv, Storage.itemSetsFolder, "csv");
+                    string[] temp = SpawnUnits.UnitSetsCsv;
+                    Common.RefreshArrayFromFile(ref temp, SpawnUnits.UnitSetsFolder, "csv");
+                    SpawnUnits.UnitSetsCsv = temp;
                 }
                 if (Settings.settingSearchForTxt)
                 {
-                    Storage.filesTxt = Directory.GetFiles(modEntry.Path + Storage.itemSetsFolder, "*.txt");
-                    Array.Sort<string>(Storage.filesTxt);
+                    Common.RefreshArrayFromFile(ref Storage.itemSetsTxt, Storage.itemSetsFolder, "txt");
+                    string[] temp = SpawnUnits.UnitSetsTxt;
+                    Common.RefreshArrayFromFile(ref temp, SpawnUnits.UnitSetsFolder, "txt");
+                    SpawnUnits.UnitSetsTxt = temp;
                 }
             }
             catch (IOException exception)
@@ -298,6 +309,7 @@ namespace BagOfTricks
                 Settings.showKeyBindingsCategory = false;
                 Settings.showTaxCollectorCategory = false;
                 Settings.showBeneathTheStolenLandsCategory = false;
+                Settings.showSpawnUnitsCategory = false;
             }
 
             if (!Settings.settingKeepSubMenus)
@@ -401,6 +413,13 @@ namespace BagOfTricks
                 Settings.toggleSearchByAbilityName = Storage.isTrueString;
                 Settings.toggleSearchByAbilityDescription = Storage.isFalseString;
                 Settings.showAnimationsCategory = false;
+                Settings.unitSearch = "";
+                Settings.unitSearchFilters = "";
+                Settings.toggleSearchByUnitObjectName = Storage.isTrueString;
+                Settings.toggleSearchByUnitCharacterName = Storage.isTrueString;
+                Settings.toggleSearchByUnitType = Storage.isFalseString;
+                Settings.showUnitsFavourites = false;
+                Settings.showUnitSets = false;
             }
 
             if (Settings.gameConstsMinUnitSpeedMps != -1)
@@ -430,7 +449,7 @@ namespace BagOfTricks
 
             if (!BuildModeUtility.IsDevelopment && Strings.ToBool(Settings.toggleCombatDifficultyMessage))
             {
-                EventBus.Subscribe((object)new CombatDifficultyMessage());
+                EventBus.Subscribe(new CombatDifficultyMessage());
             }
 
             if (Settings.settingShowDebugInfo)
@@ -438,9 +457,9 @@ namespace BagOfTricks
                 LogModInfoLoad();
             }
 
-            if (Common.IsEarlierVersion(modEntry.Info.Version))
+            if (SettingsBoT.IsEarlierVersion(modEntry.Info.Version))
             {
-                UpdateSettings();
+                SettingsBoT.Update();
                 Settings.modVersion = modEntry.Info.Version;
             }
 
@@ -641,7 +660,16 @@ namespace BagOfTricks
                         previewStrings.Add("");
                 GL.BeginVertical("box");
                 GL.BeginHorizontal();
-                var lines = File.ReadAllLines(files[i]);
+                var lines = Array.Empty<string>();
+                try
+                {
+                    lines = File.ReadAllLines(files[i]);
+
+                }
+                catch (FileNotFoundException e)
+                {
+                    ModLogger.Log(e.ToString());
+                }
                 togglePreview.Add(false);
 
                 if (GL.Button(Strings.GetText("misc_Add") + $" {Path.GetFileNameWithoutExtension(files[i])}", GL.ExpandWidth(false)))
@@ -895,11 +923,11 @@ namespace BagOfTricks
             Common.SerializeListString(Storage.itemFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesItemsFile);
 
             Storage.itemFavouritesGuids = Storage.itemFavourites;
-            Storage.itemFavouriteNames.Clear();
+            Storage.itemFavouritesNames.Clear();
             Storage.toggleItemFavouriteDescription.Clear();
             for (var i = 0; i < Storage.itemFavouritesGuids.Count; i++)
             {
-                Storage.itemFavouriteNames.Add(Utilities.GetBlueprintByGuid<BlueprintItem>(Storage.itemFavourites[i]).Name);
+                Storage.itemFavouritesNames.Add(Utilities.GetBlueprintByGuid<BlueprintItem>(Storage.itemFavourites[i]).Name);
             }
         }
 
@@ -1005,19 +1033,19 @@ namespace BagOfTricks
             Common.SerializeListString(Storage.buffFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesBuffsFile);
 
             Storage.buffFavouritesGuids = Storage.buffFavourites;
-            Storage.buffFavouriteNames.Clear();
+            Storage.buffFavouritesNames.Clear();
             Storage.buffFavouritesDescriptions.Clear();
             for (var i = 0; i < Storage.buffFavouritesGuids.Count; i++)
             {
                 var stringBuffName = Utilities.GetBlueprintByGuid<BlueprintBuff>(Storage.buffFavourites[i]).Name;
                 if (stringBuffName != "" && stringBuffName != null)
                 {
-                    Storage.buffFavouriteNames.Add(stringBuffName);
+                    Storage.buffFavouritesNames.Add(stringBuffName);
                 }
                 else
                 {
                     var stringBuffObjectNames = Utilities.GetBlueprintByGuid<BlueprintBuff>(Storage.buffFavourites[i]).name;
-                    Storage.buffFavouriteNames.Add(stringBuffObjectNames);
+                    Storage.buffFavouritesNames.Add(stringBuffObjectNames);
                 }
                 Storage.buffFavouritesDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(Storage.buffFavourites[i])));
             }
@@ -1269,6 +1297,10 @@ namespace BagOfTricks
             if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile))
             {
                 Common.DeserializeListString(Storage.togglesFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile);
+            }
+            if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + SpawnUnits.favouritesFile))
+            {
+                Common.DeserializeListString(SpawnUnits.UnitsFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + SpawnUnits.favouritesFile);
             }
         }
 
@@ -1530,19 +1562,19 @@ namespace BagOfTricks
             Common.SerializeListString(Storage.featFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesFeatsFile);
 
             Storage.featFavouritesGuids = Storage.featFavourites;
-            Storage.featFavouriteNames.Clear();
+            Storage.featFavouritesNames.Clear();
             Storage.featFavouritesDescriptions.Clear();
             for (var i = 0; i < Storage.featFavouritesGuids.Count; i++)
             {
                 var stringFeatName = Utilities.GetBlueprintByGuid<BlueprintFeature>(Storage.featFavourites[i]).Name;
                 if (stringFeatName != "" && stringFeatName != null)
                 {
-                    Storage.featFavouriteNames.Add(stringFeatName);
+                    Storage.featFavouritesNames.Add(stringFeatName);
                 }
                 else
                 {
                     var stringFeatObjectNames = Utilities.GetBlueprintByGuid<BlueprintFeature>(Storage.featFavourites[i]).name;
-                    Storage.featFavouriteNames.Add(stringFeatObjectNames);
+                    Storage.featFavouritesNames.Add(stringFeatObjectNames);
                 }
                 Storage.featFavouritesDescriptions.Add(GetFeatDescription(Utilities.GetBlueprintByGuid<BlueprintFeature>(Storage.featFavourites[i])));
             }
@@ -1710,75 +1742,6 @@ namespace BagOfTricks
             }
         }
 
-        public static void UpdateSettings()
-        {
-            if (Common.CompareVersionStrings(Settings.modVersion, "1.9.0") == -1)
-            {
-                if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFileOld))
-                {
-                    try
-                    {
-                        File.Move(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFileOld, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile);
-                        ModLogger.Log($"{Storage.favouritesTogglesFileOld} {Strings.GetText("message_RenamedTo")} {Storage.favouritesTogglesFile}.");
-
-                    }
-                    catch (Exception e)
-                    {
-
-                        ModLogger.Log(e.ToString());
-                    }
-                }
-            }
-            if (!Settings.cheatsCategories.Contains("BeneathTheStolenLands"))
-            {
-                var temp = Settings.cheatsCategories.ToList();
-                temp.Add("BeneathTheStolenLands");
-                Settings.cheatsCategories = temp.ToArray();
-                ModLogger.Log("cheatsCategories\n+BeneathTheStolenLands");
-            }
-
-            if (Common.CompareVersionStrings(Settings.modVersion, "1.14.2") == -1)
-            {
-                if (Storage.togglesFavourites.Contains("toggleArmourChecksPenalty0,buttonToggle_ArmourChecksPenalty0,tooltip_ArmourChecksPenalty0"))
-                {
-                    ModLogger.Log("toggleArmourChecksPenalty0 - favourites update start");
-                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
-                    Storage.togglesFavourites.RemoveAll(IsToggleArmourChecksPenalty0);
-                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
-                    Storage.togglesFavourites.Add("ArmourChecksPenalty0");
-                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
-                    ModLogger.Log("toggleArmourChecksPenalty0 - favourites update end");
-                }
-                if (Storage.togglesFavourites.Contains("toggleArcaneSpellFailureRoll,buttonToggle_NoArcaneSpellFailure,tooltip_NoArcaneSpellFailure"))
-                {
-                    ModLogger.Log("toggleArcaneSpellFailureRoll - favourites update start");
-                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
-                    Storage.togglesFavourites.RemoveAll(IsToggleArcaneSpellFailureRoll);
-                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
-                    Storage.togglesFavourites.Add("ArcaneSpellFailureRoll");
-                    ModLogger.Log($"--- {Storage.togglesFavourites.Count}");
-                    ModLogger.Log("toggleArcaneSpellFailureRoll - favourites update end");
-                }
-            }
-        }
-
-        private static bool IsToggleArmourChecksPenalty0(string s)
-        {
-            if (s == "toggleArmourChecksPenalty0,buttonToggle_ArmourChecksPenalty0,tooltip_ArmourChecksPenalty0")
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private static bool IsToggleArcaneSpellFailureRoll(string s)
-        {
-            if (s == "toggleArcaneSpellFailureRoll,buttonToggle_NoArcaneSpellFailure,tooltip_NoArcaneSpellFailure")
-            {
-                return true;
-            }
-            return false;
-        }
 
         public static void RefreshTogglesFavourites()
         {
@@ -1797,14 +1760,14 @@ namespace BagOfTricks
         {
             Directory.CreateDirectory(Storage.modEntryPath + Storage.assetBundlesFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.charactersImportFolder);
+            Directory.CreateDirectory(Storage.modEntryPath + Storage.exportFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.favouritesFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.itemSetsFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.localisationFolder);
-            Directory.CreateDirectory(Storage.modEntryPath + Storage.taxCollectorFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.modifiedBlueprintsFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.savesFolder);
-            Directory.CreateDirectory(Storage.modEntryPath + Storage.exportFolder);
-
+            Directory.CreateDirectory(Storage.modEntryPath + Storage.taxCollectorFolder);
+            Directory.CreateDirectory(Storage.modEntryPath + SpawnUnits.UnitSetsFolder);
         }
 
         public static string IntToAlignment(int i)

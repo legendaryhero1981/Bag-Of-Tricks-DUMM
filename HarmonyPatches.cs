@@ -59,6 +59,7 @@ using Kingmaker.UI.Common;
 using Kingmaker.UI.Group;
 using Kingmaker.UI.IngameMenu;
 using Kingmaker.UI.Kingdom;
+using Kingmaker.UI.MainMenuUI;
 using Kingmaker.UI.ServiceWindow;
 using Kingmaker.UI.ServiceWindow.LocalMap;
 using Kingmaker.UnitLogic;
@@ -1502,7 +1503,7 @@ namespace BagOfTricks
                         if (context.AbilityBlueprint.HasLogic<AbilityUseOnRest>())
                         {
                             AbilityUseOnRestType componentType = context.AbilityBlueprint.GetComponent<AbilityUseOnRest>().Type;
-                            bool healDamage = componentType == AbilityUseOnRestType.HealDamage || componentType == AbilityUseOnRestType.HealDamage;
+                            bool healDamage = componentType == AbilityUseOnRestType.HealDamage;
                             targets = targets.Where(target =>
                             {
                                 if (target.IsPlayerFaction && !healDamage)
@@ -1729,7 +1730,7 @@ namespace BagOfTricks
                         {
                             if (scriptableObjectArray == null)
                             {
-                                return;
+                                goto DisplayObjectInfoEnd;
                             }
                             blueprint = scriptableObjectArray[0];
                         }
@@ -1739,7 +1740,7 @@ namespace BagOfTricks
                     {
                         Main.ObjectInfo.Off();
                     }
-
+                    DisplayObjectInfoEnd:
 
                     if (settings.toggleEnableFocusCamera == Storage.isTrueString && Game.Instance?.UI?.GetCameraRig() != null && (currentGameMode == GameModeType.Default || currentGameMode == GameModeType.Pause))
                     {
@@ -1857,10 +1858,9 @@ namespace BagOfTricks
                         if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
                         {
                             List<UnitEntityData> selectedUnits = Game.Instance.UI.SelectionManager.GetSelectedUnits();
-
+                            Vector3 mousePosition = Common.MousePositionLocalMap();
                             foreach (UnitEntityData unit in selectedUnits)
                             {
-                                Vector3 mousePosition = Common.MousePositionLocalMap();
                                 Common.TeleportUnit(unit, mousePosition);
                             }
                         }
@@ -1926,6 +1926,10 @@ namespace BagOfTricks
                 if (settings.toggleEnableTaxCollector == Storage.isTrueString)
                 {
                     TaxCollector.Serialize(Main.TaxSettings, Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
+                }
+                if (SpawnUnits.UnitsFavourites.Any())
+                {
+                    Common.SerializeListString(SpawnUnits.UnitsFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + SpawnUnits.favouritesFile);
                 }
 
 
@@ -2344,7 +2348,7 @@ namespace BagOfTricks
         {
             private static void Postfix()
             {
-                settings.toggleFogOfWarBoolDefault = LocationMaskRenderer.Instance.FogOfWar.Enabled;
+                Storage.toggleFogOfWarBoolDefault = LocationMaskRenderer.Instance.FogOfWar.Enabled;
 
                 if (settings.toggleOverwriteFogOfWar == Storage.isTrueString)
                 {
@@ -2398,7 +2402,7 @@ namespace BagOfTricks
             {
                 if (!inCombat && settings.toggleRestoreSpellsAbilitiesAfterCombat == Storage.isTrueString)
                 {
-                    List<UnitEntityData> partyMembers = Game.Instance?.Player.ControllableCharacters;
+                    List<UnitEntityData> partyMembers = Game.Instance.Player.ControllableCharacters;
                     foreach (UnitEntityData u in partyMembers)
                     {
                         foreach (BlueprintScriptableObject resource in u.Descriptor.Resources)
@@ -2850,7 +2854,7 @@ namespace BagOfTricks
                 {
                     int newLockPicks = Storage.lockPicks;
                     int limit = 0;
-                    List<UnitEntityData> partyMembers = Game.Instance.Player?.Party;
+                    List<UnitEntityData> partyMembers = Game.Instance.Player.Party;
                     foreach (UnitEntityData controllableCharacter in partyMembers)
                     {
                         int baseValue = controllableCharacter.Stats.SkillThievery.BaseValue;
@@ -3521,7 +3525,6 @@ namespace BagOfTricks
             }
         }
 
-        //KingmakerMods.pw start
         [HarmonyPatch(typeof(GlobalMapRules), "ChangePartyOnMap")]
         static class GlobalMapRules_ChangePartyOnMap_Patch
         {
@@ -3548,7 +3551,6 @@ namespace BagOfTricks
                 return true;
             }
         }
-        //KingmakerMods.pw end
 
         [HarmonyPatch(typeof(BuildModeUtility), "IsDevelopment", MethodType.Getter)]
         static class BuildModeUtility_IsDevelopment_Patch
@@ -3598,6 +3600,20 @@ namespace BagOfTricks
                 }
             }
         }
+        [HarmonyPatch(typeof(MainMenuButtons), "Update")]
+        static class MainMenuButtons_Update_Patch
+        {
+            static void Postfix()
+            {
+                if(Strings.ToBool(settings.toggleAutomaticallyLoadLastSave) && Storage.firstStart)
+                {
+                    Storage.firstStart = false;
+                    EventBus.RaiseEvent<IUIMainMenu>((Action<IUIMainMenu>)(h => h.LoadLastGame()));
+                }
+                Storage.firstStart = false;
+            }
+        }
+
 
         [HarmonyPatch(typeof(UnitPartNegativeLevels), "Add")]
         static class UnitPartNegativeLevels_Add_Patch
@@ -3937,6 +3953,41 @@ namespace BagOfTricks
                             __result = armorData;
                         }
 
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(BlueprintAbility), "GetRange")]
+        static class BlueprintAbility_GetRange_Patch_Pre
+        {
+            static void Postfix(ref Feet __result)
+            {
+                if (Strings.ToBool(settings.toggleTabletopSpellAbilityRange))
+                {
+                    if (__result == 30.Feet())
+                    {
+                        __result = 25.Feet();
+                    }
+                    else if (__result == 40.Feet())
+                    {
+                        __result = 100.Feet();
+                    }
+                    else if (__result == 50.Feet())
+                    {
+                        __result = 400.Feet();
+                    }
+                }
+
+                if (Strings.ToBool(settings.toggleSpellAbilityRangeMultiplier))
+                {
+                    if (settings.useCustomSpellAbilityRangeMultiplier)
+                    {
+                        __result = __result * settings.customSpellAbilityRangeMultiplier;
+                    }
+                    else
+                    {
+                        __result = __result * settings.spellAbilityRangeMultiplier;
                     }
                 }
             }

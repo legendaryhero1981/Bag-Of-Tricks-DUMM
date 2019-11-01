@@ -45,6 +45,7 @@ namespace BagOfTricks
             {"mainCategory_AddAbilities", "Abilities"},
             {"mainCategory_SpellsAndSpellbooks", "Spells & Spellbooks"},
             {"mainCategory_BeneathTheStolenLands", "Beneath The Stolen Lands"},
+            {"mainCategory_SpawnUnits", "Spawn Units"},
 
             {"mainCategory_FavouriteFunctions", "Favourite Functions"},
             {"mainCategory_Cheats", "Cheats"},
@@ -159,9 +160,9 @@ namespace BagOfTricks
             {"label_CurrentScene", "Current Scene"},
             {"label_BuffName", "Buff Name"},
             {"label_BuffObjectName", "Buff Object Name"},
-            {"label_BuffBlueprintName", "Buff Blueprint Name"},
-            {"label_BuffBlueprintAssetGuid", "Buff Blueprint AssetGuid"},
+            {"label_BuffGuid", "Buff Guid"},
             {"label_BuffDescription", "Buff Description"},
+            {"label_BuffTickTime", "Buff Tick Time"},
             {"label_Remove", "Remove"},
             {"label_RemoveAll", "Remove All"},
             {"label_SearchBy", "Search by"},
@@ -225,6 +226,7 @@ namespace BagOfTricks
             {"label_ActionKeyEnableExperimental", "Enable Experimental Mode"},
             {"label_FeatDescription", "Feat Description"},
             {"label_FeatName", "Feat Name"},
+            {"label_FeatGUID", "Feat GUID"},
             {"label_FeatObjectName", "Feat Object Name"},
             {"label_FeatBlueprintAssetGuid", "Feat Blueprint AssetGuid"},
             {"label_FeatRank", "Feat Rank"},
@@ -242,9 +244,15 @@ namespace BagOfTricks
             },
             {"label_BlueprintName", "Blueprint Name"},
             {"label_UnitName", "Unit Name"},
+            {"label_UnitType", "Unit Type"},
+            {"label_UnitGUID", "Unit GUID"},
+            {"label_Race", "Race"},
+            {"label_Gender", "Gender"},
             {"label_WeaponName", "Weapon Name"},
             {"label_WeaponDamage", "Weapon Damage"},
             {"label_ChallengeRating", "Challenge Rating"},
+            {"label_SpawnHostileBandits1", "Spawn Hostile Bandits"},
+            {"label_SpawnHostileBandits2", "not possible while Spawn Units From Unit Favourites / Stored Units is active!"},
             {"label_EditingInExperimental", "The values can be edited in the Experimental sub-menu."},
             {"label_KingdomName", "Kingdom Name"},
             {"label_ArtisanMasterPieceChance", "Artisan Masterpiece Chance"},
@@ -255,6 +263,13 @@ namespace BagOfTricks
             {"label_UnityModManagerButtonIndex", "Unity Mod Manger Button Position"},
             {"label_AbilityDescription", "Ability Description"},
             {"label_AbilityName", "Ability Name"},
+            {"label_AbilityGuid", "Ability GUID"},
+            {"label_AbilityRange", "Ability Range"},
+            {"label_AbilityType", "Ability Type"},
+            {"label_AbilityEffectOnAlly", "Ability Effect On Ally"},
+            {"label_AbilityEffectOnEnemy", "Ability Effect On Enemy"},
+            {"label_AbilityResourceLogic", "Ability Resource Logic"},
+            {"label_AbilityRequiredResource", "Ability Required Resource"},
             {"label_AbilityObjectName", "Ability Object Name"},
             {"label_AbilityBlueprintAssetGuid", "Ability Blueprint AssetGuid"},
             {"label_CustomName", "Custom Name"},
@@ -278,7 +293,7 @@ namespace BagOfTricks
             },
             {"label_Weather", "Weather"},
             {"label_Intensity", "Intensity"},
-            { "label_ItemModdingInfo", "JSON files named after the AssetGUID of the item you wish to edit have to be placed inside of the ModifiedBlueprints folder (e.g. 'efa6c2ee9e630384188a50b1ce6600fe.json'.\nSome edits might require a game restart or manual patching (button below).\nEither remove values you don't want to change or set them to null.\nExample files for each supported category are included in the ModifiedBlueprints folder.\nThe AsserGUIDs can be acquired from spacehamster's JSON Blueprint Dump on github or you can directly edit most values through the item search or this menu.\n<b>Adding enchantments of the wrong type might cause display issues in the inventory!</b>"},
+            {"label_ItemModdingInfo", "JSON files named after the AssetGUID of the item you wish to edit have to be placed inside of the ModifiedBlueprints folder (e.g. 'efa6c2ee9e630384188a50b1ce6600fe.json'.\nSome edits might require a game restart or manual patching (button below).\nEither remove values you don't want to change or set them to null.\nExample files for each supported category are included in the ModifiedBlueprints folder.\nThe AsserGUIDs can be acquired from spacehamster's JSON Blueprint Dump on github or you can directly edit most values through the item search or this menu.\n<b>Adding enchantments of the wrong type might cause display issues in the inventory!</b>"},
             {"label_CustomGender", "Custom Gender"},
             {"label_CurrentName", "Current Name"},
             {"label_CampingSpecialAbility", "Camping Special Ability"},
@@ -294,13 +309,38 @@ namespace BagOfTricks
             {"label_CrisisPoints", "Crisis Points"},
             {"label_CurrentCrisisPoints", "Current Crisis Points"},
             {"label_CombatDifficulty", "combat difficulty"},
-            { "label_RegionREInformation", "Current Region's Random Encounter Information"},
-            { "label_EncounterChanceReduced", "Encounter Chance Reduced"},
-            { "label_EncounterChanceInformation", "Note that these settings are not the only parameters for random encounter chance calculation.\nThe actual chances for the current region can be seen in the box above."},
+            {"label_RegionREInformation", "Current Region's Random Encounter Information"},
+            {"label_EncounterChanceReduced", "Encounter Chance Reduced"},
+            {"label_EncounterChanceInformation", "Note that these settings are not the only parameters for random encounter chance calculation.\nThe actual chances for the current region can be seen in the box above."},
+            {"label_DowngradeSettlements", "Downgrade Settlements"},
+            {"label_CopyToClipboard", "Copy To Clipboard"},
+            {"label_CopyItemInformationToClipboard", "Copy Item Information To Clipboard"},
+            {"label_CopyAbilityInformationToClipboard", "Copy Ability Information To Clipboard"},
+            {"label_CopyBuffInformationToClipboard", "Copy Buff Information To Clipboard"},
+            {"label_CopyFeatInformationToClipboard", "Copy Feat Information To Clipboard"},
+            {"label_CopyUnitInformationToClipboard", "Copy Unit Information To Clipboard"},
+            {"label_SpellAbilityRangeMultiplier", "Spell & Ability Range Multiplier"},
+            {
+                "label_UnitSearchFiltersInfo",
+                "When using multiple filters separate them with a semi-colon (e.g. cr:20,19<b>;</b>gender:m will only display male units with CR 20 or 19)." +
+                "\nYou can use an exclamation mark to negate a filter (e.g. <b>!</b>type:wolf;<b>!</b>cr:12 will display all results <b>except</b> those of the wolf type or CR 12." +
+                "\n<b>Challenge Rating (integers) ➡</b>  cr:12 | cr:5,7,8 | cr:0-24 | cr:<5 | cr:>8" +
+                "\n<b>Type (full or partial type name) ➡</b>  type:wolf | type:wer | type:dog,wo" +
+                "\n<b>Race (full or partial race name) ➡</b>  race:human | race:dwa | race:elf,hu" +
+                "\n<b>Gender (f/m) ➡</b>  gender:f | gender:m"
+            },
+            {"label_StoredUnits", "Stored Units"},
+            {"label_ClearStoredUnits", "Clear Stored Units"},
+            {"label_AddFavouritesToStoredUnits", "Add Favourites To Stored Units"},
+            {"label_AddResultsToStoredUnits", "Add Results To Stored Units"},
+            {"label_EnableActionKeyToSpawnHotkey", "Enable the Action Key to Spawn Units via hotkey"},
+            {"label_ActionKeyNotSetToSpawnUnits", "The Action Key is not set to Spawn Units"},
+            {"label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored", "Spawn Units From Unit Favourites / Stored Units via the Action Key isn't enabled:"},
+            {"label_SetToSpawnUnits", "Set To Spawn Units"},
             //label end 
 
             //message start
-            { "message_NotInGame", "The mod can't be accessed from the main menu.\nEither load a save file or start a new character!"},
+            {"message_NotInGame", "The mod can't be accessed from the main menu.\nEither load a save file or start a new character!"},
             {"message_ExitCombat", "Exit Combat!"},
             {"message_NoEnemies", "There are no revealed enemies!"},
             {"message_NoKingdom", "No kingdom found!"},
@@ -324,7 +364,7 @@ namespace BagOfTricks
             },
             {"message_RecreateUnitDescriptor", "Requires you to reload the area (e.g. leave and enter again)."},
             {"message_NoModItems", "No modified blueprints found!"},
-            { "message_NoRegion", "No region found!\n Try again further into the game or on the global map."},
+            {"message_NoRegion", "No region found!\n Try again further into the game or on the global map."},
             //message end
 
             //logMessage start
@@ -333,7 +373,7 @@ namespace BagOfTricks
             {"logMessage_Gold", "Gold"},
             {"logMessage_Enabled", "Enabled"},
             {"logMessage_Disabled", "Disabled"},
-            // { "logMessage_partyAlwaysRolls20", fallback["buttonToggle_partyAlwaysRolls20"]}, 
+            // {"logMessage_partyAlwaysRolls20", fallback["buttonToggle_partyAlwaysRolls20"]}, 
             // use buttonToggle_partyAlwaysRolls20
             //logMessage end
 
@@ -347,10 +387,11 @@ namespace BagOfTricks
             {"headerOption_MercenaryCostMultiplier", "Mercenary Cost Multiplier"},
             {"headerOption_ShowFavourites", "Show Favourites"},
             {"headerOption_ShowItemSets", "Show Item Sets"},
+            {"headerOption_ShowUnitSets", "Show Unit Sets"},
             {"headerOption_TravelSpeedMultiplier", "Travel Time Scale Multiplier"},
             {"headerOption_SettingsValue", "Settings Value"},
             {"headerOption_ChanceOnGlobalMap", "Chance On Global Map"},
-            { "headerOption_HardEncounterChanceOnGlobalMap", "Hard Encounter Chance On Global Map"},
+            {"headerOption_HardEncounterChanceOnGlobalMap", "Hard Encounter Chance On Global Map"},
             {"headerOption_ChanceWhenCamping", "Chance When Camping"},
             {"headerOption_ChanceWhenCampingAfterAttackDuringRest", "Chance When Camping After Attack During Rest"},
             {"headerOption_HardEncounterChance", "Hard Encounter Chance"},
@@ -389,8 +430,8 @@ namespace BagOfTricks
             //toggle start
             {"toggle_AddItemIdentified", "Add Items Identified"},
             {"toggle_AddMultipleItems", "Add Multiple Items"},
-            {"toggle_SearchCsvForCustomItemSets", "Search .csv files for Custom Item sets"},
-            {"toggle_SearchTxtForCustomItemSets", "Search .txt files for Custom Item sets"},
+            {"toggle_SearchCsvForCustomSets", "Search .csv files for custom sets"},
+            {"toggle_SearchTxtForCustomSets", "Search .txt files for custom sets"},
             {"toggle_RememberLastEnteredGuids", "Remember last entered Guid(s)"},
             {"toggle_RememberOpenCategories", "Remember open categories"},
             {"toggle_RememberOpenSubMenus", "Remember open sub-menus and search settings"},
@@ -410,7 +451,7 @@ namespace BagOfTricks
 
             //button start
             {"button_PartyExperience", "Party Experience"},
-            //{ "button_Experience", "Experience" }, use header_Experience
+            //{"button_Experience", "Experience" }, use header_Experience
             {"button_Add6Rations", "Add 6 camping supplies and rations"},
             {"button_Money", "Money"},
             {"button_SetAlignment", "Set Alignment To"},
@@ -441,6 +482,10 @@ namespace BagOfTricks
             {"button_SetGuid", "Set Guid"},
             {"button_Receive", "Receive"},
             {"button_ExportItemInfo", "Export Item Information (.txt)"},
+            {"button_ExportAbilityInfo", "Export Ability Information (.txt)"},
+            {"button_ExportFeatInfo", "Export Feat Information (.txt)"},
+            {"button_ExportBuffInfo", "Export Buff Information (.txt)"},
+            {"button_ExportUnitInfo", "Export Unit Information (.txt)"},
             {"button_AddFavouritesToInventory", "Add Favourites To Inventory"},
             {"button_ExportFavouritesGuids", "Export Favourites' Guids"},
             {"button_ExportFavouritesNames", "Export Favourites' Names"},
@@ -536,6 +581,7 @@ namespace BagOfTricks
             {"button_PatchManually", "Patch Manually"},
             {"button_RestoreAllItemCharges", "Restore All Item Charges"},
             {"button_RemoveEquippedItems", "Remove All Equipped Items"},
+            {"button_Spawn", "Spawn"},
             //button end
 
             //buttonToggle start
@@ -637,6 +683,7 @@ namespace BagOfTricks
             {"buttonToggle_ExtraAttacksParty", "Extra Attacks Per Round"},
             {"buttonToggle_AlignmentFix", "Neutral Alignment Shifts Don't Cause Movement On The Law/Chaos Axis"},
             {"buttonToggle_SpellbookAbilityAlignmentChecks", "Ignore Spellbook And Ability Alignment Checks"},
+            {"buttonToggle_TabletopSpellAbilityRange", "Tabletop Spell & Ability Ranges (25 ft, 100 ft, 400 ft)"},
             {"buttonToggle_SetSpeedOnSummon", "Set Creature's Speed When Summoned"},
             {"buttonToggle_EnableFocusCameraSelectedUnit", "Enable Focus On Selected Portrait"},
             {"buttonToggle_ClaimResources", "Claim All Revealed Resources In Your Lands"},
@@ -674,10 +721,12 @@ namespace BagOfTricks
             {"buttonToggle_UberLoggerForwardPrefix", "Add Prefix To UberLogger Logs"},
             {"buttonToggle_ExportToModFolder", "Export To Mod Folder"},
             {"buttonToggle_ShowCombatDifficulty", "Show Combat Difficulty"},
-            { "buttonToggle_OutOfCombatOnly", "Out Of Combat Only"},
-            { "buttonToggle_MakeSummonsControllable", "Make Summons Controllable"},
-            { "buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Disable Warpainted Skull's Ability For Summoned Barbarians"},
-            { "buttonToggle_RemoveSummonsGlow", "Remove Summons' Glow"},
+            {"buttonToggle_OutOfCombatOnly", "Out Of Combat Only"},
+            {"buttonToggle_MakeSummonsControllable", "Make Summons Controllable"},
+            {"buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Disable Warpainted Skull's Ability For Summoned Barbarians"},
+            {"buttonToggle_RemoveSummonsGlow", "Remove Summons' Glow"},
+            {"buttonToggle_AutomaticallyLoadLastSave", "Automatically Load Last Save"},
+            {"buttonToggle_ActionKeySpawnUnitsFromUnitFavourites", "Spawn Units From Unit Favourites / Stored Units"},
             //buttonToggle end
 
             //arrayItem start
@@ -719,7 +768,7 @@ namespace BagOfTricks
             {"arrayItem_ActionKeyMain_MakeControllable", "Make Controllable"},
             {"arrayItem_ActionKeyMain_SpawnCritters", "Spawn Critters"},
             {"arrayItem_ActionKeyMain_AddToParty", "Add To Party"},
-            {"arrayItem_ActionKeyMain_SpawnEnemy", "Spawn Enemy"},
+            {"arrayItem_ActionKeyMain_SpawnUnit", "Spawn Unit"},
             {"arrayItem_ActionKeyMain_RotateUnit", "Rotate Unit"},
             {"arrayItem_ActionKeyMain_RecreateUnitDescriptor", "Recreate Unit Descriptor"},
 
@@ -797,11 +846,14 @@ namespace BagOfTricks
             {"charStat_ArmourClass", "Armour Class"},
             {"charStat_Reach", "Reach"},
             {"charStat_HitPoints", "Hit Points"},
-            //{ "charStat_TemporaryHitPoints", "Temporary Hit Points"},
+            {"charStat_MaxHitPoints", "Max Hit Points"},
+            //{"charStat_TemporaryHitPoints", "Temporary Hit Points"},
             {"charStat_Speed", "Speed"},
             //charStat end
 
             //warning start
+            {"warning_FilterPatternError1", "Your entry does not match the filter pattern!"},
+            {"warning_FilterPatternError2", "Check the log for more information."},
             {"warning_Buffs", "Make sure to save before adding or removing unfamiliar buffs!"},
             {"warning_Experimental", "Make sure to save and create backups before using any of these options!"},
             {"warning_Alignment", "Be careful when changing alignment!"},
@@ -908,6 +960,8 @@ namespace BagOfTricks
                 "If you haven't cleared all combat encounters in this area is highly recommended to temporarily disable 'Enemies Don't Deal Damage To The Party' in this area!\nOtherwise a companion quest might break!"
             },
             {"warning_PreventAlignmentChanges", "Prevent Alignment Changes is active!"},
+            {"warning_RevealLocations", "Revealing locations can't be reversed!"},
+            {"warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites", "Spawn Random Hostile Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!"},
             //warning end
 
             //tooltip start
@@ -955,7 +1009,7 @@ namespace BagOfTricks
                 "tooltip_IgnorePrerequisites",
                 "Ignore restrictions when picking classes and feats.\nIf you pick a Prestige Class at character creation you will start without equipment\nand might lack important Weapon Proficiencies!"
             },
-            {"tooltip_IgnoreCasterTypeSpellLevel", "﻿Ignore caster type and spell level restrictions."},
+            {"tooltip_IgnoreCasterTypeSpellLevel", "Ignore caster type and spell level restrictions."},
             {"tooltip_IgnoreForbiddenArchetype", "﻿Ignore forbidden Archetypes."},
             {"tooltip_IgnorePrerequisiteStatValue", "﻿Ignore required stat values."},
             {"tooltip_IgnoreClassAlignment", "﻿Ignore alignment restrictions for classes."},
@@ -1061,14 +1115,10 @@ namespace BagOfTricks
                 "﻿Enabling this options will allow you to add versions of feats the game doesn't normally include e.g. Fencing Grace (Greatclub)."
             },
 
-            {
-                "tooltip_RestoreSpellsAbilites",
-                "Restore your party's spells and abilities﻿.\nDoes not affect Burn - use Instant Rest instead."
-            },
-            {
-                "tooltip_SpellbookAbilityAlignmentChecks",
-                "Disable alignment checks for spellbooks access and when using ability\ne.g. allowing you to use Paladin abilities while being Chaotic Evil."
-            },
+            {"tooltip_SpellAbilityRange", "Use the slider or a custom multiplier to adjust spell and ability ranges."},
+            {"tooltip_RestoreSpellsAbilites", "Restore your party's spells and abilities﻿.\nDoes not affect Burn - use Instant Rest instead."},
+            {"tooltip_SpellbookAbilityAlignmentChecks", "Disable alignment checks for spellbooks access and when using ability\ne.g. allowing you to use Paladin abilities while being Chaotic Evil."},
+            {"tooltip_TabletopSpellAbilityRange", "﻿Sets the Spell & Ability Ranges to 25 ft (close), 100 ft (medium), 400 ft (long).\nCaster level isn't taken into account!"},
             {"tooltip_NoArcaneSpellFailure", "﻿Disables arcane spell failure for your party."},
             {"tooltip_AlwaysSucceedCastingDefensively", "﻿Prevents party members from failing casting defensively."},
             {"tooltip_AlwaysSucceedConcentration", "Prevents party members from failing concentration checks."},
@@ -1238,9 +1288,9 @@ namespace BagOfTricks
                 "tooltip_NoNegativeLevels",
                 "Prevents party members from gaining negative levels.\nThe game will still display level drain messages in the battle log."
             },
-            { "tooltip_MakeSummonsControllable", "Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.\nIf the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible."},
-            { "tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself."},
-            { "tooltip_RemoveSummonsGlow", "Removes the permanent glow from summons.\nDoes not apply to already summoned units."},
+            {"tooltip_MakeSummonsControllable", "Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.\nIf the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible."},
+            {"tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself."},
+            {"tooltip_RemoveSummonsGlow", "Removes the permanent glow from summons.\nDoes not apply to already summoned units."},
             {
                 "tooltip_FreezeTimedQuestAt90Days",
                 "Freezes the time left on timed quest at 90 days.\nOnce turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.\nThus it is recommended to complete timed quest before turning it off or making sure that there is still time left."
@@ -1318,6 +1368,7 @@ namespace BagOfTricks
 
             {"tooltip_ToggleHUD", "Enables toggling of the HUD via hotkey."},
             {"tooltip_DisplayObjectInfo", "Displays an object's name and GUID when hovering your cursor over it."},
+            {"tooltip_AutomaticallyLoadLastSave", "Automatically loads the last on game start."},
 
             {
                 "tooltip_TaxCollector",
@@ -1341,12 +1392,24 @@ namespace BagOfTricks
             {"tooltip_ArrowUp", "Click to move\nthe element up\nor shift-click\nto move it to\nthe top."},
             {"tooltip_ArrowDown", "Click to move\nthe element down\nor shift-click\nto move it to\nthe bottom."},
 
-            { "tooltip_OutOfCombatOnly_ArmourChecksPenalty0", "Set Armour Check Penalty To 0 will only be active outside of combat encounters.\nUnequipped items will always display an armour check penalty of 0."},
-            { "tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll", "No Arcane Spell Failure will only be active outside of combat encounters."},
+            {"tooltip_OutOfCombatOnly_ArmourChecksPenalty0", "Set Armour Check Penalty To 0 will only be active outside of combat encounters.\nUnequipped items will always display an armour check penalty of 0."},
+            {"tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll", "No Arcane Spell Failure will only be active outside of combat encounters."},
+
+            {"tooltip_ActionKeySpawnUnitsFromUnitFavourites", "Enables picking enemies to spawn from the unit favourites / stored units."},
+            {
+                "tooltip_AddMultipleToStorage",
+                "Click to remove" +
+                "\nthe unit from storage" +
+                "\nor shift-click to" +
+                "\nadd it again."
+            },
             //tooltip end                               
 
 
-            //misc start
+            //misc start   
+            {"misc_Friendly", "Friendly"},
+            {"misc_Passive", "Passive"},
+            {"misc_Hostile", "Hostile"},
             {"misc_items", "items"},
             {"misc_times", "times"},
             {"misc_item", "item"},

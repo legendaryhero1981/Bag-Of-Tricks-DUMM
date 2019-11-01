@@ -32,7 +32,7 @@ namespace BagOfTricks
         public static Settings settings = Main.Settings;
         public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
 
-        public static readonly List<BlueprintScriptableObject> s_BlueprintInfo = new List<BlueprintScriptableObject>();
+        public static readonly List<BlueprintScriptableObject> sBlueprintInfo = new List<BlueprintScriptableObject>();
 
 
         private static readonly string[] mainExperimentalArray =
@@ -42,7 +42,7 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_ActionKeyMain_ResurrectAndFullyRestore"),
             Strings.GetText("arrayItem_ActionKeyMain_BuffFromFavourites"),
             Strings.GetText("arrayItem_ActionKeyMain_EditStats"), Strings.GetText("label_TeleportUnit"),
-            Strings.GetText("arrayItem_ActionKeyMain_SpawnEnemy"),
+            Strings.GetText("arrayItem_ActionKeyMain_SpawnUnit"),
             Strings.GetText("arrayItem_ActionKeyMain_RotateUnit"), Strings.GetText("header_Animations"),
             Strings.GetText("arrayItem_ActionKeyMain_SpawnCritters"),
             Strings.GetText("arrayItem_ActionKeyMain_MakeControllable"),
@@ -57,7 +57,7 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_ActionKeyMain_ResurrectAndFullyRestore"),
             Strings.GetText("arrayItem_ActionKeyMain_BuffFromFavourites"),
             Strings.GetText("arrayItem_ActionKeyMain_EditStats"), Strings.GetText("label_TeleportUnit"),
-            Strings.GetText("arrayItem_ActionKeyMain_SpawnEnemy"),
+            Strings.GetText("arrayItem_ActionKeyMain_SpawnUnit"),
             Strings.GetText("arrayItem_ActionKeyMain_RotateUnit"), Strings.GetText("header_Animations")
         };
 
@@ -120,18 +120,47 @@ namespace BagOfTricks
                             Color.black);
                     break;
                 case 7:
-                    if (settings.actionKeySpawnRandomEnemy && Strings.ToBool(settings.toggleActionKeyExperimental))
+                    if(Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites))
+                    {
                         try
                         {
-                            Common.SpawnHostileUnit(Common.MousePositionLocalMap(),
-                                ResourcesLibrary.GetBlueprints<BlueprintUnit>().RandomElement());
+                            Vector3 pos = Common.MousePositionLocalMap();
+                            float x = 0.0f;
+                            float z = 0.0f;
+                            foreach (string guid in SpawnUnits.GetStoredGUIDs)
+                            {
+                                Vector3 finalPos = new Vector3(pos.x + 1.5f * x, pos.y, pos.z + 1.5f * z);
+                                SpawnUnits.UnitSpawner(finalPos, guid);
+                                x++;
+                                if(x > 10f)
+                                {
+                                    x = 0.0f;
+                                    z++;
+                                }
+                            }                           
+
                         }
                         catch (Exception e)
                         {
                             modLogger.Log(e.ToString());
                         }
+                    }                    
+                    else if(settings.actionKeySpawnRandomEnemy && Strings.ToBool(settings.toggleActionKeyExperimental))
+                    {
+                        try
+                        {
+                            Common.SpawnHostileUnit(Common.MousePositionLocalMap(), ResourcesLibrary.GetBlueprints<BlueprintUnit>().RandomElement());
+
+                        }
+                        catch (Exception e)
+                        {
+                            modLogger.Log(e.ToString());
+                        }
+                    }
                     else
+                    {
                         Common.SpawnHostileUnit(Common.MousePositionLocalMap(), banditsGuids[banidtCrIndex]);
+                    }
 
                     break;
                 case 8:
@@ -241,6 +270,24 @@ namespace BagOfTricks
                 MenuTools.CreateStatInterface(entry.Key, charStats, entry.Value, editUnitFinalStatsAmount);
         }
 
+        public static void MainToggle(int startIndex = 0)
+        {
+            if (GL.Button(MenuTools.TextWithTooltip("misc_Enable", "tooltip_ActionKey", $"{settings.toggleEnableActionKey}" + " ", ""), GL.ExpandWidth(false)))
+            {
+                if (settings.toggleEnableActionKey == Storage.isFalseString)
+                {
+                    settings.toggleEnableActionKey = Storage.isTrueString;
+                    settings.actionKeyIndex = startIndex;
+                    settings.actionKeyKillIndex = 0;
+                }
+                else if (settings.toggleEnableActionKey == Storage.isTrueString)
+                {
+                    settings.toggleEnableActionKey = Storage.isFalseString;
+                    settings.actionKeyIndex = 0;
+                    settings.actionKeyKillIndex = 0;
+                }
+            }
+        }
 
         public static void RenderMenu()
         {
@@ -252,23 +299,7 @@ namespace BagOfTricks
             GL.EndHorizontal();
 
             GL.BeginHorizontal();
-            if (GL.Button(
-                MenuTools.TextWithTooltip("misc_Enable", "tooltip_ActionKey", $"{settings.toggleEnableActionKey}" + " ",
-                    ""), GL.ExpandWidth(false)))
-            {
-                if (settings.toggleEnableActionKey == Storage.isFalseString)
-                {
-                    settings.toggleEnableActionKey = Storage.isTrueString;
-                    settings.actionKeyIndex = 0;
-                    settings.actionKeyKillIndex = 0;
-                }
-                else if (settings.toggleEnableActionKey == Storage.isTrueString)
-                {
-                    settings.toggleEnableActionKey = Storage.isFalseString;
-                    settings.actionKeyIndex = 0;
-                    settings.actionKeyKillIndex = 0;
-                }
-            }
+            MainToggle();
 
             GL.EndHorizontal();
 
@@ -356,7 +387,7 @@ namespace BagOfTricks
                             GL.Space(10);
                             GL.BeginHorizontal();
                             settings.actionKeyBuffIndex = GL.SelectionGrid(settings.actionKeyBuffIndex,
-                                Storage.buffFavouriteNames.ToArray(), 2);
+                                Storage.buffFavouritesNames.ToArray(), 2);
                             GL.EndHorizontal();
                         }
 
@@ -377,18 +408,36 @@ namespace BagOfTricks
                             MenuTools.SingleLineLabel(Strings.GetText("message_NoUnitSelected"));
                         break;
                     case 7:
+                        MenuTools.ToggleButton(ref settings.toggleSpawnEnemiesFromUnitFavourites, "buttonToggle_ActionKeySpawnUnitsFromUnitFavourites", "tooltip_ActionKeySpawnUnitsFromUnitFavourites", nameof(settings.toggleSpawnEnemiesFromUnitFavourites));
+                        if (Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites))
+                        {
+                            SpawnUnits.FavouritesMenu();
+                        }
+
                         if (Strings.ToBool(settings.toggleActionKeyExperimental))
-                            settings.actionKeySpawnRandomEnemy = GL.Toggle(settings.actionKeySpawnRandomEnemy,
-                                " " + Strings.GetText("toggle_SpawnRandomEnemy"), GL.ExpandWidth(false));
+                        {
+                            GL.Space(10);
+
+                            settings.actionKeySpawnRandomEnemy = GL.Toggle(settings.actionKeySpawnRandomEnemy," " + Strings.GetText("toggle_SpawnRandomEnemy"), GL.ExpandWidth(false));                            
+                        }
+                        if(Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites) && settings.actionKeySpawnRandomEnemy)
+                        {
+                            MenuTools.SingleLineLabel(RichText.BoldRedFormat(Strings.GetText("warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites")));
+                        }
 
                         GL.Space(10);
-
-                        MenuTools.SingleLineLabel(Strings.GetText("label_ChallengeRating") + " " +
-                                                  Strings.Parenthesis(Strings.GetText("misc_Bandit")));
+                        if (!Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites))
+                        {
+                            MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_SpawnHostileBandits1")));
+                        }
+                        else
+                        {
+                            MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_SpawnHostileBandits1")) + " " +  Strings.Parenthesis(RichText.BoldRedFormat(Strings.GetText("label_SpawnHostileBandits2"))));
+                        }
+                        MenuTools.SingleLineLabel(Strings.GetText("label_ChallengeRating") + " " + Strings.Parenthesis(Strings.GetText("misc_Bandit")));
                         GL.BeginHorizontal();
                         banidtCrIndex = GL.SelectionGrid(banidtCrIndex, numberArray0t7, 8);
                         GL.EndHorizontal();
-
                         break;
                     case 8:
                         if (rotateUnit != null && rotateUnit.IsInGame)
@@ -426,18 +475,18 @@ namespace BagOfTricks
 
         public static void GameInfo()
         {
-            s_BlueprintInfo.Clear();
+            sBlueprintInfo.Clear();
             AddGameInfo();
         }
 
         public static void AddGameInfo()
         {
             CollectGameInfo();
-            if (s_BlueprintInfo.Count == 0)
+            if (sBlueprintInfo.Count == 0)
                 return;
 
 
-            var blueprint = s_BlueprintInfo[0];
+            var blueprint = sBlueprintInfo[0];
 
             var blueprintName = Utilities.GetBlueprintName(blueprint);
             var assetGuid = blueprint.AssetGuid;
@@ -503,14 +552,14 @@ namespace BagOfTricks
             var scriptableObjectArray = Tooltip();
             if (unitUnderMouse != null)
             {
-                s_BlueprintInfo.Add((BlueprintScriptableObject) unitUnderMouse.Blueprint);
+                sBlueprintInfo.Add((BlueprintScriptableObject) unitUnderMouse.Blueprint);
             }
             else
             {
                 if (scriptableObjectArray == null)
                     return;
                 foreach (var scriptableObject in scriptableObjectArray)
-                    s_BlueprintInfo.Add(scriptableObject);
+                    sBlueprintInfo.Add(scriptableObject);
             }
         }
 
