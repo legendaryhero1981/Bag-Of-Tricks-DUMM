@@ -221,6 +221,7 @@ namespace BagOfTricks
             }
             GL.EndHorizontal();
         }
+
         public static void SingleLineLabel(string labelString)
         {
             GL.BeginHorizontal();
@@ -234,7 +235,6 @@ namespace BagOfTricks
             GL.Label(guiContent, GL.ExpandWidth(expand));
             GL.EndHorizontal();
         }
-
 
         public static void SingleLineLabelGT(string label, string tooltip, bool bold = false)
         {
@@ -265,7 +265,6 @@ namespace BagOfTricks
             GL.EndHorizontal();
         }
 
-
         public static void ToggleToToggleButton(ref string toggle)
         {
             if (toggle == "false")
@@ -281,7 +280,6 @@ namespace BagOfTricks
                 toggle = Storage.isFalseString;
             }
         }
-
 
         public static void Tooltips()
         {
@@ -920,7 +918,7 @@ namespace BagOfTricks
             GL.EndHorizontal();
 
             GL.Space(10);
-            unitAlignmentTextField.Render();
+            unitAlignmentTextField.RenderField();
             GL.BeginHorizontal();
             if (GL.Button(TextWithTooltip("button_ShiftAlignmentTowards", "tooltip_ShiftAlignmentTowards", "", $" {Storage.alignmentsArrayStats[Storage.statsSelectedAlignmentIndex]} {Strings.GetText("misc_By")} {unitAlignmentTextField.finalAmount}"), GL.ExpandWidth(false)))
             {
@@ -971,6 +969,31 @@ namespace BagOfTricks
             SystemSounds.Beep.Play();
         }
 
+        public static void IncompatibilityWarning(string warningLabel, string toggleA, string toggleB)
+        {
+            if(Strings.ToBool(toggleA) && Strings.ToBool(toggleB))
+            {
+                SingleLineLabel(warningLabel);
+            }
+        }
+
+        public static void CurrentValue(string setting)
+        {
+            SingleLineLabel(Strings.GetText("label_CurrentValue") + $": {setting}");
+        }
+        public static void CurrentValue<T>(T setting)
+        {
+            SingleLineLabel(Strings.GetText("label_CurrentValue") + $": {setting}");
+        }
+
+        public static void CurrentValueNoGroup(string setting, bool expandWidth = false)
+        {
+            GL.Label(Strings.GetText("label_CurrentValue") + $": {setting}", GL.ExpandWidth(expandWidth));
+        }
+        public static void CurrentValueNoGroup<T>(T setting, bool expandWidth = false)
+        {
+            GL.Label(Strings.GetText("label_CurrentValue") + $": {setting}", GL.ExpandWidth(expandWidth));
+        }
 
     }
 
@@ -1275,7 +1298,7 @@ namespace BagOfTricks
         public string amount = "";
         public int finalAmount = 0;
 
-        public void Render()
+        public void RenderField()
         {
             GL.BeginHorizontal();
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
@@ -1284,7 +1307,7 @@ namespace BagOfTricks
             finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
             GL.EndHorizontal();
         }
-        public void Render(string newLabel)
+        public void RenderField(string newLabel)
         {
             GL.BeginHorizontal();
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
@@ -1293,19 +1316,36 @@ namespace BagOfTricks
             finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
             GL.EndHorizontal();
         }
-        public void RenderNoGL()
+        public void RenderFieldNoGroup()
         {
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
             amount = GL.TextField(amount, GL.Width(230f));
             amount = MenuTools.IntTestSettingStage1(amount);
             finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
         }
-        public void RenderNoGL(string newLabel)
+        public void RenderFieldNoGroup(string newLabel)
         {
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
             amount = GL.TextField(amount, GL.Width(230f));
             amount = MenuTools.IntTestSettingStage1(amount);
             finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
+        }
+
+        public void RendeSetButton(string buttonLabel, ref int setting)
+        {
+            GL.BeginHorizontal();
+            if (GL.Button(buttonLabel + $" {finalAmount}", GL.ExpandWidth(false)))
+            {
+                setting = finalAmount;
+            }
+            GL.EndHorizontal();
+        }
+        public void RendeSetButtonNoGroup(string buttonLabel, ref int setting)
+        {
+            if (GL.Button(buttonLabel + $" {finalAmount}", GL.ExpandWidth(false)))
+            {
+                setting = finalAmount;
+            }
         }
     }
 
@@ -1315,7 +1355,7 @@ namespace BagOfTricks
         public string amount = "";
         public float finalAmount = 0;
 
-        public void Render()
+        public void RenderField()
         {
             GL.BeginHorizontal();
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
@@ -1323,7 +1363,7 @@ namespace BagOfTricks
             MenuTools.SettingParse(ref amount, ref finalAmount);
             GL.EndHorizontal();
         }
-        public void Render(string newLabel)
+        public void RenderField(string newLabel)
         {
             GL.BeginHorizontal();
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
@@ -1331,17 +1371,34 @@ namespace BagOfTricks
             MenuTools.SettingParse(ref amount, ref finalAmount);
             GL.EndHorizontal();
         }
-        public void RenderNoGL()
+        public void RenderFieldNoGroup()
         {
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
             amount = GL.TextField(amount, GL.Width(230f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
         }
-        public void RenderNoGL(string newLabel)
+        public void RenderFieldNoGroup(string newLabel)
         {
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
             amount = GL.TextField(amount, GL.Width(230f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
+        }
+
+        public void RendeSetButton(string buttonLabel, ref float setting)
+        {
+            GL.BeginHorizontal();
+            if (GL.Button(buttonLabel + $" {finalAmount}", GL.ExpandWidth(false)))
+            {
+                setting = finalAmount;
+            }
+            GL.EndHorizontal();
+        }
+        public void RendeSetButtonNoGroup(string buttonLabel, ref float setting)
+        {
+            if (GL.Button(buttonLabel + $" {finalAmount}", GL.ExpandWidth(false)))
+            {
+                setting = finalAmount;
+            }
         }
     }
 
@@ -1421,7 +1478,7 @@ namespace BagOfTricks
             settingUseCustom = useCustom;
             if (useCustom == true)
             {
-                customMultiplierTextFieldFloat.Render();
+                customMultiplierTextFieldFloat.RenderField();
                 settingCustom = customMultiplierTextFieldFloat.finalAmount;
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {customMultiplierTextFieldFloat.finalAmount}", GL.Width(150f));

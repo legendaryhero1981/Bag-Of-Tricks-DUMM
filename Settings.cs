@@ -610,6 +610,12 @@ namespace BagOfTricks
         public string toggleAutomaticallyLoadLastSave = Storage.isFalseString;
         public bool showUnitSets = false;
 
+        public string toggleCustomSpellAbilityRange = Storage.isFalseString;
+
+        public int customSpellAbilityRangeClose = 30;
+        public int customSpellAbilityRangeMedium = 40;
+        public int customSpellAbilityRangeLong = 50;
+
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             Save(this, modEntry);

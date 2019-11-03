@@ -3961,21 +3961,80 @@ namespace BagOfTricks
         [HarmonyPatch(typeof(BlueprintAbility), "GetRange")]
         static class BlueprintAbility_GetRange_Patch_Pre
         {
+
+            private static Feet defaultClose = 30.Feet();
+            private static Feet defaultMedium = 40.Feet();
+            private static Feet defaultlong = 50.Feet();
+            private static Feet cotwMedium = 60.Feet();
+            private static Feet cotwLong = 100.Feet();
+            [HarmonyPriority(Priority.Low)]
             static void Postfix(ref Feet __result)
             {
                 if (Strings.ToBool(settings.toggleTabletopSpellAbilityRange))
                 {
-                    if (__result == 30.Feet())
+                    if(Main.callOfTheWild.ModIsActive())
                     {
-                        __result = 25.Feet();
+                        if (__result == defaultClose)
+                        {
+                            __result = 25.Feet();
+                        }
+                        else if (__result == cotwMedium)
+                        {
+                            __result = 100.Feet();
+                        }
+                        else if (__result == cotwLong)
+                        {
+                            __result = 400.Feet();
+                        }
                     }
-                    else if (__result == 40.Feet())
+                    else
                     {
-                        __result = 100.Feet();
+                        if (__result == defaultClose)
+                        {
+                            __result = 25.Feet();
+                        }
+                        else if (__result == defaultMedium)
+                        {
+                            __result = 100.Feet();
+                        }
+                        else if (__result == defaultlong)
+                        {
+                            __result = 400.Feet();
+                        }
                     }
-                    else if (__result == 50.Feet())
+                }
+
+                if (Strings.ToBool(settings.toggleCustomSpellAbilityRange))
+                {
+                    if (Main.callOfTheWild.ModIsActive())
                     {
-                        __result = 400.Feet();
+                        if (__result == defaultClose)
+                        {
+                            __result = settings.customSpellAbilityRangeClose.Feet();
+                        }
+                        else if (__result == cotwMedium)
+                        {
+                            __result = settings.customSpellAbilityRangeMedium.Feet();
+                        }
+                        else if (__result == cotwLong)
+                        {
+                            __result = settings.customSpellAbilityRangeLong.Feet();
+                        }
+                    }
+                    else
+                    {
+                        if (__result == defaultClose)
+                        {
+                            __result = settings.customSpellAbilityRangeClose.Feet();
+                        }
+                        else if (__result == defaultMedium)
+                        {
+                            __result = settings.customSpellAbilityRangeMedium.Feet();
+                        }
+                        else if (__result == defaultlong)
+                        {
+                            __result = settings.customSpellAbilityRangeLong.Feet();
+                        }
                     }
                 }
 

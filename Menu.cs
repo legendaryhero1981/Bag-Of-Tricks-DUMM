@@ -417,7 +417,7 @@ namespace BagOfTricks
             MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(ExtraAttacksParty));
             if (Strings.ToBool(settings.toggleExtraAttacksParty))
             {
-                extraAttacksPartyTextField.Render();
+                extraAttacksPartyTextField.RenderField();
                 GL.Space(10);
                 GL.BeginHorizontal();
                 if (GL.Button(
@@ -449,7 +449,7 @@ namespace BagOfTricks
             MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(SetSpeedOnSummon));
             if (Strings.ToBool(settings.toggleSetSpeedOnSummon))
             {
-                setSpeedOnSummonTextField.Render();
+                setSpeedOnSummonTextField.RenderField();
                 GL.Space(10);
                 GL.BeginHorizontal();
                 if (GL.Button(Strings.GetText("button_SetSpeedOnSummon") + $" {setSpeedOnSummonTextField.finalAmount}",
@@ -494,7 +494,7 @@ namespace BagOfTricks
             GL.Label(RichText.Bold(Strings.GetText("label_AdvanceGameTime")));
             MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(AdvanceGameTime));
             GL.Space(10);
-            AdvanceGameTimeTextField.Render();
+            AdvanceGameTimeTextField.RenderField();
             GL.Space(10);
             GL.BeginHorizontal();
             if (GL.Button(
@@ -598,7 +598,7 @@ namespace BagOfTricks
                 GL.Space(10);
 
                 GL.BeginVertical("box");
-                if(KingdomState.Instance != null)
+                if (KingdomState.Instance != null)
                 {
                     MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_RegionREInformation") + " " + Strings.Parenthesis(((IList<BlueprintRegion>)BlueprintRoot.Instance.Kingdom.Regions).FirstOrDefault<BlueprintRegion>((Func<BlueprintRegion, bool>)(r => r.Id == Game.Instance.Player.GlobalMap.CurrentRegion)).LocalizedName)));
                 }
@@ -624,7 +624,7 @@ namespace BagOfTricks
                 GL.EndVertical();
                 GL.Space(10);
                 MenuTools.SingleLineLabelGT("label_EncounterChanceInformation", true);
-                
+
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
@@ -1314,9 +1314,8 @@ namespace BagOfTricks
                                 MenuTools.SingleLineLabel(Strings.GetText("label_FeatObjectName") +
                                                           $": {Storage.featAllObjectNames[i]}");
                                 GL.BeginVertical("box");
-                                MenuTools.SingleLineLabel(Strings.GetText("label_FeatRank") +
-                                                          $": {Storage.featAllRanks[i]}");
-                                setRankForceTextField.Render();
+                                MenuTools.SingleLineLabel(Strings.GetText("label_FeatRank") + $": {Storage.featAllRanks[i]}");
+                                setRankForceTextField.RenderField();
                                 GL.BeginHorizontal();
                                 if (GL.Button(
                                     Strings.GetText("button_SetRankTo") + $" {setRankForceTextField.finalAmount}",
@@ -1375,6 +1374,8 @@ namespace BagOfTricks
 
                                     if (Main.CraftMagicItems.ModIsActive() && Storage.featFavourites[i].Contains(Storage.craftMagicItemsBlueprintPrefix))
                                         GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix), GL.ExpandWidth(false));
+
+                                    GL.FlexibleSpace();
 
                                     try
                                     {
@@ -3227,7 +3228,7 @@ namespace BagOfTricks
 
         public static void BeneathTheStolenLands()
         {
-            if(settings.settingShowDebugInfo)
+            if (settings.settingShowDebugInfo)
             {
                 if (Common.DLCEndless())
                 {
@@ -4057,6 +4058,7 @@ namespace BagOfTricks
                                 GL.BeginHorizontal();
                                 Storage.toggleItemFavouriteDescription.Add(false);
                                 Storage.toggleItemFavouriteDescription[i] = GL.Toggle(Storage.toggleItemFavouriteDescription[i], $" {Storage.itemFavouritesNames[i]}", GL.ExpandWidth(false));
+                                GL.FlexibleSpace();
 
                                 if (Main.CraftMagicItems.ModIsActive() && Storage.itemFavourites[i].Contains(Storage.scribeScrollBlueprintPrefix))
                                 {
@@ -4889,7 +4891,7 @@ namespace BagOfTricks
                 {
                     if (!unitEntityData.Descriptor.Resources.ContainsResource(abilityByGuid.GetComponents<AbilityResourceLogic>()?.FirstOrDefault<AbilityResourceLogic>()?.RequiredResource))
                     {
-                        if(GL.Button(Strings.GetText("misc_Add") + $" {abilityByGuid.GetComponents<AbilityResourceLogic>()?.FirstOrDefault<AbilityResourceLogic>()?.RequiredResource}", GL.ExpandWidth(false)))
+                        if (GL.Button(Strings.GetText("misc_Add") + $" {abilityByGuid.GetComponents<AbilityResourceLogic>()?.FirstOrDefault<AbilityResourceLogic>()?.RequiredResource}", GL.ExpandWidth(false)))
                         {
                             unitEntityData.Descriptor.Resources.Add(abilityByGuid.GetComponents<AbilityResourceLogic>()?.FirstOrDefault<AbilityResourceLogic>()?.RequiredResource, true);
                         }
@@ -4904,7 +4906,7 @@ namespace BagOfTricks
 
         public static string[] AbilityInfo(BlueprintAbility ability, string description)
         {
-            return new string[] 
+            return new string[]
             {
                     Strings.GetText("label_AbilityName") + ": " +$"{ability.Name}",
                     Strings.GetText("label_AbilityGuid") + ": " +$"{ability.AssetGuid}",
@@ -4948,10 +4950,10 @@ namespace BagOfTricks
                     Strings.GetText("label_BuffDescription") + $": {description}",
             };
         }
-            
+
         public static void FeatDetails(bool toggle, string featGuid, string description)
         {
-            if(toggle)
+            if (toggle)
             {
                 GL.BeginVertical("box");
 
@@ -4961,7 +4963,7 @@ namespace BagOfTricks
                 MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ObjectName") + ": ") + $"{featByGuid.name}");
                 MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ObjectNameClean") + ": ") + $"{Strings.CleanName(featByGuid.name)}");
                 MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_FeatDescription") + ": ") + $"{description}");
-                MenuTools.CopyExportButtons("button_ExportFeatInfo", featByGuid.name + ".txt",  FeatInfo(featByGuid, description), "label_CopyFeatInformationToClipboard");
+                MenuTools.CopyExportButtons("button_ExportFeatInfo", featByGuid.name + ".txt", FeatInfo(featByGuid, description), "label_CopyFeatInformationToClipboard");
                 GL.EndVertical();
             }
         }
@@ -5024,7 +5026,7 @@ namespace BagOfTricks
                 if (Strings.ToBool(settings.toggleItemModding))
                 {
                     GL.Space(10);
-                    itemSearchDescriptionTextFieldInt.RenderNoGL();
+                    itemSearchDescriptionTextFieldInt.RenderFieldNoGroup();
                     ModifiedBlueprintTools.SetModifiedValueButton<ModifiedItem>(itemSearchDescriptionTextFieldInt.finalAmount, "m_Cost", itemGuid);
                 }
                 GL.EndHorizontal();
@@ -5042,7 +5044,7 @@ namespace BagOfTricks
                 if (Strings.ToBool(settings.toggleItemModding))
                 {
                     GL.Space(10);
-                    itemSearchDescriptionTextFieldFloat.RenderNoGL();
+                    itemSearchDescriptionTextFieldFloat.RenderFieldNoGroup();
                     ModifiedBlueprintTools.SetModifiedValueButton<ModifiedItem>(itemSearchDescriptionTextFieldFloat.finalAmount, "m_Weight", itemGuid);
                 }
                 GL.EndHorizontal();
@@ -5069,7 +5071,7 @@ namespace BagOfTricks
                     GL.Label("m_DamageDice: " + Traverse.Create(itemByGuid).Field("m_DamageDice").GetValue().ToString());
                     GL.EndHorizontal();
                     GL.BeginHorizontal();
-                    itemSearchDescriptionTextFieldInt.RenderNoGL("misc_NumberOfRolls");
+                    itemSearchDescriptionTextFieldInt.RenderFieldNoGroup("misc_NumberOfRolls");
                     GL.EndHorizontal();
                     diceTypesGrid.Render();
                     GL.BeginHorizontal();
@@ -5428,7 +5430,8 @@ namespace BagOfTricks
                                     GL.BeginHorizontal();
                                     Storage.buffToggleFavouriteDescription.Add(false);
                                     if (!string.IsNullOrEmpty(Storage.buffFavouritesNames[i]))
-                                    Storage.buffToggleFavouriteDescription[i] = GL.Toggle(Storage.buffToggleFavouriteDescription[i], Storage.buffFavouritesNames[i], GL.ExpandWidth(false));
+                                        Storage.buffToggleFavouriteDescription[i] = GL.Toggle(Storage.buffToggleFavouriteDescription[i], Storage.buffFavouritesNames[i], GL.ExpandWidth(false));
+                                    GL.FlexibleSpace();
 
                                     try
                                     {
@@ -5582,6 +5585,7 @@ namespace BagOfTricks
                                     Storage.buffToggleResultDescription.Add(false);
                                     if (!string.IsNullOrEmpty(Storage.buffResultNames[i]))
                                         Storage.buffToggleResultDescription[i] = GL.Toggle(Storage.buffToggleResultDescription[i], Storage.buffResultNames[i], GL.ExpandWidth(false));
+                                    GL.FlexibleSpace();
 
                                     try
                                     {
@@ -5843,6 +5847,7 @@ namespace BagOfTricks
                                     Storage.abilitiesToggleFavouriteDescription.Add(false);
                                     if (!string.IsNullOrEmpty(Storage.abilitiesFavouritesNames[i]))
                                         Storage.abilitiesToggleFavouriteDescription[i] = GL.Toggle(Storage.abilitiesToggleFavouriteDescription[i], Storage.abilitiesFavouritesNames[i], GL.ExpandWidth(false));
+                                    GL.FlexibleSpace();
 
                                     try
                                     {
@@ -5987,6 +5992,7 @@ namespace BagOfTricks
                                     Storage.abilityToggleResultDescription.Add(false);
                                     if (!string.IsNullOrEmpty(Storage.abilityResultDescriptions[i]))
                                         Storage.abilityToggleResultDescription[i] = GL.Toggle(Storage.abilityToggleResultDescription[i], $"{Storage.abilityResultNames[i]} ({Storage.abilityResultTypes[i]})", GL.ExpandWidth(false));
+                                    GL.FlexibleSpace();
 
                                     try
                                     {
@@ -6069,6 +6075,8 @@ namespace BagOfTricks
                 GL.Space(10);
 
                 RestoreSpellsAbilities();
+                SpellAbilityRangeMultiplier();
+
                 SpellAbilityRange();
                 MenuTools.ToggleButton(ref settings.toggleTabletopSpellAbilityRange, "buttonToggle_TabletopSpellAbilityRange", "tooltip_TabletopSpellAbilityRange", nameof(settings.toggleTabletopSpellAbilityRange));
                 MenuTools.ToggleButton(ref settings.toggleSpellbookAbilityAlignmentChecks, "buttonToggle_SpellbookAbilityAlignmentChecks", "tooltip_SpellbookAbilityAlignmentChecks", nameof(settings.toggleSpellbookAbilityAlignmentChecks));
@@ -6250,18 +6258,53 @@ namespace BagOfTricks
         }
 
         public static MultiplierCustom spellAbilityRangeMultiplierCustom = new MultiplierCustom(0.1f, 10f);
-        public static void SpellAbilityRange()
+        public static void SpellAbilityRangeMultiplier()
         {
             spellAbilityRangeMultiplierCustom.LoadSettings(settings.spellAbilityRangeMultiplier, settings.customSpellAbilityRangeMultiplier, settings.useCustomSpellAbilityRangeMultiplier);
-            GL.BeginVertical("box");           
-            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleSpellAbilityRangeMultiplier, "label_SpellAbilityRangeMultiplier", "tooltip_SpellAbilityRange");
-            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(SpellAbilityRange));
+            GL.BeginVertical("box");
+            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleSpellAbilityRangeMultiplier, "label_SpellAbilityRangeMultiplier", "tooltip_SpellAbilityRangeMultiplier");
+            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(SpellAbilityRangeMultiplier));
             if (Strings.ToBool(settings.toggleSpellAbilityRangeMultiplier))
             {
                 GL.BeginVertical("box");
                 spellAbilityRangeMultiplierCustom.Render(ref settings.spellAbilityRangeMultiplier, ref settings.customSpellAbilityRangeMultiplier, ref settings.useCustomSpellAbilityRangeMultiplier);
                 GL.EndVertical();
             }
+            GL.EndVertical();
+        }
+
+        private static TextFieldInt closeRangeField = new TextFieldInt();
+        private static TextFieldInt mediumRangeField = new TextFieldInt();
+        private static TextFieldInt longRangeField = new TextFieldInt();
+        public static void SpellAbilityRange()
+        {
+            GL.BeginVertical("box");
+            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleCustomSpellAbilityRange, "label_SpellAbilityRange", "tooltip_SpellAbilityRange");
+            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(SpellAbilityRange));
+            if (Strings.ToBool(settings.toggleCustomSpellAbilityRange))
+            {
+                GL.BeginVertical("box");
+                GL.BeginHorizontal();
+                GL.Label(Strings.GetText("misc_Close") + ": ", GL.ExpandWidth(false));
+                closeRangeField.RenderFieldNoGroup();
+                closeRangeField.RendeSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeClose);
+                GL.EndHorizontal();
+                MenuTools.CurrentValue(settings.customSpellAbilityRangeClose);
+                GL.BeginHorizontal();
+                GL.Label(Strings.GetText("misc_Medium") + ": ", GL.ExpandWidth(false));
+                mediumRangeField.RenderFieldNoGroup();
+                mediumRangeField.RendeSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeMedium);
+                GL.EndHorizontal();
+                MenuTools.CurrentValue(settings.customSpellAbilityRangeMedium);
+                GL.BeginHorizontal();
+                GL.Label(Strings.GetText("misc_Long") + ": ", GL.ExpandWidth(false));
+                longRangeField.RenderFieldNoGroup();
+                longRangeField.RendeSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeLong);
+                GL.EndHorizontal();
+                MenuTools.CurrentValue(settings.customSpellAbilityRangeLong);
+                GL.EndVertical();
+            }
+            MenuTools.IncompatibilityWarning(RichText.BoldRedFormat(Strings.GetText("label_SpellAbilityCustomRangeTabletopWarning")), settings.toggleTabletopSpellAbilityRange, settings.toggleCustomSpellAbilityRange);
             GL.EndVertical();
         }
 
@@ -6426,7 +6469,7 @@ namespace BagOfTricks
 
             GL.BeginHorizontal();
             if (GL.Button(Strings.GetText("button_RevealAllMapLocationsXWaypointHidden"), GL.ExpandWidth(false)))
-                Cheats.RevealLocationsByType(new List<LocationType> {LocationType.Landmark, LocationType.Location});
+                Cheats.RevealLocationsByType(new List<LocationType> { LocationType.Landmark, LocationType.Location });
             GL.EndHorizontal();
 
             GL.BeginHorizontal();
@@ -6486,7 +6529,7 @@ namespace BagOfTricks
 
             if (Strings.ToBool(settings.togglePartyMovementSpeedMultiplier))
             {
-                partyMovementSpeedMultiplierTextField.Render();
+                partyMovementSpeedMultiplierTextField.RenderField();
                 GL.Space(10);
                 GL.BeginHorizontal();
                 if (GL.Button(Strings.GetText("button_SetTo") + $" {partyMovementSpeedMultiplierTextField.finalAmount}",
@@ -6542,7 +6585,7 @@ namespace BagOfTricks
                     MenuTools.SingleLineLabel(
                         $"{Strings.GetText("label_CurrentCrisisPoints")}: {Game.Instance.Player.Kingdom.ConsumableEventBonus}");
 
-                    consumableEventBonusField.Render();
+                    consumableEventBonusField.RenderField();
 
                     if (GL.Button($"+ {consumableEventBonusField.finalAmount}", GL.ExpandWidth(false)))
                         Game.Instance.Player.Kingdom.ConsumableEventBonus =
@@ -7284,7 +7327,7 @@ namespace BagOfTricks
                 GL.Space(10);
 
                 MenuTools.ToggleButton(ref settings.toggleMakeSummmonsControllable, "buttonToggle_MakeSummonsControllable", "tooltip_MakeSummonsControllable", nameof(settings.toggleMakeSummmonsControllable));
-                if(Strings.ToBool(settings.toggleMakeSummmonsControllable))
+                if (Strings.ToBool(settings.toggleMakeSummmonsControllable))
                 {
                     MenuTools.ToggleButton(ref settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians, "buttonToggle_DisableWarpaintedSkullAbilityForSummonedBarbarians", "tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians", nameof(settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians));
                 }
@@ -7635,7 +7678,7 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            if (GL.Button($"{Storage.fadeToBlackState} " + Strings.GetText("buttonToggle_FadeToBlack"), GL.Width(190f)))
+            if (GL.Button($"{Storage.fadeToBlackState} " + Strings.GetText("buttonToggle_FadeToBlack"), GL.ExpandWidth(false)))
             {
                 if (Storage.fadeToBlackState == Strings.GetText("misc_Enable"))
                 {
@@ -7662,7 +7705,7 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            if (GL.Button($"{settings.currentSceneString} " + Strings.GetText("buttonToggle_ActiveSceneName"), GL.Width(190f)))
+            if (GL.Button($"{settings.currentSceneString} " + Strings.GetText("buttonToggle_ActiveSceneName"), GL.ExpandWidth(false)))
             {
                 if (settings.currentSceneString == Strings.GetText("misc_Hide"))
                 {
@@ -8219,32 +8262,31 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            if (GL.Button(Strings.GetText("button_CreateGameHistoryLog"), GL.Width(180f)))
+            if (GL.Button(Strings.GetText("button_CreateGameHistoryLog"), GL.ExpandWidth(false)))
             {
                 File.WriteAllLines(Path.Combine(Common.ExportPath(), "game-history.txt"), (IEnumerable<string>)Game.Instance.Statistic.GameHistoryLog);
             }
-            GL.Label(" " + Strings.GetText("label_Location") + $": {Path.Combine(Common.ExportPath(), "game-history.txt")}");
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(CreateGameHistoryLog));
             GL.EndHorizontal();
+            MenuTools.SingleLineLabel(" " + Strings.GetText("label_Location") + $": {Path.Combine(Common.ExportPath(), "game-history.txt")}");
             GL.EndVertical();
-
         }
+
         public static void DumpKingdomState()
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            if (GL.Button(Strings.GetText("button_DumpKingdomState"), GL.Width(180f)))
+            if (GL.Button(Strings.GetText("button_DumpKingdomState"), GL.ExpandWidth(false)))
             {
                 File.WriteAllText(Path.Combine(Common.ExportPath(), "kingdom-state.txt"), Utilities.DumpKingdomState());
             }
-            GL.Label(" " + Strings.GetText("label_Location") + $": {Path.Combine(Common.ExportPath(), "kingdom-state.txt")}");
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(DumpKingdomState));
             GL.EndHorizontal();
+            MenuTools.SingleLineLabel(" " + Strings.GetText("label_Location") + $": {Path.Combine(Common.ExportPath(), "kingdom-state.txt")}");
             GL.EndVertical();
         }
-
 
         public static void RomanceCounterExperimental()
         {

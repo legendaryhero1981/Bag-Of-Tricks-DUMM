@@ -275,6 +275,8 @@
   <Localisation key="label_ActionKeyNotSetToSpawnUnits" value="The Action Key is not set to Spawn Units" />
   <Localisation key="label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored" value="Spawn Units From Unit Favourites / Stored Units via the Action Key isn't enabled:" />
   <Localisation key="label_SetToSpawnUnits" value="Set To Spawn Units" />
+  <Localisation key="label_SpellAbilityRange" value="Set Custom Spell &amp; Ability Ranges" />
+  <Localisation key="label_SpellAbilityCustomRangeTabletopWarning" value="Both Set Custom Spell &amp; Ability Ranges and Tabletop Ranges are active!" />
   <Localisation key="message_NotInGame" value="The mod can't be accessed from the main menu.&#xA;Either load a save file or start a new character!" />
   <Localisation key="message_ExitCombat" value="Exit Combat!" />
   <Localisation key="message_NoEnemies" value="There are no revealed enemies!" />
@@ -856,7 +858,8 @@
   <Localisation key="tooltip_AddMultipleItems" value="Allows you to insert multiple Guid separated by commas." />
   <Localisation key="tooltip_ShowEnemies" value="Display enemies instead of party members." />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿Enabling this options will allow you to add versions of feats the game doesn't normally include e.g. Fencing Grace (Greatclub)." />
-  <Localisation key="tooltip_SpellAbilityRange" value="Use the slider or a custom multiplier to adjust spell and ability ranges." />
+  <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="Use the slider or a custom multiplier to adjust spell and ability ranges." />
+  <Localisation key="tooltip_SpellAbilityRange" value="Allows to set custom close, medium and long range values." />
   <Localisation key="tooltip_RestoreSpellsAbilites" value="Restore your party's spells and abilities﻿.&#xA;Does not affect Burn - use Instant Rest instead." />
   <Localisation key="tooltip_SpellbookAbilityAlignmentChecks" value="Disable alignment checks for spellbooks access and when using ability&#xA;e.g. allowing you to use Paladin abilities while being Chaotic Evil." />
   <Localisation key="tooltip_TabletopSpellAbilityRange" value="﻿Sets the Spell &amp; Ability Ranges to 25 ft (close), 100 ft (medium), 400 ft (long).&#xA;Caster level isn't taken into account!" />
@@ -984,6 +987,9 @@
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="No Arcane Spell Failure will only be active outside of combat encounters." />
   <Localisation key="tooltip_ActionKeySpawnUnitsFromUnitFavourites" value="Enables picking enemies to spawn from the unit favourites / stored units." />
   <Localisation key="tooltip_AddMultipleToStorage" value="Click to remove&#xA;the unit from storage&#xA;or shift-click to&#xA;add it again." />
+  <Localisation key="misc_Close" value="Close" />
+  <Localisation key="misc_Medium" value="Medium" />
+  <Localisation key="misc_Long" value="Long" />
   <Localisation key="misc_Friendly" value="Friendly" />
   <Localisation key="misc_Passive" value="Passive" />
   <Localisation key="misc_Hostile" value="Hostile" />

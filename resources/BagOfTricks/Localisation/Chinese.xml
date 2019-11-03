@@ -275,6 +275,8 @@
   <Localisation key="label_ActionKeyNotSetToSpawnUnits" value="操作键未设置为生成单元" />
   <Localisation key="label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored" value="未启用通过操作键从单元收藏夹或存储单元生成单元：" />
   <Localisation key="label_SetToSpawnUnits" value="设置为生成单元" />
+  <Localisation key="label_SpellAbilityRange" value="设置自定义法术 &amp; 能力范围" />
+  <Localisation key="label_SpellAbilityCustomRangeTabletopWarning" value="设置自定义法术 &amp; 能力范围和桌游范围都是活动的！" />
   <Localisation key="message_NotInGame" value="无法从主菜单访问该mod。&#xA;请先载入游戏或开始新游戏！" />
   <Localisation key="message_ExitCombat" value="退出战斗！" />
   <Localisation key="message_NoEnemies" value="找不到暴露的敌人！" />
@@ -856,7 +858,8 @@
   <Localisation key="tooltip_AddMultipleItems" value="允许插入逗号分隔的多个ID。" />
   <Localisation key="tooltip_ShowEnemies" value="显示敌人而不是队伍。" />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿启用此选项将允许您添加游戏中通常不包括的壮举版本，例如击剑恩典（巨木棒Greatclub？）。" />
-  <Localisation key="tooltip_SpellAbilityRange" value="使用滑块或自定义倍数调整法术和能力范围。" />
+  <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="使用滑块或自定义倍数调整法术和能力范围。" />
+  <Localisation key="tooltip_SpellAbilityRange" value="允许设置自定义近程、中程、远程范围值。" />
   <Localisation key="tooltip_RestoreSpellsAbilites" value="恢复你的队伍的法术和能力。&#xA;不影响伤害 - 改为使用即时休息。" />
   <Localisation key="tooltip_SpellbookAbilityAlignmentChecks" value="禁用对法术书访问的对齐检查以及何时使用&#xA;例如。 允许你在混乱邪恶中使用圣骑士的能力。" />
   <Localisation key="tooltip_TabletopSpellAbilityRange" value="﻿设置法术 &amp; 能力范围： 25 ft（近距）, 100 ft（中距）, 400 ft（远距）。&#xA;不考虑施法者等级！" />
@@ -984,6 +987,9 @@
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="无奥术法术失败将只在战斗遭遇之外有效。" />
   <Localisation key="tooltip_ActionKeySpawnUnitsFromUnitFavourites" value="使选择的敌人从单元收藏夹或储存单元中产生。" />
   <Localisation key="tooltip_AddMultipleToStorage" value="单击以删除&#xA;已存储单元&#xA;或按住shift键单击&#xA;再次添加。" />
+  <Localisation key="misc_Close" value="近程" />
+  <Localisation key="misc_Medium" value="中程" />
+  <Localisation key="misc_Long" value="远程" />
   <Localisation key="misc_Friendly" value="友好的" />
   <Localisation key="misc_Passive" value="消极的" />
   <Localisation key="misc_Hostile" value="敌对的" />
