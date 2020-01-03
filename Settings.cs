@@ -616,6 +616,12 @@ namespace BagOfTricks
         public int customSpellAbilityRangeMedium = 40;
         public int customSpellAbilityRangeLong = 50;
 
+
+        public string toggleEnemyBaseHitPointsMultiplier = Storage.isFalseString;
+        public float enemyBaseHitPointsMultiplier = 1f;
+        public float customEnemyBaseHitPointsMultiplier = 1f;
+        public bool useCustomEnemyBaseHitPointsMultiplier = false;
+
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             Save(this, modEntry);

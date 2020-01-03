@@ -337,8 +337,9 @@ namespace BagOfTricks
             {"label_ActionKeyNotSetToSpawnUnits", "The Action Key is not set to Spawn Units"},
             {"label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored", "Spawn Units From Unit Favourites / Stored Units via the Action Key isn't enabled:"},
             {"label_SetToSpawnUnits", "Set To Spawn Units"},
-            { "label_SpellAbilityRange", "Set Custom Spell & Ability Ranges"},
-            { "label_SpellAbilityCustomRangeTabletopWarning", "Both Set Custom Spell & Ability Ranges and Tabletop Ranges are active!"},
+            {"label_SpellAbilityRange", "Set Custom Spell & Ability Ranges"},
+            {"label_SpellAbilityCustomRangeTabletopWarning", "Both Set Custom Spell & Ability Ranges and Tabletop Ranges are active!"},
+            {"label_EnemyBaseHitPointsMultiplier", "Enemy Base Hit Points Multiplier"},
             //label end 
 
             //message start
@@ -584,6 +585,7 @@ namespace BagOfTricks
             {"button_RestoreAllItemCharges", "Restore All Item Charges"},
             {"button_RemoveEquippedItems", "Remove All Equipped Items"},
             {"button_Spawn", "Spawn"},
+            {"button_RunPerceptionTriggerActions", "Run Perception Trigger Actions"},
             //button end
 
             //buttonToggle start
@@ -1118,6 +1120,7 @@ namespace BagOfTricks
             },
 
             {"tooltip_SpellAbilityRangeMultiplier", "Use the slider or a custom multiplier to adjust spell and ability ranges."},
+            {"tooltip_EnemyBaseHitPointsMultiplier", "Use the slider or a custom multiplier to adjust enemy base hit points.\nChanges are applied after loading!"},
             {"tooltip_SpellAbilityRange", "Allows to set custom close, medium and long range values."},
             {"tooltip_RestoreSpellsAbilites", "Restore your party's spells and abilities﻿.\nDoes not affect Burn - use Instant Rest instead."},
             {"tooltip_SpellbookAbilityAlignmentChecks", "Disable alignment checks for spellbooks access and when using ability\ne.g. allowing you to use Paladin abilities while being Chaotic Evil."},
@@ -1294,6 +1297,7 @@ namespace BagOfTricks
             {"tooltip_MakeSummonsControllable", "Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.\nIf the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible."},
             {"tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians", "Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself."},
             {"tooltip_RemoveSummonsGlow", "Removes the permanent glow from summons.\nDoes not apply to already summoned units."},
+            {"tooltip_RunPerceptionTriggerActions", "Runs the actions attached to all the Perception Triggers in the current area\ne.g. revealing hidden passages/fixing previously bugged ones."},
             {
                 "tooltip_FreezeTimedQuestAt90Days",
                 "Freezes the time left on timed quest at 90 days.\nOnce turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.\nThus it is recommended to complete timed quest before turning it off or making sure that there is still time left."

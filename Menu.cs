@@ -14,6 +14,7 @@ using Kingmaker.Cheats;
 using Kingmaker.Controllers;
 using Kingmaker.Controllers.Rest.Cooking;
 using Kingmaker.Designers;
+using Kingmaker.Designers.EventConditionActionSystem.Events;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
@@ -3022,11 +3023,7 @@ namespace BagOfTricks
                     "tooltip_NoIngredientsRequired", nameof(settings.toggleNoIngredientsRequired));
                 GL.Space(10);
 
-                GL.BeginHorizontal();
-                if (GL.Button(MenuTools.TextWithTooltip("button_InstantRest", "tooltip_InstantRest", false),
-                    GL.ExpandWidth(false))) Cheats.InstantRest();
-                GL.EndHorizontal();
-
+                InstantRest();
                 MenuTools.ToggleButton(ref settings.toggleInstantRestAfterCombat, "buttonToggle_InstantRestAfterCombat",
                     "tooltip_InstantRestAfterCombat", nameof(settings.toggleInstantRestAfterCombat));
                 Main.ToggleActiveWarning(ref settings.toggleInstantRestAfterCombat,
@@ -3781,6 +3778,10 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
+                EnemyBaseHitPointsMultiplier();
+
+                GL.Space(10);
+
                 var enemyUnits = new List<UnitEntityData>();
                 var enemyInStealth = false;
                 var enemyAlive = false;
@@ -3976,7 +3977,22 @@ namespace BagOfTricks
                     MenuTools.SingleLineLabel(Strings.GetText("message_NoEnemies"));
                 }
             }
+            GL.EndVertical();
+        }
 
+        public static MultiplierCustom enemyBaseHitPointMultiplier = new MultiplierCustom(0.1f, 10f);
+        public static void EnemyBaseHitPointsMultiplier()
+        {
+            enemyBaseHitPointMultiplier.LoadSettings(settings.enemyBaseHitPointsMultiplier, settings.customEnemyBaseHitPointsMultiplier, settings.useCustomEnemyBaseHitPointsMultiplier);
+            GL.BeginVertical("box");
+            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleEnemyBaseHitPointsMultiplier, "label_EnemyBaseHitPointsMultiplier", "tooltip_EnemyBaseHitPointsMultiplier");
+            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(EnemyBaseHitPointsMultiplier));
+            if (Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier))
+            {
+                GL.BeginVertical("box");
+                enemyBaseHitPointMultiplier.Render(ref settings.enemyBaseHitPointsMultiplier, ref settings.customEnemyBaseHitPointsMultiplier, ref settings.useCustomEnemyBaseHitPointsMultiplier);
+                GL.EndVertical();
+            }
             GL.EndVertical();
         }
 
@@ -7326,6 +7342,10 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
+                RunPerceptionTrigger();
+
+                GL.Space(10);
+
                 MenuTools.ToggleButton(ref settings.toggleMakeSummmonsControllable, "buttonToggle_MakeSummonsControllable", "tooltip_MakeSummonsControllable", nameof(settings.toggleMakeSummmonsControllable));
                 if (Strings.ToBool(settings.toggleMakeSummmonsControllable))
                 {
@@ -7518,7 +7538,43 @@ namespace BagOfTricks
 
                 Experimental();
             }
+            GL.EndVertical();
+        }
 
+        public static void InstantRest()
+        {
+            GL.BeginVertical("box");
+            GL.BeginHorizontal();
+            if (GL.Button(MenuTools.TextWithTooltip("button_InstantRest", "tooltip_InstantRest", false), GL.ExpandWidth(false)))
+            {
+                BagOfTricks.Cheats.InstantRest();
+            }
+            GL.FlexibleSpace();
+            MenuTools.AddFavouriteButton(nameof(InstantRest));
+            GL.EndHorizontal();
+            GL.EndVertical();
+        }
+
+        public static void RunPerceptionTrigger()
+        {
+            GL.BeginVertical("box");
+            GL.BeginHorizontal();
+            if (GL.Button(MenuTools.TextWithTooltip("button_RunPerceptionTriggerActions", "tooltip_RunPerceptionTriggerActions", false), GL.ExpandWidth(false)))
+            {
+                foreach (BlueprintComponent bc in Game.Instance.State.LoadedAreaState.Blueprint.CollectComponents())
+
+                {
+                    modLogger.Log(bc.name);
+                    if (bc.name.Contains("PerceptionTrigger"))
+                    {
+                        PerceptionTrigger pt = (PerceptionTrigger)bc;
+                        pt.OnSpotted.Run();
+                    }
+                }
+            }
+            GL.FlexibleSpace();
+            MenuTools.AddFavouriteButton(nameof(RunPerceptionTrigger));
+            GL.EndHorizontal();
             GL.EndVertical();
         }
 

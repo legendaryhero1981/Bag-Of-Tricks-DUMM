@@ -1,6 +1,4 @@
-﻿using Kingmaker.UnitLogic.Class.Kineticist;
-
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 

@@ -4051,5 +4051,25 @@ namespace BagOfTricks
                 }
             }
         }
+
+
+        [HarmonyPatch(typeof(CharacterStats), "PostLoad")]
+        static class CharacterStats_PostLoad_Patch_Post
+        {
+            static void Postfix(CharacterStats __instance)
+            {
+                if(Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier) && __instance.Owner.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
+                {
+                    if (settings.useCustomEnemyBaseHitPointsMultiplier)
+                    {
+                        __instance.HitPoints.BaseValue = Mathf.RoundToInt(__instance.HitPoints.BaseValue * settings.customEnemyBaseHitPointsMultiplier);
+                    }
+                    else
+                    {
+                        __instance.HitPoints.BaseValue = Mathf.RoundToInt(__instance.HitPoints.BaseValue * settings.enemyBaseHitPointsMultiplier);
+                    }
+                }
+            }
+        }
     }
 }

@@ -277,6 +277,7 @@
   <Localisation key="label_SetToSpawnUnits" value="设置为生成单元" />
   <Localisation key="label_SpellAbilityRange" value="设置自定义法术 &amp; 能力范围" />
   <Localisation key="label_SpellAbilityCustomRangeTabletopWarning" value="设置自定义法术 &amp; 能力范围和桌游范围都是活动的！" />
+  <Localisation key="label_EnemyBaseHitPointsMultiplier" value="敌人基础生命值倍数" />
   <Localisation key="message_NotInGame" value="无法从主菜单访问该mod。&#xA;请先载入游戏或开始新游戏！" />
   <Localisation key="message_ExitCombat" value="退出战斗！" />
   <Localisation key="message_NoEnemies" value="找不到暴露的敌人！" />
@@ -501,6 +502,7 @@
   <Localisation key="button_RestoreAllItemCharges" value="恢复所有物品价格" />
   <Localisation key="button_RemoveEquippedItems" value="移除所有已装备物品" />
   <Localisation key="button_Spawn" value="生成" />
+  <Localisation key="button_RunPerceptionTriggerActions" value="执行感知触发动作" />
   <Localisation key="buttonToggle_PartyAlwaysRolls20" value="队伍总是投掷20" />
   <Localisation key="buttonToggle_InfiniteSkillPoints" value="无限技能点数" />
   <Localisation key="buttonToggle_IgnoreClassAlignment" value="忽略职业阵营限制" />
@@ -859,6 +861,7 @@
   <Localisation key="tooltip_ShowEnemies" value="显示敌人而不是队伍。" />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿启用此选项将允许您添加游戏中通常不包括的壮举版本，例如击剑恩典（巨木棒Greatclub？）。" />
   <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="使用滑块或自定义倍数调整法术和能力范围。" />
+  <Localisation key="tooltip_EnemyBaseHitPointsMultiplier" value="使用滑块或自定义倍数来调整敌人的基础生命点。&#xA;重新载入后应用更改！" />
   <Localisation key="tooltip_SpellAbilityRange" value="允许设置自定义近程、中程、远程范围值。" />
   <Localisation key="tooltip_RestoreSpellsAbilites" value="恢复你的队伍的法术和能力。&#xA;不影响伤害 - 改为使用即时休息。" />
   <Localisation key="tooltip_SpellbookAbilityAlignmentChecks" value="禁用对法术书访问的对齐检查以及何时使用&#xA;例如。 允许你在混乱邪恶中使用圣骑士的能力。" />
@@ -938,6 +941,7 @@
   <Localisation key="tooltip_MakeSummonsControllable" value="允许将召唤生物在队伍成员中显示。仅适用于激活此选项后调用的对象。&#xA;如果召唤生物的持续时间已用完，而你正在队伍成员栏中移动召唤生物图标，绿色预览标记将保持可见。" />
   <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="被杜提卡的扭曲头骨召唤的野蛮人将无法使用杜提卡的扭曲头骨的自身能力。" />
   <Localisation key="tooltip_RemoveSummonsGlow" value="移除召唤生物身上的永久微光。&#xA;不适用于已经召唤的生物。" />
+  <Localisation key="tooltip_RunPerceptionTriggerActions" value="运行附加到当前区域中的所有感知触发动作。&#xA;例如揭露隐藏的通道/修复之前版本的问题。" />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="冻结90天的定时任务剩余时间。&#xA;一旦关闭，定时任务将返回正常状态，即当选项处于活动状态时，它们会像时间进展一样作出反应。&#xA;因此建议使用 关闭之前完成定时任务或确保还有剩余时间。" />
   <Localisation key="tooltip_ActionKey" value="﻿﻿可以通过热键设置动作键来执行一系列动作。" />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="被选中的群体不会成为机会攻击的目标。" />

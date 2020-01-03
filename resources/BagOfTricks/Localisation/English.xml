@@ -277,6 +277,7 @@
   <Localisation key="label_SetToSpawnUnits" value="Set To Spawn Units" />
   <Localisation key="label_SpellAbilityRange" value="Set Custom Spell &amp; Ability Ranges" />
   <Localisation key="label_SpellAbilityCustomRangeTabletopWarning" value="Both Set Custom Spell &amp; Ability Ranges and Tabletop Ranges are active!" />
+  <Localisation key="label_EnemyBaseHitPointsMultiplier" value="Enemy Base Hit Points Multiplier" />
   <Localisation key="message_NotInGame" value="The mod can't be accessed from the main menu.&#xA;Either load a save file or start a new character!" />
   <Localisation key="message_ExitCombat" value="Exit Combat!" />
   <Localisation key="message_NoEnemies" value="There are no revealed enemies!" />
@@ -501,6 +502,7 @@
   <Localisation key="button_RestoreAllItemCharges" value="Restore All Item Charges" />
   <Localisation key="button_RemoveEquippedItems" value="Remove All Equipped Items" />
   <Localisation key="button_Spawn" value="Spawn" />
+  <Localisation key="button_RunPerceptionTriggerActions" value="Run Perception Trigger Actions" />
   <Localisation key="buttonToggle_PartyAlwaysRolls20" value="Party Always Rolls 20" />
   <Localisation key="buttonToggle_InfiniteSkillPoints" value="Infinite Skill Points" />
   <Localisation key="buttonToggle_IgnoreClassAlignment" value="Ignore Class Alignment Restrictions" />
@@ -859,6 +861,7 @@
   <Localisation key="tooltip_ShowEnemies" value="Display enemies instead of party members." />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿Enabling this options will allow you to add versions of feats the game doesn't normally include e.g. Fencing Grace (Greatclub)." />
   <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="Use the slider or a custom multiplier to adjust spell and ability ranges." />
+  <Localisation key="tooltip_EnemyBaseHitPointsMultiplier" value="Use the slider or a custom multiplier to adjust enemy base hit points.&#xA;Changes are applied after loading!" />
   <Localisation key="tooltip_SpellAbilityRange" value="Allows to set custom close, medium and long range values." />
   <Localisation key="tooltip_RestoreSpellsAbilites" value="Restore your party's spells and abilities﻿.&#xA;Does not affect Burn - use Instant Rest instead." />
   <Localisation key="tooltip_SpellbookAbilityAlignmentChecks" value="Disable alignment checks for spellbooks access and when using ability&#xA;e.g. allowing you to use Paladin abilities while being Chaotic Evil." />
@@ -937,7 +940,8 @@
   <Localisation key="tooltip_NoNegativeLevels" value="Prevents party members from gaining negative levels.&#xA;The game will still display level drain messages in the battle log." />
   <Localisation key="tooltip_MakeSummonsControllable" value="Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.&#xA;If the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible." />
   <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself." />
-  <Localisation key="tooltip_RemoveSummonsGlow" value="Removes the permanent glow from summons.&#xA;Does not apply to already summoned units." />
+  <Localisation key="tooltip__RemoveSummonsGlow" value="Removes the permanent glow from summons.&#xA;Does not apply to already summoned units." />
+  <Localisation key="tooltip_RunPerceptionTriggerActions" value="Runs the actions attached to all the Perception Triggers in the current area&#xA;e.g. revealing hidden passages/fixing previously bugged ones." />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="Freezes the time left on timed quest at 90 days.&#xA;Once turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.&#xA;Thus it is recommended to complete timed quest before turning it off or making sure that there is still time left." />
   <Localisation key="tooltip_ActionKey" value="﻿﻿The action key can be set to perform a range of actions via hotkey." />
   <Localisation key="tooltip_NoAttacksOfOpportunity" value="The selected group won't be the target of attacks of opportunity." />
