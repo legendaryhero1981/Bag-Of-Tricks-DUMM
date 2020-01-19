@@ -19,7 +19,7 @@ namespace BagOfTricks
 
     public static class TaxCollector
     {
-        public static Settings settings = Main.Settings;
+        public static Settings settings = Main.settings;
 
         public static DateTime saveTimeGame = new DateTime();
 
@@ -27,7 +27,7 @@ namespace BagOfTricks
 
         public static string playerTitleInput = "";
 
-        public static string resultLine_0 = "";
+        public static string resultLine0 = "";
 
         public static int MoneyRank(int rankEconomy, int rankStability, int rankLoyalty)
         {
@@ -38,7 +38,7 @@ namespace BagOfTricks
             return result / 3;
         }
 
-        public static int BPRank(int rankEconomy, int rankStability, int rankCommunity)
+        public static int BpRank(int rankEconomy, int rankStability, int rankCommunity)
         {
             if (rankEconomy == 0) rankEconomy = 1;
             if (rankStability == 0) rankStability = 1;
@@ -47,7 +47,7 @@ namespace BagOfTricks
             return result / 3;
         }
 
-        public static int CollectBP(int rank, DateTime saveTime)
+        public static int CollectBp(int rank, DateTime saveTime)
         {
             var collectTime = DateTime.Now;
             var timePassed = collectTime.Subtract(saveTime);
@@ -94,7 +94,7 @@ namespace BagOfTricks
                 }
                 catch (Exception exception)
                 {
-                    Main.ModLogger.Log(exception.ToString());
+                    Main.modLogger.Log(exception.ToString());
                 }
 
             return newTax;

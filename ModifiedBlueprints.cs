@@ -34,88 +34,88 @@ namespace BagOfTricks
     public class ModifiedItem
     {
         [JsonProperty]
-        public int? m_Cost { get; set; } = null;
+        public int? MCost { get; set; } = null;
         [JsonProperty]
-        public float? m_Weight { get; set; } = null;
+        public float? MWeight { get; set; } = null;
     }
     [Serializable]
     public class ModifiedWeapon : ModifiedItem
     {
         [JsonProperty]
-        public bool? m_OverrideDamageDice { get; set; } = null;
+        public bool? MOverrideDamageDice { get; set; } = null;
         [JsonProperty]
-        public ModifiedDiceFormula m_DamageDice { get; set; } = null;
+        public ModifiedDiceFormula MDamageDice { get; set; } = null;
         [JsonProperty]
-        public string[] m_Enchantments { get; set; } = null;
+        public string[] MEnchantments { get; set; } = null;
     }
     [Serializable]
     public class EnchantableEquipment : ModifiedItem
     {
         [JsonProperty]
-        public string[] m_Enchantments { get; set; } = null;
+        public string[] MEnchantments { get; set; } = null;
     }
 
     [Serializable]
     public class ModifiedArmourType
     {
         [JsonProperty]
-        public int? m_ArmorBonus { get; set; } = null;
+        public int? MArmorBonus { get; set; } = null;
         [JsonProperty]
-        public int? m_ArmorChecksPenalty { get; set; } = null;
+        public int? MArmorChecksPenalty { get; set; } = null;
         [JsonProperty]
-        public bool? m_HasDexterityBonusLimit { get; set; } = null;
+        public bool? MHasDexterityBonusLimit { get; set; } = null;
         [JsonProperty]
-        public int? m_MaxDexterityBonus { get; set; } = null;
+        public int? MMaxDexterityBonus { get; set; } = null;
         [JsonProperty]
-        public int? m_ArcaneSpellFailureChance { get; set; } = null;
+        public int? MArcaneSpellFailureChance { get; set; } = null;
         [JsonProperty]
-        public float? m_Weight { get; set; } = null;
+        public float? MWeight { get; set; } = null;
     }
     [Serializable]
     public class ModifiedWeaponType
     {
         [JsonProperty]
-        public AttackType? m_AttackType { get; set; } = null;
+        public AttackType? MAttackType { get; set; } = null;
         [JsonProperty]
-        public Feet? m_AttackRange { get; set; } = null;
+        public Feet? MAttackRange { get; set; } = null;
         [JsonProperty]
-        public ModifiedDiceFormula m_BaseDamage { get; set; } = null;
+        public ModifiedDiceFormula MBaseDamage { get; set; } = null;
         [JsonProperty]
-        public int? m_CriticalRollEdge { get; set; } = null;
+        public int? MCriticalRollEdge { get; set; } = null;
         [JsonProperty]
-        public DamageCriticalModifierType? m_CriticalModifier { get; set; } = null;
+        public DamageCriticalModifierType? MCriticalModifier { get; set; } = null;
         [JsonProperty]
-        public float? m_Weight { get; set; } = null;
+        public float? MWeight { get; set; } = null;
         [JsonProperty]
-        public bool? m_IsTwoHanded { get; set; } = null;
+        public bool? MIsTwoHanded { get; set; } = null;
         [JsonProperty]
-        public bool? m_IsLight { get; set; } = null;
+        public bool? MIsLight { get; set; } = null;
         [JsonProperty]
-        public bool? m_IsMonk { get; set; } = null;
+        public bool? MIsMonk { get; set; } = null;
         [JsonProperty]
-        public bool? m_IsNatural { get; set; } = null;
+        public bool? MIsNatural { get; set; } = null;
         [JsonProperty]
-        public bool? m_IsUnarmed { get; set; } = null;
+        public bool? MIsUnarmed { get; set; } = null;
         [JsonProperty]
-        public bool? m_OverrideAttackBonusStat { get; set; } = null;
+        public bool? MOverrideAttackBonusStat { get; set; } = null;
         [JsonProperty]
-        public StatType? m_AttackBonusStatOverride { get; set; } = null;
+        public StatType? MAttackBonusStatOverride { get; set; } = null;
     }
     [Serializable]
     public class ModifiedDiceFormula
     {
         [JsonProperty]
-        public int? m_Rolls { get; set; } = null;
+        public int? MRolls { get; set; } = null;
         [JsonProperty]
-        public DiceType? m_Dice { get; set; } = null;
+        public DiceType? MDice { get; set; } = null;
     }
 
 
 
     public static class ModifiedBlueprintTools
     {
-        public static Settings settings = Main.Settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static Settings settings = Main.settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
         public static bool showModifiedBlueprints = false;
         public static bool blueprintLists = false;
@@ -652,8 +652,8 @@ namespace BagOfTricks
             if (GL.Button(Strings.GetText("button_SetTo") + $" {rolls} * {dice}", GL.ExpandWidth(false)))
             {
                 ModifiedDiceFormula diceFormula = new ModifiedDiceFormula();
-                diceFormula.m_Rolls = rolls;
-                diceFormula.m_Dice = dice;
+                diceFormula.MRolls = rolls;
+                diceFormula.MDice = dice;
                 FileInfo file = new FileInfo(Storage.modEntryPath + Storage.modifiedBlueprintsFolder + "\\" + guid + ".json");
                 if (File.Exists(file.FullName))
                 {
@@ -882,7 +882,7 @@ namespace BagOfTricks
                 if (property.Name == "m_BaseDamage" && Traverse.Create(jsonItem).Property("m_BaseDamage").GetValue() != null)
                 {
                     ModifiedDiceFormula dice = (ModifiedDiceFormula)property.GetValue(jsonItem);
-                    DiceFormula diceFormula = new DiceFormula((int)dice.m_Rolls, (DiceType)dice.m_Dice);
+                    DiceFormula diceFormula = new DiceFormula((int)dice.MRolls, (DiceType)dice.MDice);
                     Traverse.Create(blueprint).Field("m_BaseDamage").SetValue(diceFormula);
 
                     Common.ModLoggerDebug($"{blueprint} m_BaseDamage set to {diceFormula}.");
@@ -891,7 +891,7 @@ namespace BagOfTricks
                 else if (property.Name == "m_DamageDice" && Traverse.Create(jsonItem).Property("m_DamageDice").GetValue() != null)
                 {
                     ModifiedDiceFormula dice = (ModifiedDiceFormula)property.GetValue(jsonItem);
-                    DiceFormula diceFormula = new DiceFormula((int)dice.m_Rolls, (DiceType)dice.m_Dice);
+                    DiceFormula diceFormula = new DiceFormula((int)dice.MRolls, (DiceType)dice.MDice);
                     Traverse.Create(blueprint).Field("m_DamageDice").SetValue(diceFormula);
 
                     Common.ModLoggerDebug($"{blueprint} m_DamageDice set to {diceFormula}.");
@@ -901,12 +901,12 @@ namespace BagOfTricks
                 {
                     if (typeof(T) == typeof(EnchantableEquipment))
                     {
-                        string[] enchantmentsGUIDS = (string[])Traverse.Create(jsonItem).Property("m_Enchantments").GetValue();
-                        BlueprintEquipmentEnchantment[] enchantmentsBlueprints = new BlueprintEquipmentEnchantment[enchantmentsGUIDS.Length];
-                        for (int i = 0; i < enchantmentsGUIDS.Length; i++)
+                        string[] enchantmentsGuids = (string[])Traverse.Create(jsonItem).Property("m_Enchantments").GetValue();
+                        BlueprintEquipmentEnchantment[] enchantmentsBlueprints = new BlueprintEquipmentEnchantment[enchantmentsGuids.Length];
+                        for (int i = 0; i < enchantmentsGuids.Length; i++)
                         {
-                            string enchantmentGUID = CleanEnchantment(enchantmentsGUIDS[i]);
-                            enchantmentsBlueprints[i] = (BlueprintEquipmentEnchantment)Utilities.GetBlueprintByGuid<BlueprintEquipmentEnchantment>(enchantmentGUID);
+                            string enchantmentGuid = CleanEnchantment(enchantmentsGuids[i]);
+                            enchantmentsBlueprints[i] = (BlueprintEquipmentEnchantment)Utilities.GetBlueprintByGuid<BlueprintEquipmentEnchantment>(enchantmentGuid);
                         }
 
                         Traverse.Create(blueprint).Field("m_Enchantments").SetValue(enchantmentsBlueprints);
@@ -917,12 +917,12 @@ namespace BagOfTricks
                     }
                     else if (typeof(T) == typeof(ModifiedWeapon))
                     {
-                        string[] enchantmentsGUIDS = (string[])Traverse.Create(jsonItem).Property("m_Enchantments").GetValue();
-                        BlueprintWeaponEnchantment[] enchantmentsBlueprints = new BlueprintWeaponEnchantment[enchantmentsGUIDS.Length];
-                        for (int i = 0; i < enchantmentsGUIDS.Length; i++)
+                        string[] enchantmentsGuids = (string[])Traverse.Create(jsonItem).Property("m_Enchantments").GetValue();
+                        BlueprintWeaponEnchantment[] enchantmentsBlueprints = new BlueprintWeaponEnchantment[enchantmentsGuids.Length];
+                        for (int i = 0; i < enchantmentsGuids.Length; i++)
                         {
-                            string enchantmentGUID = CleanEnchantment(enchantmentsGUIDS[i]);
-                            enchantmentsBlueprints[i] = (BlueprintWeaponEnchantment)Utilities.GetBlueprintByGuid<BlueprintWeaponEnchantment>(enchantmentGUID);
+                            string enchantmentGuid = CleanEnchantment(enchantmentsGuids[i]);
+                            enchantmentsBlueprints[i] = (BlueprintWeaponEnchantment)Utilities.GetBlueprintByGuid<BlueprintWeaponEnchantment>(enchantmentGuid);
                         }
                         Traverse.Create(blueprint).Field("m_Enchantments").SetValue(enchantmentsBlueprints);
 

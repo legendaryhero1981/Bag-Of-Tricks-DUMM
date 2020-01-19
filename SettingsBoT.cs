@@ -8,8 +8,8 @@ namespace BagOfTricks
 {
     public static class SettingsBoT
     {
-        public static Settings settings = Main.Settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static Settings settings = Main.settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
         public static void Update()
         {

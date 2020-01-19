@@ -145,7 +145,7 @@ namespace BagOfTricks
         public int finalGameConstsAmount = 1;
         public int gameConstsMinWeaponRange = -1;
         public int gameConstsMinUnitSpeedMps = -1;
-        public int gameConstsStealthDCIncrement = -1;
+        public int gameConstsStealthDcIncrement = -1;
 
         public bool showBuffsCategory = false;
         public string showAllBuffs = Strings.GetText("misc_Display");
@@ -173,7 +173,7 @@ namespace BagOfTricks
         public int selectedKingdomAlignment = 9;
         public string selectedKingdomAlignmentString = "9";
         public string selectedKingdomAlignmentTranslated = "none";
-        public string toggleFfAOE = Storage.isFalseString;
+        public string toggleFfAoe = Storage.isFalseString;
         public string toggleFfAny = Storage.isFalseString;
         public string toggleMetamagic = Storage.isFalseString;
         public string toggleMaterialComponent = Storage.isFalseString;
@@ -211,8 +211,8 @@ namespace BagOfTricks
         public string toggleEnableTeleport = Storage.isFalseString;
 
         public string forcedEncounterGuid = "";
-        public string forcedEncounterCR = "1";
-        public int forcedEncounterFinalCR = 1;
+        public string forcedEncounterCr = "1";
+        public int forcedEncounterFinalCr = 1;
         public string toggleForcedEncounterIsHard = Storage.isFalseString;
         public int forcedEncounterSelectedAvoidance = 0;
         public int forcedEncounterSelectedBlueprintMode = 0;
@@ -234,9 +234,9 @@ namespace BagOfTricks
         public float randomEncounterHardEncounterChanceIncrease = Defaults.randomEncounterHardEncounterChanceIncrease;
         public float randomEncounterRollMiles = Defaults.randomEncounterRollMiles;
         public float randomEncounterSafeMilesAfterEncounter = Defaults.randomEncounterSafeMilesAfterEncounter;
-        public int randomEncounterEncounterMinBonusCR = Defaults.randomEncounterEncounterMinBonusCR;
-        public int randomEncounterEncounterMaxBonusCR = Defaults.randomEncounterEncounterMaxBonusCR;
-        public int randomEncounterHardEncounterBonusCR = Defaults.randomEncounterHardEncounterBonusCR;
+        public int randomEncounterEncounterMinBonusCr = Defaults.randomEncounterEncounterMinBonusCr;
+        public int randomEncounterEncounterMaxBonusCr = Defaults.randomEncounterEncounterMaxBonusCr;
+        public int randomEncounterHardEncounterBonusCr = Defaults.randomEncounterHardEncounterBonusCr;
         public float randomEncounterDefaultSafeZoneSize = Defaults.randomEncounterDefaultSafeZoneSize;
 
         public int randomEncounterRandomEncounterAvoidanceFailMargin =
@@ -426,7 +426,7 @@ namespace BagOfTricks
 
         public bool showAnimationsCategory = false;
 
-        public string toggleAnimationCloseUMM = Storage.isFalseString;
+        public string toggleAnimationCloseUmm = Storage.isFalseString;
 
         public bool showSpellSpellbooksCategory = false;
 
@@ -435,7 +435,7 @@ namespace BagOfTricks
         public string toggleDexBonusLimit99 = Storage.isFalseString;
 
         public string togglePassSkillChecksIndividual = Storage.isFalseString;
-        public string togglePassSkillChecksIndividualDC99 = Storage.isFalseString;
+        public string togglePassSkillChecksIndividualDc99 = Storage.isFalseString;
         public int indexPassSkillChecksIndividual = 0;
 
         public string[] togglePassSkillChecksIndividualArray =
@@ -534,14 +534,14 @@ namespace BagOfTricks
         public int setEncumbrancIndex = 0;
         public string toggleInstantPartyChange = Storage.isFalseString;
         public string toggleDevTools = Storage.isFalseString;
-        public string toggleDevToolsLogToUMM = Storage.isFalseString;
+        public string toggleDevToolsLogToUmm = Storage.isFalseString;
 
         public string togglePartyMovementSpeedMultiplier = Storage.isFalseString;
         public float partyMovementSpeedMultiplierValue = 1;
 
         public string hiddenGameVersion = "";
         public string toggleBoTScrollBar = Storage.isFalseString;
-        public string toggleHUDToggle = Storage.isFalseString;
+        public string toggleHudToggle = Storage.isFalseString;
         public KeyCode hudToggleKey = KeyCode.Semicolon;
 
         public string toggleItemModding = Storage.isFalseString;
@@ -557,7 +557,7 @@ namespace BagOfTricks
 
         public string toggleSpiderBegone = Storage.isFalseString;
 
-        public string toggleNoTempHPKineticist = Storage.isFalseString;
+        public string toggleNoTempHpKineticist = Storage.isFalseString;
 
         public string toggleShowAreaName = Storage.isFalseString;
 
@@ -621,9 +621,18 @@ namespace BagOfTricks
         public float enemyBaseHitPointsMultiplier = 1f;
         public float customEnemyBaseHitPointsMultiplier = 1f;
         public bool useCustomEnemyBaseHitPointsMultiplier = false;
+        public string toggleEnemyBaseHitPointsMultiplierCampEncounter = Storage.isTrueString;
+        public string toggleEnemyBaseHitPointsMultiplierUnitSpawner = Storage.isTrueString;
 
-        public override void Save(UnityModManager.ModEntry modEntry)
-        {
+        public string toggleSetTargetFrameRate = Storage.isFalseString;
+        public int targetFrameRate = 0;
+
+        public string toggleCreateBattleLogFile = Storage.isFalseString;
+        public string toggleCreateBattleLogFileLog = Storage.isTrueString;
+        public string toggleCreateBattleLogFileHtml = Storage.isFalseString;
+        public string toggleCreateBattleLogFileBotLog = Storage.isFalseString;
+
+        public override void Save(UnityModManager.ModEntry modEntry) {
             Save(this, modEntry);
         }
     }

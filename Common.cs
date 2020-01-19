@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace BagOfTricks
 {
     public static class Common
     {
-        public static Settings settings = Main.Settings;
+        public static Settings settings = Main.settings;
 
         public static UnitEntityData PlayerCharacter => Game.Instance.Player.MainCharacter;
 
@@ -61,14 +62,14 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                Main.ModLogger.Log("\n" + filePath + "\n" + e.ToString());
+                Main.modLogger.Log("\n" + filePath + "\n" + e.ToString());
             }
         }
 
         public static void AddLogEntry(string message, Color color, bool gameDefaultColour = true)
         {
             var currentGameMode = Game.Instance.CurrentMode;
-            if (Main.Settings.toggleAddToLog == Storage.isTrueString &&
+            if (Main.settings.toggleAddToLog == Storage.isTrueString &&
                 (currentGameMode == GameModeType.Default || currentGameMode == GameModeType.Pause))
             {
                 if (gameDefaultColour) color = GameLogStrings.Instance.DefaultColor;
@@ -648,7 +649,7 @@ namespace BagOfTricks
 
         private static Canvas[] hiddenCanvases;
 
-        public static void ToggleHUD()
+        public static void ToggleHud()
         {
             Storage.hudHidden = !Storage.hudHidden;
             if (Storage.hudHidden) hiddenCanvases = UnityEngine.Object.FindObjectsOfType<Canvas>();
@@ -660,7 +661,7 @@ namespace BagOfTricks
             return (T) input;
         }
 
-        public static bool DLCCheck(DlcType dlc)
+        public static bool DlcCheck(DlcType dlc)
         {
             var enabled = BlueprintRoot.Instance.DlcSettings.Get(dlc)?.Enabled;
             if (enabled.HasValue)
@@ -668,19 +669,19 @@ namespace BagOfTricks
             return false;
         }
 
-        public static bool DLCTieflings()
+        public static bool DlcTieflings()
         {
-            return DLCCheck(DlcType.Tieflings);
+            return DlcCheck(DlcType.Tieflings);
         }
 
-        public static bool DLCVarnhold()
+        public static bool DlcVarnhold()
         {
-            return DLCCheck(DlcType.Varnhold);
+            return DlcCheck(DlcType.Varnhold);
         }
 
-        public static bool DLCEndless()
+        public static bool DlcEndless()
         {
-            return DLCCheck(DlcType.Endless);
+            return DlcCheck(DlcType.Endless);
         }
 
         public static string ExportPath()
@@ -691,7 +692,7 @@ namespace BagOfTricks
                 return Application.persistentDataPath;
         }
 
-        public static int GetEncounterCR()
+        public static int GetEncounterCr()
         {
             var blueprint =
                 Utilities.GetBlueprint<BlueprintStatProgression>(
@@ -717,7 +718,7 @@ namespace BagOfTricks
 
         public static string GetDifficulty()
         {
-            var num = GetEncounterCR() - Game.Instance.Player.PartyLevel;
+            var num = GetEncounterCr() - Game.Instance.Player.PartyLevel;
             if (num < 3)
                 return "Easy";
             return num < 5 ? "Hard" : "Boss";
@@ -727,21 +728,21 @@ namespace BagOfTricks
         {
             if(settings.settingShowDebugInfo)
             {
-                Main.ModLogger.Log(message);
+                Main.modLogger.Log(message);
             }
         }
         public static void ModLoggerDebug(int message)
         {
             if (settings.settingShowDebugInfo)
             {
-                Main.ModLogger.Log(message.ToString());
+                Main.modLogger.Log(message.ToString());
             }
         }
         public static void ModLoggerDebug(bool message)
         {
             if (settings.settingShowDebugInfo)
             {
-                Main.ModLogger.Log(message.ToString());
+                Main.modLogger.Log(message.ToString());
             }
         }
 
@@ -754,7 +755,7 @@ namespace BagOfTricks
             }
             catch (IOException exception)
             {
-                Main.ModLogger.Log(exception.ToString());
+                Main.modLogger.Log(exception.ToString());
             }
         }
 
@@ -777,77 +778,45 @@ namespace BagOfTricks
                 unitEntityData.Body.SecondaryHand.Shield.ArmorComponent.RecalculateStats();
             }
         }
-    }
 
-    public static class Logger
-    {
-        public static string path = Path.Combine(Storage.modEntryPath, "BagOfTricks.log");
-
-
-        public static void Log(string str)
+        public static string RemoveHtmlTags(string s)
         {
-            ToFile(TimeStamp() + " " + str);
+            return Regex.Replace(s, "<.*?>", String.Empty);
         }
 
-        public static string TimeStamp()
+        public static string UnityRichTextToHtml(string s)
         {
-            var timeStamp = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss.ff");
-            return "[" + timeStamp + "]";
-        }
+            s = s.Replace("<color=", "<font color=");
+            s = s.Replace("</color>", "</font>");
+            s = s.Replace("<size=", "<size size=");
+            s = s.Replace("</size>", "</font>");
+            s += "<br/>";
 
-        public static void ToFile(string s)
-        {
-            try
-            {
-                using (var stream = File.AppendText(path))
-                {
-                    stream.WriteLine(s);
-                }
-            }
-            catch (Exception e)
-            {
-                Main.ModLogger.Log(e.ToString());
-            }
-        }
-
-        public static void Clear()
-        {
-            if (File.Exists(path))
-                try
-                {
-                    File.Delete(path);
-                    using (File.Create(path))
-                    {
-                    }
-                }
-                catch (Exception e)
-                {
-                    Main.ModLogger.Log(e.ToString());
-                }
+            return s;
         }
     }
 
     public class ModEntryCheck
     {
-        private UnityModManager.ModEntry modEntry;
+        private UnityModManager.ModEntry _modEntry;
 
 
         public ModEntryCheck(string modId)
         {
-            modEntry = UnityModManager.FindMod(modId);
+            _modEntry = UnityModManager.FindMod(modId);
         }
 
         public bool ModIsActive()
         {
-            if (modEntry != null && modEntry.Assembly != null)
-                return modEntry.Active;
+            if (_modEntry != null && _modEntry.Assembly != null)
+                return _modEntry.Active;
             else
                 return false;
         }
 
         public bool IsInstalled()
         {
-            if (modEntry != null)
+            if (_modEntry != null)
                 return true;
             else
                 return false;
@@ -855,8 +824,8 @@ namespace BagOfTricks
 
         public string Version()
         {
-            if (modEntry != null)
-                return modEntry.Info.Version;
+            if (_modEntry != null)
+                return _modEntry.Info.Version;
             else
                 return "";
         }
@@ -864,58 +833,58 @@ namespace BagOfTricks
 
     internal class AutoCompleteDictionary<T> : SortedDictionary<string, T>
     {
-        private AutoCompleteComparer m_comparer;
+        private AutoCompleteComparer _mComparer;
 
         public AutoCompleteDictionary()
             : base((IComparer<string>) new AutoCompleteComparer())
         {
-            m_comparer = Comparer as AutoCompleteComparer;
+            _mComparer = Comparer as AutoCompleteComparer;
         }
 
         public T LowerBound(string lookupString)
         {
-            m_comparer.Reset();
+            _mComparer.Reset();
             ContainsKey(lookupString);
-            return this[m_comparer.LowerBound];
+            return this[_mComparer.LowerBound];
         }
 
         public T UpperBound(string lookupString)
         {
-            m_comparer.Reset();
+            _mComparer.Reset();
             ContainsKey(lookupString);
-            return this[m_comparer.UpperBound];
+            return this[_mComparer.UpperBound];
         }
 
         public T AutoCompleteLookup(string lookupString)
         {
-            m_comparer.Reset();
+            _mComparer.Reset();
             ContainsKey(lookupString);
-            return this[m_comparer.UpperBound != null ? m_comparer.UpperBound : m_comparer.LowerBound];
+            return this[_mComparer.UpperBound != null ? _mComparer.UpperBound : _mComparer.LowerBound];
         }
 
         private class AutoCompleteComparer : IComparer<string>
         {
-            private string m_lowerBound;
-            private string m_upperBound;
+            private string _mLowerBound;
+            private string _mUpperBound;
 
-            public string LowerBound => m_lowerBound;
+            public string LowerBound => _mLowerBound;
 
-            public string UpperBound => m_upperBound;
+            public string UpperBound => _mUpperBound;
 
             public int Compare(string x, string y)
             {
-                var num = Comparer<string>.Default.Compare(x, y);
+                var num = Comparer<string>.Default.Compare(x,y);
                 if (num >= 0)
-                    m_lowerBound = y;
+                    _mLowerBound = y;
                 if (num <= 0)
-                    m_upperBound = y;
+                    _mUpperBound = y;
                 return num;
             }
 
             public void Reset()
             {
-                m_lowerBound = (string) null;
-                m_upperBound = (string) null;
+                _mLowerBound = (string)null;
+                _mUpperBound = (string)null;
             }
         }
     }

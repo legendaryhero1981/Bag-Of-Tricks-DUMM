@@ -40,7 +40,7 @@ namespace BagOfTricks
                 }
                 catch (Exception exception)
                 {
-                    Main.ModLogger.Log(exception.ToString());
+                    Main.modLogger.Log(exception.ToString());
                 }
 
             return newSaveData;
@@ -53,21 +53,21 @@ namespace BagOfTricks
                 var name = Strings.RemoveExt(saveInfo.FileName);
                 var filePath = Storage.modEntryPath + Storage.savesFolder + "\\" + name + ".xml";
 
-                Main.SaveData.fileName = name;
-                Main.SaveData.lockPicks = Storage.lockPicks;
+                Main.saveData.fileName = name;
+                Main.saveData.lockPicks = Storage.lockPicks;
 
                 Common.ModLoggerDebug($"PrepareSave {name}");
 
                 if (File.Exists(filePath))
                 {
-                    Serialize(Main.SaveData, filePath);
+                    Serialize(Main.saveData, filePath);
 
                     Common.ModLoggerDebug($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} overwritten.");
                     
                 }
                 else
                 {
-                    Serialize(Main.SaveData, filePath);
+                    Serialize(Main.saveData, filePath);
 
                     Common.ModLoggerDebug($"{Storage.modEntryPath + Storage.savesFolder + "\\" + name} created.");
                     
@@ -75,7 +75,7 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                Main.ModLogger.Log(e.ToString());
+                Main.modLogger.Log(e.ToString());
             }
         }
 
@@ -90,19 +90,19 @@ namespace BagOfTricks
 
                 if (File.Exists(filePath))
                 {
-                    Main.SaveData = Deserialize(filePath);
-                    Storage.lockPicks = Main.SaveData.lockPicks;
+                    Main.saveData = Deserialize(filePath);
+                    Storage.lockPicks = Main.saveData.lockPicks;
                     Common.ModLoggerDebug($"{filePath} loaded.");
                 }
                 else
                 {
                     Storage.lockPicks = 5;
-                    Main.ModLogger.Log($"{filePath} not found!");
+                    Main.modLogger.Log($"{filePath} not found!");
                 }
             }
             catch (Exception e)
             {
-                Main.ModLogger.Log(e.ToString());
+                Main.modLogger.Log(e.ToString());
             }
         }
 
@@ -123,7 +123,7 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                Main.ModLogger.Log(e.ToString());
+                Main.modLogger.Log(e.ToString());
             }
         }
     }

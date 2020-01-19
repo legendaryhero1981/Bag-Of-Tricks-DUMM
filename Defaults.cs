@@ -16,9 +16,9 @@
         public static readonly float randomEncounterEncounterPawnOffset = 1.5f;
         public static readonly float randomEncounterEncounterPawnDistanceFromLocation = 1.5f;
 
-        public static readonly int randomEncounterEncounterMinBonusCR = -1;
-        public static readonly int randomEncounterEncounterMaxBonusCR = 1;
-        public static readonly int randomEncounterHardEncounterBonusCR = 3;
+        public static readonly int randomEncounterEncounterMinBonusCr = -1;
+        public static readonly int randomEncounterEncounterMaxBonusCr = 1;
+        public static readonly int randomEncounterHardEncounterBonusCr = 3;
         public static readonly int randomEncounterRandomEncounterAvoidanceFailMargin = 5;
 
         public static readonly string fovMin = "10";

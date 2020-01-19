@@ -9,8 +9,8 @@ namespace BagOfTricks
 {
     public static class DevTools
     {
-        public static Settings settings = Main.Settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static Settings settings = Main.settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
         public static void Render()
         {
@@ -26,7 +26,7 @@ namespace BagOfTricks
             {
                 MenuTools.SingleLineLabel(Strings.GetText("label_SmartConsoleInfo"));
                 GL.Space(10);
-                MenuTools.ToggleButton(ref settings.toggleDevToolsLogToUMM, "buttonToggle_LogToUMM",
+                MenuTools.ToggleButton(ref settings.toggleDevToolsLogToUmm, "buttonToggle_LogToUMM",
                     "tooltip_LogToUMM");
                 GL.Space(10);
                 if (GL.Button(
@@ -89,7 +89,7 @@ namespace BagOfTricks
 
     public static class SmartConsoleCommands
     {
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
         public static void Register()
         {

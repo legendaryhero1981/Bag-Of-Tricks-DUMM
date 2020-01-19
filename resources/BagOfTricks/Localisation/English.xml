@@ -278,6 +278,8 @@
   <Localisation key="label_SpellAbilityRange" value="Set Custom Spell &amp; Ability Ranges" />
   <Localisation key="label_SpellAbilityCustomRangeTabletopWarning" value="Both Set Custom Spell &amp; Ability Ranges and Tabletop Ranges are active!" />
   <Localisation key="label_EnemyBaseHitPointsMultiplier" value="Enemy Base Hit Points Multiplier" />
+  <Localisation key="label_EnemyBaseHitPointsMultiplierCampEncounter" value="Random Rest/Camping Encounters" />
+  <Localisation key="label_EnemyBaseHitPointsMultiplierUnitSpawner" value="Random Global Map Encounters &amp; Local Map Encounters" />
   <Localisation key="message_NotInGame" value="The mod can't be accessed from the main menu.&#xA;Either load a save file or start a new character!" />
   <Localisation key="message_ExitCombat" value="Exit Combat!" />
   <Localisation key="message_NoEnemies" value="There are no revealed enemies!" />
@@ -645,6 +647,11 @@
   <Localisation key="buttonToggle_RemoveSummonsGlow" value="Remove Summons' Glow" />
   <Localisation key="buttonToggle_AutomaticallyLoadLastSave" value="Automatically Load Last Save" />
   <Localisation key="buttonToggle_ActionKeySpawnUnitsFromUnitFavourites" value="Spawn Units From Unit Favourites / Stored Units" />
+  <Localisation key="buttonToggle_SetTargetFrameRate" value="Set Target Frame Rate" />
+  <Localisation key="buttonToggle_CreateBattleLogFile" value="Create Battle Log File" />
+  <Localisation key="buttonToggle_CreateBattleLogFileLog" value="Use Default Log File" />
+  <Localisation key="buttonToggle_CreateBattleLogFileHTML" value="Use HTML Log File" />
+  <Localisation key="buttonToggle_CreateBattleLogFileBoT" value="Use Bag of Tricks Log File" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -861,7 +868,9 @@
   <Localisation key="tooltip_ShowEnemies" value="Display enemies instead of party members." />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿Enabling this options will allow you to add versions of feats the game doesn't normally include e.g. Fencing Grace (Greatclub)." />
   <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="Use the slider or a custom multiplier to adjust spell and ability ranges." />
-  <Localisation key="tooltip_EnemyBaseHitPointsMultiplier" value="Use the slider or a custom multiplier to adjust enemy base hit points.&#xA;Changes are applied after loading!" />
+  <Localisation key="tooltip_EnemyBaseHitPointsMultiplier" value="Use the slider or a custom multiplier to adjust enemy base hit points.&#xA;Only affects random encounters and enemies that haven't been spawned yet (e.g. unvisited areas)!" />
+  <Localisation key="tooltip_EnemyBaseHitPointsMultiplierCampEncounter" value="Enables the hit point multiplier for hostile encounters during/after rests." />
+  <Localisation key="tooltip_EnemyBaseHitPointsMultiplierUnitSpawner" value="Enables the hit point multiplier for hostile encounter in unvisited local areas and enemy random encounters on the global map." />
   <Localisation key="tooltip_SpellAbilityRange" value="Allows to set custom close, medium and long range values." />
   <Localisation key="tooltip_RestoreSpellsAbilites" value="Restore your party's spells and abilities﻿.&#xA;Does not affect Burn - use Instant Rest instead." />
   <Localisation key="tooltip_SpellbookAbilityAlignmentChecks" value="Disable alignment checks for spellbooks access and when using ability&#xA;e.g. allowing you to use Paladin abilities while being Chaotic Evil." />
@@ -976,7 +985,12 @@
   <Localisation key="tooltip_PatchManually" value="Applies the item modification immediately." />
   <Localisation key="tooltip_ToggleHUD" value="Enables toggling of the HUD via hotkey." />
   <Localisation key="tooltip_DisplayObjectInfo" value="Displays an object's name and GUID when hovering your cursor over it." />
+  <Localisation key="tooltip_SetTargetFrameRate" value="Instructs game to try to render at the specified frame rate.&#xA;Requires a game restart to take effect!" />
   <Localisation key="tooltip_AutomaticallyLoadLastSave" value="Automatically loads the last on game start." />
+  <Localisation key="tooltip_CreateBattleLogFile" value="Logs all battle log entries to a file (default is BattleLog.log)." />
+  <Localisation key="tooltip_CreateBattleLogFileLog" value="Logs all battle log entries to the BattleLog.log file." />
+  <Localisation key="tooltip_CreateBattleLogFileHTML" value="Logs all battle log entries to the BattleLog.html file." />
+  <Localisation key="tooltip_CreateBattleLogFileBoT" value="Adds all battle log entries with a [BattleLog] prefix to the BagOfTrick.log file." />
   <Localisation key="tooltip_TaxCollector" value="The Tax Collector will collect build points and money (based on your character and kingdom stats) for you while you are gone." />
   <Localisation key="tooltip_ShowTooltips" value="﻿﻿Disables the display of tooltips by the mod." />
   <Localisation key="tooltip_LogMessages" value="﻿Disables in-game log messages created by the mod." />

@@ -24,8 +24,8 @@ namespace BagOfTricks
 {
     public static class MenuTools
     {
-        public static Settings settings = Main.Settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static Settings settings = Main.settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
 
         public static void ToggleButtonDependant(ref string toggle, ref string dependancy, string buttonText, string buttonTooltip)
@@ -68,6 +68,20 @@ namespace BagOfTricks
             }
             GL.EndHorizontal();
         }
+
+        public static void ToggleButtonActionAtOnFavouritesMenu(ref string toggle, Action action, string buttonText, string buttonTooltip) {
+            GL.BeginHorizontal();
+            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", ""), GL.ExpandWidth(false))) {
+                if (toggle == Storage.isFalseString) {
+                    action();
+                    toggle = Storage.isTrueString;
+                }
+                else if (toggle == Storage.isTrueString) {
+                    toggle = Storage.isFalseString;
+                }
+            }
+        }
+
         public static void ToggleButtonActionAtOff(ref string toggle, Action action, string buttonText, string buttonTooltip)
         {
             GL.BeginHorizontal();
@@ -236,7 +250,7 @@ namespace BagOfTricks
             GL.EndHorizontal();
         }
 
-        public static void SingleLineLabelGT(string label, string tooltip, bool bold = false)
+        public static void SingleLineLabelGt(string label, string tooltip, bool bold = false)
         {
             GUIContent content;
             if (bold)
@@ -252,7 +266,7 @@ namespace BagOfTricks
             GL.EndHorizontal();
         }
 
-        public static void SingleLineLabelGT(string label, bool bold = false)
+        public static void SingleLineLabelGt(string label, bool bold = false)
         {
             string content = Strings.GetText(label);
             if (bold)
@@ -347,7 +361,7 @@ namespace BagOfTricks
                     case "toggleUndetectableStealth":
                         return ref settings.toggleUndetectableStealth;
                     case "toggleFfAOE":
-                        return ref settings.toggleFfAOE;
+                        return ref settings.toggleFfAoe;
                     case "toggleFfAny":
                         return ref settings.toggleFfAny;
                     case "toggleInstantCooldown":
@@ -417,7 +431,7 @@ namespace BagOfTricks
                     case "toggleShowPetInventory":
                         return ref settings.toggleShowPetInventory;
                     case "toggleAnimationCloseUMM":
-                        return ref settings.toggleAnimationCloseUMM;
+                        return ref settings.toggleAnimationCloseUmm;
                     case "toggleInstantCooldownMainChar":
                         return ref settings.toggleInstantCooldownMainChar;
                     case "toggleDexBonusLimit99":
@@ -465,7 +479,7 @@ namespace BagOfTricks
                     case "toggleSpiderBegone":
                         return ref settings.toggleSpiderBegone;
                     case "toggleNoTempHPKineticist":
-                        return ref settings.toggleNoTempHPKineticist;
+                        return ref settings.toggleNoTempHpKineticist;
                     case "toggleShowAreaName":
                         return ref settings.toggleShowAreaName;
                     case "toggleRestoreItemChargesAfterCombat":
@@ -948,7 +962,7 @@ namespace BagOfTricks
                     Game.Instance.Player.Inventory.Add(itemByGuid, itemAmount);
             }
             else
-                modLogger.Log(Storage.notificationEkunQ2rewardArmor);
+                modLogger.Log(Storage.notificationEkunQ2RewardArmor);
         }
 
         public static void SetKeyBinding(ref KeyCode keyCode)
@@ -999,8 +1013,8 @@ namespace BagOfTricks
 
     public static class Strings
     {
-        public static Settings settings = Main.Settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static Settings settings = Main.settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
         public static string RemoveWhitespaces(string s)
         {
@@ -1108,7 +1122,7 @@ namespace BagOfTricks
         public static Dictionary<string, string> current = MenuText.fallback;
         public static Dictionary<string, string> temp = new Dictionary<string, string>();
 
-        public static Dictionary<string, string> XMLtoDict(string loc)
+        public static Dictionary<string, string> XmLtoDict(string loc)
         {
             try
             {
@@ -1122,7 +1136,7 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                Main.ModLogger.Log(e.ToString());
+                Main.modLogger.Log(e.ToString());
                 return MenuText.fallback;
             }
 
@@ -1130,7 +1144,7 @@ namespace BagOfTricks
         public static void RefreshStrings()
         {
             Storage.fadeToBlackState = GetText("misc_Enable");
-            Storage.notificationEkunQ2rewardArmor = GetText("error_EkunQ2");
+            Storage.notificationEkunQ2RewardArmor = GetText("error_EkunQ2");
             Storage.individualSkillsArray = new[] { GetText("charStat_Athletics"), GetText("charStat_KnowledgeArcana"), GetText("charStat_KnowledgeWorld"), GetText("charStat_LoreNature"), GetText("charStat_LoreReligion"), GetText("charStat_Mobility"), GetText("charStat_Perception"), GetText("charStat_Persuasion"), GetText("charStat_Stealth"), GetText("charStat_Thievery"), GetText("charStat_UseMagicDevice"), GetText("charStat_Bluff"), GetText("charStat_Diplomacy"), GetText("charStat_Intimidate") };
             Storage.individualSavesArray = new[] { GetText("charStat_Fortitude"), GetText("charStat_Reflex"), GetText("charStat_Will") };
             Storage.statsAttributesDict = new Dictionary<string, StatType>
@@ -1217,7 +1231,7 @@ namespace BagOfTricks
         public int indexUnitEntitiyData = 0;
         public int indexUnitEntitiyDataOld = 0;
         public string[] unitEntityDataStrings = Storage.unitEntityDataArray;
-        private Player player = Game.Instance.Player;
+        private Player _player = Game.Instance.Player;
         public List<UnitEntityData> unitEntityData;
         public List<UnitEntityData> unitEntityDataOld;
         public List<string> unitEntityDataNames = new List<string>();
@@ -1232,16 +1246,16 @@ namespace BagOfTricks
             switch (indexUnitEntitiyData)
             {
                 case 0:
-                    unitEntityData = player.Party;
+                    unitEntityData = _player.Party;
                     break;
                 case 1:
-                    unitEntityData = player.ControllableCharacters;
+                    unitEntityData = _player.ControllableCharacters;
                     break;
                 case 2:
-                    unitEntityData = player.ActiveCompanions;
+                    unitEntityData = _player.ActiveCompanions;
                     break;
                 case 3:
-                    unitEntityData = player.AllCharacters;
+                    unitEntityData = _player.AllCharacters;
                     break;
                 case 4:
                     unitEntityData = Common.GetCustomCompanions();
@@ -1298,31 +1312,29 @@ namespace BagOfTricks
         public string amount = "";
         public int finalAmount = 0;
 
+        public void Render(string buttonLabel, ref int setting) {
+            RenderField(label);
+            GL.Space(10);
+            RenderSetButton(buttonLabel, ref setting);
+        }
+
         public void RenderField()
         {
-            GL.BeginHorizontal();
-            GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
-            amount = MenuTools.IntTestSettingStage1(amount);
-            finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
-            GL.EndHorizontal();
+            RenderField(label);
         }
+
         public void RenderField(string newLabel)
         {
             GL.BeginHorizontal();
-            GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
-            amount = MenuTools.IntTestSettingStage1(amount);
-            finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
+            RenderFieldNoGroup(label);
             GL.EndHorizontal();
         }
+
         public void RenderFieldNoGroup()
         {
-            GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
-            amount = MenuTools.IntTestSettingStage1(amount);
-            finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
+            RenderFieldNoGroup(label);
         }
+
         public void RenderFieldNoGroup(string newLabel)
         {
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
@@ -1331,16 +1343,14 @@ namespace BagOfTricks
             finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
         }
 
-        public void RendeSetButton(string buttonLabel, ref int setting)
+        public void RenderSetButton(string buttonLabel, ref int setting)
         {
             GL.BeginHorizontal();
-            if (GL.Button(buttonLabel + $" {finalAmount}", GL.ExpandWidth(false)))
-            {
-                setting = finalAmount;
-            }
+            RenderSetButtonNoGroup(buttonLabel, ref setting);
             GL.EndHorizontal();
         }
-        public void RendeSetButtonNoGroup(string buttonLabel, ref int setting)
+
+        public void RenderSetButtonNoGroup(string buttonLabel, ref int setting)
         {
             if (GL.Button(buttonLabel + $" {finalAmount}", GL.ExpandWidth(false)))
             {
@@ -1405,60 +1415,60 @@ namespace BagOfTricks
     public class SelectionGrid
     {
         public int selected = 0;
-        private string[] texts;
-        private int xCount;
+        private string[] _texts;
+        private int _xCount;
 
         public SelectionGrid(string[] entries, int entriesPerLine)
         {
-            texts = entries;
-            xCount = entriesPerLine;
+            _texts = entries;
+            _xCount = entriesPerLine;
         }
 
         public void Render()
         {
             GL.BeginHorizontal();
-            selected = GL.SelectionGrid(selected, texts, xCount);
+            selected = GL.SelectionGrid(selected, _texts, _xCount);
             GL.EndHorizontal();
         }
         public void RenderNoGroup()
         {
-            selected = GL.SelectionGrid(selected, texts, xCount, GL.ExpandWidth(false));
+            selected = GL.SelectionGrid(selected, _texts, _xCount, GL.ExpandWidth(false));
         }
 
         public void Render(ref int index)
         {
             GL.BeginHorizontal();
-            index = GL.SelectionGrid(index, texts, xCount);
+            index = GL.SelectionGrid(index, _texts, _xCount);
             GL.EndHorizontal();
         }
     }
 
     public class MultiplierCustom
     {
-        private float sliderMin;
-        private float sliderMax;
-        private float multiplierSlider = 1f;
-        private bool useCustom = false;
-        private TextFieldFloat customMultiplierTextFieldFloat = new TextFieldFloat();
-        private bool settingsLoaded = false;
+        private float _sliderMin;
+        private float _sliderMax;
+        private float _multiplierSlider = 1f;
+        private bool _useCustom = false;
+        private TextFieldFloat _customMultiplierTextFieldFloat = new TextFieldFloat();
+        private bool _settingsLoaded = false;
 
 
 
         public MultiplierCustom(float min, float max)
         {
-            sliderMin = min;
-            sliderMax = max;
+            _sliderMin = min;
+            _sliderMax = max;
         }
 
         public void LoadSettings(float settingSlider, float settingCustom, bool settingUseCustom)
         {
-            if (!settingsLoaded)
+            if (!_settingsLoaded)
             {
-                multiplierSlider = Mathf.Clamp(settingSlider, sliderMin, sliderMax);
-                customMultiplierTextFieldFloat.amount = settingCustom.ToString();
-                customMultiplierTextFieldFloat.finalAmount = settingCustom;
-                useCustom = settingUseCustom;
-                settingsLoaded = true;
+                _multiplierSlider = Mathf.Clamp(settingSlider, _sliderMin, _sliderMax);
+                _customMultiplierTextFieldFloat.amount = settingCustom.ToString();
+                _customMultiplierTextFieldFloat.finalAmount = settingCustom;
+                _useCustom = settingUseCustom;
+                _settingsLoaded = true;
             }
         }
 
@@ -1466,22 +1476,21 @@ namespace BagOfTricks
         {
             GL.BeginHorizontal();
             GL.Label(MenuTools.TextWithTooltip("header_Multiplier", "tooltip_Multiplier", "", " "), GL.ExpandWidth(false));
-            multiplierSlider = GL.HorizontalSlider(multiplierSlider, sliderMin, sliderMax, GL.Width(300f));
-            settingSlider = multiplierSlider;
-            GL.Label($" {Math.Round(multiplierSlider, 1)}", GL.ExpandWidth(false));
+            _multiplierSlider = GL.HorizontalSlider(_multiplierSlider, _sliderMin, _sliderMax, GL.Width(300f));
+            settingSlider = _multiplierSlider;
+            GL.Label($" {Math.Round(_multiplierSlider, 1)}", GL.ExpandWidth(false));
             GL.EndHorizontal();
 
             GL.BeginHorizontal();
-            GL.Label(MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "), GL.ExpandWidth(false));
-            useCustom = GL.Toggle(useCustom, new GUIContent("", Strings.GetText("tooltip_CustomMultiplier")), GL.ExpandWidth(false));
+            _useCustom = GL.Toggle(_useCustom, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", " "), GL.ExpandWidth(false));
             GL.EndHorizontal();
-            settingUseCustom = useCustom;
-            if (useCustom == true)
+            settingUseCustom = _useCustom;
+            if (_useCustom == true)
             {
-                customMultiplierTextFieldFloat.RenderField();
-                settingCustom = customMultiplierTextFieldFloat.finalAmount;
+                _customMultiplierTextFieldFloat.RenderField();
+                settingCustom = _customMultiplierTextFieldFloat.finalAmount;
                 GL.BeginHorizontal();
-                GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {customMultiplierTextFieldFloat.finalAmount}", GL.Width(150f));
+                GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {_customMultiplierTextFieldFloat.finalAmount}");
                 GL.EndHorizontal();
             }
         }
@@ -1489,38 +1498,38 @@ namespace BagOfTricks
 
     public class SimpleShowHideButton
     {
-        private string buttonText;
-        public string GetButtonText { get => buttonText; }
+        private string _buttonText;
+        public string GetButtonText { get => _buttonText; }
 
         public SimpleShowHideButton(bool defaultHide)
         {
             if (defaultHide)
             {
-                buttonText = Strings.GetText("misc_Hide");
+                _buttonText = Strings.GetText("misc_Hide");
             }
             else
             {
-                buttonText = Strings.GetText("misc_Display");
+                _buttonText = Strings.GetText("misc_Display");
             }
 
         }
 
         public void Render()
         {
-            if (GL.Button(buttonText, GL.ExpandWidth(false)))
+            if (GL.Button(_buttonText, GL.ExpandWidth(false)))
             {
-                if (buttonText == Strings.GetText("misc_Hide"))
+                if (_buttonText == Strings.GetText("misc_Hide"))
                 {
-                    buttonText = Strings.GetText("misc_Display");
+                    _buttonText = Strings.GetText("misc_Display");
                 }
-                else if (buttonText == Strings.GetText("misc_Display"))
+                else if (_buttonText == Strings.GetText("misc_Display"))
                 {
-                    buttonText = Strings.GetText("misc_Hide");
+                    _buttonText = Strings.GetText("misc_Hide");
 
                 }
                 else
                 {
-                    buttonText = Strings.GetText("misc_Display");
+                    _buttonText = Strings.GetText("misc_Display");
                 }
             }
         }

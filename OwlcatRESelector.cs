@@ -14,7 +14,7 @@ using Kingmaker.Utility;
 
 namespace BagOfTricks
 {
-    public static class OwlcatRESelector
+    public static class OwlcatReSelector
     {
         public static int GetXp(int cr)
         {
@@ -23,10 +23,10 @@ namespace BagOfTricks
 
         public static int GetXp(BlueprintUnit unit)
         {
-            return GetXp(GetCR(unit));
+            return GetXp(GetCr(unit));
         }
 
-        public static int GetCR(BlueprintUnit unit)
+        public static int GetCr(BlueprintUnit unit)
         {
             var component = unit.GetComponent<Experience>();
             if ((UnityEngine.Object) component != (UnityEngine.Object) null)
@@ -36,10 +36,10 @@ namespace BagOfTricks
 
         public static List<BlueprintUnit> SelectUnits(int cr, UnitTag tag)
         {
-            var minCR = cr - 6;
+            var minCr = cr - 6;
             var list = BlueprintRoot.Instance.RE.UnitsForRandomEncounters
                 .Where<BlueprintUnit>((Func<BlueprintUnit, bool>) (u => ContainsTag(u.GetComponent<AddTags>(), tag)))
-                .Where<BlueprintUnit>((Func<BlueprintUnit, bool>) (u => GetCR(u) >= minCR)).ToList<BlueprintUnit>();
+                .Where<BlueprintUnit>((Func<BlueprintUnit, bool>) (u => GetCr(u) >= minCr)).ToList<BlueprintUnit>();
             var xp = GetXp(cr);
             var maxTotalXp = GetXp(cr + 1);
             var currentXp = 0;

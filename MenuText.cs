@@ -340,6 +340,8 @@ namespace BagOfTricks
             {"label_SpellAbilityRange", "Set Custom Spell & Ability Ranges"},
             {"label_SpellAbilityCustomRangeTabletopWarning", "Both Set Custom Spell & Ability Ranges and Tabletop Ranges are active!"},
             {"label_EnemyBaseHitPointsMultiplier", "Enemy Base Hit Points Multiplier"},
+            {"label_EnemyBaseHitPointsMultiplierCampEncounter", "Random Rest/Camping Encounters"},
+            {"label_EnemyBaseHitPointsMultiplierUnitSpawner", "Random Global Map Encounters & Local Map Encounters"},
             //label end 
 
             //message start
@@ -731,6 +733,11 @@ namespace BagOfTricks
             {"buttonToggle_RemoveSummonsGlow", "Remove Summons' Glow"},
             {"buttonToggle_AutomaticallyLoadLastSave", "Automatically Load Last Save"},
             {"buttonToggle_ActionKeySpawnUnitsFromUnitFavourites", "Spawn Units From Unit Favourites / Stored Units"},
+            {"buttonToggle_SetTargetFrameRate", "Set Target Frame Rate"},
+            {"buttonToggle_CreateBattleLogFile", "Create Battle Log File"},
+            {"buttonToggle_CreateBattleLogFileLog", "Use Default Log File"},
+            {"buttonToggle_CreateBattleLogFileHTML", "Use HTML Log File"},
+            {"buttonToggle_CreateBattleLogFileBoT", "Use Bag of Tricks Log File"},
             //buttonToggle end
 
             //arrayItem start
@@ -1120,7 +1127,9 @@ namespace BagOfTricks
             },
 
             {"tooltip_SpellAbilityRangeMultiplier", "Use the slider or a custom multiplier to adjust spell and ability ranges."},
-            {"tooltip_EnemyBaseHitPointsMultiplier", "Use the slider or a custom multiplier to adjust enemy base hit points.\nChanges are applied after loading!"},
+            {"tooltip_EnemyBaseHitPointsMultiplier", "Use the slider or a custom multiplier to adjust enemy base hit points.\nOnly affects random encounters and enemies that haven't been spawned yet (e.g. unvisited areas)!"},
+            {"tooltip_EnemyBaseHitPointsMultiplierCampEncounter", "Enables the hit point multiplier for hostile encounters during/after rests."},
+            {"tooltip_EnemyBaseHitPointsMultiplierUnitSpawner", "Enables the hit point multiplier for hostile encounter in unvisited local areas and enemy random encounters on the global map."},
             {"tooltip_SpellAbilityRange", "Allows to set custom close, medium and long range values."},
             {"tooltip_RestoreSpellsAbilites", "Restore your party's spells and abilities﻿.\nDoes not affect Burn - use Instant Rest instead."},
             {"tooltip_SpellbookAbilityAlignmentChecks", "Disable alignment checks for spellbooks access and when using ability\ne.g. allowing you to use Paladin abilities while being Chaotic Evil."},
@@ -1375,7 +1384,12 @@ namespace BagOfTricks
 
             {"tooltip_ToggleHUD", "Enables toggling of the HUD via hotkey."},
             {"tooltip_DisplayObjectInfo", "Displays an object's name and GUID when hovering your cursor over it."},
+            {"tooltip_SetTargetFrameRate", "Instructs game to try to render at the specified frame rate.\nRequires a game restart to take effect!"},
             {"tooltip_AutomaticallyLoadLastSave", "Automatically loads the last on game start."},
+            {"tooltip_CreateBattleLogFile", "Logs all battle log entries to a file (default is BattleLog.log)."},
+            {"tooltip_CreateBattleLogFileLog", "Logs all battle log entries to the BattleLog.log file."},
+            {"tooltip_CreateBattleLogFileHTML", "Logs all battle log entries to the BattleLog.html file."},
+            {"tooltip_CreateBattleLogFileBoT", "Adds all battle log entries with a [BattleLog] prefix to the BagOfTrick.log file."},
 
             {
                 "tooltip_TaxCollector",

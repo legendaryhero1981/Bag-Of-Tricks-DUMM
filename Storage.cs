@@ -34,6 +34,9 @@ namespace BagOfTricks
         public static readonly string gamerVersionAtCreation = "2.0.7b";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
+        public static readonly string bagOfTicksLogFile = "BagOfTricks";
+        public static readonly string battleLogPrefix = "[BattleLog] ";
+        public static readonly string battleLogFile = "BattleLog";
 
         public static readonly string assetBundlesFolder = "AssetBundles";
         public static readonly string charactersImportFolder = "Characters";
@@ -134,7 +137,7 @@ namespace BagOfTricks
 
         public static float flyingHeightSlider = 0f;
 
-        public static string notificationEkunQ2rewardArmor = Strings.GetText("error_EkunQ2");
+        public static string notificationEkunQ2RewardArmor = Strings.GetText("error_EkunQ2");
         public static string errorString = "";
 
         public static string currentBuffSearch = "";
@@ -279,7 +282,7 @@ namespace BagOfTricks
 
         public static List<UnitEntityData> partyMembersFocusUnits = new List<UnitEntityData>();
 
-        public static CultureInfo cultureEN = new CultureInfo("en");
+        public static CultureInfo cultureEn = new CultureInfo("en");
 
         public static readonly string taxCollectorFile = "Save.xml";
 
@@ -324,8 +327,8 @@ namespace BagOfTricks
         public static List<string> menuItemFavourites = new List<string>();
         public static readonly string favouritesMenuItemsFile = "MenuItems.xml";
 
-        public static string[] localisationsXML = new string[] { };
-        public static List<string> localisationsXMLFiles = new List<string>();
+        public static string[] localisationsXml = new string[] { };
+        public static List<string> localisationsXmlFiles = new List<string>();
         public static int selectedLocalisationOld = -1;
 
         public static float defaultVendorSellPriceMultiplier = 0.25f;
@@ -435,7 +438,7 @@ namespace BagOfTricks
         public static UnitEntityData unitLockPick;
 
         public static int lockPicks = 5;
-        public static int lockPicksCreationDC = 10;
+        public static int lockPicksCreationDc = 10;
         public static bool checkLockPick = false;
         public static TextMeshProUGUI lockPicksNow = null;
 
@@ -630,7 +633,7 @@ namespace BagOfTricks
 
         public static string buffDurationMultiplierValue = "1";
         public static float finalBuffDurationMultiplierValue = 1f;
-        public static bool SummonedByPlayerFaction = false;
+        public static bool summonedByPlayerFaction = false;
 
         public static bool toggleFogOfWarBoolDefault = true;
 

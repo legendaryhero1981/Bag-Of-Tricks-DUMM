@@ -68,59 +68,63 @@ namespace BagOfTricks
         /// </summary>
         internal static void ShowTooltip() => UnityModManager.UI.ShowTooltip();
 
-        public static bool Enabled;
+        public static bool enabled;
 
-        public static unsafe float* CameraScrollSpeed = null;
-        public static LocalMap LocalMap = null;
-        public static bool RotationChanged = false;
+        public static unsafe float* cameraScrollSpeed = null;
+        public static LocalMap localMap = null;
+        public static bool rotationChanged = false;
 
-        public static Settings Settings;
-        public static TaxCollectorSettings TaxSettings = new TaxCollectorSettings();
-        public static SaveData SaveData = new SaveData();
-        public static ModEntry.ModLogger ModLogger;
-        public static ModEntryCheck ScaleXp;
-        public static ModEntryCheck CraftMagicItems;
+        public static Settings settings;
+        public static TaxCollectorSettings taxSettings = new TaxCollectorSettings();
+        public static SaveData saveData = new SaveData();
+        public static ModEntry.ModLogger modLogger;
+        public static ModEntryCheck scaleXp;
+        public static ModEntryCheck craftMagicItems;
         public static ModEntryCheck advancedMartialArts;
         public static ModEntryCheck callOfTheWild;
         public static ModEntryCheck eldritchArcana;
-        public static bool VersionMismatch = false;
-        public static Vector2 ScrollPosition;
+        public static bool versionMismatch = false;
+        public static Vector2 scrollPosition;
 
-        public static UICanvas MainCanvas = new UICanvas("BoT_MainCanvas");
-        public static UITMPText SceneAreaInfo = new UITMPText(MainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
-        public static UITMPText ObjectInfo = new UITMPText(MainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
+        public static UiCanvas mainCanvas = new UiCanvas("BoT_MainCanvas");
+        public static UitmpText sceneAreaInfo = new UitmpText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
+        public static UitmpText objectInfo = new UitmpText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
 
-        static bool Load(ModEntry modEntry)
+        public static Logger botLoggerLog;
+        public static Logger battleLoggerLog;
+        public static HtmlLogger battleLoggerHtml;
+
+        internal static bool Load(ModEntry modEntry)
         {
-            ObjectInfo.Size(25);
-            ObjectInfo.Off();
+            objectInfo.Size(25);
+            objectInfo.Off();
 
-            SceneAreaInfo.Size(25);
-            SceneAreaInfo.Off();
+            sceneAreaInfo.Size(25);
+            sceneAreaInfo.Off();
 
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
-            ModLogger = modEntry.Logger;
+            modLogger = modEntry.Logger;
 
-            Settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
+            settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
 
             Storage.modEntryPath = modEntry.Path;
 
             if (File.Exists(modEntry.Path + "debug"))
             {
-                Settings.settingShowDebugInfo = true;
-                Settings.toggleAutomaticallyLoadLastSave = Storage.isTrueString;
+                settings.settingShowDebugInfo = true;
+                settings.toggleAutomaticallyLoadLastSave = Storage.isTrueString;
             }
 
             if (File.Exists(modEntry.Path + "devtools"))
             {
-                Settings.toggleDevTools = Storage.isTrueString;
+                settings.toggleDevTools = Storage.isTrueString;
             }
 
             if (File.Exists(modEntry.Path + "fastload"))
             {
-                Settings.toggleAutomaticallyLoadLastSave = Storage.isTrueString;
+                settings.toggleAutomaticallyLoadLastSave = Storage.isTrueString;
             }
 
             try
@@ -129,7 +133,7 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                ModLogger.Log(e.ToString());
+                modLogger.Log(e.ToString());
             }
 
             if (File.Exists(modEntry.Path + "dictxml"))
@@ -137,10 +141,23 @@ namespace BagOfTricks
                 SerializeFallback();
             }
 
-            Logger.Clear();
+            if (Strings.ToBool(settings.toggleActionKeyLogInfo) || (Strings.ToBool(settings.toggleCreateBattleLogFile) && Strings.ToBool(settings.toggleCreateBattleLogFileBotLog))) {
+                LoggerUtils.InitBagOfTrickLogger();
+            }
 
-            ScaleXp = new ModEntryCheck("ScaleXP");
-            CraftMagicItems = new ModEntryCheck("CraftMagicItems");
+            if (Strings.ToBool(settings.toggleCreateBattleLogFile)) {
+
+                if (Strings.ToBool(settings.toggleCreateBattleLogFileLog)) {
+                    LoggerUtils.InitBattleLogDefaultLogger();
+                }
+
+                if (Strings.ToBool(settings.toggleCreateBattleLogFileHtml)) {
+                    LoggerUtils.InitBattleLogHtmlLogger();
+                }
+            }
+
+            scaleXp = new ModEntryCheck("ScaleXP");
+            craftMagicItems = new ModEntryCheck("CraftMagicItems");
             advancedMartialArts = new ModEntryCheck("AdvancedMartialArts");
             callOfTheWild = new ModEntryCheck("CallOfTheWild");
             eldritchArcana = new ModEntryCheck("EldritchArcana");
@@ -149,17 +166,17 @@ namespace BagOfTricks
 
             Storage.modAssemblyName = modEntry.Info.AssemblyName;
 
-            if (Strings.ToBool(Settings.toggleEnableTaxCollector))
+            if (Strings.ToBool(settings.toggleEnableTaxCollector))
             {
-                TaxSettings = TaxCollector.Deserialize(Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
-                TaxCollector.saveTimeGame = TaxSettings.saveTime;
+                taxSettings = TaxCollector.Deserialize(Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
+                TaxCollector.saveTimeGame = taxSettings.saveTime;
             }
 
             if (Storage.gamerVersionAtCreation != GameVersion.GetVersion())
             {
-                ModLogger.Log(Strings.GetText("warning_GameVersion") + $": { GameVersion.GetVersion()}");
-                ModLogger.Log(Strings.GetText("warning_GameVersion") + " " + Strings.Parenthesis(Strings.GetText("warning_Mod")) + $": {Storage.gamerVersionAtCreation}");
-                VersionMismatch = true;
+                modLogger.Log(Strings.GetText("warning_GameVersion") + $": { GameVersion.GetVersion()}");
+                modLogger.Log(Strings.GetText("warning_GameVersion") + " " + Strings.Parenthesis(Strings.GetText("warning_Mod")) + $": {Storage.gamerVersionAtCreation}");
+                versionMismatch = true;
             }
 
             LoadFavourites();
@@ -171,48 +188,48 @@ namespace BagOfTricks
             }
             catch (Exception e)
             {
-                ModLogger.Log(e.ToString());
+                modLogger.Log(e.ToString());
                 harmony.UnpatchAll(modEntry.Info.Id);
                 return false;
             }
 
-            Settings.heavyEncumbranceMultiplier = Mathf.Clamp(Settings.heavyEncumbranceMultiplier, 1f, 100f);
-            Settings.customHeavyEncumbranceMultiplier = Settings.finalCustomHeavyEncumbranceMultiplier.ToString();
-            Settings.fatigueHoursModifierMultiplier = Mathf.Clamp(Settings.fatigueHoursModifierMultiplier, 0.1f, 30f);
-            Settings.customFatigueHoursModifierMultiplier = Settings.finalCustomFatigueHoursModifierMultiplier.ToString();
-            Settings.experienceMultiplier = Mathf.Clamp(Settings.experienceMultiplier, 0.1f, 10f);
-            Settings.customExperienceMultiplier = Settings.finalCustomExperienceMultiplier.ToString();
-            Settings.moneyMultiplier = Mathf.Clamp(Settings.moneyMultiplier, 0.1f, 10f);
-            Settings.customMoneyMultiplier = Settings.finalCustomMoneyMultiplier.ToString();
-            Settings.spellsPerDayMultiplier = Mathf.Clamp(Settings.spellsPerDayMultiplier, 0.1f, 4f);
-            Settings.customSpellsPerDayMultiplier = Settings.finalCustomspellsPerDayMultiplier.ToString();
-            Settings.featMultiplierString = Settings.featMultiplier.ToString();
-            Settings.selectedKingdomAlignmentString = Settings.selectedKingdomAlignment.ToString();
-            Settings.selectedKingdomAlignmentTranslated = IntToAlignment(Settings.selectedKingdomAlignment);
-            Settings.travelSpeedMultiplier = Mathf.Clamp(Settings.travelSpeedMultiplier, 0.1f, 100f);
-            Settings.travelSpeedMultiplierString = Settings.travelSpeedMultiplier.ToString();
-            Settings.characterCreationAbilityPointsMax = Math.Max(18, Settings.characterCreationAbilityPointsMax);
-            Settings.characterCreationAbilityPointsMaxString = Settings.characterCreationAbilityPointsMax.ToString();
-            Settings.characterCreationAbilityPointsMin = Math.Max(0, Settings.characterCreationAbilityPointsMin);
-            Settings.characterCreationAbilityPointsMinString = Settings.characterCreationAbilityPointsMin.ToString();
-            Settings.characterCreationAbilityPointsPlayer = Math.Max(0, Settings.characterCreationAbilityPointsPlayer);
-            Settings.characterCreationAbilityPointsPlayerString = Settings.characterCreationAbilityPointsPlayer.ToString();
-            Settings.characterCreationAbilityPointsMerc = Math.Max(0, Settings.characterCreationAbilityPointsMerc);
-            Settings.characterCreationAbilityPointsMercString = Settings.characterCreationAbilityPointsMerc.ToString();
-            Settings.companionCostMultiplier = Math.Max(0, Settings.companionCostMultiplier);
-            Settings.companionCostMultiplierString = Settings.companionCostMultiplier.ToString();
-            Settings.partyStatMultiplier = Mathf.Clamp(Settings.partyStatMultiplier, 0.1f, 10f);
-            Settings.enemyStatMultiplier = Mathf.Clamp(Settings.enemyStatMultiplier, 0.1f, 10f);
-            Settings.randomEncounterSettingFloatAmountLimited = Mathf.Clamp(Settings.randomEncounterSettingFloatAmountLimited, 0f, 1f);
-            Settings.takeXCustom = Mathf.Clamp(Settings.takeXCustom, 1f, 20f);
-            Settings.kingdomBuildingTimeModifier = Mathf.Clamp(Settings.kingdomBuildingTimeModifier, -10f, 10f);
-            Settings.vendorSellPriceMultiplier = Settings.finalVendorSellPriceMultiplier.ToString();
-            Settings.sillyBloodChance = Mathf.Clamp(Settings.sillyBloodChance, 0f, 1f);
-            Settings.debugTimeMultiplier = Mathf.Clamp(Settings.debugTimeMultiplier, 0.1f, 30f);
-            Settings.customDebugTimeMultiplier = Settings.finalCustomDebugTimeMultiplier.ToString();
-            Settings.repeatableLockPickingWeariness = Settings.finalRepeatableLockPickingWeariness.ToString();
-            Settings.artisanMasterpieceChance = Mathf.Clamp(Settings.artisanMasterpieceChance, 0f, 1f);
-            Settings.unityModManagerButtonIndex = Mathf.Clamp(Settings.unityModManagerButtonIndex, 0f, 6f);
+            settings.heavyEncumbranceMultiplier = Mathf.Clamp(settings.heavyEncumbranceMultiplier, 1f, 100f);
+            settings.customHeavyEncumbranceMultiplier = settings.finalCustomHeavyEncumbranceMultiplier.ToString();
+            settings.fatigueHoursModifierMultiplier = Mathf.Clamp(settings.fatigueHoursModifierMultiplier, 0.1f, 30f);
+            settings.customFatigueHoursModifierMultiplier = settings.finalCustomFatigueHoursModifierMultiplier.ToString();
+            settings.experienceMultiplier = Mathf.Clamp(settings.experienceMultiplier, 0.1f, 10f);
+            settings.customExperienceMultiplier = settings.finalCustomExperienceMultiplier.ToString();
+            settings.moneyMultiplier = Mathf.Clamp(settings.moneyMultiplier, 0.1f, 10f);
+            settings.customMoneyMultiplier = settings.finalCustomMoneyMultiplier.ToString();
+            settings.spellsPerDayMultiplier = Mathf.Clamp(settings.spellsPerDayMultiplier, 0.1f, 4f);
+            settings.customSpellsPerDayMultiplier = settings.finalCustomspellsPerDayMultiplier.ToString();
+            settings.featMultiplierString = settings.featMultiplier.ToString();
+            settings.selectedKingdomAlignmentString = settings.selectedKingdomAlignment.ToString();
+            settings.selectedKingdomAlignmentTranslated = IntToAlignment(settings.selectedKingdomAlignment);
+            settings.travelSpeedMultiplier = Mathf.Clamp(settings.travelSpeedMultiplier, 0.1f, 100f);
+            settings.travelSpeedMultiplierString = settings.travelSpeedMultiplier.ToString();
+            settings.characterCreationAbilityPointsMax = Math.Max(18, settings.characterCreationAbilityPointsMax);
+            settings.characterCreationAbilityPointsMaxString = settings.characterCreationAbilityPointsMax.ToString();
+            settings.characterCreationAbilityPointsMin = Math.Max(0, settings.characterCreationAbilityPointsMin);
+            settings.characterCreationAbilityPointsMinString = settings.characterCreationAbilityPointsMin.ToString();
+            settings.characterCreationAbilityPointsPlayer = Math.Max(0, settings.characterCreationAbilityPointsPlayer);
+            settings.characterCreationAbilityPointsPlayerString = settings.characterCreationAbilityPointsPlayer.ToString();
+            settings.characterCreationAbilityPointsMerc = Math.Max(0, settings.characterCreationAbilityPointsMerc);
+            settings.characterCreationAbilityPointsMercString = settings.characterCreationAbilityPointsMerc.ToString();
+            settings.companionCostMultiplier = Math.Max(0, settings.companionCostMultiplier);
+            settings.companionCostMultiplierString = settings.companionCostMultiplier.ToString();
+            settings.partyStatMultiplier = Mathf.Clamp(settings.partyStatMultiplier, 0.1f, 10f);
+            settings.enemyStatMultiplier = Mathf.Clamp(settings.enemyStatMultiplier, 0.1f, 10f);
+            settings.randomEncounterSettingFloatAmountLimited = Mathf.Clamp(settings.randomEncounterSettingFloatAmountLimited, 0f, 1f);
+            settings.takeXCustom = Mathf.Clamp(settings.takeXCustom, 1f, 20f);
+            settings.kingdomBuildingTimeModifier = Mathf.Clamp(settings.kingdomBuildingTimeModifier, -10f, 10f);
+            settings.vendorSellPriceMultiplier = settings.finalVendorSellPriceMultiplier.ToString();
+            settings.sillyBloodChance = Mathf.Clamp(settings.sillyBloodChance, 0f, 1f);
+            settings.debugTimeMultiplier = Mathf.Clamp(settings.debugTimeMultiplier, 0.1f, 30f);
+            settings.customDebugTimeMultiplier = settings.finalCustomDebugTimeMultiplier.ToString();
+            settings.repeatableLockPickingWeariness = settings.finalRepeatableLockPickingWeariness.ToString();
+            settings.artisanMasterpieceChance = Mathf.Clamp(settings.artisanMasterpieceChance, 0f, 1f);
+            settings.unityModManagerButtonIndex = Mathf.Clamp(settings.unityModManagerButtonIndex, 0f, 6f);
 
             Storage.flyingHeightSlider = Mathf.Clamp(Storage.flyingHeightSlider, -10f, 100f);
             Storage.itemFavouritesGuids = Storage.itemFavourites;
@@ -222,16 +239,16 @@ namespace BagOfTricks
 
             SpawnUnits.FavouritesGuids = SpawnUnits.UnitsFavourites;
 
-            if (!Settings.settingKeepGuids)
+            if (!settings.settingKeepGuids)
             {
-                Settings.itemGuid = "";
+                settings.itemGuid = "";
             }
 
             try
             {
-                if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + Settings.selectedLocalisationName + ".xml"))
+                if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml"))
                 {
-                    Strings.temp = Strings.XMLtoDict(Settings.selectedLocalisationName);
+                    Strings.temp = Strings.XmLtoDict(settings.selectedLocalisationName);
                     if (Strings.temp.Count == MenuText.fallback.Count && Strings.temp.Keys == MenuText.fallback.Keys)
                     {
                         Strings.current = Strings.temp;
@@ -242,39 +259,39 @@ namespace BagOfTricks
                     }
                     Strings.RefreshStrings();
                     Storage.mainToolbarStrings = new string[] { RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
-                    Settings.filterButtonText = Strings.GetText("misc_Enable");
-                    Settings.currentSceneString = Strings.GetText("misc_Display");
-                    Settings.showAllBuffs = Strings.GetText("misc_Display");
-                    Settings.showAllFeats = Strings.GetText("misc_Display");
-                    Settings.showAllAbilities = Strings.GetText("misc_Display");
+                    settings.filterButtonText = Strings.GetText("misc_Enable");
+                    settings.currentSceneString = Strings.GetText("misc_Display");
+                    settings.showAllBuffs = Strings.GetText("misc_Display");
+                    settings.showAllFeats = Strings.GetText("misc_Display");
+                    settings.showAllAbilities = Strings.GetText("misc_Display");
                 }
-                Storage.localisationsXMLFiles.Clear();
-                Storage.localisationsXML = Directory.GetFiles(Storage.modEntryPath + Storage.localisationFolder, "*.xml");
-                foreach (var s in Storage.localisationsXML)
+                Storage.localisationsXmlFiles.Clear();
+                Storage.localisationsXml = Directory.GetFiles(Storage.modEntryPath + Storage.localisationFolder, "*.xml");
+                foreach (var s in Storage.localisationsXml)
                 {
-                    Storage.localisationsXMLFiles.Add(Path.GetFileNameWithoutExtension(s));
+                    Storage.localisationsXmlFiles.Add(Path.GetFileNameWithoutExtension(s));
                 }
 
-                if (Storage.localisationsXMLFiles.Count - 1 < Settings.selectedLocalisation)
+                if (Storage.localisationsXmlFiles.Count - 1 < settings.selectedLocalisation)
                 {
-                    Settings.selectedLocalisation = 0;
+                    settings.selectedLocalisation = 0;
                 }
-                if (Storage.localisationsXMLFiles.Contains(Settings.selectedLocalisationName))
+                if (Storage.localisationsXmlFiles.Contains(settings.selectedLocalisationName))
                 {
-                    Settings.selectedLocalisation = Storage.localisationsXMLFiles.FindIndex(a => a.Contains(Settings.selectedLocalisationName));
+                    settings.selectedLocalisation = Storage.localisationsXmlFiles.FindIndex(a => a.Contains(settings.selectedLocalisationName));
                 }
                 SortLocalisationsAndFlags();
 
-                Storage.selectedLocalisationOld = Settings.selectedLocalisation;
+                Storage.selectedLocalisationOld = settings.selectedLocalisation;
 
-                if (Settings.settingSearchForCsv)
+                if (settings.settingSearchForCsv)
                 {
                     Common.RefreshArrayFromFile(ref Storage.itemSetsCsv, Storage.itemSetsFolder, "csv");
                     string[] temp = SpawnUnits.UnitSetsCsv;
                     Common.RefreshArrayFromFile(ref temp, SpawnUnits.UnitSetsFolder, "csv");
                     SpawnUnits.UnitSetsCsv = temp;
                 }
-                if (Settings.settingSearchForTxt)
+                if (settings.settingSearchForTxt)
                 {
                     Common.RefreshArrayFromFile(ref Storage.itemSetsTxt, Storage.itemSetsFolder, "txt");
                     string[] temp = SpawnUnits.UnitSetsTxt;
@@ -284,175 +301,175 @@ namespace BagOfTricks
             }
             catch (IOException exception)
             {
-                ModLogger.Log(exception.ToString());
+                modLogger.Log(exception.ToString());
             }
 
-            if (!Settings.settingKeepCategories)
+            if (!settings.settingKeepCategories)
             {
-                Settings.showCarryMoreCategory = false;
-                Settings.showRestLessCategory = false;
-                Settings.showMoneyCategory = false;
-                Settings.showExperienceCategory = false;
-                Settings.showKingdomCategory = false;
-                Settings.showItemsCategory = false;
-                Settings.showSpellCategory = false;
-                Settings.showBuffsCategory = false;
-                Settings.showPartyStatisticsCategory = false;
-                Settings.showEnemyStatisticsCategory = false;
-                Settings.showFeatsCategory = false;
-                Settings.showAddAbilitiesCategory = false;
-                Settings.showSpellSpellbooksCategory = false;
-                Settings.showTravelAndMapCategory = false;
-                Settings.showDiceRollCategory = false;
-                Settings.showFogOfWarCategory = false;
-                Settings.showMiscCategory = false;
-                Settings.showKeyBindingsCategory = false;
-                Settings.showTaxCollectorCategory = false;
-                Settings.showBeneathTheStolenLandsCategory = false;
-                Settings.showSpawnUnitsCategory = false;
+                settings.showCarryMoreCategory = false;
+                settings.showRestLessCategory = false;
+                settings.showMoneyCategory = false;
+                settings.showExperienceCategory = false;
+                settings.showKingdomCategory = false;
+                settings.showItemsCategory = false;
+                settings.showSpellCategory = false;
+                settings.showBuffsCategory = false;
+                settings.showPartyStatisticsCategory = false;
+                settings.showEnemyStatisticsCategory = false;
+                settings.showFeatsCategory = false;
+                settings.showAddAbilitiesCategory = false;
+                settings.showSpellSpellbooksCategory = false;
+                settings.showTravelAndMapCategory = false;
+                settings.showDiceRollCategory = false;
+                settings.showFogOfWarCategory = false;
+                settings.showMiscCategory = false;
+                settings.showKeyBindingsCategory = false;
+                settings.showTaxCollectorCategory = false;
+                settings.showBeneathTheStolenLandsCategory = false;
+                settings.showSpawnUnitsCategory = false;
             }
 
-            if (!Settings.settingKeepSubMenus)
+            if (!settings.settingKeepSubMenus)
             {
-                Settings.showItemInfo = false;
-                Settings.showItemSets = false;
-                Settings.multipleItems = false;
-                Settings.moneyAmount = "1";
-                Settings.finalMoneyAmount = 1;
-                Settings.experienceAmount = "1";
-                Settings.finalExperienceAmount = 1;
-                Settings.buildPointAmount = "1";
-                Settings.finalBuildPointAmount = 1;
-                Settings.itemAmount = "1";
-                Settings.finalItemAmount = 1;
-                Settings.itemSearch = "";
-                Settings.itemAmount = "1";
-                Settings.finalItemAmount = 1;
-                Settings.toggleFilterWeapons = Storage.isTrueString;
-                Settings.toggleFilterShields = Storage.isTrueString;
-                Settings.toggleFilterArmours = Storage.isTrueString;
-                Settings.toggleFilterRings = Storage.isTrueString;
-                Settings.toggleFilterBelts = Storage.isTrueString;
-                Settings.toggleFilterFootwear = Storage.isTrueString;
-                Settings.toggleFilterGloves = Storage.isTrueString;
-                Settings.toggleFilterHeadwear = Storage.isTrueString;
-                Settings.toggleFilterNeckItems = Storage.isTrueString;
-                Settings.toggleFilterShoulderItems = Storage.isTrueString;
-                Settings.toggleFilterWristItems = Storage.isTrueString;
-                Settings.toggleFilterKeys = Storage.isTrueString;
-                Settings.toggleFilterMiscellaneousItems = Storage.isTrueString;
-                Settings.toggleFilterNotes = Storage.isTrueString;
-                Settings.toggleFilterUsableItems = Storage.isTrueString;
-                Settings.showFilters = false;
-                Settings.filterButtonText = Strings.GetText("misc_Enable");
-                Settings.toggleSearchOnlyCraftMagicItems = Storage.isFalseString;
-                Settings.toggleSearchByItemObjectName = Storage.isTrueString;
-                Settings.toggleSearchByItemName = Storage.isTrueString;
-                Settings.toggleSearchByItemDescription = Storage.isFalseString;
-                Settings.toggleSearchByItemFlavorText = Storage.isFalseString;
-                Settings.showItemFavourites = false;
-                Settings.addItemIdentified = false;
-                Settings.showExperimentalCategory = false;
-                Settings.flyingHeight = "0.1";
-                Settings.finalflyingHeight = 0.1f;
-                Settings.flyingHeightUseSlider = false;
-                Settings.gameConstsAmount = "1";
-                Settings.finalGameConstsAmount = 1;
-                Settings.showAllBuffs = Strings.GetText("misc_Display");
-                Settings.showBuffFavourites = false;
-                Settings.buffSearch = "";
-                Settings.toggleSearchByBuffObjectName = Storage.isTrueString;
-                Settings.toggleSearchByBuffName = Storage.isTrueString;
-                Settings.toggleSearchByBuffDescription = Storage.isFalseString;
-                Settings.toggleSearchByBuffComponents = Storage.isFalseString;
-                Settings.toggleBuffsShowEnemies = Storage.isFalseString;
-                Settings.partyStatsAmount = "10";
-                Settings.partyFinalStatsAmount = 10;
-                Settings.partyStatMultiplier = 1f;
-                Settings.toggleShowOnlyClassSkills = Storage.isFalseString;
-                Settings.enemyStatsAmount = "10";
-                Settings.enemyFinalStatsAmount = 10;
-                Settings.enemyStatMultiplier = 1f;
-                Settings.toggleForcedEncounterIsHard = Storage.isFalseString;
-                Settings.forcedEncounterCR = "1";
-                Settings.forcedEncounterFinalCR = 1;
-                Settings.forcedEncounterSelectedAvoidance = 0;
-                Settings.forcedEncounterSelectedBlueprintMode = 0;
-                Settings.forcedEncounterGuid = "";
-                Settings.randomEncounterSettingsShow = false;
-                Settings.randomEncounterSettingFloatAmountLimited = 0.1f;
-                Settings.randomEncounterSettingFloatAmount = "1";
-                Settings.randomEncounterSettingFloatAmountFinal = 1f;
-                Settings.randomEncounterSettingIntAmount = "1";
-                Settings.randomEncounterSettingIntAmountFinal = 1;
-                Settings.kingdomBuildingTimeModifier = 0f;
-                Settings.showSoundsCategory = false;
-                Settings.showLanguageMenu = false;
-                Settings.sillyBloodChance = 0.1f;
-                Settings.showFeatsFavourites = false;
-                Settings.featSearch = "";
-                Settings.toggleSearchByFeatObjectName = Storage.isTrueString;
-                Settings.toggleSearchByFeatName = Storage.isTrueString;
-                Settings.toggleSearchByFeatDescription = Storage.isFalseString;
-                Settings.toggleFeatsShowEnemies = Storage.isFalseString;
-                Settings.showAllFeats = Strings.GetText("misc_Display");
-                Settings.showRomanceCounters = false;
-                Settings.showRomanceCountersSpoilers = false;
-                Settings.featsParamShowAllWeapons = false;
-                Settings.showUpgradSettlementsAndBuildings = false;
-                Settings.showRomanceCountersExperimental = false;
-                Settings.romanceCounterSetValue = "1";
-                Settings.finalRomanceCounterSetValue = 1;
-                Settings.damageDealtMultipliersValue = "1";
-                Settings.finalDamageDealtMultipliersValue = 1;
-                Settings.toggleShowClassDataOptions = Storage.isFalseString;
-                Settings.showAllAbilities = Strings.GetText("misc_Display");
-                Settings.showAbilitiesFavourites = false;
-                Settings.abilitySearch = "";
-                Settings.toggleSearchByAbilityObjectName = Storage.isTrueString;
-                Settings.toggleSearchByAbilityName = Storage.isTrueString;
-                Settings.toggleSearchByAbilityDescription = Storage.isFalseString;
-                Settings.showAnimationsCategory = false;
-                Settings.unitSearch = "";
-                Settings.unitSearchFilters = "";
-                Settings.toggleSearchByUnitObjectName = Storage.isTrueString;
-                Settings.toggleSearchByUnitCharacterName = Storage.isTrueString;
-                Settings.toggleSearchByUnitType = Storage.isFalseString;
-                Settings.showUnitsFavourites = false;
-                Settings.showUnitSets = false;
+                settings.showItemInfo = false;
+                settings.showItemSets = false;
+                settings.multipleItems = false;
+                settings.moneyAmount = "1";
+                settings.finalMoneyAmount = 1;
+                settings.experienceAmount = "1";
+                settings.finalExperienceAmount = 1;
+                settings.buildPointAmount = "1";
+                settings.finalBuildPointAmount = 1;
+                settings.itemAmount = "1";
+                settings.finalItemAmount = 1;
+                settings.itemSearch = "";
+                settings.itemAmount = "1";
+                settings.finalItemAmount = 1;
+                settings.toggleFilterWeapons = Storage.isTrueString;
+                settings.toggleFilterShields = Storage.isTrueString;
+                settings.toggleFilterArmours = Storage.isTrueString;
+                settings.toggleFilterRings = Storage.isTrueString;
+                settings.toggleFilterBelts = Storage.isTrueString;
+                settings.toggleFilterFootwear = Storage.isTrueString;
+                settings.toggleFilterGloves = Storage.isTrueString;
+                settings.toggleFilterHeadwear = Storage.isTrueString;
+                settings.toggleFilterNeckItems = Storage.isTrueString;
+                settings.toggleFilterShoulderItems = Storage.isTrueString;
+                settings.toggleFilterWristItems = Storage.isTrueString;
+                settings.toggleFilterKeys = Storage.isTrueString;
+                settings.toggleFilterMiscellaneousItems = Storage.isTrueString;
+                settings.toggleFilterNotes = Storage.isTrueString;
+                settings.toggleFilterUsableItems = Storage.isTrueString;
+                settings.showFilters = false;
+                settings.filterButtonText = Strings.GetText("misc_Enable");
+                settings.toggleSearchOnlyCraftMagicItems = Storage.isFalseString;
+                settings.toggleSearchByItemObjectName = Storage.isTrueString;
+                settings.toggleSearchByItemName = Storage.isTrueString;
+                settings.toggleSearchByItemDescription = Storage.isFalseString;
+                settings.toggleSearchByItemFlavorText = Storage.isFalseString;
+                settings.showItemFavourites = false;
+                settings.addItemIdentified = false;
+                settings.showExperimentalCategory = false;
+                settings.flyingHeight = "0.1";
+                settings.finalflyingHeight = 0.1f;
+                settings.flyingHeightUseSlider = false;
+                settings.gameConstsAmount = "1";
+                settings.finalGameConstsAmount = 1;
+                settings.showAllBuffs = Strings.GetText("misc_Display");
+                settings.showBuffFavourites = false;
+                settings.buffSearch = "";
+                settings.toggleSearchByBuffObjectName = Storage.isTrueString;
+                settings.toggleSearchByBuffName = Storage.isTrueString;
+                settings.toggleSearchByBuffDescription = Storage.isFalseString;
+                settings.toggleSearchByBuffComponents = Storage.isFalseString;
+                settings.toggleBuffsShowEnemies = Storage.isFalseString;
+                settings.partyStatsAmount = "10";
+                settings.partyFinalStatsAmount = 10;
+                settings.partyStatMultiplier = 1f;
+                settings.toggleShowOnlyClassSkills = Storage.isFalseString;
+                settings.enemyStatsAmount = "10";
+                settings.enemyFinalStatsAmount = 10;
+                settings.enemyStatMultiplier = 1f;
+                settings.toggleForcedEncounterIsHard = Storage.isFalseString;
+                settings.forcedEncounterCr = "1";
+                settings.forcedEncounterFinalCr = 1;
+                settings.forcedEncounterSelectedAvoidance = 0;
+                settings.forcedEncounterSelectedBlueprintMode = 0;
+                settings.forcedEncounterGuid = "";
+                settings.randomEncounterSettingsShow = false;
+                settings.randomEncounterSettingFloatAmountLimited = 0.1f;
+                settings.randomEncounterSettingFloatAmount = "1";
+                settings.randomEncounterSettingFloatAmountFinal = 1f;
+                settings.randomEncounterSettingIntAmount = "1";
+                settings.randomEncounterSettingIntAmountFinal = 1;
+                settings.kingdomBuildingTimeModifier = 0f;
+                settings.showSoundsCategory = false;
+                settings.showLanguageMenu = false;
+                settings.sillyBloodChance = 0.1f;
+                settings.showFeatsFavourites = false;
+                settings.featSearch = "";
+                settings.toggleSearchByFeatObjectName = Storage.isTrueString;
+                settings.toggleSearchByFeatName = Storage.isTrueString;
+                settings.toggleSearchByFeatDescription = Storage.isFalseString;
+                settings.toggleFeatsShowEnemies = Storage.isFalseString;
+                settings.showAllFeats = Strings.GetText("misc_Display");
+                settings.showRomanceCounters = false;
+                settings.showRomanceCountersSpoilers = false;
+                settings.featsParamShowAllWeapons = false;
+                settings.showUpgradSettlementsAndBuildings = false;
+                settings.showRomanceCountersExperimental = false;
+                settings.romanceCounterSetValue = "1";
+                settings.finalRomanceCounterSetValue = 1;
+                settings.damageDealtMultipliersValue = "1";
+                settings.finalDamageDealtMultipliersValue = 1;
+                settings.toggleShowClassDataOptions = Storage.isFalseString;
+                settings.showAllAbilities = Strings.GetText("misc_Display");
+                settings.showAbilitiesFavourites = false;
+                settings.abilitySearch = "";
+                settings.toggleSearchByAbilityObjectName = Storage.isTrueString;
+                settings.toggleSearchByAbilityName = Storage.isTrueString;
+                settings.toggleSearchByAbilityDescription = Storage.isFalseString;
+                settings.showAnimationsCategory = false;
+                settings.unitSearch = "";
+                settings.unitSearchFilters = "";
+                settings.toggleSearchByUnitObjectName = Storage.isTrueString;
+                settings.toggleSearchByUnitCharacterName = Storage.isTrueString;
+                settings.toggleSearchByUnitType = Storage.isFalseString;
+                settings.showUnitsFavourites = false;
+                settings.showUnitSets = false;
             }
 
-            if (Settings.gameConstsMinUnitSpeedMps != -1)
+            if (settings.gameConstsMinUnitSpeedMps != -1)
             {
                 var minUnitSpeedMps = typeof(GameConsts).GetField("MinUnitSpeedMps");
-                minUnitSpeedMps.SetValue(null, Settings.gameConstsMinUnitSpeedMps);
+                minUnitSpeedMps.SetValue(null, settings.gameConstsMinUnitSpeedMps);
             }
-            if (Settings.gameConstsMinWeaponRange != -1)
+            if (settings.gameConstsMinWeaponRange != -1)
             {
                 var minWeaponRange = typeof(GameConsts).GetField("MinWeaponRange");
-                minWeaponRange.SetValue(null, Settings.gameConstsMinWeaponRange.Feet());
+                minWeaponRange.SetValue(null, settings.gameConstsMinWeaponRange.Feet());
             }
-            if (Settings.gameConstsMinWeaponRange != -1)
+            if (settings.gameConstsMinWeaponRange != -1)
             {
                 var stealthDcIncrement = typeof(GameConsts).GetField("StealthDCIncrement");
-                stealthDcIncrement.SetValue(null, Settings.gameConstsMinWeaponRange.Feet());
+                stealthDcIncrement.SetValue(null, settings.gameConstsMinWeaponRange.Feet());
             }
 
-            if (Strings.ToBool(Settings.toggleUberLogger))
+            if (Strings.ToBool(settings.toggleUberLogger))
             {
                 UberLogger.Logger.Enabled = true;
-                if (Strings.ToBool(Settings.toggleUberLoggerForward))
+                if (Strings.ToBool(settings.toggleUberLoggerForward))
                 {
                     UberLogger.Logger.ForwardMessages = true;
                 }
             }
 
-            if (!BuildModeUtility.IsDevelopment && Strings.ToBool(Settings.toggleCombatDifficultyMessage))
+            if (!BuildModeUtility.IsDevelopment && Strings.ToBool(settings.toggleCombatDifficultyMessage))
             {
                 EventBus.Subscribe(new CombatDifficultyMessage());
             }
 
-            if (Settings.settingShowDebugInfo)
+            if (settings.settingShowDebugInfo)
             {
                 LogModInfoLoad();
             }
@@ -460,7 +477,7 @@ namespace BagOfTricks
             if (SettingsBoT.IsEarlierVersion(modEntry.Info.Version))
             {
                 SettingsBoT.Update();
-                Settings.modVersion = modEntry.Info.Version;
+                settings.modVersion = modEntry.Info.Version;
             }
 
             modEntry.OnToggle = OnToggle;
@@ -474,7 +491,7 @@ namespace BagOfTricks
 
         static bool OnToggle(ModEntry modEntry, bool value)
         {
-            Enabled = value;
+            enabled = value;
 
             return true;
         }
@@ -494,24 +511,24 @@ namespace BagOfTricks
                     Storage.settingsWarning = false;
                 }
             }
-            else if (!Settings.firstLaunch && !Storage.settingsWarning)
+            else if (!settings.firstLaunch && !Storage.settingsWarning)
             {
                 if (Game.Instance.Player.ControllableCharacters.Any())
                 {
-                    if (VersionMismatch && !Storage.hideVersionMismatch)
+                    if (versionMismatch && !Storage.hideVersionMismatch)
                     {
                         Menu.VersionMismatch();
                     }
 
                     GL.Space(10);
 
-                    Settings.mainToolbarIndex = GL.Toolbar(Settings.mainToolbarIndex, Storage.mainToolbarStrings, WindowWidth);
+                    settings.mainToolbarIndex = GL.Toolbar(settings.mainToolbarIndex, Storage.mainToolbarStrings, WindowWidth);
 
-                    if (Strings.ToBool(Settings.toggleBoTScrollBar))
+                    if (Strings.ToBool(settings.toggleBoTScrollBar))
                     {
-                        ScrollPosition = GL.BeginScrollView(ScrollPosition, GL.Width(Storage.ummWidth - 24f));
+                        scrollPosition = GL.BeginScrollView(scrollPosition, GL.Width(Storage.ummWidth - 24f));
                     }
-                    switch (Settings.mainToolbarIndex)
+                    switch (settings.mainToolbarIndex)
                     {
                         case 0:
                             Menu.FavouriteFunctions();
@@ -530,14 +547,14 @@ namespace BagOfTricks
                             break;
                     }
 
-                    if (Strings.ToBool(Settings.toggleBoTScrollBar))
+                    if (Strings.ToBool(settings.toggleBoTScrollBar))
                     {
                         GL.EndScrollView();
                     }
                 }
                 else
                 {
-                    if (VersionMismatch && !Storage.hideVersionMismatch)
+                    if (versionMismatch && !Storage.hideVersionMismatch)
                     {
                         Menu.VersionMismatch();
                     }
@@ -546,7 +563,7 @@ namespace BagOfTricks
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
-                    if (Settings.currentSceneString == Strings.GetText("misc_Hide"))
+                    if (settings.currentSceneString == Strings.GetText("misc_Hide"))
                     {
                         var currenctSceneName = SceneManager.GetActiveScene().name;
                         GL.Label(Strings.GetText("label_CurrentScene") + $": { currenctSceneName}");
@@ -554,9 +571,9 @@ namespace BagOfTricks
                     GL.EndHorizontal();
                 }
             }
-            else if (Settings.firstLaunch && SceneManager.GetActiveScene().name != "Start" && !Storage.settingsWarning)
+            else if (settings.firstLaunch && SceneManager.GetActiveScene().name != "Start" && !Storage.settingsWarning)
             {
-                if (VersionMismatch && !Storage.hideVersionMismatch)
+                if (versionMismatch && !Storage.hideVersionMismatch)
                 {
                     Menu.VersionMismatch();
                 }
@@ -572,36 +589,36 @@ namespace BagOfTricks
                 {
                     try
                     {
-                        Storage.localisationsXMLFiles.Clear();
-                        Storage.localisationsXML = Directory.GetFiles(modEntry.Path + Storage.localisationFolder, "*.xml");
-                        foreach (var s in Storage.localisationsXML)
+                        Storage.localisationsXmlFiles.Clear();
+                        Storage.localisationsXml = Directory.GetFiles(modEntry.Path + Storage.localisationFolder, "*.xml");
+                        foreach (var s in Storage.localisationsXml)
                         {
-                            Storage.localisationsXMLFiles.Add(Path.GetFileNameWithoutExtension(s));
+                            Storage.localisationsXmlFiles.Add(Path.GetFileNameWithoutExtension(s));
                         }
                         SortLocalisationsAndFlags();
                     }
                     catch (IOException exception)
                     {
-                        ModLogger.Log(exception.ToString());
+                        modLogger.Log(exception.ToString());
                     }
 
-                    if (Storage.localisationsXMLFiles.Count - 1 < Settings.selectedLocalisation)
+                    if (Storage.localisationsXmlFiles.Count - 1 < settings.selectedLocalisation)
                     {
-                        Settings.selectedLocalisation = 0;
+                        settings.selectedLocalisation = 0;
                     }
                 }
                 GL.EndHorizontal();
                 GL.Space(10);
                 GL.BeginHorizontal();
-                Settings.selectedLocalisation = GL.SelectionGrid(Settings.selectedLocalisation, Storage.localeGrid.ToArray(), 1, GL.ExpandWidth(false));
+                settings.selectedLocalisation = GL.SelectionGrid(settings.selectedLocalisation, Storage.localeGrid.ToArray(), 1, GL.ExpandWidth(false));
                 GL.EndHorizontal();
-                if (Settings.selectedLocalisation != Storage.selectedLocalisationOld)
+                if (settings.selectedLocalisation != Storage.selectedLocalisationOld)
                 {
-                    Storage.selectedLocalisationOld = Settings.selectedLocalisation;
-                    Settings.selectedLocalisationName = Path.GetFileNameWithoutExtension(Storage.localisationsXMLFiles.ToArray()[Settings.selectedLocalisation]);
-                    if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + Settings.selectedLocalisationName + ".xml"))
+                    Storage.selectedLocalisationOld = settings.selectedLocalisation;
+                    settings.selectedLocalisationName = Path.GetFileNameWithoutExtension(Storage.localisationsXmlFiles.ToArray()[settings.selectedLocalisation]);
+                    if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml"))
                     {
-                        Strings.temp = Strings.XMLtoDict(Settings.selectedLocalisationName);
+                        Strings.temp = Strings.XmLtoDict(settings.selectedLocalisationName);
                         if (Strings.temp.Count == MenuText.fallback.Count && Strings.temp.Keys == MenuText.fallback.Keys)
                         {
                             Strings.current = Strings.temp;
@@ -612,11 +629,11 @@ namespace BagOfTricks
                         }
                         Strings.RefreshStrings();
                         Storage.mainToolbarStrings = new string[] { RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
-                        Settings.filterButtonText = Strings.GetText("misc_Enable");
-                        Settings.currentSceneString = Strings.GetText("misc_Display");
-                        Settings.showAllBuffs = Strings.GetText("misc_Display");
-                        Settings.showAllFeats = Strings.GetText("misc_Display");
-                        Settings.showAllAbilities = Strings.GetText("misc_Display");
+                        settings.filterButtonText = Strings.GetText("misc_Enable");
+                        settings.currentSceneString = Strings.GetText("misc_Display");
+                        settings.showAllBuffs = Strings.GetText("misc_Display");
+                        settings.showAllFeats = Strings.GetText("misc_Display");
+                        settings.showAllAbilities = Strings.GetText("misc_Display");
 
                     }
                 }
@@ -625,19 +642,19 @@ namespace BagOfTricks
 
                 if (GL.Button(RichText.Bold(Strings.GetText("button_Confirm")), GL.ExpandWidth(false)))
                 {
-                    Settings.firstLaunch = false;
+                    settings.firstLaunch = false;
                 }
             }
             else
             {
-                if (VersionMismatch && !Storage.hideVersionMismatch)
+                if (versionMismatch && !Storage.hideVersionMismatch)
                 {
                     Menu.VersionMismatch();
                 }
                 MenuTools.SingleLineLabel(Strings.GetText("message_GameLoading"));
             }
 
-            if (Settings.toggleShowTooltips == Storage.isTrueString) ShowTooltip();
+            if (settings.toggleShowTooltips == Storage.isTrueString) ShowTooltip();
         }
 
         public static List<string> BlueprintsByTypes(string[] validTypes)
@@ -648,7 +665,7 @@ namespace BagOfTricks
         public static void CreateFilteredItemSet(string labelString, string[] types)
         {
             if (!GL.Button(labelString, GL.ExpandWidth(false))) return;
-            ModEntry.OnModActions.Push(m => Parallel.ForEach(BlueprintsByTypes(types).Where(e => ExcludeGuid != e && null != Utilities.GetBlueprintByGuid<BlueprintItem>(e)), e => MenuTools.AddSingleItemAmount(e, 1, Settings.addItemIdentified)));
+            ModEntry.OnModActions.Push(m => Parallel.ForEach(BlueprintsByTypes(types).Where(e => ExcludeGuid != e && null != Utilities.GetBlueprintByGuid<BlueprintItem>(e)), e => MenuTools.AddSingleItemAmount(e, 1, settings.addItemIdentified)));
         }
 
         public static void GetCustomItemSets(string[] files, List<string> previewStrings, List<bool> togglePreview)
@@ -668,7 +685,7 @@ namespace BagOfTricks
                 }
                 catch (FileNotFoundException e)
                 {
-                    ModLogger.Log(e.ToString());
+                    modLogger.Log(e.ToString());
                 }
                 togglePreview.Add(false);
 
@@ -685,12 +702,12 @@ namespace BagOfTricks
                                 splitLine[1] = splitLine[1].Trim();
                                 if (ExcludeGuid == splitLine[0]) continue;
                                 if ("" == splitLine[1])
-                                    MenuTools.AddSingleItemAmount(splitLine[0], 1, Settings.addItemIdentified);
+                                    MenuTools.AddSingleItemAmount(splitLine[0], 1, settings.addItemIdentified);
                                 else if ("0" != splitLine[1] && int.TryParse(splitLine[1], out var number))
-                                    MenuTools.AddSingleItemAmount(splitLine[0], number, Settings.addItemIdentified);
+                                    MenuTools.AddSingleItemAmount(splitLine[0], number, settings.addItemIdentified);
                             }
                             else if (ExcludeGuid != lines[j])
-                                MenuTools.AddSingleItemAmount(lines[j], 1, Settings.addItemIdentified);
+                                MenuTools.AddSingleItemAmount(lines[j], 1, settings.addItemIdentified);
                         }
                     });
 
@@ -814,15 +831,15 @@ namespace BagOfTricks
             Storage.resultItemGuids.Clear();
             Storage.toggleItemSearchDescription.Clear();
 
-            if (string.IsNullOrEmpty(Settings.itemSearch)) return;
-            Storage.currentItemSearch = Settings.itemSearch;
+            if (string.IsNullOrEmpty(settings.itemSearch)) return;
+            Storage.currentItemSearch = settings.itemSearch;
             Storage.blueprintList = ResourcesLibrary.LibraryObject.GetAllBlueprints();
             foreach (var bso in Storage.blueprintList)
             {
                 if (!validItemTypesList.Contains(bso.GetType().Name)) continue;
                 var bpItem = bso as BlueprintItem;
                 if (bpItem.name == "EkunQ2_rewardArmor") continue;
-                if (Settings.toggleSearchOnlyCraftMagicItems == Storage.isTrueString)
+                if (settings.toggleSearchOnlyCraftMagicItems == Storage.isTrueString)
                 {
                     if (!bpItem.AssetGuid.Contains(Storage.scribeScrollBlueprintPrefix) && !bpItem.AssetGuid.Contains(Storage.craftMagicItemsBlueprintPrefix)) continue;
                     Storage.validItemObjectNames.Add(bpItem.name);
@@ -845,9 +862,9 @@ namespace BagOfTricks
             {
                 var stringItemName = Storage.validItemNames[i];
                 var stringGuid = Storage.validItemGuids[i];
-                if (Storage.validItemObjectNames[i].Contains(Settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.validItemObjectNames[i].Contains(settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByItemObjectName == Storage.isTrueString)
+                    if (settings.toggleSearchByItemObjectName == Storage.isTrueString)
                     {
                         if (!Storage.resultItemGuids.Contains(stringGuid))
                         {
@@ -856,9 +873,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.validItemNames[i].Contains(Settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.validItemNames[i].Contains(settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByItemName == Storage.isTrueString)
+                    if (settings.toggleSearchByItemName == Storage.isTrueString)
                     {
                         if (!Storage.resultItemGuids.Contains(stringGuid))
                         {
@@ -867,9 +884,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.validItemDescriptions[i].Contains(Settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.validItemDescriptions[i].Contains(settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByItemDescription == Storage.isTrueString)
+                    if (settings.toggleSearchByItemDescription == Storage.isTrueString)
                     {
                         if (!Storage.resultItemGuids.Contains(stringGuid))
                         {
@@ -878,9 +895,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.validItemFlavorTexts[i].Contains(Settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.validItemFlavorTexts[i].Contains(settings.itemSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByItemFlavorText == Storage.isTrueString)
+                    if (settings.toggleSearchByItemFlavorText == Storage.isTrueString)
                     {
                         if (!Storage.resultItemGuids.Contains(stringGuid))
                         {
@@ -942,8 +959,8 @@ namespace BagOfTricks
             Storage.buffResultGuids.Clear();
             Storage.buffResultDescriptions.Clear();
 
-            if (string.IsNullOrEmpty(Settings.buffSearch)) return;
-            Storage.currentBuffSearch = Settings.buffSearch;
+            if (string.IsNullOrEmpty(settings.buffSearch)) return;
+            Storage.currentBuffSearch = settings.buffSearch;
             Storage.blueprintList = ResourcesLibrary.LibraryObject.GetAllBlueprints();
 
             foreach (var bso in Storage.blueprintList)
@@ -963,9 +980,9 @@ namespace BagOfTricks
                 var stringBuffName = Storage.buffValidNames[i];
                 var stringBuffObjectNames = Storage.buffValidObjectNames[i];
                 var stringBuffGuid = Storage.buffValidGuids[i];
-                if (Storage.buffValidObjectNames[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.buffValidObjectNames[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByBuffObjectName == Storage.isTrueString)
+                    if (settings.toggleSearchByBuffObjectName == Storage.isTrueString)
                     {
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
@@ -977,9 +994,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.buffValidNames[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.buffValidNames[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByBuffName == Storage.isTrueString)
+                    if (settings.toggleSearchByBuffName == Storage.isTrueString)
                     {
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
@@ -991,9 +1008,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.buffValidDescriptions[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.buffValidDescriptions[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByBuffDescription == Storage.isTrueString)
+                    if (settings.toggleSearchByBuffDescription == Storage.isTrueString)
                     {
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
@@ -1005,9 +1022,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.buffValidComponents[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.buffValidComponents[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByBuffComponents == Storage.isTrueString)
+                    if (settings.toggleSearchByBuffComponents == Storage.isTrueString)
                     {
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
@@ -1080,9 +1097,9 @@ namespace BagOfTricks
             Storage.buffResultGuids.Clear();
             Storage.buffResultDescriptions.Clear();
 
-            if (Settings.buffSearch != "")
+            if (settings.buffSearch != "")
             {
-                Storage.currentBuffSearch = Settings.buffSearch;
+                Storage.currentBuffSearch = settings.buffSearch;
                 Storage.blueprintList = ResourcesLibrary.LibraryObject.GetAllBlueprints();
                 for (var i = 0; i < Storage.blueprintList.Count; i++)
                 {
@@ -1111,9 +1128,9 @@ namespace BagOfTricks
                     var stringBuffName = Storage.buffValidNames[i];
                     var stringBuffObjectNames = Storage.buffValidObjectNames[i];
                     var stringBuffGuid = Storage.buffValidGuids[i];
-                    if (Storage.buffValidObjectNames[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                    if (Storage.buffValidObjectNames[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (Settings.toggleSearchByBuffObjectName == Storage.isTrueString)
+                        if (settings.toggleSearchByBuffObjectName == Storage.isTrueString)
                         {
                             if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                             {
@@ -1132,9 +1149,9 @@ namespace BagOfTricks
                             }
                         }
                     }
-                    if (Storage.buffValidNames[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                    if (Storage.buffValidNames[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (Settings.toggleSearchByBuffName == Storage.isTrueString)
+                        if (settings.toggleSearchByBuffName == Storage.isTrueString)
                         {
                             if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                             {
@@ -1156,9 +1173,9 @@ namespace BagOfTricks
                             }
                         }
                     }
-                    if (Storage.buffValidDescriptions[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                    if (Storage.buffValidDescriptions[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (Settings.toggleSearchByBuffDescription == Storage.isTrueString)
+                        if (settings.toggleSearchByBuffDescription == Storage.isTrueString)
                         {
                             if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                             {
@@ -1180,9 +1197,9 @@ namespace BagOfTricks
                             }
                         }
                     }
-                    if (Storage.buffValidComponents[i].Contains(Settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
+                    if (Storage.buffValidComponents[i].Contains(settings.buffSearch, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (Settings.toggleSearchByBuffComponents == Storage.isTrueString)
+                        if (settings.toggleSearchByBuffComponents == Storage.isTrueString)
                         {
                             if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                             {
@@ -1213,10 +1230,9 @@ namespace BagOfTricks
         {
             Storage.encounterError = "";
 
-
             var state = Game.Instance.Player.GlobalMap;
-            var settings = Game.Instance.BlueprintRoot.RE;
-            state.NextEncounterRollMiles = state.MilesTravelled + settings.SafeMilesAfterEncounter;
+            var re = Game.Instance.BlueprintRoot.RE;
+            state.NextEncounterRollMiles = state.MilesTravelled + re.SafeMilesAfterEncounter;
             var randomEncounterData = new RandomEncounterData(blueprint, position)
             {
                 CR = cr
@@ -1225,7 +1241,7 @@ namespace BagOfTricks
                 randomEncounterData.AvoidanceCheckResult = RandomEncounterAvoidanceCheckResult.Fail;
             if (blueprint.AvoidType == EncounterAvoidType.SkillCheck)
             {
-                switch (Settings.forcedEncounterSelectedAvoidance)
+                switch (Main.settings.forcedEncounterSelectedAvoidance)
                 {
                     case 0:
                         var rule = Rulebook.Trigger<RulePartySkillCheck>(new RulePartySkillCheck(blueprint.AvoidSkill, blueprint.AvoidDC));
@@ -1235,7 +1251,7 @@ namespace BagOfTricks
                         }
                         else
                         {
-                            randomEncounterData.AvoidanceCheckResult = rule.DifficultyClass - rule.RollResult < settings.RandomEncounterAvoidanceFailMargin ? RandomEncounterAvoidanceCheckResult.Fail : RandomEncounterAvoidanceCheckResult.CriticalFail;
+                            randomEncounterData.AvoidanceCheckResult = rule.DifficultyClass - rule.RollResult < re.RandomEncounterAvoidanceFailMargin ? RandomEncounterAvoidanceCheckResult.Fail : RandomEncounterAvoidanceCheckResult.CriticalFail;
                         }
                         break;
                     case 1:
@@ -1256,7 +1272,7 @@ namespace BagOfTricks
                 if (!randomEncounterData.SpawnersGroups.All<SpawnersGroupData>((Func<SpawnersGroupData, bool>)(g => g.Spawners.All<RandomSpawnerData>((Func<RandomSpawnerData, bool>)(s => (bool)((UnityEngine.Object)s.Unit))))))
                 {
                     var errorCantStartEncounter = $"Can't start encounter: {blueprint} CR {cr} -  try a different CR.";
-                    ModLogger.Log(errorCantStartEncounter);
+                    modLogger.Log(errorCantStartEncounter);
                     Storage.encounterError = errorCantStartEncounter;
                     return;
                 }
@@ -1336,36 +1352,36 @@ namespace BagOfTricks
 
         static void LogModInfoLoad()
         {
-            ModLogger.Log("Current Culture: " + CultureInfo.CurrentCulture.ToString());
-            ModLogger.Log("Game Version: " + GameVersion.GetVersion());
-            ModLogger.Log($"Game Version (Mod): {Storage.gamerVersionAtCreation}");
-            ModLogger.Log($"Mod Version: {new ModEntryCheck("BagOfTricks").Version()}");
-            ModLogger.Log($"Mod Version (Settings.xml): {Settings.modVersion}");
-            ModLogger.Log("Mod Assembly Name: " + Storage.modAssemblyName);
-            ModLogger.Log("Mod Assembly MD5: " + ModMd5(Storage.modEntryPath + "\\" + Storage.modAssemblyName));
-            ModLogger.Log("ItemSets Folder: " + Storage.modEntryPath + Storage.itemSetsFolder);
-            ModLogger.Log("Favourites Folder: " + Storage.modEntryPath + Storage.favouritesFolder);
-            ModLogger.Log("Characters Folder: " + Storage.modEntryPath + Storage.charactersImportFolder);
-            ModLogger.Log("Tax Collector Folder: " + Storage.modEntryPath + Storage.taxCollectorFolder);
-            ModLogger.Log("Modified Blueprints Folder: " + Storage.modEntryPath + Storage.modifiedBlueprintsFolder);
-            ModLogger.Log("ScaleXP Installed: " + ScaleXp.IsInstalled());
-            ModLogger.Log("CraftMagicItems Installed: " + CraftMagicItems.IsInstalled());
-            ModLogger.Log("AdvancedMartialArts Installed: " + advancedMartialArts.IsInstalled());
-            ModLogger.Log("CallOfTheWild Installed: " + callOfTheWild.IsInstalled());
-            ModLogger.Log("EldritchArcana Installed: " + eldritchArcana.IsInstalled());
-            ModLogger.Log("Localisation Folder: " + Storage.modEntryPath + Storage.localisationFolder);
+            modLogger.Log("Current Culture: " + CultureInfo.CurrentCulture.ToString());
+            modLogger.Log("Game Version: " + GameVersion.GetVersion());
+            modLogger.Log($"Game Version (Mod): {Storage.gamerVersionAtCreation}");
+            modLogger.Log($"Mod Version: {new ModEntryCheck("BagOfTricks").Version()}");
+            modLogger.Log($"Mod Version (Settings.xml): {settings.modVersion}");
+            modLogger.Log("Mod Assembly Name: " + Storage.modAssemblyName);
+            modLogger.Log("Mod Assembly MD5: " + ModMd5(Storage.modEntryPath + "\\" + Storage.modAssemblyName));
+            modLogger.Log("ItemSets Folder: " + Storage.modEntryPath + Storage.itemSetsFolder);
+            modLogger.Log("Favourites Folder: " + Storage.modEntryPath + Storage.favouritesFolder);
+            modLogger.Log("Characters Folder: " + Storage.modEntryPath + Storage.charactersImportFolder);
+            modLogger.Log("Tax Collector Folder: " + Storage.modEntryPath + Storage.taxCollectorFolder);
+            modLogger.Log("Modified Blueprints Folder: " + Storage.modEntryPath + Storage.modifiedBlueprintsFolder);
+            modLogger.Log("ScaleXP Installed: " + scaleXp.IsInstalled());
+            modLogger.Log("CraftMagicItems Installed: " + craftMagicItems.IsInstalled());
+            modLogger.Log("AdvancedMartialArts Installed: " + advancedMartialArts.IsInstalled());
+            modLogger.Log("CallOfTheWild Installed: " + callOfTheWild.IsInstalled());
+            modLogger.Log("EldritchArcana Installed: " + eldritchArcana.IsInstalled());
+            modLogger.Log("Localisation Folder: " + Storage.modEntryPath + Storage.localisationFolder);
 
 
-            foreach (var s in Storage.localisationsXML)
+            foreach (var s in Storage.localisationsXml)
             {
-                ModLogger.Log("Localisations: " + s);
+                modLogger.Log("Localisations: " + s);
             }
 
-            ModLogger.Log("AssetBundles Folder: " + Storage.modEntryPath + Storage.assetBundlesFolder);
+            modLogger.Log("AssetBundles Folder: " + Storage.modEntryPath + Storage.assetBundlesFolder);
 
             foreach (var s in Storage.flagsBundle.GetAllAssetNames())
             {
-                ModLogger.Log("Flag Assets: " + s);
+                modLogger.Log("Flag Assets: " + s);
             }
         }
 
@@ -1383,77 +1399,77 @@ namespace BagOfTricks
 
         public static void CheckRandomEncounterSettings()
         {
-            if (Settings.toggleRandomEncountersEnabled == Storage.isFalseString)
+            if (settings.toggleRandomEncountersEnabled == Storage.isFalseString)
             {
                 Game.Instance.BlueprintRoot.RE.EncountersEnabled = false;
             }
-            if (Settings.toggleRandomEncountersEnabled == Storage.isTrueString)
+            if (settings.toggleRandomEncountersEnabled == Storage.isTrueString)
             {
                 Game.Instance.BlueprintRoot.RE.EncountersEnabled = true;
             }
-            if (Settings.randomEncounterChanceOnGlobalMap != Defaults.randomEncounterChanceOnGlobalMap)
+            if (settings.randomEncounterChanceOnGlobalMap != Defaults.randomEncounterChanceOnGlobalMap)
             {
-                Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap = Settings.randomEncounterChanceOnGlobalMap;
+                Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap = settings.randomEncounterChanceOnGlobalMap;
             }
-            if (Settings.randomEncounterChanceOnCamp != Defaults.randomEncounterChanceOnCamp)
+            if (settings.randomEncounterChanceOnCamp != Defaults.randomEncounterChanceOnCamp)
             {
-                Game.Instance.BlueprintRoot.RE.ChanceOnCamp = Settings.randomEncounterChanceOnCamp;
+                Game.Instance.BlueprintRoot.RE.ChanceOnCamp = settings.randomEncounterChanceOnCamp;
             }
-            if (Settings.randomEncounterChanceOnCampSecondTime != Defaults.randomEncounterChanceOnCampSecondTime)
+            if (settings.randomEncounterChanceOnCampSecondTime != Defaults.randomEncounterChanceOnCampSecondTime)
             {
-                Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime = Settings.randomEncounterChanceOnCampSecondTime;
+                Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime = settings.randomEncounterChanceOnCampSecondTime;
             }
-            if (Settings.randomEncounterHardEncounterChance != Defaults.randomEncounterHardEncounterChance)
+            if (settings.randomEncounterHardEncounterChance != Defaults.randomEncounterHardEncounterChance)
             {
-                Game.Instance.BlueprintRoot.RE.HardEncounterChance = Settings.randomEncounterHardEncounterChance;
+                Game.Instance.BlueprintRoot.RE.HardEncounterChance = settings.randomEncounterHardEncounterChance;
             }
-            if (Settings.randomEncounterHardEncounterMaxChance != Defaults.randomEncounterHardEncounterMaxChance)
+            if (settings.randomEncounterHardEncounterMaxChance != Defaults.randomEncounterHardEncounterMaxChance)
             {
-                Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance = Settings.randomEncounterHardEncounterMaxChance;
+                Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance = settings.randomEncounterHardEncounterMaxChance;
             }
-            if (Settings.randomEncounterHardEncounterChanceIncrease != Defaults.randomEncounterHardEncounterChanceIncrease)
+            if (settings.randomEncounterHardEncounterChanceIncrease != Defaults.randomEncounterHardEncounterChanceIncrease)
             {
-                Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease = Settings.randomEncounterHardEncounterChanceIncrease;
+                Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease = settings.randomEncounterHardEncounterChanceIncrease;
             }
-            if (Settings.randomEncounterStalkerAmbushChance != Defaults.randomEncounterStalkerAmbushChance)
+            if (settings.randomEncounterStalkerAmbushChance != Defaults.randomEncounterStalkerAmbushChance)
             {
-                Game.Instance.BlueprintRoot.RE.StalkerAmbushChance = Settings.randomEncounterStalkerAmbushChance;
+                Game.Instance.BlueprintRoot.RE.StalkerAmbushChance = settings.randomEncounterStalkerAmbushChance;
             }
-            if (Settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
+            if (settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
             {
-                Game.Instance.BlueprintRoot.RE.RollMiles = Settings.randomEncounterRollMiles;
+                Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
             }
-            if (Settings.randomEncounterSafeMilesAfterEncounter != Defaults.randomEncounterSafeMilesAfterEncounter)
+            if (settings.randomEncounterSafeMilesAfterEncounter != Defaults.randomEncounterSafeMilesAfterEncounter)
             {
-                Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter = Settings.randomEncounterSafeMilesAfterEncounter;
+                Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter = settings.randomEncounterSafeMilesAfterEncounter;
             }
-            if (Settings.randomEncounterDefaultSafeZoneSize != Defaults.randomEncounterDefaultSafeZoneSize)
+            if (settings.randomEncounterDefaultSafeZoneSize != Defaults.randomEncounterDefaultSafeZoneSize)
             {
-                Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize = Settings.randomEncounterDefaultSafeZoneSize;
+                Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize = settings.randomEncounterDefaultSafeZoneSize;
             }
-            if (Settings.randomEncounterEncounterPawnOffset != Defaults.randomEncounterEncounterPawnOffset)
+            if (settings.randomEncounterEncounterPawnOffset != Defaults.randomEncounterEncounterPawnOffset)
             {
-                Game.Instance.BlueprintRoot.RE.EncounterPawnOffset = Settings.randomEncounterEncounterPawnOffset;
+                Game.Instance.BlueprintRoot.RE.EncounterPawnOffset = settings.randomEncounterEncounterPawnOffset;
             }
-            if (Settings.randomEncounterEncounterPawnDistanceFromLocation != Defaults.randomEncounterEncounterPawnDistanceFromLocation)
+            if (settings.randomEncounterEncounterPawnDistanceFromLocation != Defaults.randomEncounterEncounterPawnDistanceFromLocation)
             {
-                Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation = Settings.randomEncounterEncounterPawnDistanceFromLocation;
+                Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation = settings.randomEncounterEncounterPawnDistanceFromLocation;
             }
-            if (Settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
+            if (settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
             {
-                Game.Instance.BlueprintRoot.RE.RollMiles = Settings.randomEncounterRollMiles;
+                Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
             }
-            if (Settings.randomEncounterEncounterMinBonusCR != Defaults.randomEncounterEncounterMinBonusCR)
+            if (settings.randomEncounterEncounterMinBonusCr != Defaults.randomEncounterEncounterMinBonusCr)
             {
-                Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = Settings.randomEncounterEncounterMinBonusCR;
+                Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = settings.randomEncounterEncounterMinBonusCr;
             }
-            if (Settings.randomEncounterEncounterMaxBonusCR != Defaults.randomEncounterEncounterMaxBonusCR)
+            if (settings.randomEncounterEncounterMaxBonusCr != Defaults.randomEncounterEncounterMaxBonusCr)
             {
-                Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = Settings.randomEncounterEncounterMaxBonusCR;
+                Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = settings.randomEncounterEncounterMaxBonusCr;
             }
-            if (Settings.randomEncounterHardEncounterBonusCR != Defaults.randomEncounterHardEncounterBonusCR)
+            if (settings.randomEncounterHardEncounterBonusCr != Defaults.randomEncounterHardEncounterBonusCr)
             {
-                Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = Settings.randomEncounterHardEncounterBonusCR;
+                Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = settings.randomEncounterHardEncounterBonusCr;
             }
         }
 
@@ -1482,10 +1498,10 @@ namespace BagOfTricks
                 }
                 catch (Exception e)
                 {
-                    ModLogger.Log(e.ToString());
-                    ModLogger.Log("associatedTask: " + associatedTask.ToString());
-                    ModLogger.Log("instance.FullName: " + instance.FullName);
-                    ModLogger.Log("instance.EventBlueprint.AssetGuid: " + instance.EventBlueprint.AssetGuid);
+                    modLogger.Log(e.ToString());
+                    modLogger.Log("associatedTask: " + associatedTask.ToString());
+                    modLogger.Log("instance.FullName: " + instance.FullName);
+                    modLogger.Log("instance.EventBlueprint.AssetGuid: " + instance.EventBlueprint.AssetGuid);
                 }
             }
             var autoResolveType = instance.EventBlueprint.AutoResolveResult;
@@ -1596,8 +1612,8 @@ namespace BagOfTricks
             Storage.featResultGuids.Clear();
             Storage.featResultDescriptions.Clear();
 
-            if (string.IsNullOrEmpty(Settings.featSearch)) return;
-            Storage.currentFeatSearch = Settings.featSearch;
+            if (string.IsNullOrEmpty(settings.featSearch)) return;
+            Storage.currentFeatSearch = settings.featSearch;
             Storage.blueprintList = ResourcesLibrary.LibraryObject.GetAllBlueprints();
 
             foreach (var bso in Storage.blueprintList)
@@ -1617,9 +1633,9 @@ namespace BagOfTricks
                 var stringFeatName = Storage.featValidNames[i];
                 var stringFeatObjectNames = Storage.featValidObjectNames[i];
                 var stringFeatGuid = Storage.featValidGuids[i];
-                if (Storage.featValidObjectNames[i].Contains(Settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.featValidObjectNames[i].Contains(settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByFeatObjectName == Storage.isTrueString)
+                    if (settings.toggleSearchByFeatObjectName == Storage.isTrueString)
                     {
                         if (!Storage.featResultGuids.Contains(stringFeatGuid))
                         {
@@ -1631,9 +1647,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.featValidNames[i].Contains(Settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.featValidNames[i].Contains(settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByFeatName == Storage.isTrueString)
+                    if (settings.toggleSearchByFeatName == Storage.isTrueString)
                     {
                         if (!Storage.featResultGuids.Contains(stringFeatGuid))
                         {
@@ -1645,9 +1661,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.featValidDescriptions[i].Contains(Settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.featValidDescriptions[i].Contains(settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByFeatDescription == Storage.isTrueString)
+                    if (settings.toggleSearchByFeatDescription == Storage.isTrueString)
                     {
                         if (!Storage.featResultGuids.Contains(stringFeatGuid))
                         {
@@ -1683,21 +1699,21 @@ namespace BagOfTricks
         public static void SortLocalisationsAndFlags(bool setSelection = false)
         {
             Storage.localeGrid.Clear();
-            for (var i = 0; i < Storage.localisationsXMLFiles.Count; i++)
+            for (var i = 0; i < Storage.localisationsXmlFiles.Count; i++)
             {
                 var locale = "";
 
-                if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + Storage.localisationsXMLFiles[i] + ".xml"))
+                if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + Storage.localisationsXmlFiles[i] + ".xml"))
                 {
                     try
                     {
                         var xmlDoc = new XmlDocument();
-                        xmlDoc.Load(Storage.modEntryPath + Storage.localisationFolder + "\\" + Storage.localisationsXMLFiles[i] + ".xml");
+                        xmlDoc.Load(Storage.modEntryPath + Storage.localisationFolder + "\\" + Storage.localisationsXmlFiles[i] + ".xml");
                         locale = (xmlDoc.SelectSingleNode("resources/Localisation/@value").Value);
                     }
                     catch (Exception e)
                     {
-                        ModLogger.Log(e.ToString());
+                        modLogger.Log(e.ToString());
                     }
                 }
                 try
@@ -1705,39 +1721,39 @@ namespace BagOfTricks
                     switch (locale)
                     {
                         case "deDE":
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("deDE")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("deDE")));
                             break;
                         case "enGB":
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("enGB")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("enGB")));
                             break;
                         case "esES":
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("esES")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("esES")));
                             break;
                         case "frFR":
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("frFR")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("frFR")));
                             break;
                         case "itIT":
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("itIT")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("itIT")));
                             break;
                         case "ruRU":
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("ruRU")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("ruRU")));
                             break;
                         case "zhCN":
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("zhCN")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("zhCN")));
                             break;
                         default:
-                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXMLFiles[i], (Texture)Storage.flagsBundle.LoadAsset("empty")));
+                            Storage.localeGrid.Add(new GUIContent(" " + Storage.localisationsXmlFiles[i], (Texture)Storage.flagsBundle.LoadAsset("empty")));
                             break;
                     }
                 }
                 catch (Exception e)
                 {
 
-                    ModLogger.Log(e.ToString());
+                    modLogger.Log(e.ToString());
                 }
                 if (setSelection && String.Equals(LocalizationManager.CurrentLocale.ToString(), locale, StringComparison.OrdinalIgnoreCase))
                 {
-                    Settings.selectedLocalisation = i;
+                    settings.selectedLocalisation = i;
                 }
             }
         }
@@ -1815,7 +1831,7 @@ namespace BagOfTricks
                 var bcc = ResourcesLibrary.GetBlueprints<BlueprintCharacterClass>();
                 foreach (var b in bcc)
                 {
-                    if (b.AssetGuid == "42a455d9ec1ad924d889272429eb8391" && !Common.DLCTieflings())
+                    if (b.AssetGuid == "42a455d9ec1ad924d889272429eb8391" && !Common.DlcTieflings())
                     {
 
                     }
@@ -1967,8 +1983,8 @@ namespace BagOfTricks
             Storage.abilityResultDescriptions.Clear();
             Storage.abilityResultTypes.Clear();
 
-            if (string.IsNullOrEmpty(Settings.abilitySearch)) return;
-            Storage.currentAbilitySearch = Settings.abilitySearch;
+            if (string.IsNullOrEmpty(settings.abilitySearch)) return;
+            Storage.currentAbilitySearch = settings.abilitySearch;
             Storage.blueprintList = ResourcesLibrary.LibraryObject.GetAllBlueprints();
             foreach (var bso in Storage.blueprintList)
             {
@@ -1987,9 +2003,9 @@ namespace BagOfTricks
                 var stringAblilityName = Storage.abilityValidNames[i];
                 var stringAbilityObjectNames = Storage.abilityValidObjectNames[i];
                 var stringAbilityGuid = Storage.abilityValidGuids[i];
-                if (Storage.abilityValidObjectNames[i].Contains(Settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.abilityValidObjectNames[i].Contains(settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByAbilityObjectName == Storage.isTrueString)
+                    if (settings.toggleSearchByAbilityObjectName == Storage.isTrueString)
                     {
                         if (!Storage.abilityResultGuids.Contains(stringAbilityGuid))
                         {
@@ -2002,9 +2018,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.abilityValidNames[i].Contains(Settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.abilityValidNames[i].Contains(settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByAbilityName == Storage.isTrueString)
+                    if (settings.toggleSearchByAbilityName == Storage.isTrueString)
                     {
                         if (!Storage.abilityResultGuids.Contains(stringAbilityGuid))
                         {
@@ -2017,9 +2033,9 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Storage.abilityValidDescriptions[i].Contains(Settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
+                if (Storage.abilityValidDescriptions[i].Contains(settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (Settings.toggleSearchByAbilityDescription == Storage.isTrueString)
+                    if (settings.toggleSearchByAbilityDescription == Storage.isTrueString)
                     {
                         if (!Storage.abilityResultGuids.Contains(stringAbilityGuid))
                         {
@@ -2042,7 +2058,7 @@ namespace BagOfTricks
 
         static void OnSaveGui(ModEntry modEntry)
         {
-            Settings.Save(modEntry);
+            settings.Save(modEntry);
         }
     }
 }

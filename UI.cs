@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace BagOfTricks
 {
-    public class BaseUI
+    public class BaseUi
     {
         public GameObject baseGameObject = new GameObject("gameObject");
 
@@ -27,9 +27,9 @@ namespace BagOfTricks
         }
     }
 
-    public class UICanvas : BaseUI
+    public class UiCanvas : BaseUi
     {
-        public UICanvas(string gameObjectName)
+        public UiCanvas(string gameObjectName)
         {
             baseGameObject.name = gameObjectName;
             Object.DontDestroyOnLoad(baseGameObject);
@@ -47,21 +47,21 @@ namespace BagOfTricks
         }
     }
 
-    public class UITMPText : BaseUI
+    public class UitmpText : BaseUi
     {
-        public TextMeshProUGUI textTMP;
+        public TextMeshProUGUI textTmp;
 
-        public UITMPText(GameObject canvasGameObject, string gameObjectName)
+        public UitmpText(GameObject canvasGameObject, string gameObjectName)
         {
             baseGameObject.name = gameObjectName;
             Object.DontDestroyOnLoad(baseGameObject);
             baseGameObject.transform.SetParent(canvasGameObject.transform, false);
 
-            textTMP = baseGameObject.AddComponent<TextMeshProUGUI>();
-            textTMP.text = "";
-            textTMP.richText = true;
-            textTMP.alignment = TextAlignmentOptions.Top;
-            textTMP.outlineColor = Color.black;
+            textTmp = baseGameObject.AddComponent<TextMeshProUGUI>();
+            textTmp.text = "";
+            textTmp.richText = true;
+            textTmp.alignment = TextAlignmentOptions.Top;
+            textTmp.outlineColor = Color.black;
 
             var rectTransform = baseGameObject.GetComponent<RectTransform>();
             rectTransform.position = new Vector3(Screen.width / 2f, Screen.height * 0.95f, 0);
@@ -70,23 +70,23 @@ namespace BagOfTricks
 
         public void Text(string s)
         {
-            textTMP.text = s;
+            textTmp.text = s;
         }
 
         public void Size(int i)
         {
-            textTMP.fontSize = i;
+            textTmp.fontSize = i;
         }
 
         public void OutlineWidth(float f)
         {
-            textTMP.outlineWidth = f;
+            textTmp.outlineWidth = f;
         }
     }
 
-    public class UIPanel : BaseUI
+    public class UiPanel : BaseUi
     {
-        public UIPanel(GameObject canvasGameObject, string gameObjectName)
+        public UiPanel(GameObject canvasGameObject, string gameObjectName)
         {
             baseGameObject.transform.SetParent(canvasGameObject.transform, false);
             baseGameObject.AddComponent<CanvasRenderer>();
@@ -103,7 +103,7 @@ namespace BagOfTricks
         {
             if (!BuildModeUtility.IsDevelopment)
                 UIUtility.SendWarning(string.Format(
-                    $"{Strings.GetText("label_CombatDifficulty")}: {Common.GetDifficulty()} (CR {Common.GetEncounterCR()})"));
+                    $"{Strings.GetText("label_CombatDifficulty")}: {Common.GetDifficulty()} (CR {Common.GetEncounterCr()})"));
         }
 
         public void HandleUnitLeaveCombat(UnitEntityData unit)

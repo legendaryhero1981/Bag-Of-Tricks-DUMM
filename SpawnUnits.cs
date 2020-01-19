@@ -19,8 +19,8 @@ namespace BagOfTricks
     // to-do: move buff, feats, items and abilities over to a similar structure
     public static class SpawnUnits
     {
-        private static Settings settings = Main.Settings;
-        private static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        private static Settings settings = Main.settings;
+        private static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
         private static List<string> unitsFavourites = new List<string>();
         public static List<string> UnitsFavourites { get => unitsFavourites; set => unitsFavourites = value; }
         private static List<string> favouritesGuids = new List<string>();
@@ -73,43 +73,43 @@ namespace BagOfTricks
             FilterBox("button_Filters", ref settings.unitSearchFilters, "label_UnitSearchFiltersInfo");
             StoredUnitsMenu();
 
-            if (!searchResultGUIDs.Any())
+            if (!searchResultGuiDs.Any())
             {
                 MenuTools.SingleLineLabel(Strings.GetText("message_NoResult"));
             }
             else
             {
-                if (searchResultGUIDs.Count > settings.finalResultLimit)
+                if (searchResultGuiDs.Count > settings.finalResultLimit)
                 {
-                    MenuTools.SingleLineLabel($"{searchResultGUIDs.Count} " + Strings.GetText("label_Results"));
+                    MenuTools.SingleLineLabel($"{searchResultGuiDs.Count} " + Strings.GetText("label_Results"));
                     MenuTools.SingleLineLabel(Strings.GetText("label_TooManyResults_0") + $" { settings.finalResultLimit} " + Strings.GetText("label_TooManyResults_1"));
                     GL.Space(10);
                 }
                 else
                 {
-                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_Results") + $" ({searchResultGUIDs.Count()}):"));
-                    for (var i = 0; i < searchResultGUIDs.Count; i++)
+                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_Results") + $" ({searchResultGuiDs.Count()}):"));
+                    for (var i = 0; i < searchResultGuiDs.Count; i++)
                     {
 
                         GL.BeginHorizontal();
                         toggleResultDescription.Add(false);
-                        toggleResultDescription[i] = GL.Toggle(toggleResultDescription[i], $"{Strings.CleanName(searchResultObjectNames[i])} ({searchResultCR[i]})", GL.ExpandWidth(false));
+                        toggleResultDescription[i] = GL.Toggle(toggleResultDescription[i], $"{Strings.CleanName(searchResultObjectNames[i])} ({searchResultCr[i]})", GL.ExpandWidth(false));
 
-                        MenuTools.AddRemoveButtonShiftAdd(ref storedGUIDs, searchResultGUIDs[i], ref refreshStoredGUIDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
-                        MenuTools.AddRemoveButton(ref unitsFavourites, searchResultGUIDs[i], ref favouritesLoad, Storage.favouriteTrueString, Storage.favouriteFalseString);
+                        MenuTools.AddRemoveButtonShiftAdd(ref storedGuiDs, searchResultGuiDs[i], ref refreshStoredGuiDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
+                        MenuTools.AddRemoveButton(ref unitsFavourites, searchResultGuiDs[i], ref favouritesLoad, Storage.favouriteTrueString, Storage.favouriteFalseString);
                         GL.EndHorizontal();
-                        UnitDetails(toggleResultDescription[i], searchResultGUIDs[i]);
+                        UnitDetails(toggleResultDescription[i], searchResultGuiDs[i]);
                     }
 
                     GL.BeginHorizontal();
-                    if (GL.Button(Strings.GetText("label_AddResultsToStoredUnits") + $" ({searchResultGUIDs.Count()})", GL.ExpandWidth(false)))
+                    if (GL.Button(Strings.GetText("label_AddResultsToStoredUnits") + $" ({searchResultGuiDs.Count()})", GL.ExpandWidth(false)))
                     {
-                        foreach (var guid in searchResultGUIDs.Where(guid => !storedGUIDs.Contains(guid)))
+                        foreach (var guid in searchResultGuiDs.Where(guid => !storedGuiDs.Contains(guid)))
                         {
-                            storedGUIDs.Add(guid);
+                            storedGuiDs.Add(guid);
                         }
 
-                        refreshStoredGUIDs = true;
+                        refreshStoredGuiDs = true;
                     }
                     GL.EndHorizontal();
 
@@ -123,7 +123,7 @@ namespace BagOfTricks
                     {
                         filename += "search-results";
                     }
-                    MenuTools.ExportCopyGuidsNamesButtons(searchResultGUIDs.ToArray(), searchResultObjectNames.ToArray(), filename);
+                    MenuTools.ExportCopyGuidsNamesButtons(searchResultGuiDs.ToArray(), searchResultObjectNames.ToArray(), filename);
                 }
             }
             GL.EndVertical();
@@ -230,21 +230,21 @@ namespace BagOfTricks
                             {
                                 for (var amount = 0; amount < int.Parse(splitLine[1]); amount++)
                                 {
-                                    storedGUIDs.Add(splitLine[0]);
-                                    refreshStoredGUIDs = true;
+                                    storedGuiDs.Add(splitLine[0]);
+                                    refreshStoredGuiDs = true;
                                 }                                
 
                             }
                             else if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && splitLine[1] == "")
                             {
-                                storedGUIDs.Add(splitLine[0]);
-                                refreshStoredGUIDs = true;
+                                storedGuiDs.Add(splitLine[0]);
+                                refreshStoredGuiDs = true;
                             }
                         }
                         else if (Utilities.GetBlueprintByGuid<BlueprintUnit>(lines[ii]) != null)
                         {
-                            storedGUIDs.Add(lines[ii]);
-                            refreshStoredGUIDs = true;
+                            storedGuiDs.Add(lines[ii]);
+                            refreshStoredGuiDs = true;
                         }
 
                     }
@@ -391,44 +391,44 @@ namespace BagOfTricks
             }
         }
 
-        private static List<string> storedGUIDs = new List<string>();
-        public static List<string> GetStoredGUIDs { get => storedGUIDs;}
+        private static List<string> storedGuiDs = new List<string>();
+        public static List<string> GetStoredGuiDs { get => storedGuiDs;}
         private static string storedUnitsLabel = "";
-        private static bool refreshStoredGUIDs = true;
+        private static bool refreshStoredGuiDs = true;
         private static string[] unitStateStrings = { Strings.GetText("misc_Friendly"), Strings.GetText("misc_Passive"), Strings.GetText("misc_Hostile") };
         private static SelectionGrid unitStateGrid = new SelectionGrid(unitStateStrings, 3);
 
         private static void StoredUnitsMenu(bool actionKeyMenu = false)
         {
-            if (refreshStoredGUIDs)
+            if (refreshStoredGuiDs)
             {
-                storedUnitsLabel = RichText.Bold(Strings.GetText("label_StoredUnits") + $" ({storedGUIDs.Count()}): ");
-                foreach (var nameCR in storedGUIDs.Select(s => $"{Strings.CleanName(Utilities.GetBlueprintByGuid<BlueprintUnit>(s).name)} ({Utilities.GetBlueprintByGuid<BlueprintUnit>(s).CR})"))
+                storedUnitsLabel = RichText.Bold(Strings.GetText("label_StoredUnits") + $" ({storedGuiDs.Count()}): ");
+                foreach (var nameCr in storedGuiDs.Select(s => $"{Strings.CleanName(Utilities.GetBlueprintByGuid<BlueprintUnit>(s).name)} ({Utilities.GetBlueprintByGuid<BlueprintUnit>(s).CR})"))
                 {
-                    storedUnitsLabel = storedUnitsLabel + nameCR + ", ";
+                    storedUnitsLabel = storedUnitsLabel + nameCr + ", ";
                 }
                 storedUnitsLabel = storedUnitsLabel.TrimEnd(new char[] { ',', ' ' });
-                refreshStoredGUIDs = false;
+                refreshStoredGuiDs = false;
             }
             GL.BeginVertical("box");
             MenuTools.SingleLineLabel(storedUnitsLabel);
-            if (storedGUIDs.Any())
+            if (storedGuiDs.Any())
             {
                 GL.BeginHorizontal();
 
                 if (GL.Button(Strings.GetText("label_ClearStoredUnits"), GL.ExpandWidth(false)))
                 {
-                    storedGUIDs.Clear();
-                    refreshStoredGUIDs = true;
+                    storedGuiDs.Clear();
+                    refreshStoredGuiDs = true;
                 }
                 if (GL.Button(RichText.Bold(Strings.GetText("button_Spawn")), GL.ExpandWidth(false)))
                 {
                     var playerPos = Game.Instance.Player.MainCharacter.Value.Position;
                     var angle = 0f;
-                    foreach (var guid in GetStoredGUIDs)
+                    foreach (var guid in GetStoredGuiDs)
                     {
-                        var posXY = new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle)) * GetStoredGUIDs.Count() * 0.5f;
-                        var finalPos = new Vector3(posXY.x + playerPos.x, playerPos.y, playerPos.z + posXY.y);
+                        var posXy = new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle)) * GetStoredGuiDs.Count() * 0.5f;
+                        var finalPos = new Vector3(posXy.x + playerPos.x, playerPos.y, playerPos.z + posXy.y);
                         UnitSpawner(finalPos, guid);
                         angle++;
                     }
@@ -496,7 +496,7 @@ namespace BagOfTricks
 
         private static bool favouritesLoad = true;                
         private static List<string> favouriteObjectNamesClean = new List<string>();
-        private static List<int> favouriteCR = new List<int>();
+        private static List<int> favouriteCr = new List<int>();
         private static List<bool> toggleFavouriteDescription = new List<bool>();
 
         public static void FavouritesMenu(bool actionKeyMenu = false)
@@ -527,9 +527,9 @@ namespace BagOfTricks
                         GL.BeginHorizontal();
 
                         toggleFavouriteDescription.Add(false);
-                        toggleFavouriteDescription[i] = GL.Toggle(toggleFavouriteDescription[i], $"{favouriteObjectNamesClean[i]} ({favouriteCR[i]})", GL.ExpandWidth(false));
+                        toggleFavouriteDescription[i] = GL.Toggle(toggleFavouriteDescription[i], $"{favouriteObjectNamesClean[i]} ({favouriteCr[i]})", GL.ExpandWidth(false));
 
-                        MenuTools.AddRemoveButtonShiftAdd(ref storedGUIDs, favouritesGuids[i], ref refreshStoredGUIDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
+                        MenuTools.AddRemoveButtonShiftAdd(ref storedGuiDs, favouritesGuids[i], ref refreshStoredGuiDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
 
                         if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false)))
                         {
@@ -545,12 +545,12 @@ namespace BagOfTricks
                     GL.BeginHorizontal();
                     if (GL.Button(Strings.GetText("label_AddFavouritesToStoredUnits") + $" ({favouritesGuids.Count()})", GL.ExpandWidth(false)))
                     {
-                        foreach (var guid in favouritesGuids.Where(guid => !storedGUIDs.Contains(guid)))
+                        foreach (var guid in favouritesGuids.Where(guid => !storedGuiDs.Contains(guid)))
                         {
-                            storedGUIDs.Add(guid);
+                            storedGuiDs.Add(guid);
                         }
 
-                        refreshStoredGUIDs = true;
+                        refreshStoredGuiDs = true;
                     }
                     GL.EndHorizontal();
 
@@ -571,14 +571,14 @@ namespace BagOfTricks
 
             favouritesGuids = unitsFavourites;
             favouriteObjectNamesClean.Clear();
-            favouriteCR.Clear();
+            favouriteCr.Clear();
             toggleFavouriteDescription.Clear();
             for (var i = 0; i < favouritesGuids.Count; i++)
             {
                 var stringUnitObjectName = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).name;
                 favouriteObjectNamesClean.Add(Strings.CleanName(stringUnitObjectName));
-                var intUnitCR = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).CR;
-                favouriteCR.Add(intUnitCR);
+                var intUnitCr = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).CR;
+                favouriteCr.Add(intUnitCr);
             }
         }
 
@@ -596,7 +596,7 @@ namespace BagOfTricks
 
             if (hideFilterButton.GetButtonText == Strings.GetText("misc_Hide"))
             {
-                MenuTools.SingleLineLabelGT(message);
+                MenuTools.SingleLineLabelGt(message);
                 if (filterError)
                 {
                     MenuTools.SingleLineLabel(RichText.BoldRedFormat(Strings.GetText("warning_FilterPatternError1")));
@@ -608,16 +608,16 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        private static List<string> searchResultGUIDs = new List<string>();
+        private static List<string> searchResultGuiDs = new List<string>();
         private static List<string> searchResultObjectNames = new List<string>();
-        private static List<int> searchResultCR = new List<int>();
+        private static List<int> searchResultCr = new List<int>();
 
         private static void SearchValidUnits(string search, string filters)
         {
             filterError = false;
-            searchResultGUIDs.Clear();
+            searchResultGuiDs.Clear();
             searchResultObjectNames.Clear();
-            searchResultCR.Clear();
+            searchResultCr.Clear();
             toggleResultDescription.Clear();
             var blueprintUnits = ResourcesLibrary.GetBlueprints<BlueprintUnit>();
             foreach (var unit in blueprintUnits)
@@ -630,7 +630,7 @@ namespace BagOfTricks
                     {
                         if(unit.name.Contains(search, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (!searchResultGUIDs.Contains(guid))
+                            if (!searchResultGuiDs.Contains(guid))
                             {
                                 AddResult(unit);
                                 unitAdded = true;
@@ -644,7 +644,7 @@ namespace BagOfTricks
                     {
                         if (unit.CharacterName.Contains(search, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (!searchResultGUIDs.Contains(guid))
+                            if (!searchResultGuiDs.Contains(guid))
                             {
                                 AddResult(unit);
                                 unitAdded = true;
@@ -658,7 +658,7 @@ namespace BagOfTricks
                     {
                         if (unit.Type.Name.ToString().Contains(search, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (!searchResultGUIDs.Contains(guid))
+                            if (!searchResultGuiDs.Contains(guid))
                             {
                                 AddResult(unit);
                                 unitAdded = true;
@@ -839,9 +839,9 @@ namespace BagOfTricks
                                     }
                                 }
                             }
-                            else if (int.TryParse(value, out var singleCR))
+                            else if (int.TryParse(value, out var singleCr))
                             {
-                                var check = unit.CR != singleCR;
+                                var check = unit.CR != singleCr;
                                 if (not)
                                 {
                                     check = !check;
@@ -985,17 +985,17 @@ namespace BagOfTricks
 
         private static void AddResult(BlueprintUnit unit)
         {
-            searchResultGUIDs.Add(unit.AssetGuid);
+            searchResultGuiDs.Add(unit.AssetGuid);
             searchResultObjectNames.Add(unit.name ?? "No Object Name!");
-            searchResultCR.Add(unit.CR);
+            searchResultCr.Add(unit.CR);
         }
 
         private static void RemoveResult(BlueprintUnit unit)
         {
-            var i = searchResultGUIDs.IndexOf(unit.AssetGuid);
-            searchResultGUIDs.RemoveAt(i);
+            var i = searchResultGuiDs.IndexOf(unit.AssetGuid);
+            searchResultGuiDs.RemoveAt(i);
             searchResultObjectNames.RemoveAt(i);
-            searchResultCR.RemoveAt(i);
+            searchResultCr.RemoveAt(i);
         }
 
         private static void UnitDetails(bool toggle, string unitGuid)

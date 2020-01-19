@@ -64,8 +64,8 @@ namespace BagOfTricks
 {
     public static class Menu
     {
-        public static Settings settings = Main.Settings;
-        public static UnityModManager.ModEntry.ModLogger modLogger = Main.ModLogger;
+        public static Settings settings = Main.settings;
+        public static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
         public static void SpawnUnitsMenu()
         {
@@ -229,8 +229,8 @@ namespace BagOfTricks
 
                     GL.Space(10);
 
-                    MenuTools.ToggleButton(ref settings.toggleAnimationCloseUMM, "buttonToggle_AnimationCloseUMM",
-                        "tooltip_AnimationCloseUMM", nameof(settings.toggleAnimationCloseUMM));
+                    MenuTools.ToggleButton(ref settings.toggleAnimationCloseUmm, "buttonToggle_AnimationCloseUMM",
+                        "tooltip_AnimationCloseUMM", nameof(settings.toggleAnimationCloseUmm));
 
                     GL.Space(10);
 
@@ -242,7 +242,7 @@ namespace BagOfTricks
                             Storage.animationsPartyMembers[Storage.animationsSelectedControllableCharacterIndex].View
                                 .AnimationManager.Execute(animation);
 
-                            if (Strings.ToBool(settings.toggleAnimationCloseUMM))
+                            if (Strings.ToBool(settings.toggleAnimationCloseUmm))
                                 UnityModManager.UI.Instance.ToggleWindow();
                         }
 
@@ -346,21 +346,21 @@ namespace BagOfTricks
             {
                 passSkillChecksIndividualGrid.Render(ref settings.indexPassSkillChecksIndividual);
 
-                MenuTools.ToggleButton(ref settings.togglePassSkillChecksIndividualDC99,
+                MenuTools.ToggleButton(ref settings.togglePassSkillChecksIndividualDc99,
                     "buttonToggle_PassSkillChecksIndividualDC99", "tooltip_PassSkillChecksIndividualDC99", true);
 
-                for (var i = 0; i < Main.Settings.togglePassSkillChecksIndividualArray.Count(); i++)
+                for (var i = 0; i < Main.settings.togglePassSkillChecksIndividualArray.Count(); i++)
                 {
                     GL.BeginHorizontal();
                     if (GL.Button(
-                        Main.Settings.togglePassSkillChecksIndividualArray[i] + " " +
+                        Main.settings.togglePassSkillChecksIndividualArray[i] + " " +
                         Strings.GetText("misc_AlwaysPass") + " " + Storage.individualSkillsArray[i] + " " +
                         Strings.GetText("misc_Checks"), GL.ExpandWidth(false)))
                     {
-                        if (Main.Settings.togglePassSkillChecksIndividualArray[i] == Storage.isFalseString)
-                            Main.Settings.togglePassSkillChecksIndividualArray[i] = Storage.isTrueString;
-                        else if (Main.Settings.togglePassSkillChecksIndividualArray[i] == Storage.isTrueString)
-                            Main.Settings.togglePassSkillChecksIndividualArray[i] = Storage.isFalseString;
+                        if (Main.settings.togglePassSkillChecksIndividualArray[i] == Storage.isFalseString)
+                            Main.settings.togglePassSkillChecksIndividualArray[i] = Storage.isTrueString;
+                        else if (Main.settings.togglePassSkillChecksIndividualArray[i] == Storage.isTrueString)
+                            Main.settings.togglePassSkillChecksIndividualArray[i] = Storage.isFalseString;
                     }
 
                     GL.EndHorizontal();
@@ -486,7 +486,7 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        private static TextFieldInt AdvanceGameTimeTextField = new TextFieldInt();
+        private static TextFieldInt advanceGameTimeTextField = new TextFieldInt();
 
         public static void AdvanceGameTime()
         {
@@ -495,23 +495,23 @@ namespace BagOfTricks
             GL.Label(RichText.Bold(Strings.GetText("label_AdvanceGameTime")));
             MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(AdvanceGameTime));
             GL.Space(10);
-            AdvanceGameTimeTextField.RenderField();
+            advanceGameTimeTextField.RenderField();
             GL.Space(10);
             GL.BeginHorizontal();
             if (GL.Button(
-                Strings.GetText("button_AdvanceGameTimeBy") + $" {AdvanceGameTimeTextField.finalAmount} " +
+                Strings.GetText("button_AdvanceGameTimeBy") + $" {advanceGameTimeTextField.finalAmount} " +
                 Strings.GetText("misc_Days"), GL.ExpandWidth(false)))
-                Game.Instance.AdvanceGameTime(TimeSpan.FromDays(AdvanceGameTimeTextField.finalAmount));
+                Game.Instance.AdvanceGameTime(TimeSpan.FromDays(advanceGameTimeTextField.finalAmount));
             GL.EndHorizontal();
             GL.EndVertical();
         }
 
-        public static void UIOptions()
+        public static void UiOptions()
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
             GL.Label(RichText.MainCategoryFormat(Strings.GetText("label_UI")));
-            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(UIOptions));
+            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(UiOptions));
 
             MenuTools.ToggleButton(ref settings.toggleShowPetInventory, "buttonToggle_ShowPetInventory",
                 "tooltip_ShowPetInventory", nameof(settings.toggleShowPetInventory));
@@ -624,7 +624,7 @@ namespace BagOfTricks
                 MenuTools.SingleLineLabel(Strings.GetText("headerOption_ChanceWhenCamping") + ": " + Game.Instance.Player.REManager.CampEncounterChance);
                 GL.EndVertical();
                 GL.Space(10);
-                MenuTools.SingleLineLabelGT("label_EncounterChanceInformation", true);
+                MenuTools.SingleLineLabelGt("label_EncounterChanceInformation", true);
 
 
                 GL.BeginHorizontal();
@@ -937,12 +937,12 @@ namespace BagOfTricks
                 if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
                     GL.ExpandWidth(false)))
                 {
-                    settings.randomEncounterEncounterMinBonusCR = settings.randomEncounterSettingIntAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = settings.randomEncounterEncounterMinBonusCR;
+                    settings.randomEncounterEncounterMinBonusCr = settings.randomEncounterSettingIntAmountFinal;
+                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = settings.randomEncounterEncounterMinBonusCr;
                 }
 
                 if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = Defaults.randomEncounterEncounterMinBonusCR;
+                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = Defaults.randomEncounterEncounterMinBonusCr;
                 GL.EndHorizontal();
                 GL.EndVertical();
 
@@ -956,12 +956,12 @@ namespace BagOfTricks
                 if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
                     GL.ExpandWidth(false)))
                 {
-                    settings.randomEncounterEncounterMaxBonusCR = settings.randomEncounterSettingIntAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = settings.randomEncounterEncounterMaxBonusCR;
+                    settings.randomEncounterEncounterMaxBonusCr = settings.randomEncounterSettingIntAmountFinal;
+                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = settings.randomEncounterEncounterMaxBonusCr;
                 }
 
                 if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = Defaults.randomEncounterEncounterMaxBonusCR;
+                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = Defaults.randomEncounterEncounterMaxBonusCr;
                 GL.EndHorizontal();
                 GL.EndVertical();
 
@@ -976,12 +976,12 @@ namespace BagOfTricks
                 if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
                     GL.ExpandWidth(false)))
                 {
-                    settings.randomEncounterHardEncounterBonusCR = settings.randomEncounterSettingIntAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = settings.randomEncounterHardEncounterBonusCR;
+                    settings.randomEncounterHardEncounterBonusCr = settings.randomEncounterSettingIntAmountFinal;
+                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = settings.randomEncounterHardEncounterBonusCr;
                 }
 
                 if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = Defaults.randomEncounterHardEncounterBonusCR;
+                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = Defaults.randomEncounterHardEncounterBonusCr;
                 GL.EndHorizontal();
                 GL.EndVertical();
             }
@@ -1028,18 +1028,18 @@ namespace BagOfTricks
             {
                 passSavingThrowIndividualGrid.Render(ref settings.indexPassSavingThrowIndividuall);
 
-                for (var i = 0; i < Main.Settings.togglePassSavingThrowIndividualArray.Count(); i++)
+                for (var i = 0; i < Main.settings.togglePassSavingThrowIndividualArray.Count(); i++)
                 {
                     GL.BeginHorizontal();
                     if (GL.Button(
-                        Main.Settings.togglePassSavingThrowIndividualArray[i] + " " +
+                        Main.settings.togglePassSavingThrowIndividualArray[i] + " " +
                         Strings.GetText("misc_AlwaysPass") + " " + Storage.individualSavesArray[i] + " " +
                         Strings.GetText("misc_Saves"), GL.ExpandWidth(false)))
                     {
-                        if (Main.Settings.togglePassSavingThrowIndividualArray[i] == Storage.isFalseString)
-                            Main.Settings.togglePassSavingThrowIndividualArray[i] = Storage.isTrueString;
-                        else if (Main.Settings.togglePassSavingThrowIndividualArray[i] == Storage.isTrueString)
-                            Main.Settings.togglePassSavingThrowIndividualArray[i] = Storage.isFalseString;
+                        if (Main.settings.togglePassSavingThrowIndividualArray[i] == Storage.isFalseString)
+                            Main.settings.togglePassSavingThrowIndividualArray[i] = Storage.isTrueString;
+                        else if (Main.settings.togglePassSavingThrowIndividualArray[i] == Storage.isTrueString)
+                            Main.settings.togglePassSavingThrowIndividualArray[i] = Storage.isFalseString;
                     }
 
                     GL.EndHorizontal();
@@ -1051,7 +1051,7 @@ namespace BagOfTricks
 
 
         // to-do: simplify multiplier methods and add unitEntitiySelectionGrid to relevant options
-        public static SelectionGrid BuffDurationMultiplierGrid =
+        public static SelectionGrid buffDurationMultiplierGrid =
             new SelectionGrid(Storage.unitEntityDataSelectionGridArray, 4);
 
         public static void BuffDurationMultiplier()
@@ -1066,7 +1066,7 @@ namespace BagOfTricks
             if (Strings.ToBool(settings.toggleBuffDurationMultiplier))
             {
                 MenuTools.SingleLineLabel(Strings.GetText("label_BuffDurationMultiplier"));
-                BuffDurationMultiplierGrid.Render(ref settings.indexBuffDurationMultiplier);
+                buffDurationMultiplierGrid.Render(ref settings.indexBuffDurationMultiplier);
 
 
                 MenuTools.SettingsValueFloat(ref Storage.buffDurationMultiplierValue,
@@ -1373,7 +1373,7 @@ namespace BagOfTricks
                                     Storage.featToggleFavouriteDescription.Add(false);
                                     Storage.featToggleFavouriteDescription[i] = GL.Toggle(Storage.featToggleFavouriteDescription[i], $"{Storage.featFavouritesNames[i]}", GL.ExpandWidth(false));
 
-                                    if (Main.CraftMagicItems.ModIsActive() && Storage.featFavourites[i].Contains(Storage.craftMagicItemsBlueprintPrefix))
+                                    if (Main.craftMagicItems.ModIsActive() && Storage.featFavourites[i].Contains(Storage.craftMagicItemsBlueprintPrefix))
                                         GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix), GL.ExpandWidth(false));
 
                                     GL.FlexibleSpace();
@@ -1847,7 +1847,7 @@ namespace BagOfTricks
                                         Storage.featToggleResultDescription[i] = GL.Toggle(Storage.featToggleResultDescription[i], Storage.featResultNames[i], GL.ExpandWidth(false));
 
                                     GL.FlexibleSpace();
-                                    if (Main.CraftMagicItems.ModIsActive() && Storage.featResultGuids[i]
+                                    if (Main.craftMagicItems.ModIsActive() && Storage.featResultGuids[i]
                                             .Contains(Storage.craftMagicItemsBlueprintPrefix))
                                         GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix),
                                             GL.ExpandWidth(false));
@@ -2582,7 +2582,7 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        public static void AddXP()
+        public static void AddXp()
         {
             GL.BeginHorizontal();
             settings.experienceAmount = GL.TextField(settings.experienceAmount, 8, GL.Width(100f));
@@ -2782,7 +2782,7 @@ namespace BagOfTricks
 
                 if (Strings.ToBool(settings.toggleExperienceMultiplier))
                 {
-                    if (Main.ScaleXp.ModIsActive())
+                    if (Main.scaleXp.ModIsActive())
                         MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("warning_XPAndScaleXPActive")));
                     GL.Space(10);
                     GL.BeginHorizontal();
@@ -2794,10 +2794,7 @@ namespace BagOfTricks
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
-                    GL.Label(
-                        MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "),
-                        GL.ExpandWidth(false));
-                    settings.useCustomExperienceMultiplier = GL.Toggle(settings.useCustomExperienceMultiplier, new GUIContent("", Strings.GetText("tooltip_CustomMultiplier")), GL.ExpandWidth(false));
+                    settings.useCustomExperienceMultiplier = GL.Toggle(settings.useCustomExperienceMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", " "), GL.ExpandWidth(false));
                     GL.EndHorizontal();
 
                     if (settings.useCustomExperienceMultiplier == true)
@@ -2824,7 +2821,7 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
-                AddXP();
+                AddXp();
             }
 
             GL.EndVertical();
@@ -2934,7 +2931,7 @@ namespace BagOfTricks
                 GL.EndHorizontal();
 
                 GL.BeginHorizontal();
-                settings.useCustomHeavyEncumbranceMultiplier = GL.Toggle(settings.useCustomHeavyEncumbranceMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "), GL.ExpandWidth(false));
+                settings.useCustomHeavyEncumbranceMultiplier = GL.Toggle(settings.useCustomHeavyEncumbranceMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", " "), GL.ExpandWidth(false));
                 GL.EndHorizontal();
 
                 if (settings.useCustomHeavyEncumbranceMultiplier == true)
@@ -2986,7 +2983,7 @@ namespace BagOfTricks
                 GL.EndHorizontal();
 
                 GL.BeginHorizontal();
-                settings.useCustomFatigueHoursModifierMultiplier = GL.Toggle(settings.useCustomFatigueHoursModifierMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "), GL.ExpandWidth(false));
+                settings.useCustomFatigueHoursModifierMultiplier = GL.Toggle(settings.useCustomFatigueHoursModifierMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", " "), GL.ExpandWidth(false));
                 GL.EndHorizontal();
 
                 if (settings.useCustomFatigueHoursModifierMultiplier == true)
@@ -3074,7 +3071,7 @@ namespace BagOfTricks
                 GL.EndHorizontal();
 
                 GL.BeginHorizontal();
-                settings.useCustomMoneyMultiplier = GL.Toggle(settings.useCustomMoneyMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "), GL.ExpandWidth(false));
+                settings.useCustomMoneyMultiplier = GL.Toggle(settings.useCustomMoneyMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", " "), GL.ExpandWidth(false));
                 GL.EndHorizontal();
 
                 if (settings.useCustomMoneyMultiplier == true)
@@ -3227,7 +3224,7 @@ namespace BagOfTricks
         {
             if (settings.settingShowDebugInfo)
             {
-                if (Common.DLCEndless())
+                if (Common.DlcEndless())
                 {
                     GL.BeginVertical("box");
                     GL.BeginHorizontal();
@@ -3990,6 +3987,12 @@ namespace BagOfTricks
             if (Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier))
             {
                 GL.BeginVertical("box");
+
+                GL.BeginHorizontal();
+                MenuTools.ToggleButtonNoGroup(ref settings.toggleEnemyBaseHitPointsMultiplierCampEncounter, "label_EnemyBaseHitPointsMultiplierCampEncounter", "tooltip_EnemyBaseHitPointsMultiplierCampEncounter");
+                MenuTools.ToggleButtonNoGroup(ref settings.toggleEnemyBaseHitPointsMultiplierUnitSpawner, "label_EnemyBaseHitPointsMultiplierUnitSpawner", "tooltip_EnemyBaseHitPointsMultiplierUnitSpawner");
+                GL.EndHorizontal();
+
                 enemyBaseHitPointMultiplier.Render(ref settings.enemyBaseHitPointsMultiplier, ref settings.customEnemyBaseHitPointsMultiplier, ref settings.useCustomEnemyBaseHitPointsMultiplier);
                 GL.EndVertical();
             }
@@ -4076,11 +4079,11 @@ namespace BagOfTricks
                                 Storage.toggleItemFavouriteDescription[i] = GL.Toggle(Storage.toggleItemFavouriteDescription[i], $" {Storage.itemFavouritesNames[i]}", GL.ExpandWidth(false));
                                 GL.FlexibleSpace();
 
-                                if (Main.CraftMagicItems.ModIsActive() && Storage.itemFavourites[i].Contains(Storage.scribeScrollBlueprintPrefix))
+                                if (Main.craftMagicItems.ModIsActive() && Storage.itemFavourites[i].Contains(Storage.scribeScrollBlueprintPrefix))
                                 {
                                     GL.Label(Strings.Parenthesis(Storage.scribeScrollBlueprintPrefix), GL.ExpandWidth(false));
                                 }
-                                else if (Main.CraftMagicItems.ModIsActive() && Storage.itemFavourites[i].Contains(Storage.craftMagicItemsBlueprintPrefix))
+                                else if (Main.craftMagicItems.ModIsActive() && Storage.itemFavourites[i].Contains(Storage.craftMagicItemsBlueprintPrefix))
                                 {
                                     GL.Label(Strings.Parenthesis(Storage.craftMagicItemsBlueprintPrefix), GL.ExpandWidth(false));
                                 }
@@ -4326,7 +4329,7 @@ namespace BagOfTricks
                                     if (Main.ExcludeGuid == Storage.itemMultipleGuid[i])
                                     {
                                         Storage.errorString = Strings.GetText("error_EkunQ2");
-                                        modLogger.Log(Storage.notificationEkunQ2rewardArmor);
+                                        modLogger.Log(Storage.notificationEkunQ2RewardArmor);
                                     }
                                     else
                                         MenuTools.AddSingleItemAmount(Storage.itemMultipleGuid[i], settings.finalItemAmount, settings.addItemIdentified);
@@ -4357,7 +4360,7 @@ namespace BagOfTricks
                                 else
                                 {
                                     Storage.errorString = Strings.GetText("error_EkunQ2");
-                                    modLogger.Log(Storage.notificationEkunQ2rewardArmor);
+                                    modLogger.Log(Storage.notificationEkunQ2RewardArmor);
                                 }
                             }
 
@@ -4401,7 +4404,7 @@ namespace BagOfTricks
                     }
                     GL.EndHorizontal();
 
-                    if (Main.CraftMagicItems.ModIsActive())
+                    if (Main.craftMagicItems.ModIsActive())
                     {
                         MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_CraftMagicItemsSearchItemInfo")));
 
@@ -4820,7 +4823,7 @@ namespace BagOfTricks
                                     GL.Label(Storage.resultItemNames[i]);
                                     GL.Label(Strings.GetText("warning_EkunQ2"));
                                     GL.EndHorizontal();
-                                    modLogger.Log(Storage.notificationEkunQ2rewardArmor);
+                                    modLogger.Log(Storage.notificationEkunQ2RewardArmor);
                                 }
                                 else
                                 {
@@ -6133,8 +6136,8 @@ namespace BagOfTricks
                     "buttonToggle_MostlyUndetectableDuringStealth", "tooltip_MostlyUndetectableDuringStealth",
                     nameof(settings.toggleUndetectableStealth));
 
-                MenuTools.ToggleButton(ref settings.toggleFfAOE, "buttonToggle_NoFriendlyFireAOE",
-                    "tooltip_NoFriendlyFireAOE", nameof(settings.toggleFfAOE));
+                MenuTools.ToggleButton(ref settings.toggleFfAoe, "buttonToggle_NoFriendlyFireAOE",
+                    "tooltip_NoFriendlyFireAOE", nameof(settings.toggleFfAoe));
 
                 MenuTools.ToggleButton(ref settings.toggleFfAny, "buttonToggle_NoFriendlyFireAny",
                     "tooltip_NoFriendlyFireAny", nameof(settings.toggleFfAny));
@@ -6147,7 +6150,7 @@ namespace BagOfTricks
                 Main.ToggleActiveWarning(ref settings.toggleInstantCooldown, ref settings.toggleInstantCooldownMainChar,
                     "buttonToggle_NoCooldown");
 
-                if (Common.DLCTieflings())
+                if (Common.DlcTieflings())
                 {
                     MenuTools.ToggleButton(ref settings.toggleNoBurnKineticist, "buttonToggle_NoBurnKineticist",
                         "tooltip_NoBurnKineticist", nameof(settings.toggleNoBurnKineticist));
@@ -6191,28 +6194,28 @@ namespace BagOfTricks
                     GL.BeginHorizontal();
                     if (GL.Button(
                         MenuTools.TextWithTooltip("buttonToggle_NoTempHPKineticist", "tooltip_NoTempHPKineticist",
-                            $"{settings.toggleNoTempHPKineticist}" + " ", ""), GL.ExpandWidth(false)))
+                            $"{settings.toggleNoTempHpKineticist}" + " ", ""), GL.ExpandWidth(false)))
                     {
-                        if (settings.toggleNoTempHPKineticist == Storage.isFalseString)
+                        if (settings.toggleNoTempHpKineticist == Storage.isFalseString)
                         {
                             Cheats.PatchBurnEffectBuff(0);
-                            settings.toggleNoTempHPKineticist = Storage.isTrueString;
+                            settings.toggleNoTempHpKineticist = Storage.isTrueString;
                         }
-                        else if (settings.toggleNoTempHPKineticist == Storage.isTrueString)
+                        else if (settings.toggleNoTempHpKineticist == Storage.isTrueString)
                         {
                             Cheats.PatchBurnEffectBuff(1);
-                            settings.toggleNoTempHPKineticist = Storage.isFalseString;
+                            settings.toggleNoTempHpKineticist = Storage.isFalseString;
                         }
                     }
 
                     GL.FlexibleSpace();
-                    if (Storage.togglesFavourites.Contains(nameof(settings.toggleNoTempHPKineticist) + "," +
+                    if (Storage.togglesFavourites.Contains(nameof(settings.toggleNoTempHpKineticist) + "," +
                                                            "buttonToggle_NoTempHPKineticist" + "," +
                                                            "tooltip_NoTempHPKineticist"))
                     {
                         if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false)))
                         {
-                            Storage.togglesFavourites.Remove(nameof(settings.toggleNoTempHPKineticist) + "," +
+                            Storage.togglesFavourites.Remove(nameof(settings.toggleNoTempHpKineticist) + "," +
                                                              "buttonToggle_NoTempHPKineticist" + "," +
                                                              "tooltip_NoTempHPKineticist");
                             Storage.togglesFavouritesLoad = true;
@@ -6222,7 +6225,7 @@ namespace BagOfTricks
                     {
                         if (GL.Button(Storage.favouriteFalseString, GL.ExpandWidth(false)))
                         {
-                            Storage.togglesFavourites.Add(nameof(settings.toggleNoTempHPKineticist) + "," +
+                            Storage.togglesFavourites.Add(nameof(settings.toggleNoTempHpKineticist) + "," +
                                                           "buttonToggle_NoTempHPKineticist" + "," +
                                                           "tooltip_NoTempHPKineticist");
                             Storage.togglesFavouritesLoad = true;
@@ -6250,7 +6253,7 @@ namespace BagOfTricks
                 GL.EndHorizontal();
 
                 GL.BeginHorizontal();
-                settings.useCustomspellsPerDayMultiplier = GL.Toggle(settings.useCustomspellsPerDayMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "), GL.ExpandWidth(false));
+                settings.useCustomspellsPerDayMultiplier = GL.Toggle(settings.useCustomspellsPerDayMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", " "), GL.ExpandWidth(false));
                 GL.EndHorizontal();
 
                 if (settings.useCustomspellsPerDayMultiplier == true)
@@ -6303,19 +6306,19 @@ namespace BagOfTricks
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("misc_Close") + ": ", GL.ExpandWidth(false));
                 closeRangeField.RenderFieldNoGroup();
-                closeRangeField.RendeSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeClose);
+                closeRangeField.RenderSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeClose);
                 GL.EndHorizontal();
                 MenuTools.CurrentValue(settings.customSpellAbilityRangeClose);
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("misc_Medium") + ": ", GL.ExpandWidth(false));
                 mediumRangeField.RenderFieldNoGroup();
-                mediumRangeField.RendeSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeMedium);
+                mediumRangeField.RenderSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeMedium);
                 GL.EndHorizontal();
                 MenuTools.CurrentValue(settings.customSpellAbilityRangeMedium);
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("misc_Long") + ": ", GL.ExpandWidth(false));
                 longRangeField.RenderFieldNoGroup();
-                longRangeField.RendeSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeLong);
+                longRangeField.RenderSetButtonNoGroup(Strings.GetText("button_SetTo"), ref settings.customSpellAbilityRangeLong);
                 GL.EndHorizontal();
                 MenuTools.CurrentValue(settings.customSpellAbilityRangeLong);
                 GL.EndVertical();
@@ -6852,11 +6855,7 @@ namespace BagOfTricks
 
                 PassSkillChecksIndividual();
 
-                GL.Space(10);
-
                 PassSavingThrowIndividual();
-
-                GL.Space(10);
 
                 MenuTools.ToggleButton(ref settings.toggleAllHitsAreCritical, "buttonToggle_AllHitsAreCritical",
                     "tooltip_AllHitsAreCritical", nameof(settings.toggleAllHitsAreCritical));
@@ -6897,8 +6896,6 @@ namespace BagOfTricks
                     MenuTools.SetKeyBinding(ref settings.togglePartyAlwaysRoll20Key);
                     GL.EndHorizontal();
                 }
-
-                GL.Space(10);
 
                 MenuTools.ToggleButton(ref settings.toggleEnemiesAlwaysRoll1, "buttonToggle_EnemiesAlwaysRoll1",
                     "tooltip_EnemiesAlwaysRoll1", nameof(settings.toggleEnemiesAlwaysRoll1));
@@ -7060,8 +7057,8 @@ namespace BagOfTricks
                 GL.Label(Strings.GetText("headerOption_CameraScrollSpeed") + ": ", GL.ExpandWidth(false));
                 unsafe
                 {
-                    if (Main.CameraScrollSpeed != null)
-                        *Main.CameraScrollSpeed = GL.HorizontalSlider(*Main.CameraScrollSpeed, 0f, 250f);
+                    if (Main.cameraScrollSpeed != null)
+                        *Main.cameraScrollSpeed = GL.HorizontalSlider(*Main.cameraScrollSpeed, 0f, 250f);
                 }
 
                 GL.EndHorizontal();
@@ -7675,8 +7672,7 @@ namespace BagOfTricks
             GL.EndHorizontal();
 
             GL.BeginHorizontal();
-            GL.Label(MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", "", " "), GL.ExpandWidth(false));
-            settings.useCustomDebugTimeMultiplier = GL.Toggle(settings.useCustomDebugTimeMultiplier, new GUIContent("", Strings.GetText("tooltip_CustomMultiplier")), GL.ExpandWidth(false));
+            settings.useCustomDebugTimeMultiplier = GL.Toggle(settings.useCustomDebugTimeMultiplier, MenuTools.TextWithTooltip("header_UseCustomMultiplier", "tooltip_CustomMultiplier", " "), GL.ExpandWidth(false));
             GL.EndHorizontal();
 
             if (settings.useCustomDebugTimeMultiplier == true)
@@ -7791,7 +7787,7 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showExperimentalCategory = GL.Toggle(settings.showExperimentalCategory, RichText.Bold(" " + Strings.GetText("header_Experimental")), GL.ExpandWidth(false));
+            settings.showExperimentalCategory = GL.Toggle(settings.showExperimentalCategory, RichText.Bold(Strings.GetText("header_Experimental")), GL.ExpandWidth(false));
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(Experimental));
             GL.EndHorizontal();
@@ -7957,7 +7953,7 @@ namespace BagOfTricks
                         {
                             UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
 
-                            List<BlueprintUnit> units = OwlcatRESelector.SelectUnits(10, reUnitTag);
+                            List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
 
                             Game.Instance.EntityCreator.SpawnUnit(units[0], GameHelper.GetPlayerCharacter().Position, new Quaternion(), Game.Instance.Player.CrossSceneState);
                         }
@@ -7966,7 +7962,7 @@ namespace BagOfTricks
                         {
                             UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
 
-                            List<BlueprintUnit> units = OwlcatRESelector.SelectUnits(10, reUnitTag);
+                            List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
 
                             Game.Instance.EntityCreator.SpawnUnit(units[0], GameHelper.GetPlayerCharacter().Position, new Quaternion(), Game.Instance.Player.CrossSceneState);
                         }
@@ -7987,10 +7983,10 @@ namespace BagOfTricks
                         }
                         GL.EndHorizontal();
                         GL.BeginHorizontal();
-                        settings.forcedEncounterCR = GL.TextField(settings.forcedEncounterCR, 10, GL.Width(90f));
-                        settings.forcedEncounterCR = MenuTools.IntTestSettingStage1(settings.forcedEncounterCR);
-                        settings.forcedEncounterFinalCR = MenuTools.IntTestSettingStage2(settings.forcedEncounterCR, settings.forcedEncounterFinalCR);
-                        MenuTools.SingleLineLabel("Current CR: " + settings.forcedEncounterFinalCR);
+                        settings.forcedEncounterCr = GL.TextField(settings.forcedEncounterCr, 10, GL.Width(90f));
+                        settings.forcedEncounterCr = MenuTools.IntTestSettingStage1(settings.forcedEncounterCr);
+                        settings.forcedEncounterFinalCr = MenuTools.IntTestSettingStage2(settings.forcedEncounterCr, settings.forcedEncounterFinalCr);
+                        MenuTools.SingleLineLabel("Current CR: " + settings.forcedEncounterFinalCr);
                         GL.EndHorizontal();
                         GL.BeginHorizontal();
                         GL.Label("Avoidance: ", GL.ExpandWidth(false));
@@ -8029,7 +8025,7 @@ namespace BagOfTricks
                                                 if (bre.name.Contains("Combat"))
                                                 {
                                                     Storage.blueprintRandomCombatEncounterGuids.Add(s);
-                                                    modLogger.Log(settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCR + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
+                                                    modLogger.Log(settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
 
                                                 }
                                             }
@@ -8043,8 +8039,8 @@ namespace BagOfTricks
                                         settings.forcedEncounterGuid = "3ec6e886801cb5c4fb6315163be3e0e1";
                                         break;
                                 }
-                                modLogger.Log("!!!" + settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCR + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
-                                Main.StartEncounter(Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid), settings.forcedEncounterFinalCR, settings.forcedEncounterPostion, forcedEncounterIsHard, forcedEncounterIsCamp);
+                                modLogger.Log("!!!" + settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
+                                Main.StartEncounter(Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid), settings.forcedEncounterFinalCr, settings.forcedEncounterPostion, forcedEncounterIsHard, forcedEncounterIsCamp);
                             }
                             else
                             {
@@ -8103,8 +8099,8 @@ namespace BagOfTricks
             GL.BeginHorizontal();
             if (GL.Button(Strings.GetText("button_StealthDCIncrement"), GL.ExpandWidth(false)))
             {
-                FieldInfo stealthDCIncrement = typeof(GameConsts).GetField("StealthDCIncrement");
-                stealthDCIncrement.SetValue(null, settings.finalGameConstsAmount.Feet());
+                FieldInfo stealthDcIncrement = typeof(GameConsts).GetField("StealthDCIncrement");
+                stealthDcIncrement.SetValue(null, settings.finalGameConstsAmount.Feet());
                 settings.gameConstsMinWeaponRange = settings.finalGameConstsAmount;
             }
             MenuTools.SingleLineLabel(Strings.GetText("label_CurrentStealthDCIncrement") + $": {typeof(GameConsts).GetField("StealthDCIncrement").GetValue(null)}");
@@ -8121,8 +8117,8 @@ namespace BagOfTricks
                 minWeaponRange.SetValue(null, 2.Feet());
                 settings.gameConstsMinWeaponRange = -1;
 
-                FieldInfo stealthDCIncrement = typeof(GameConsts).GetField("StealthDCIncrement");
-                stealthDCIncrement.SetValue(null, 10.Feet());
+                FieldInfo stealthDcIncrement = typeof(GameConsts).GetField("StealthDCIncrement");
+                stealthDcIncrement.SetValue(null, 10.Feet());
                 settings.gameConstsMinWeaponRange = -1;
             }
             GL.EndHorizontal();
@@ -8165,8 +8161,7 @@ namespace BagOfTricks
             }
 
             GL.BeginHorizontal();
-            settings.flyingHeightUseSlider = GL.Toggle(settings.flyingHeightUseSlider, "", GL.ExpandWidth(false));
-            GL.Label(Strings.GetText("headerOption_UseSlider"), GL.ExpandWidth(false));
+            settings.flyingHeightUseSlider = GL.Toggle(settings.flyingHeightUseSlider, MenuTools.TextWithTooltip("headerOption_UseSlider", "", " "), GL.ExpandWidth(false));
 
             Storage.flyingHeightSlider = GL.HorizontalSlider(Storage.flyingHeightSlider, -10f, 100f);
             if (settings.flyingHeightUseSlider)
@@ -8179,7 +8174,7 @@ namespace BagOfTricks
             GL.EndHorizontal();
             GL.BeginHorizontal();
 
-            if (GL.Button(Strings.GetText("button_SetAllTo0"), GL.Width(160f)))
+            if (GL.Button(Strings.GetText("button_SetAllTo0"), GL.ExpandWidth(false)))
             {
                 foreach (UnitEntityData controllableCharacter in partyMembers)
                 {
@@ -8294,7 +8289,7 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showSoundsCategory = GL.Toggle(settings.showSoundsCategory, RichText.Bold(" " + Strings.GetText("header_Sounds")), GL.ExpandWidth(false));
+            settings.showSoundsCategory = GL.Toggle(settings.showSoundsCategory, RichText.Bold(Strings.GetText("header_Sounds")), GL.ExpandWidth(false));
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(PlaySounds));
             GL.EndHorizontal();
@@ -8639,7 +8634,7 @@ namespace BagOfTricks
 
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showLanguageMenu = GL.Toggle(settings.showLanguageMenu, RichText.Bold(" " + Strings.GetText("header_Language")), GL.ExpandWidth(false));
+            settings.showLanguageMenu = GL.Toggle(settings.showLanguageMenu, RichText.Bold(Strings.GetText("header_Language")), GL.ExpandWidth(false));
             GL.EndHorizontal();
             if (settings.showLanguageMenu == true)
             {
@@ -8650,11 +8645,11 @@ namespace BagOfTricks
                 {
                     try
                     {
-                        Storage.localisationsXMLFiles.Clear();
-                        Storage.localisationsXML =
-                            Directory.GetFiles(Storage.modEntryPath + Storage.localisationFolder, "*.xml");
-                        foreach (var s in Storage.localisationsXML)
-                            Storage.localisationsXMLFiles.Add(Path.GetFileNameWithoutExtension(s));
+                        Storage.localisationsXmlFiles.Clear();
+                        Storage.localisationsXml = Directory.GetFiles(Storage.modEntryPath + Storage.localisationFolder, "*.xml");
+
+                        foreach (var s in Storage.localisationsXml)
+                            Storage.localisationsXmlFiles.Add(Path.GetFileNameWithoutExtension(s));
 
                         Main.SortLocalisationsAndFlags();
                     }
@@ -8663,83 +8658,20 @@ namespace BagOfTricks
                         modLogger.Log(exception.ToString());
                     }
 
-                    if (Storage.localisationsXMLFiles.Count - 1 < settings.selectedLocalisation)
+                    if (Storage.localisationsXmlFiles.Count - 1 < settings.selectedLocalisation)
                         settings.selectedLocalisation = 0;
-                    if (Storage.localisationsXMLFiles.Contains(settings.selectedLocalisationName))
-                        settings.selectedLocalisation =
-                            Storage.localisationsXMLFiles.FindIndex(a => a.Contains(settings.selectedLocalisationName));
+                    if (Storage.localisationsXmlFiles.Contains(settings.selectedLocalisationName))
+                        settings.selectedLocalisation = Storage.localisationsXmlFiles.FindIndex(a => a.Contains(settings.selectedLocalisationName));
+
+                    refreshLocalisation();
                 }
 
                 GL.EndHorizontal();
                 GL.Space(10);
                 GL.BeginHorizontal();
-                settings.selectedLocalisation = GL.SelectionGrid(settings.selectedLocalisation,
-                    Storage.localeGrid.ToArray(), 1, GL.ExpandWidth(false));
+                settings.selectedLocalisation = GL.SelectionGrid(settings.selectedLocalisation, Storage.localeGrid.ToArray(), 1, GL.ExpandWidth(false));
                 GL.EndHorizontal();
-                if (settings.selectedLocalisation != Storage.selectedLocalisationOld)
-                {
-                    Storage.selectedLocalisationOld = settings.selectedLocalisation;
-                    settings.selectedLocalisationName =
-                        Path.GetFileNameWithoutExtension(
-                            Storage.localisationsXMLFiles.ToArray()[settings.selectedLocalisation]);
-                    if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" +
-                                    settings.selectedLocalisationName + ".xml"))
-                    {
-                        Strings.temp = Strings.XMLtoDict(settings.selectedLocalisationName);
-                        if (Strings.temp.Count == MenuText.fallback.Count &&
-                            Strings.temp.Keys == MenuText.fallback.Keys)
-                            Strings.current = Strings.temp;
-                        else
-                            Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key)
-                                .ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
-                        Strings.RefreshStrings();
-                        Storage.mainToolbarStrings = new string[]
-                        {
-                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")),
-                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")),
-                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")),
-                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")),
-                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings"))
-                        };
-                        settings.filterButtonText = Strings.GetText("misc_Enable");
-                        settings.currentSceneString = Strings.GetText("misc_Display");
-                        settings.showAllBuffs = Strings.GetText("misc_Display");
-                        settings.showAllFeats = Strings.GetText("misc_Display");
-                        settings.showAllAbilities = Strings.GetText("misc_Display");
-                        if (settings.selectedLocalisation != Storage.selectedLocalisationOld)
-                        {
-                            Storage.selectedLocalisationOld = settings.selectedLocalisation;
-                            settings.selectedLocalisationName =
-                                Path.GetFileNameWithoutExtension(
-                                    Storage.localisationsXMLFiles.ToArray()[settings.selectedLocalisation]);
-                            if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" +
-                                            settings.selectedLocalisationName + ".xml"))
-                            {
-                                Strings.temp = Strings.XMLtoDict(settings.selectedLocalisationName);
-                                if (Strings.temp.Count == MenuText.fallback.Count &&
-                                    Strings.temp.Keys == MenuText.fallback.Keys)
-                                    Strings.current = Strings.temp;
-                                else
-                                    Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key)
-                                        .ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
-                                Strings.RefreshStrings();
-                                Storage.mainToolbarStrings = new string[]
-                                {
-                                    RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")),
-                                    RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")),
-                                    RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")),
-                                    RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")),
-                                    RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings"))
-                                };
-                                settings.filterButtonText = Strings.GetText("misc_Enable");
-                                settings.currentSceneString = Strings.GetText("misc_Display");
-                                settings.showAllBuffs = Strings.GetText("misc_Display");
-                                settings.showAllFeats = Strings.GetText("misc_Display");
-                                settings.showAllAbilities = Strings.GetText("misc_Display");
-                            }
-                        }
-                    }
-                }
+                if (settings.selectedLocalisation != Storage.selectedLocalisationOld) refreshLocalisation();
             }
 
             GL.EndVertical();
@@ -8805,13 +8737,43 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
+        private static void refreshLocalisation()
+        {
+            Storage.selectedLocalisationOld = settings.selectedLocalisation;
+            settings.selectedLocalisationName = Path.GetFileNameWithoutExtension(Storage.localisationsXmlFiles.ToArray()[settings.selectedLocalisation]);
+            if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml"))
+            {
+                Strings.temp = Strings.XmLtoDict(settings.selectedLocalisationName);
+                if (Strings.temp.Count == MenuText.fallback.Count &&
+                    Strings.temp.Keys == MenuText.fallback.Keys)
+                    Strings.current = Strings.temp;
+                else
+                    Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key)
+                        .ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
+                Strings.RefreshStrings();
+                Storage.mainToolbarStrings = new string[]
+                {
+                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")),
+                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")),
+                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")),
+                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")),
+                            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings"))
+                };
+                settings.filterButtonText = Strings.GetText("misc_Enable");
+                settings.currentSceneString = Strings.GetText("misc_Display");
+                settings.showAllBuffs = Strings.GetText("misc_Display");
+                settings.showAllFeats = Strings.GetText("misc_Display");
+                settings.showAllAbilities = Strings.GetText("misc_Display");
+            }
+        }
+
         private static bool showAboutSection = false;
 
         public static void About()
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            showAboutSection = GL.Toggle(showAboutSection, RichText.Bold(" " + Strings.GetText("header_About")), GL.ExpandWidth(false));
+            showAboutSection = GL.Toggle(showAboutSection, RichText.Bold(Strings.GetText("header_About")), GL.ExpandWidth(false));
             GL.EndHorizontal();
             if (showAboutSection)
             {
@@ -8840,7 +8802,7 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showKeyBindingsCategory = GL.Toggle(settings.showKeyBindingsCategory, RichText.Bold(" " + Strings.GetText("mainCategory_KeyBindings")), GL.ExpandWidth(false));
+            settings.showKeyBindingsCategory = GL.Toggle(settings.showKeyBindingsCategory, RichText.Bold(Strings.GetText("mainCategory_KeyBindings")), GL.ExpandWidth(false));
             GL.EndHorizontal();
             if (settings.showKeyBindingsCategory)
             {
@@ -8932,27 +8894,27 @@ namespace BagOfTricks
                 {
                     if (KingdomState.Instance != null)
                     {
-                        if (Main.TaxSettings.initialLaunch)
+                        if (Main.taxSettings.initialLaunch)
                         {
-                            TaxCollector.resultLine_0 = "";
+                            TaxCollector.resultLine0 = "";
                             var textLineInitial = "";
-                            switch (Main.TaxSettings.textLineInitialCounter)
+                            switch (Main.taxSettings.textLineInitialCounter)
                             {
                                 case 0:
                                     if (Game.Instance?.Player?.MainCharacter.Value.Gender == Gender.Male)
-                                        Main.TaxSettings.playerTitle = Strings.GetText("taxCollector_Lord");
+                                        Main.taxSettings.playerTitle = Strings.GetText("taxCollector_Lord");
                                     else if (Game.Instance?.Player?.MainCharacter.Value.Gender == Gender.Female)
-                                        Main.TaxSettings.playerTitle = Strings.GetText("taxCollector_Lady");
+                                        Main.taxSettings.playerTitle = Strings.GetText("taxCollector_Lady");
                                     else
-                                        Main.TaxSettings.playerTitle = Strings.GetText("taxCollector_Excellence");
-                                    if (Main.TaxSettings.playerTitle == Strings.GetText("taxCollector_Excellence"))
+                                        Main.taxSettings.playerTitle = Strings.GetText("taxCollector_Excellence");
+                                    if (Main.taxSettings.playerTitle == Strings.GetText("taxCollector_Excellence"))
                                         textLineInitial =
                                             Strings.GetText("taxCollector_GreetingInitial_0_1") +
-                                            $" {Main.TaxSettings.playerTitle}!";
+                                            $" {Main.taxSettings.playerTitle}!";
                                     else
                                         textLineInitial =
                                             Strings.GetText("taxCollector_GreetingInitial_0_0") +
-                                            $" {Main.TaxSettings.playerTitle}!";
+                                            $" {Main.taxSettings.playerTitle}!";
                                     break;
                                 case 1:
                                     textLineInitial = Strings.GetText("taxCollector_GreetingInitial_1");
@@ -8969,25 +8931,25 @@ namespace BagOfTricks
                             }
 
                             MenuTools.SingleLineLabel(textLineInitial);
-                            switch (Main.TaxSettings.textLineInitialCounter)
+                            switch (Main.taxSettings.textLineInitialCounter)
                             {
                                 case 0:
                                     if (GL.Button(Strings.GetText("misc_Next"), GL.ExpandWidth(false)))
-                                        Main.TaxSettings.textLineInitialCounter++;
+                                        Main.taxSettings.textLineInitialCounter++;
                                     break;
                                 case 1:
                                     if (GL.Button(Strings.GetText("misc_Yes"), GL.ExpandWidth(false)))
-                                        Main.TaxSettings.textLineInitialCounter = 2;
+                                        Main.taxSettings.textLineInitialCounter = 2;
                                     if (GL.Button(Strings.GetText("misc_No"), GL.ExpandWidth(false)))
-                                        Main.TaxSettings.textLineInitialCounter = 3;
+                                        Main.taxSettings.textLineInitialCounter = 3;
                                     break;
                                 case 2:
                                     textLineInitial = Strings.GetText("taxCollector_GreetingInitial_2");
                                     if (GL.Button(Strings.GetText("taxCollector_ButtonAddresseMe") + ": ",
                                         GL.ExpandWidth(false)))
                                     {
-                                        Main.TaxSettings.playerTitle = TaxCollector.playerTitleInput;
-                                        Main.TaxSettings.textLineInitialCounter = 3;
+                                        Main.taxSettings.playerTitle = TaxCollector.playerTitleInput;
+                                        Main.taxSettings.textLineInitialCounter = 3;
                                     }
 
                                     TaxCollector.playerTitleInput = GL.TextField(TaxCollector.playerTitleInput, 100,
@@ -8995,30 +8957,30 @@ namespace BagOfTricks
                                     break;
                                 case 3:
                                     if (GL.Button(Strings.GetText("misc_Next"), GL.ExpandWidth(false)))
-                                        Main.TaxSettings.textLineInitialCounter = 4;
+                                        Main.taxSettings.textLineInitialCounter = 4;
                                     break;
                                 case 4:
                                     break;
                             }
 
-                            Main.TaxSettings.saveTime = DateTime.Now;
+                            Main.taxSettings.saveTime = DateTime.Now;
                             TaxCollector.saveTimeGame = DateTime.Now;
                         }
 
-                        if (Main.TaxSettings.textLineInitialCounter == 4)
+                        if (Main.taxSettings.textLineInitialCounter == 4)
                         {
                             var stats = KingdomState.Instance.Stats;
-                            Main.TaxSettings.initialLaunch = false;
+                            Main.taxSettings.initialLaunch = false;
                             if (TaxCollector.isFirstVisit)
                             {
                                 MenuTools.SingleLineLabel(Strings.GetText("taxCollector_GreetingReturn_0_0") +
-                                                          $" {Main.TaxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
+                                                          $" {Main.taxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
                                 TaxCollector.isFirstVisit = false;
                             }
                             else
                             {
                                 MenuTools.SingleLineLabel(Strings.GetText("taxCollector_GreetingReturn_0_1") +
-                                                          $" {Main.TaxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
+                                                          $" {Main.taxSettings.playerTitle} {Game.Instance.Player.MainCharacter.Value.CharacterName}!");
                             }
 
                             MenuTools.SingleLineLabel(Strings.GetText("taxCollector_GreetingReturn_1_0"));
@@ -9031,38 +8993,38 @@ namespace BagOfTricks
                                         stats[KingdomStats.Type.Stability].Rank, stats[KingdomStats.Type.Loyalty].Rank),
                                     Game.Instance.Player.MainCharacter.Value.Stats.Charisma.ModifiedValue,
                                     TaxCollector.saveTimeGame);
-                                var collectedBP = TaxCollector.CollectBP(
-                                    TaxCollector.BPRank(stats[KingdomStats.Type.Economy].Rank,
+                                var collectedBp = TaxCollector.CollectBp(
+                                    TaxCollector.BpRank(stats[KingdomStats.Type.Economy].Rank,
                                         stats[KingdomStats.Type.Stability].Rank,
                                         stats[KingdomStats.Type.Community].Rank), TaxCollector.saveTimeGame);
 
 
-                                if (collectedMoney >= 1 && collectedBP >= 1)
+                                if (collectedMoney >= 1 && collectedBp >= 1)
                                 {
                                     Game.Instance.Player.GainMoney(collectedMoney);
-                                    TaxCollector.resultLine_0 =
+                                    TaxCollector.resultLine0 =
                                         Strings.GetText("taxCollector_Collected_0_0") + ": + " + collectedMoney + " " +
-                                        Strings.GetText("taxCollector_Money") + ", + " + collectedBP + " " +
+                                        Strings.GetText("taxCollector_Money") + ", + " + collectedBp + " " +
                                         Strings.GetText("taxCollector_BuildPoints");
-                                    KingdomState.Instance.BP = KingdomState.Instance.BP + collectedBP;
+                                    KingdomState.Instance.BP = KingdomState.Instance.BP + collectedBp;
                                     Game.Instance.UI.Common.UISound.Play(UISoundType.LootCollectGold);
                                     Common.AddLogEntry(
                                         Strings.GetText("logMessage_Received") + " " + collectedMoney + " " +
                                         Strings.GetText("taxCollector_Money"), Color.black);
                                     Common.AddLogEntry(
-                                        Strings.GetText("logMessage_Received") + " " + collectedBP + " " +
+                                        Strings.GetText("logMessage_Received") + " " + collectedBp + " " +
                                         Strings.GetText("taxCollector_BuildPoints"), Color.black);
                                 }
-                                else if (collectedMoney < 1 && collectedBP < 1)
+                                else if (collectedMoney < 1 && collectedBp < 1)
                                 {
-                                    TaxCollector.resultLine_0 = Strings.GetText("taxCollector_NothingToCollect_0_0");
+                                    TaxCollector.resultLine0 = Strings.GetText("taxCollector_NothingToCollect_0_0");
                                     Game.Instance.UI.Common.UISound.Play(UISoundType.ErrorEquip);
-                                    Common.AddLogEntry(TaxCollector.resultLine_0, Color.black);
+                                    Common.AddLogEntry(TaxCollector.resultLine0, Color.black);
                                 }
-                                else if (collectedMoney >= 1 && collectedBP < 1)
+                                else if (collectedMoney >= 1 && collectedBp < 1)
                                 {
                                     Game.Instance.Player.GainMoney(collectedMoney);
-                                    TaxCollector.resultLine_0 =
+                                    TaxCollector.resultLine0 =
                                         Strings.GetText("taxCollector_Collected_0_0") + " " + collectedMoney + " " +
                                         Strings.GetText("taxCollector_Money");
                                     Game.Instance.UI.Common.UISound.Play(UISoundType.LootCollectGold);
@@ -9070,28 +9032,28 @@ namespace BagOfTricks
                                         Strings.GetText("logMessage_Received") + " " + collectedMoney + " " +
                                         Strings.GetText("taxCollector_Money"), Color.black);
                                 }
-                                else if (collectedMoney < 1 && collectedBP >= 1)
+                                else if (collectedMoney < 1 && collectedBp >= 1)
                                 {
-                                    KingdomState.Instance.BP = KingdomState.Instance.BP + collectedBP;
-                                    TaxCollector.resultLine_0 =
-                                        Strings.GetText("taxCollector_Collected_0_0") + " " + collectedBP + " " +
+                                    KingdomState.Instance.BP = KingdomState.Instance.BP + collectedBp;
+                                    TaxCollector.resultLine0 =
+                                        Strings.GetText("taxCollector_Collected_0_0") + " " + collectedBp + " " +
                                         Strings.GetText("taxCollector_BuildPoints");
                                     Game.Instance.UI.Common.UISound.Play(UISoundType.LootCollectGold);
                                     Common.AddLogEntry(
-                                        Strings.GetText("logMessage_Received") + " " + collectedBP + " " +
+                                        Strings.GetText("logMessage_Received") + " " + collectedBp + " " +
                                         Strings.GetText("taxCollector_BuildPoints"), Color.black);
                                 }
                                 else
                                 {
-                                    TaxCollector.resultLine_0 = "";
+                                    TaxCollector.resultLine0 = "";
                                 }
 
-                                Main.TaxSettings.saveTime = DateTime.Now;
-                                TaxCollector.saveTimeGame = Main.TaxSettings.saveTime;
+                                Main.taxSettings.saveTime = DateTime.Now;
+                                TaxCollector.saveTimeGame = Main.taxSettings.saveTime;
                             }
 
                             GL.EndHorizontal();
-                            MenuTools.SingleLineLabel(TaxCollector.resultLine_0);
+                            MenuTools.SingleLineLabel(TaxCollector.resultLine0);
                         }
                     }
                     else
@@ -9101,7 +9063,7 @@ namespace BagOfTricks
                 }
                 else
                 {
-                    TaxCollector.resultLine_0 = "";
+                    TaxCollector.resultLine0 = "";
                 }
             }
 
@@ -9189,7 +9151,7 @@ namespace BagOfTricks
 
         public static void Mods()
         {
-            UIOptions();
+            UiOptions();
 
             GL.Space(10);
 
@@ -9236,8 +9198,8 @@ namespace BagOfTricks
             GL.EndHorizontal();
 
             GL.BeginVertical("box");
-            MenuTools.ToggleButton(ref settings.toggleHUDToggle, "buttonToggle_EnableToggleHUD", "tooltip_ToggleHUD");
-            if (Strings.ToBool(settings.toggleHUDToggle))
+            MenuTools.ToggleButton(ref settings.toggleHudToggle, "buttonToggle_EnableToggleHUD", "tooltip_ToggleHUD");
+            if (Strings.ToBool(settings.toggleHudToggle))
             {
                 GL.Space(10);
                 GL.BeginHorizontal();
@@ -9256,6 +9218,45 @@ namespace BagOfTricks
 
             MenuTools.ToggleButton(ref settings.toggleAutomaticallyLoadLastSave, "buttonToggle_AutomaticallyLoadLastSave", "tooltip_AutomaticallyLoadLastSave", nameof(settings.toggleAutomaticallyLoadLastSave));
 
+            GL.Space(10);
+
+            TragetFrameRate();
+
+            GL.Space(10);
+
+            CreateBattleLogFile();
+
+            GL.EndVertical();
+        }
+
+        public static void CreateBattleLogFile()
+        {
+            GL.BeginVertical("box");
+            MenuTools.ToggleButtonActionAtOnFavouritesMenu(ref settings.toggleCreateBattleLogFile, new Action(LoggerUtils.InitBattleLogDefaultLogger), "buttonToggle_CreateBattleLogFile", "tooltip_CreateBattleLogFile");
+            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(CreateBattleLogFile));
+            if (Strings.ToBool(settings.toggleCreateBattleLogFile))
+            {
+                GL.BeginVertical("box");
+                MenuTools.ToggleButtonActionAtOn(ref settings.toggleCreateBattleLogFileLog, new Action(LoggerUtils.InitBattleLogDefaultLogger), "buttonToggle_CreateBattleLogFileLog", "tooltip_CreateBattleLogFileLog");
+                MenuTools.ToggleButtonActionAtOn(ref settings.toggleCreateBattleLogFileHtml, new Action(LoggerUtils.InitBattleLogHtmlLogger), "buttonToggle_CreateBattleLogFileHTML", "tooltip_CreateBattleLogFileHTML");
+                MenuTools.ToggleButtonActionAtOn(ref settings.toggleCreateBattleLogFileBotLog, new Action(LoggerUtils.InitBagOfTrickLogger), "buttonToggle_CreateBattleLogFileBoT", "tooltip_CreateBattleLogFileBoT");
+                GL.EndVertical();
+
+            }
+            GL.EndVertical();
+        }
+
+        private static TextFieldInt targetFrameRateTextField = new TextFieldInt();
+        public static void TragetFrameRate()
+        {
+            GL.BeginVertical("box");
+            MenuTools.ToggleButtonFavouritesMenu(ref settings.toggleSetTargetFrameRate, "buttonToggle_SetTargetFrameRate", "tooltip_SetTargetFrameRate");
+            MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(TragetFrameRate));
+            if (Strings.ToBool(settings.toggleSetTargetFrameRate))
+            {
+                targetFrameRateTextField.Render(Strings.GetText("button_SetTo"), ref settings.targetFrameRate);
+                MenuTools.SingleLineLabel(Strings.GetText("label_CurrentValue") + $": {settings.targetFrameRate}");
+            }
             GL.EndVertical();
         }
 
