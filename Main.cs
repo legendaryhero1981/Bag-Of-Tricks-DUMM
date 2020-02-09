@@ -32,7 +32,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -141,17 +140,21 @@ namespace BagOfTricks
                 SerializeFallback();
             }
 
-            if (Strings.ToBool(settings.toggleActionKeyLogInfo) || (Strings.ToBool(settings.toggleCreateBattleLogFile) && Strings.ToBool(settings.toggleCreateBattleLogFileBotLog))) {
+            if (Strings.ToBool(settings.toggleActionKeyLogInfo) || (Strings.ToBool(settings.toggleCreateBattleLogFile) && Strings.ToBool(settings.toggleCreateBattleLogFileBotLog)))
+            {
                 LoggerUtils.InitBagOfTrickLogger();
             }
 
-            if (Strings.ToBool(settings.toggleCreateBattleLogFile)) {
+            if (Strings.ToBool(settings.toggleCreateBattleLogFile))
+            {
 
-                if (Strings.ToBool(settings.toggleCreateBattleLogFileLog)) {
+                if (Strings.ToBool(settings.toggleCreateBattleLogFileLog))
+                {
                     LoggerUtils.InitBattleLogDefaultLogger();
                 }
 
-                if (Strings.ToBool(settings.toggleCreateBattleLogFileHtml)) {
+                if (Strings.ToBool(settings.toggleCreateBattleLogFileHtml))
+                {
                     LoggerUtils.InitBattleLogHtmlLogger();
                 }
             }
@@ -659,13 +662,19 @@ namespace BagOfTricks
 
         public static List<string> BlueprintsByTypes(string[] validTypes)
         {
-            return ResourcesLibrary.LibraryObject.GetAllBlueprints().Where(e => validTypes.Contains(e.GetType().Name)).Select(e => e.AssetGuid).ToList();
+            return ResourcesLibrary.LibraryObject.GetAllBlueprints().AsParallel().WithMergeOptions(ParallelMergeOptions.FullyBuffered)
+                .Where(e => validTypes.Contains(e.GetType().Name))
+                .Select(e => e.AssetGuid).ToList();
         }
 
         public static void CreateFilteredItemSet(string labelString, string[] types)
         {
             if (!GL.Button(labelString, GL.ExpandWidth(false))) return;
-            ModEntry.OnModActions.Push(m => Parallel.ForEach(BlueprintsByTypes(types).Where(e => ExcludeGuid != e && null != Utilities.GetBlueprintByGuid<BlueprintItem>(e)), e => MenuTools.AddSingleItemAmount(e, 1, settings.addItemIdentified)));
+            ModEntry.OnModActions.Push(m =>
+                BlueprintsByTypes(types).AsParallel().WithMergeOptions(ParallelMergeOptions.FullyBuffered)
+                    .Where(e => ExcludeGuid != e && null != Utilities.GetBlueprintByGuid<BlueprintItem>(e))
+                    .ForEach(item => MenuTools.AddSingleItemAmount(item, 1, settings.addItemIdentified)
+            ));
         }
 
         public static void GetCustomItemSets(string[] files, List<string> previewStrings, List<bool> togglePreview)
