@@ -738,6 +738,7 @@ namespace BagOfTricks
             {"buttonToggle_CreateBattleLogFileLog", "Use Default Log File"},
             {"buttonToggle_CreateBattleLogFileHTML", "Use HTML Log File"},
             {"buttonToggle_CreateBattleLogFileBoT", "Use Bag of Tricks Log File"},
+            {"buttonToggle_RespecCostMultiplier", "Respec Cost Multiplier"},
             //buttonToggle end
 
             //arrayItem start
@@ -976,6 +977,8 @@ namespace BagOfTricks
             //warning end
 
             //tooltip start
+            {"tooltip_RespecCostMultiplier", "Sets a multiplier for the respec cost. Values lesser than one will result in price decrease."},
+
             {
                 "tooltip_BuffDurationMultiplier",
                 "The duration of buffs cast by the selection will be multiplied by the selected value.\nNote that extremely high multipliers might prevent it from being applied to very long running buffs.\nIf that is the case you will be able to see an error in the log (System.OverflowException)."

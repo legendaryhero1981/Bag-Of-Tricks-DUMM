@@ -743,97 +743,64 @@ namespace BagOfTricks
             AddFavouriteButton(methodName, 20);
         }
 
-        public static void SettingsValueFloat(ref string setValue, ref float finalSetValue)
-        {
+        public static void SettingsFieldNoLabel(ref string stringSetting, ref float finalSetting, int maxLength, float width) {
             GL.BeginHorizontal();
-            GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
-            setValue = GL.TextField(setValue, 6, GL.Width(50f));
-            setValue = FloatTestSettingStage1(setValue);
-            finalSetValue = FloatTestSettingStage2(setValue, finalSetValue);
+            stringSetting = GL.TextField(stringSetting, maxLength, GL.Width(width));
+            SettingParse(ref stringSetting, ref finalSetting);
             GL.EndHorizontal();
         }
 
-        public static void SettingParse(ref string stringSetting, ref int finalSetting)
-        {
-            if (int.TryParse(stringSetting, out int result))
-            {
-                finalSetting = result;
+        public static void SettingsField(ref string stringSetting, ref float finalSetting, string label, string tooltip, bool noZero = true) {
+            GL.BeginHorizontal();
+            if (tooltip != null) {
+                GL.Label(TextWithTooltip(label, tooltip, "", ": "), GL.ExpandWidth(false));
             }
-            else
-            {
+            else {
+                GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
+            }
+
+            stringSetting = GL.TextField(stringSetting, 6, GL.Width(50f));
+            SettingParse(ref stringSetting, ref finalSetting, noZero);
+            GL.EndHorizontal();
+        }
+
+        public static void SettingsField(ref string stringSetting, ref float finalSetting, string label) {
+            SettingsField(ref stringSetting, ref finalSetting, label, null);
+        }
+
+        public static void SettingsField(ref string stringSetting, ref float finalSetting) {
+            SettingsField(ref stringSetting, ref finalSetting, "headerOption_SettingsValue");
+        }
+
+        public static void CurrentMultiplier(float multiplier) {
+            GL.BeginHorizontal();
+            GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {multiplier}", GL.Width(150f));
+            GL.EndHorizontal();
+        }
+
+        public static void SettingParse(ref string stringSetting, ref int finalSetting) {
+
+            if (int.TryParse(stringSetting, out int result)) {
+                finalSetting = result;
+
+            }
+            else {
                 stringSetting = "";
             }
         }
 
-        public static void SettingParse(ref string stringSetting, ref float finalSetting)
-        {
-            if (float.TryParse(stringSetting, out float result))
-            {
-                finalSetting = result;
+        public static void SettingParse(ref string stringSetting, ref float finalSetting, bool noZero = true) {
+            if (noZero && stringSetting == "0" || stringSetting == "0..") {
+                stringSetting = "0.";
             }
-            else
-            {
+            else if (float.TryParse(stringSetting, out float result)) {
+                if (!noZero || (noZero && result != 0)) {
+                    finalSetting = result;
+                }
+            }
+
+            else {
                 stringSetting = "";
-            }
-        }
-
-        public static string IntTestSettingStage1(string setting)
-        {
-            if (int.TryParse(setting, out int iTest) && Regex.IsMatch(setting, @"^[0]*$") == false)
-            {
-                return setting;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        static string IntTestSettingStageNeg1(string setting)
-        {
-            if (int.TryParse(setting, out int iTest) && Regex.IsMatch(setting, @"^[0]*$") == false)
-            {
-                return setting;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        public static int IntTestSettingStage2(string setting, int finalSetting)
-        {
-            if (setting != "")
-            {
-                return finalSetting = int.Parse(setting);
-            }
-            else
-            {
-                return finalSetting;
-            }
-        }
-
-        public static string FloatTestSettingStage1(string setting)
-        {
-            if (float.TryParse(setting, out float fTest) && !setting.Contains(","))
-            {
-                return setting;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        public static float FloatTestSettingStage2(string setting, float finalSetting)
-        {
-            if (setting != "" && float.Parse(setting) != 0f)
-            {
-                return finalSetting = float.Parse(setting);
-            }
-            else
-            {
-                return finalSetting;
             }
         }
 
@@ -1339,8 +1306,7 @@ namespace BagOfTricks
         {
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
             amount = GL.TextField(amount, GL.Width(230f));
-            amount = MenuTools.IntTestSettingStage1(amount);
-            finalAmount = MenuTools.IntTestSettingStage2(amount, finalAmount);
+            MenuTools.SettingParse(ref amount, ref finalAmount);
         }
 
         public void RenderSetButton(string buttonLabel, ref int setting)

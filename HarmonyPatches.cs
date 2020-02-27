@@ -3168,7 +3168,7 @@ namespace BagOfTricks
 
         [HarmonyPatch(typeof(RandomEncounterUnitSelector), "PlaceUnits")]
         internal static class RandomEncounterUnitSelector_PlaceUnits_Patch {
-            private static void Postfix(IList<UnitEntityData> units) {
+            private static void Postfix(ref IList<UnitEntityData> units) {
                 if (Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier) && Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplierCampEncounter)) {
                     foreach (UnitEntityData unit in units) {
                         if (unit.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction)) {
@@ -3188,7 +3188,7 @@ namespace BagOfTricks
 
         [HarmonyPatch(typeof(UnitSpawner), "Spawn")]
         internal static class UnitSpawner_Spawn_Patch {
-            private static void Postfix(UnitEntityData __result) {
+            private static void Postfix(ref UnitEntityData __result) {
                 if (Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier) && Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplierUnitSpawner)) {
                     if (__result.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction)) {
                         Common.ModLoggerDebug("UnitSpawner.Spawn: " + __result.CharacterName);
@@ -3237,5 +3237,13 @@ namespace BagOfTricks
             }
         }
 
+        [HarmonyPatch(typeof(Player), "GetRespecCost")]
+        public class Player_GetRespecCost_Patch {
+            public static void Postfix(ref int __result) {
+                if (Strings.ToBool(settings.toggleRespecCostMultiplier)) {
+                    __result = Mathf.RoundToInt(__result * settings.repecCostMultiplier);
+                }
+            }
+        }
     }
 }

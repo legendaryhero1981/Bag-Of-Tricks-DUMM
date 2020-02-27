@@ -632,6 +632,11 @@ namespace BagOfTricks
         public string toggleCreateBattleLogFileHtml = Storage.isFalseString;
         public string toggleCreateBattleLogFileBotLog = Storage.isFalseString;
 
+        public string toggleRespecCostMultiplier = Storage.isFalseString;
+        public string repecCostMultiplierString = "1";
+        public float repecCostMultiplier = 1f;
+
+
         public override void Save(UnityModManager.ModEntry modEntry) {
             Save(this, modEntry);
         }

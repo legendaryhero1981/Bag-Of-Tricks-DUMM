@@ -2012,6 +2012,7 @@ namespace BagOfTricks
                 var stringAblilityName = Storage.abilityValidNames[i];
                 var stringAbilityObjectNames = Storage.abilityValidObjectNames[i];
                 var stringAbilityGuid = Storage.abilityValidGuids[i];
+                
                 if (Storage.abilityValidObjectNames[i].Contains(settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
                 {
                     if (settings.toggleSearchByAbilityObjectName == Storage.isTrueString)

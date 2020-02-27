@@ -41,9 +41,9 @@ namespace BagOfTricks {
 
 
 
-        private static readonly string[] MainExperimentalArray = { Strings.GetText("misc_None"), Strings.GetText("arrayItem_ActionKeyMain_GetInfo"), Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyMain_ResurrectAndFullyRestore"), Strings.GetText("arrayItem_ActionKeyMain_BuffFromFavourites"), Strings.GetText("arrayItem_ActionKeyMain_EditStats"), Strings.GetText("label_TeleportUnit"), Strings.GetText("arrayItem_ActionKeyMain_SpawnUnit"), Strings.GetText("arrayItem_ActionKeyMain_RotateUnit"), Strings.GetText("header_Animations"), Strings.GetText("arrayItem_ActionKeyMain_SpawnCritters"), Strings.GetText("arrayItem_ActionKeyMain_MakeControllable"), Strings.GetText("arrayItem_ActionKeyMain_AddToParty"), Strings.GetText("arrayItem_ActionKeyMain_RecreateUnitDescriptor") };
-        private static readonly string[] MainArray = { Strings.GetText("misc_None"), Strings.GetText("arrayItem_ActionKeyMain_GetInfo"), Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyMain_ResurrectAndFullyRestore"), Strings.GetText("arrayItem_ActionKeyMain_BuffFromFavourites"), Strings.GetText("arrayItem_ActionKeyMain_EditStats"), Strings.GetText("label_TeleportUnit"), Strings.GetText("arrayItem_ActionKeyMain_SpawnUnit"), Strings.GetText("arrayItem_ActionKeyMain_RotateUnit"), Strings.GetText("header_Animations") };
-        private static readonly string[] ExperimentalKillArray = { Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyKill_ForceKill") };
+        private static readonly string[] mainExperimentalArray = { Strings.GetText("misc_None"), Strings.GetText("arrayItem_ActionKeyMain_GetInfo"), Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyMain_ResurrectAndFullyRestore"), Strings.GetText("arrayItem_ActionKeyMain_BuffFromFavourites"), Strings.GetText("arrayItem_ActionKeyMain_EditStats"), Strings.GetText("label_TeleportUnit"), Strings.GetText("arrayItem_ActionKeyMain_SpawnUnit"), Strings.GetText("arrayItem_ActionKeyMain_RotateUnit"), Strings.GetText("header_Animations"), Strings.GetText("arrayItem_ActionKeyMain_SpawnCritters"), Strings.GetText("arrayItem_ActionKeyMain_MakeControllable"), Strings.GetText("arrayItem_ActionKeyMain_AddToParty"), Strings.GetText("arrayItem_ActionKeyMain_RecreateUnitDescriptor") };
+        private static readonly string[] mainArray = { Strings.GetText("misc_None"), Strings.GetText("arrayItem_ActionKeyMain_GetInfo"), Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyMain_ResurrectAndFullyRestore"), Strings.GetText("arrayItem_ActionKeyMain_BuffFromFavourites"), Strings.GetText("arrayItem_ActionKeyMain_EditStats"), Strings.GetText("label_TeleportUnit"), Strings.GetText("arrayItem_ActionKeyMain_SpawnUnit"), Strings.GetText("arrayItem_ActionKeyMain_RotateUnit"), Strings.GetText("header_Animations") };
+        private static readonly string[] experimentalKillArray = { Strings.GetText("arrayItem_ActionKeyKill_Kill"), Strings.GetText("arrayItem_ActionKeyKill_ForceKill") };
         private static UnitEntityData unit = null;
 
         public static UnitEntityData editUnit = null;
@@ -55,7 +55,7 @@ namespace BagOfTricks {
         public static UnitEntityData rotateUnit = null;
 
         public static int banidtCrIndex = 0;
-        public static string[] numberArray0T7 = { "0", "1", "2", "3", "4", "5", "6", "7" };
+        public static string[] numberArray0t7 = { "0", "1", "2", "3", "4", "5", "6", "7" };
         public static string[] banditsGuids = { "6b8a83ef580c62341b674a5abf3afced", "b191e1a8f45ab2e438865988f48ab399", "de468d0b47f87644a3408642fe0876c", "435e3d847f566e5479acd4de2642ba31", "4956f420a728baa4d911281ed81e8ce4", "b68ce570b3bf13743a401356fda68c79", "179944f7553cafa468c6f548effbbf71", "341a00b2bbf4be9498049c62e6cd7456" };
 
         public static List<UnitAnimationType> animationTypes = new List<UnitAnimationType>();
@@ -199,10 +199,8 @@ namespace BagOfTricks {
             GL.EndHorizontal();
 
             GL.BeginHorizontal();
-            ActionKey.editUnitStatsAmount = GL.TextField(ActionKey.editUnitStatsAmount, 10, GL.Width(85f));
-
-            ActionKey.editUnitStatsAmount = MenuTools.IntTestSettingStage1(ActionKey.editUnitStatsAmount);
-            ActionKey.editUnitFinalStatsAmount = MenuTools.IntTestSettingStage2(ActionKey.editUnitStatsAmount, ActionKey.editUnitFinalStatsAmount);
+            editUnitStatsAmount = GL.TextField(editUnitStatsAmount, 10, GL.Width(85f));
+            MenuTools.SettingParse(ref editUnitStatsAmount, ref editUnitFinalStatsAmount);
             GL.EndHorizontal();
 
             CharacterStats charStats = unit.Descriptor.Stats;
@@ -285,10 +283,10 @@ namespace BagOfTricks {
 
                 GL.BeginHorizontal();
                 if (!Strings.ToBool(settings.toggleActionKeyExperimental)) {
-                    settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, MainArray, 3);
+                    settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, mainArray, 3);
                 }
                 else {
-                    settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, MainExperimentalArray, 3);
+                    settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, mainExperimentalArray, 3);
                 }
                 GL.EndHorizontal();
 
@@ -304,7 +302,7 @@ namespace BagOfTricks {
                         if (Strings.ToBool(settings.toggleActionKeyExperimental)) {
                             GL.Space(10);
                             GL.BeginHorizontal();
-                            settings.actionKeyKillIndex = GL.SelectionGrid(settings.actionKeyKillIndex, ExperimentalKillArray, 3);
+                            settings.actionKeyKillIndex = GL.SelectionGrid(settings.actionKeyKillIndex, experimentalKillArray, 3);
                             GL.EndHorizontal();
                         }
                         break;
@@ -370,7 +368,7 @@ namespace BagOfTricks {
                         }
                         MenuTools.SingleLineLabel(Strings.GetText("label_ChallengeRating") + " " + Strings.Parenthesis(Strings.GetText("misc_Bandit")));
                         GL.BeginHorizontal();
-                        banidtCrIndex = GL.SelectionGrid(banidtCrIndex, numberArray0T7, 8);
+                        banidtCrIndex = GL.SelectionGrid(banidtCrIndex, numberArray0t7, 8);
                         GL.EndHorizontal();
 
 

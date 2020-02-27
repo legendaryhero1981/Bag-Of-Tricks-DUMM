@@ -604,6 +604,7 @@
   <Localisation key="buttonToggle_AlignmentFix" value="中立阵营不会导致在守序或混乱轴上移动" />
   <Localisation key="buttonToggle_SpellbookAbilityAlignmentChecks" value="忽略法术书和阵营能力检定" />
   <Localisation key="buttonToggle_TabletopSpellAbilityRange" value="桌游法术 &amp; 能力范围（25 ft, 100 ft, 400 ft）" />
+  <Localisation key="tooltip_RespecCostMultiplier" value="设置相应角色重置的倍数。小于1的值将导致价格下降。" />
   <Localisation key="buttonToggle_SetSpeedOnSummon" value="设置召唤生物的移动速度" />
   <Localisation key="buttonToggle_EnableFocusCameraSelectedUnit" value="启用选定的头像自动获得焦点" />
   <Localisation key="buttonToggle_ClaimResources" value="自动获得你土地上所有的资源" />
@@ -652,6 +653,7 @@
   <Localisation key="buttonToggle_CreateBattleLogFileLog" value="使用默认格式的日志文件" />
   <Localisation key="buttonToggle_CreateBattleLogFileHTML" value="使用HTML格式的日志文件" />
   <Localisation key="buttonToggle_CreateBattleLogFileBoT" value="使用百宝袋MOD格式的日志文件" />
+  <Localisation key="buttonToggle_RespecCostMultiplier" value="角色重置消耗倍数" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />

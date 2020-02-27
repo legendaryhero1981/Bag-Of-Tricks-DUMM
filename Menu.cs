@@ -785,16 +785,7 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
-                settings.randomEncounterSettingFloatAmount =
-                    GL.TextField(settings.randomEncounterSettingFloatAmount, 6, GL.Width(100f));
-                settings.randomEncounterSettingFloatAmount =
-                    MenuTools.FloatTestSettingStage1(settings.randomEncounterSettingFloatAmount);
-                settings.randomEncounterSettingFloatAmountFinal = MenuTools.FloatTestSettingStage2(
-                    settings.randomEncounterSettingFloatAmount, settings.randomEncounterSettingFloatAmountFinal);
-                GL.EndHorizontal();
-
+                MenuTools.SettingsField(ref settings.randomEncounterSettingFloatAmount, ref settings.randomEncounterSettingFloatAmountFinal);
                 GL.BeginVertical("box");
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("headerOption_MilesUntilNextEncounterRoll") + " ", GL.ExpandWidth(false));
@@ -1067,19 +1058,12 @@ namespace BagOfTricks
             {
                 MenuTools.SingleLineLabel(Strings.GetText("label_BuffDurationMultiplier"));
                 buffDurationMultiplierGrid.Render(ref settings.indexBuffDurationMultiplier);
+                MenuTools.SettingsField(ref Storage.buffDurationMultiplierValue, ref Storage.finalBuffDurationMultiplierValue);
+                MenuTools.CurrentMultiplier(settings.finalBuffDurationMultiplierValue);
 
-
-                MenuTools.SettingsValueFloat(ref Storage.buffDurationMultiplierValue,
-                    ref Storage.finalBuffDurationMultiplierValue);
-
-                MenuTools.SingleLineLabel(Strings.GetText("label_CurrentMultiplier") +
-                                          $": {settings.finalBuffDurationMultiplierValue}");
                 GL.BeginHorizontal();
-                if (GL.Button(
-                    Strings.GetText("button_SetTo") + $" {Math.Round(Storage.finalBuffDurationMultiplierValue, 3)}",
-                    GL.ExpandWidth(false)))
-                    settings.finalBuffDurationMultiplierValue =
-                        (float)Math.Round(Storage.finalBuffDurationMultiplierValue, 3);
+                if (GL.Button(Strings.GetText("button_SetTo") + $" {Math.Round(Storage.finalBuffDurationMultiplierValue, 3)}", GL.ExpandWidth(false)))
+                    settings.finalBuffDurationMultiplierValue = (float)Math.Round(Storage.finalBuffDurationMultiplierValue, 3);
                 GL.EndHorizontal();
             }
 
@@ -1104,17 +1088,12 @@ namespace BagOfTricks
                 summonDurationMultiplierGrid.Render(ref settings.indexSummonDurationMultiplier);
 
 
-                MenuTools.SettingsValueFloat(ref Storage.summonDurationMultiplierValue,
-                    ref Storage.finalSummonDurationMultiplierValue);
-
-                MenuTools.SingleLineLabel(Strings.GetText("label_CurrentMultiplier") +
-                                          $": {settings.finalSummonDurationMultiplierValue}");
+                MenuTools.SettingsField(ref Storage.summonDurationMultiplierValue, ref Storage.finalSummonDurationMultiplierValue);
+                MenuTools.CurrentMultiplier(settings.finalSummonDurationMultiplierValue);
                 GL.BeginHorizontal();
-                if (GL.Button(
-                    Strings.GetText("button_SetTo") + $" {Math.Round(Storage.finalSummonDurationMultiplierValue, 3)}",
-                    GL.ExpandWidth(false)))
-                    settings.finalSummonDurationMultiplierValue =
-                        (float)Math.Round(Storage.finalSummonDurationMultiplierValue, 3);
+
+                if (GL.Button(Strings.GetText("button_SetTo") + $" {Math.Round(Storage.finalSummonDurationMultiplierValue, 3)}", GL.ExpandWidth(false)))
+                    settings.finalSummonDurationMultiplierValue = (float)Math.Round(Storage.finalSummonDurationMultiplierValue, 3);
                 GL.EndHorizontal();
             }
 
@@ -2586,10 +2565,7 @@ namespace BagOfTricks
         {
             GL.BeginHorizontal();
             settings.experienceAmount = GL.TextField(settings.experienceAmount, 8, GL.Width(100f));
-
-            settings.experienceAmount = MenuTools.IntTestSettingStage1(settings.experienceAmount);
-            settings.finalExperienceAmount =
-                MenuTools.IntTestSettingStage2(settings.experienceAmount, settings.finalExperienceAmount);
+            MenuTools.SettingParse(ref settings.experienceAmount, ref settings.finalExperienceAmount);
 
             if (GL.Button($"+{settings.experienceAmount}" + " " + Strings.GetText("button_PartyExperience"),
                 GL.ExpandWidth(false)))
@@ -2799,23 +2775,8 @@ namespace BagOfTricks
 
                     if (settings.useCustomExperienceMultiplier == true)
                     {
-                        GL.BeginHorizontal();
-                        GL.Label(Strings.GetText("header_CustomMultiplier") + " ", GL.ExpandWidth(false));
-                        settings.customExperienceMultiplier =
-                            GL.TextField(settings.customExperienceMultiplier, 8, GL.Width(100f));
-                        settings.customExperienceMultiplier =
-                            MenuTools.FloatTestSettingStage1(settings.customExperienceMultiplier);
-                        GL.EndHorizontal();
-
-                        settings.finalCustomExperienceMultiplier =
-                            MenuTools.FloatTestSettingStage2(settings.customExperienceMultiplier,
-                                settings.finalCustomExperienceMultiplier);
-
-                        GL.BeginHorizontal();
-                        GL.Label(
-                            Strings.GetText("label_CurrentMultiplier") +
-                            $": {settings.finalCustomExperienceMultiplier}", GL.Width(150f));
-                        GL.EndHorizontal();
+                        MenuTools.SettingsField(ref settings.customExperienceMultiplier, ref settings.finalCustomExperienceMultiplier, "header_CustomMultiplier");
+                        MenuTools.CurrentMultiplier(settings.finalCustomExperienceMultiplier);
                     }
                 }
 
@@ -2936,20 +2897,8 @@ namespace BagOfTricks
 
                 if (settings.useCustomHeavyEncumbranceMultiplier == true)
                 {
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("header_CustomMultiplier") + " ", GL.ExpandWidth(false));
-                    settings.customHeavyEncumbranceMultiplier =
-                        GL.TextField(settings.customHeavyEncumbranceMultiplier, 6, GL.Width(100f));
-                    settings.customHeavyEncumbranceMultiplier =
-                        MenuTools.FloatTestSettingStage1(settings.customHeavyEncumbranceMultiplier);
-                    GL.EndHorizontal();
-
-                    settings.finalCustomHeavyEncumbranceMultiplier = MenuTools.FloatTestSettingStage2(
-                        settings.customHeavyEncumbranceMultiplier, settings.finalCustomHeavyEncumbranceMultiplier);
-
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {settings.finalCustomHeavyEncumbranceMultiplier}");
-                    GL.EndHorizontal();
+                    MenuTools.SettingsField(ref settings.customHeavyEncumbranceMultiplier, ref settings.finalCustomHeavyEncumbranceMultiplier, "header_CustomMultiplier");
+                    MenuTools.CurrentMultiplier(settings.finalCustomHeavyEncumbranceMultiplier);
                 }
 
                 GL.EndVertical();
@@ -2988,21 +2937,8 @@ namespace BagOfTricks
 
                 if (settings.useCustomFatigueHoursModifierMultiplier == true)
                 {
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("header_CustomMultiplier") + " ", GL.ExpandWidth(false));
-                    settings.customFatigueHoursModifierMultiplier =
-                        GL.TextField(settings.customFatigueHoursModifierMultiplier, 6, GL.Width(100f));
-                    settings.customFatigueHoursModifierMultiplier =
-                        MenuTools.FloatTestSettingStage1(settings.customFatigueHoursModifierMultiplier);
-                    GL.EndHorizontal();
-
-                    settings.finalCustomFatigueHoursModifierMultiplier = MenuTools.FloatTestSettingStage2(
-                        settings.customFatigueHoursModifierMultiplier,
-                        settings.finalCustomFatigueHoursModifierMultiplier);
-
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {settings.finalCustomFatigueHoursModifierMultiplier}");
-                    GL.EndHorizontal();
+                    MenuTools.SettingsField(ref settings.customFatigueHoursModifierMultiplier, ref settings.finalCustomFatigueHoursModifierMultiplier, "header_CustomMultiplier");
+                    MenuTools.CurrentMultiplier(settings.finalCustomFatigueHoursModifierMultiplier);
                 }
 
                 GL.Space(10);
@@ -3076,30 +3012,15 @@ namespace BagOfTricks
 
                 if (settings.useCustomMoneyMultiplier == true)
                 {
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("header_CustomMultiplier") + " ", GL.ExpandWidth(false));
-                    settings.customMoneyMultiplier = GL.TextField(settings.customMoneyMultiplier, 6, GL.Width(100f));
-                    settings.customMoneyMultiplier = MenuTools.FloatTestSettingStage1(settings.customMoneyMultiplier);
-                    GL.EndHorizontal();
-
-                    settings.finalCustomMoneyMultiplier =
-                        MenuTools.FloatTestSettingStage2(settings.customMoneyMultiplier,
-                            settings.finalCustomMoneyMultiplier);
-
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {settings.finalCustomMoneyMultiplier}");
-                    GL.EndHorizontal();
+                    MenuTools.SettingsField(ref settings.customMoneyMultiplier, ref settings.finalCustomMoneyMultiplier, "header_CustomMultiplier");
+                    MenuTools.CurrentMultiplier(settings.finalCustomMoneyMultiplier);
                 }
 
                 GL.Space(10);
 
                 GL.BeginHorizontal();
                 settings.moneyAmount = GL.TextField(settings.moneyAmount, 10, GL.Width(200f));
-
-                settings.moneyAmount = MenuTools.IntTestSettingStage1(settings.moneyAmount);
-                settings.finalMoneyAmount =
-                    MenuTools.IntTestSettingStage2(settings.moneyAmount, settings.finalMoneyAmount);
-
+                MenuTools.SettingParse(ref settings.moneyAmount, ref settings.finalMoneyAmount);
                 if (GL.Button($"+{settings.moneyAmount} " + Strings.GetText("button_Money")))
                 {
                     var tempMoneyMultiplicer = settings.moneyMultiplier;
@@ -3149,16 +3070,8 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
-                GL.BeginHorizontal();
-                GL.Label(
-                    MenuTools.TextWithTooltip("headerOption_MercenaryCostMultiplier", "tooltip_MercenaryCostMultiplier",
-                        "", " "), GL.ExpandWidth(false));
-                settings.companionCostMultiplierString =
-                    GL.TextField(settings.companionCostMultiplierString, 10, GL.Width(90f));
-                MenuTools.SettingParse(ref settings.companionCostMultiplierString,
-                    ref settings.companionCostMultiplier);
-                GL.EndHorizontal();
-
+                MenuTools.SettingsField(ref settings.companionCostMultiplierString, ref settings.companionCostMultiplier, "headerOption_MercenaryCostMultiplier", "tooltip_MercenaryCostMultiplier");
+                MenuTools.CurrentMultiplier(settings.companionCostMultiplier);
                 GL.Space(10);
 
                 GL.BeginHorizontal();
@@ -3181,40 +3094,30 @@ namespace BagOfTricks
 
                 if (Strings.ToBool(settings.toggleVendorSellPriceMultiplier))
                 {
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("headerOption_VendorSellMultiplier") + " ", GL.ExpandWidth(false));
-                    settings.vendorSellPriceMultiplier =
-                        GL.TextField(settings.vendorSellPriceMultiplier, 6, GL.Width(100f));
-                    settings.vendorSellPriceMultiplier =
-                        MenuTools.FloatTestSettingStage1(settings.vendorSellPriceMultiplier);
-                    GL.EndHorizontal();
-
-                    settings.finalVendorSellPriceMultiplier =
-                        MenuTools.FloatTestSettingStage2(settings.vendorSellPriceMultiplier,
-                            settings.finalVendorSellPriceMultiplier);
-
-                    GL.BeginHorizontal();
-                    GL.Label(
-                        Strings.GetText("label_CurrentMultiplier") +
-                        $": {Game.Instance.BlueprintRoot.Vendors.SellModifier}", GL.Width(150f));
-                    GL.EndHorizontal();
+                    MenuTools.SettingsField(ref settings.vendorSellPriceMultiplier, ref settings.finalVendorSellPriceMultiplier, "header_CustomMultiplier");
+                    MenuTools.CurrentMultiplier((float)Game.Instance.BlueprintRoot.Vendors.SellModifier);
 
                     GL.BeginHorizontal();
 
-                    if (GL.Button(Strings.GetText("button_Apply") + $" ({settings.finalVendorSellPriceMultiplier})",
-                        GL.ExpandWidth(false)))
+                    if (GL.Button(Strings.GetText("button_Apply") + $" ({settings.finalVendorSellPriceMultiplier})", GL.ExpandWidth(false)))
                         Game.Instance.BlueprintRoot.Vendors.SellModifier = settings.finalVendorSellPriceMultiplier;
                     GL.EndHorizontal();
 
                     GL.Space(10);
                 }
 
-                MenuTools.ToggleButton(ref settings.toggleVendorsSellFor0, "buttonToggle_VendorsSellFor0",
-                    "tooltip_VendorsSellFor0", nameof(settings.toggleVendorsSellFor0));
+                MenuTools.ToggleButton(ref settings.toggleVendorsSellFor0, "buttonToggle_VendorsSellFor0", "tooltip_VendorsSellFor0", nameof(settings.toggleVendorsSellFor0));
+                MenuTools.ToggleButton(ref settings.toggleVendorsBuyFor0, "buttonToggle_VendorsBuyFor0", "tooltip_VendorsBuyFor0", nameof(settings.toggleVendorsBuyFor0));
+                GL.Space(10);
 
-                MenuTools.ToggleButton(ref settings.toggleVendorsBuyFor0, "buttonToggle_VendorsBuyFor0",
-                    "tooltip_VendorsBuyFor0", nameof(settings.toggleVendorsBuyFor0));
-            }
+                GL.BeginVertical("box");
+                MenuTools.ToggleButton(ref settings.toggleRespecCostMultiplier, "buttonToggle_RespecCostMultiplier", "tooltip_RespecCostMultiplier");
+                if (Strings.ToBool(settings.toggleRespecCostMultiplier)) {
+                    MenuTools.SettingsField(ref settings.repecCostMultiplierString, ref settings.repecCostMultiplier, "header_CustomMultiplier", "tooltip_RespecCostMultiplier", false);
+                    MenuTools.CurrentMultiplier(settings.repecCostMultiplier);
+                }
+                GL.EndVertical();
+             }
 
             GL.EndVertical();
         }
@@ -3455,9 +3358,7 @@ namespace BagOfTricks
 
                         GL.BeginHorizontal();
                         settings.partyStatsAmount = GL.TextField(settings.partyStatsAmount, 10, GL.Width(100f));
-                        settings.partyStatsAmount = MenuTools.IntTestSettingStage1(settings.partyStatsAmount);
-                        settings.partyFinalStatsAmount = MenuTools.IntTestSettingStage2(settings.partyStatsAmount,
-                            settings.partyFinalStatsAmount);
+                        MenuTools.SettingParse(ref settings.partyStatsAmount, ref settings.partyFinalStatsAmount);
                         GL.EndHorizontal();
 
                         var charStats = Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]
@@ -3641,9 +3542,7 @@ namespace BagOfTricks
                                             int.TryParse(splitLine[1], out var baseValue))
                                             charStats.GetStat(statType).BaseValue = baseValue;
                                     }
-                                    else
-                                    {
-                                    }
+
                             }
                     }
                 }
@@ -3913,10 +3812,7 @@ namespace BagOfTricks
 
                     GL.BeginHorizontal();
                     settings.enemyStatsAmount = GL.TextField(settings.enemyStatsAmount, 10, GL.Width(85f));
-
-                    settings.enemyStatsAmount = MenuTools.IntTestSettingStage1(settings.enemyStatsAmount);
-                    settings.enemyFinalStatsAmount =
-                        MenuTools.IntTestSettingStage2(settings.enemyStatsAmount, settings.enemyFinalStatsAmount);
+                    MenuTools.SettingParse(ref settings.enemyStatsAmount, ref settings.enemyFinalStatsAmount);
                     GL.EndHorizontal();
 
                     var charStats = Storage.enemyUnits[Storage.enemyUnitIndex].Descriptor.Stats;
@@ -4305,34 +4201,51 @@ namespace BagOfTricks
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("label_Amount") + ": ", GL.ExpandWidth(false));
                     settings.itemAmount = GL.TextField(settings.itemAmount, 2, GL.Width(50f));
-                    settings.itemAmount = MenuTools.IntTestSettingStage1(settings.itemAmount);
-                    settings.finalItemAmount = MenuTools.IntTestSettingStage2(settings.itemAmount, settings.finalItemAmount);
-                    GL.Space(80);
-                    settings.multipleItems = GL.Toggle(settings.multipleItems, new GUIContent(Strings.ToggleSpaceLeftFormat(Strings.GetText("toggle_AddMultipleItems")), Strings.GetText("tooltip_AddMultipleItems")), GL.ExpandWidth(false));
+                    MenuTools.SettingParse(ref settings.itemAmount, ref settings.finalItemAmount);
                     GL.EndHorizontal();
 
-                    if (settings.multipleItems)
-                    {
+                    GL.BeginHorizontal();
+                    settings.multipleItems = GL.Toggle(settings.multipleItems, new GUIContent("", Strings.GetText("tooltip_AddMultipleItems")), GL.ExpandWidth(false));
+                    GL.Label(new GUIContent(Strings.ToggleSpaceLeftFormat(Strings.GetText("toggle_AddMultipleItems")), Strings.GetText("tooltip_AddMultipleItems")), GL.ExpandWidth(false));
+                    GL.EndHorizontal();
+
+                    if (settings.multipleItems == true) {
                         Storage.itemMultipleGuid = settings.itemGuid.Trim().Split(',').Select(p => p.Trim()).ToList();
-                        var anyInvalid = Storage.itemMultipleGuid.Find(g => null == Utilities.GetBlueprintByGuid<BlueprintItem>(g));
+                        bool allValid = false;
 
-                        if (string.IsNullOrEmpty(anyInvalid))
-                        {
+                        for (int i = 0; i < Storage.itemMultipleGuid.Count; i++) {
+                            if (Utilities.GetBlueprintByGuid<BlueprintItem>(Storage.itemMultipleGuid[i]) != null) {
+                                allValid = true;
+                            }
+                            else {
+                                allValid = false;
+
+                            }
+                        }
+
+                        if (allValid) {
                             GL.BeginHorizontal();
-                            var items = Strings.GetText("misc_items");
-                            var times = Strings.GetText("misc_times");
-                            if (Storage.itemMultipleGuid.Count == 1) items = Strings.GetText("misc_item");
-                            if (settings.finalItemAmount == 1) times = Strings.GetText("misc_time");
+                            string items = Strings.GetText("misc_items");
+                            string times = Strings.GetText("misc_times");
+                            if (Storage.itemMultipleGuid.Count == 1) {
+                                items = Strings.GetText("misc_item");
+                            }
+                            if (settings.finalItemAmount == 1) {
+                                times = Strings.GetText("misc_time");
+                            }
+                            string buttonString = Strings.GetText("button_Receive") + $" { Storage.itemMultipleGuid.Count} {items} {settings.finalItemAmount} {times}";
 
-                            if (GL.Button(Strings.GetText("button_Receive") + $" {Storage.itemMultipleGuid.Count} {items} {settings.finalItemAmount} {times}", GL.ExpandWidth(false)))
-                                for (var i = 0; i < Storage.itemMultipleGuid.Count; i++)
-                                    if (Main.ExcludeGuid == Storage.itemMultipleGuid[i])
-                                    {
+                            if (GL.Button(buttonString, GL.Width(300f))) {
+                                for (int i = 0; i < Storage.itemMultipleGuid.Count; i++) {
+                                    if (Storage.itemMultipleGuid[i] != "c5d4962385e0e9c439ab935d83361947") {
+                                        MenuTools.AddSingleItemAmount(Storage.itemMultipleGuid[i], settings.finalItemAmount, settings.addItemIdentified);
+                                    }
+                                    else {
                                         Storage.errorString = Strings.GetText("error_EkunQ2");
                                         modLogger.Log(Storage.notificationEkunQ2RewardArmor);
                                     }
-                                    else
-                                        MenuTools.AddSingleItemAmount(Storage.itemMultipleGuid[i], settings.finalItemAmount, settings.addItemIdentified);
+                                }
+                            }
 
                             GL.Label(Storage.errorString);
                             GL.EndHorizontal();
@@ -6258,19 +6171,8 @@ namespace BagOfTricks
 
                 if (settings.useCustomspellsPerDayMultiplier == true)
                 {
-                    GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("header_CustomMultiplier") + " ", GL.ExpandWidth(false));
-                    settings.customSpellsPerDayMultiplier =
-                        GL.TextField(settings.customSpellsPerDayMultiplier, 6, GL.Width(100f));
-                    settings.customSpellsPerDayMultiplier =
-                        MenuTools.FloatTestSettingStage1(settings.customSpellsPerDayMultiplier);
-                    GL.EndHorizontal();
-
-                    settings.finalCustomspellsPerDayMultiplier =
-                        MenuTools.FloatTestSettingStage2(settings.customSpellsPerDayMultiplier,
-                            settings.finalCustomspellsPerDayMultiplier);
-
-                    MenuTools.SingleLineLabel(Strings.GetText("label_CurrentMultiplier") + $": {settings.finalCustomExperienceMultiplier}");
+                    MenuTools.SettingsField(ref settings.customSpellsPerDayMultiplier, ref settings.finalCustomspellsPerDayMultiplier, "header_CustomMultiplier");
+                    MenuTools.CurrentMultiplier(settings.finalCustomspellsPerDayMultiplier);
                 }
             }
             GL.EndVertical();
@@ -6751,10 +6653,7 @@ namespace BagOfTricks
 
                     GL.BeginHorizontal();
                     settings.buildPointAmount = GL.TextField(settings.buildPointAmount, 10, GL.Width(100f));
-
-                    settings.buildPointAmount = MenuTools.IntTestSettingStage1(settings.buildPointAmount);
-                    settings.finalBuildPointAmount =
-                        MenuTools.IntTestSettingStage2(settings.buildPointAmount, settings.finalBuildPointAmount);
+                    MenuTools.SettingParse(ref settings.buildPointAmount, ref settings.finalBuildPointAmount);
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
@@ -6769,16 +6668,12 @@ namespace BagOfTricks
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
-                    settings.buildPointAmount = MenuTools.IntTestSettingStage1(settings.buildPointAmount);
-                    settings.finalBuildPointAmount =
-                        MenuTools.IntTestSettingStage2(settings.buildPointAmount, settings.finalBuildPointAmount);
-
-                    if (GL.Button($"+{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false)))
-                        KingdomState.Instance.BPPerTurn =
-                            KingdomState.Instance.BPPerTurn + settings.finalBuildPointAmount;
-                    if (GL.Button($"-{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false)))
-                        KingdomState.Instance.BPPerTurn =
-                            KingdomState.Instance.BPPerTurn - settings.finalBuildPointAmount;
+                    if (GL.Button($"+{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false))) {
+                        KingdomState.Instance.BPPerTurn = KingdomState.Instance.BPPerTurn + settings.finalBuildPointAmount;
+                    }
+                    if (GL.Button($"-{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false))) {
+                        KingdomState.Instance.BPPerTurn = KingdomState.Instance.BPPerTurn - settings.finalBuildPointAmount;
+                    }
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
@@ -6792,10 +6687,7 @@ namespace BagOfTricks
 
                     GL.BeginHorizontal();
                     settings.kingdomStatsAmount = GL.TextField(settings.kingdomStatsAmount, 10, GL.Width(85f));
-
-                    settings.kingdomStatsAmount = MenuTools.IntTestSettingStage1(settings.kingdomStatsAmount);
-                    settings.kingdomFinalStatsAmount = MenuTools.IntTestSettingStage2(settings.kingdomStatsAmount,
-                        settings.kingdomFinalStatsAmount);
+                    MenuTools.SettingParse(ref settings.kingdomStatsAmount, ref settings.kingdomFinalStatsAmount);
                     GL.EndHorizontal();
                     CreateKingdomStatInterface(Strings.GetText("headerOption_Community"), KingdomStats.Type.Community);
                     CreateKingdomStatInterface(Strings.GetText("headerOption_Loyalty"), KingdomStats.Type.Loyalty);
@@ -7065,18 +6957,12 @@ namespace BagOfTricks
                 GL.Space(10);
             }
 
-            MenuTools.ToggleButton(ref settings.toggleEnableCameraZoom, "buttonToggle_CameraZoomUnlocked",
-                "tooltip_CameraZoomUnlocked");
+            MenuTools.ToggleButton(ref settings.toggleEnableCameraZoom, "buttonToggle_CameraZoomUnlocked", "tooltip_CameraZoomUnlocked");
 
             if (settings.toggleEnableCameraZoom == Storage.isTrueString)
                 if (Game.Instance?.UI?.GetCameraRig() != null)
                 {
-                    GL.BeginHorizontal();
-                    Storage.fovValue = GL.TextField(Storage.fovValue, 10, GL.Width(250f));
-                    Storage.fovValue = MenuTools.FloatTestSettingStage1(Storage.fovValue);
-                    GL.EndHorizontal();
-
-                    settings.finalFovValue = MenuTools.FloatTestSettingStage2(Storage.fovValue, settings.finalFovValue);
+                    MenuTools.SettingsFieldNoLabel(ref Storage.fovValue, ref settings.finalFovValue, 10, 250f);
 
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("label_CurrentLowerZoomLimit") + $": {settings.savedFovMin}",
@@ -7287,19 +7173,8 @@ namespace BagOfTricks
             if (Strings.ToBool(settings.toggleRepeatableLockPickingWeariness))
             {
                 GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(
-                    MenuTools.TextWithTooltip("label_WearinessPerAttempt", "tooltip_1EqualsHourWeariness", "", ": "),
-                    GL.ExpandWidth(false));
-                settings.repeatableLockPickingWeariness =
-                    GL.TextField(settings.repeatableLockPickingWeariness, 6, GL.Width(100f));
-                settings.repeatableLockPickingWeariness =
-                    MenuTools.FloatTestSettingStage1(settings.repeatableLockPickingWeariness);
-                settings.finalRepeatableLockPickingWeariness = MenuTools.FloatTestSettingStage2(
-                    settings.repeatableLockPickingWeariness, settings.finalRepeatableLockPickingWeariness);
-                GL.EndHorizontal();
-                MenuTools.SingleLineLabel(MenuTools.TextWithTooltip("label_CurrentValue",
-                    "tooltip_1EqualsHourWeariness", "", ": " + settings.finalRepeatableLockPickingWeariness));
+                MenuTools.SettingsField(ref settings.repeatableLockPickingWeariness, ref settings.finalRepeatableLockPickingWeariness, "label_WearinessPerAttempt", "tooltip_1EqualsHourWeariness");
+                MenuTools.SingleLineLabel(MenuTools.TextWithTooltip("label_CurrentValue", "tooltip_1EqualsHourWeariness", "", ": " + settings.finalRepeatableLockPickingWeariness));
                 GL.EndVertical();
             }
 
@@ -7406,8 +7281,7 @@ namespace BagOfTricks
                 {
                     GL.Space(10);
                     GL.BeginVertical("box");
-                    MenuTools.SettingsValueFloat(ref settings.damageDealtMultipliersValue,
-                        ref settings.finalDamageDealtMultipliersValue);
+                    MenuTools.SettingsField(ref settings.damageDealtMultipliersValue, ref settings.finalDamageDealtMultipliersValue);
                     GL.Space(10);
 
                     MenuTools.ToggleButton(ref settings.togglePartyDamageDealtMultiplier,
@@ -7416,8 +7290,7 @@ namespace BagOfTricks
 
                     if (Strings.ToBool(settings.togglePartyDamageDealtMultiplier))
                     {
-                        MenuTools.SingleLineLabel(Strings.GetText("label_CurrentMultiplier") +
-                                                  $": {settings.partyDamageDealtMultiplier}");
+                        MenuTools.CurrentMultiplier(settings.partyDamageDealtMultiplier);
                         GL.BeginHorizontal();
                         if (GL.Button(
                             Strings.GetText("button_SetTo") +
@@ -7432,8 +7305,7 @@ namespace BagOfTricks
                         nameof(settings.toggleEnemiesDamageDealtMultiplier));
                     if (Strings.ToBool(settings.toggleEnemiesDamageDealtMultiplier))
                     {
-                        MenuTools.SingleLineLabel(Strings.GetText("label_CurrentMultiplier") +
-                                                  $": {settings.enemiesDamageDealtMultiplier}");
+                        MenuTools.CurrentMultiplier(settings.enemiesDamageDealtMultiplier);
                         GL.BeginHorizontal();
                         if (GL.Button(
                             Strings.GetText("button_SetTo") +
@@ -7677,17 +7549,8 @@ namespace BagOfTricks
 
             if (settings.useCustomDebugTimeMultiplier == true)
             {
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("header_CustomMultiplier") + " ", GL.ExpandWidth(false));
-                settings.customDebugTimeMultiplier = GL.TextField(settings.customDebugTimeMultiplier, 6, GL.Width(50f));
-                settings.customDebugTimeMultiplier = MenuTools.FloatTestSettingStage1(settings.customDebugTimeMultiplier);
-                GL.EndHorizontal();
-
-                settings.finalCustomDebugTimeMultiplier = MenuTools.FloatTestSettingStage2(settings.customDebugTimeMultiplier, settings.finalCustomDebugTimeMultiplier);
-
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {settings.finalCustomDebugTimeMultiplier}", GL.Width(150f));
-                GL.EndHorizontal();
+                MenuTools.SettingsField(ref settings.customDebugTimeMultiplier, ref settings.finalCustomDebugTimeMultiplier, "header_CustomMultiplier");
+                MenuTools.CurrentMultiplier(settings.finalCustomDebugTimeMultiplier);
             }
             MenuTools.SingleLineLabel(Strings.GetText("label_CurrentValue") + $": {Math.Round(Game.Instance.TimeController.DebugTimeScale, 1)}");
             GL.BeginHorizontal();
@@ -7787,30 +7650,25 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showExperimentalCategory = GL.Toggle(settings.showExperimentalCategory, RichText.Bold(Strings.GetText("header_Experimental")), GL.ExpandWidth(false));
+            settings.showExperimentalCategory = GL.Toggle(settings.showExperimentalCategory, RichText.Bold(" " + Strings.GetText("header_Experimental")), GL.ExpandWidth(false));
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(Experimental));
             GL.EndHorizontal();
-            if (settings.showExperimentalCategory)
-            {
+            if (settings.showExperimentalCategory) {
                 MenuTools.SingleLineLabel(RichText.WarningLargeRedFormat(Strings.GetText("warning_Experimental")));
 
                 GL.BeginHorizontal();
-                if (GL.Button(RichText.Bold($"{settings.toggleExperimentalIUnderstand} " + Strings.GetText("buttonToggle_experimentalIUnderstand")), GL.ExpandWidth(false)))
-                {
-                    if (settings.toggleExperimentalIUnderstand == Storage.isFalseString)
-                    {
+                if (GL.Button(RichText.Bold($"{settings.toggleExperimentalIUnderstand} " + Strings.GetText("buttonToggle_experimentalIUnderstand")), GL.ExpandWidth(false))) {
+                    if (settings.toggleExperimentalIUnderstand == Storage.isFalseString) {
                         settings.toggleExperimentalIUnderstand = Storage.isTrueString;
                     }
-                    else if (settings.toggleExperimentalIUnderstand == Storage.isTrueString)
-                    {
+                    else if (settings.toggleExperimentalIUnderstand == Storage.isTrueString) {
                         settings.toggleExperimentalIUnderstand = Storage.isFalseString;
                     }
                 }
                 GL.EndHorizontal();
 
-                if (settings.toggleExperimentalIUnderstand == Storage.isTrueString)
-                {
+                if (settings.toggleExperimentalIUnderstand == Storage.isTrueString) {
 
                     GL.Space(10);
 
@@ -7860,25 +7718,20 @@ namespace BagOfTricks
 
                     MiscExtras();
 
-                    if (settings.settingShowDebugInfo)
-                    {
+                    if (settings.settingShowDebugInfo) {
 
-                        if (GL.Button("Spawn Spiders & Spider Swarms"))
-                        {
+                        if (GL.Button("Spawn Spiders & Spider Swarms")) {
 
                             Vector3 worldPosition = Game.Instance.ClickEventsController.WorldPosition;
 
                             List<BlueprintUnit> blueprintUnitList = new List<BlueprintUnit>();
-                            foreach (string guid in Storage.spiderGuids)
-                            {
+                            foreach (string guid in Storage.spiderGuids) {
                                 blueprintUnitList.Add(Utilities.GetBlueprintByGuid<BlueprintUnit>(guid));
                             }
 
                             float numF = 0.0f;
-                            foreach (BlueprintUnit unit in blueprintUnitList)
-                            {
-                                if (!((UnityEngine.Object)unit == (UnityEngine.Object)null))
-                                {
+                            foreach (BlueprintUnit unit in blueprintUnitList) {
+                                if (!((UnityEngine.Object)unit == (UnityEngine.Object)null)) {
                                     Game.Instance.EntityCreator.SpawnUnit(unit, new Vector3(worldPosition.x + 2f * numF, worldPosition.y, worldPosition.z + 2f * numF), Quaternion.identity, Game.Instance.State.LoadedAreaState.MainState);
                                     ++numF;
                                 }
@@ -7886,30 +7739,24 @@ namespace BagOfTricks
                         }
 
 
-                        if (GL.Button("+10 Days"))
-                        {
+                        if (GL.Button("+10 Days")) {
                             Game.Instance.AdvanceGameTime(TimeSpan.FromDays(10));
                         }
-                        if (GL.Button("+1 Days"))
-                        {
+                        if (GL.Button("+1 Days")) {
                             Game.Instance.AdvanceGameTime(TimeSpan.FromDays(1));
                         }
 
                         GL.Space(10);
 
-                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
-                        {
-                            if (GL.Button($"Check {entry.Key} (Player)"))
-                            {
+                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)) {
+                            if (GL.Button($"Check {entry.Key} (Player)")) {
                                 RuleSkillCheck evt = new RuleSkillCheck(Game.Instance.Player.MainCharacter.Value, entry.Value, 20);
                                 Rulebook.Trigger<RuleSkillCheck>(evt);
                             }
                         }
                         GL.Space(10);
-                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
-                        {
-                            if (GL.Button($"Check {entry.Key} (Party)"))
-                            {
+                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)) {
+                            if (GL.Button($"Check {entry.Key} (Party)")) {
                                 RulePartySkillCheck evt = new RulePartySkillCheck(entry.Value, 20);
                                 Rulebook.Trigger<RulePartySkillCheck>(evt);
                             }
@@ -7917,18 +7764,15 @@ namespace BagOfTricks
 
                         GL.Space(10);
 
-                        if (GL.Button("Add Nyrissa Ray To Player"))
-                        {
+                        if (GL.Button("Add Nyrissa Ray To Player")) {
                             Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(Utilities.GetBlueprintByGuid<BlueprintUnitFact>("6a36a87c3d0094c46a9bef26afc3cb50"), (MechanicsContext)null, new FeatureParam());
                         }
 
-                        if (GL.Button("Add Summon Natures Ally To Player"))
-                        {
+                        if (GL.Button("Add Summon Natures Ally To Player")) {
                             Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(Utilities.GetBlueprintByGuid<BlueprintUnitFact>("c6147854641924442a3bb736080cfeb6"), (MechanicsContext)null, new FeatureParam());
                         }
 
-                        if (GL.Button("Fire Acid Arrow At Player"))
-                        {
+                        if (GL.Button("Fire Acid Arrow At Player")) {
                             BlueprintAbility bp = Utilities.GetBlueprint<BlueprintAbility>("9a46dfd390f943647ab4395fc997936d");
                             UnitDescriptor caster = Game.Instance.Player.MainCharacter.Value.Descriptor;
                             AbilityData abilityData = new AbilityData(bp, caster);
@@ -7942,24 +7786,19 @@ namespace BagOfTricks
                         }
 
 
-                        if (GL.Button("Log Player CR"))
-                        {
+                        if (GL.Button("Log Player CR")) {
                             modLogger.Log(Game.Instance.Player.MainCharacter.Value.Blueprint.CR.ToString());
                         }
 
 
-                        if (GUILayout.Button("Spawn Enemy With Random Tag At Player (CR10)"))
-
-                        {
+                        if (GUILayout.Button("Spawn Enemy With Random Tag At Player (CR10)")) {
                             UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
 
                             List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
 
                             Game.Instance.EntityCreator.SpawnUnit(units[0], GameHelper.GetPlayerCharacter().Position, new Quaternion(), Game.Instance.Player.CrossSceneState);
                         }
-                        if (GUILayout.Button("Spawn Enemy With Humanoid Tag At Player"))
-
-                        {
+                        if (GUILayout.Button("Spawn Enemy With Humanoid Tag At Player")) {
                             UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
 
                             List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
@@ -7970,22 +7809,18 @@ namespace BagOfTricks
 
                         MenuTools.SingleLineLabel("<b>Start Random Encounter</b>");
                         GL.BeginHorizontal();
-                        if (GL.Button($"{settings.toggleForcedEncounterIsHard} Hard Encounter", GL.ExpandWidth(false)))
-                        {
-                            if (settings.toggleForcedEncounterIsHard == Storage.isFalseString)
-                            {
+                        if (GL.Button($"{settings.toggleForcedEncounterIsHard} Hard Encounter", GL.ExpandWidth(false))) {
+                            if (settings.toggleForcedEncounterIsHard == Storage.isFalseString) {
                                 settings.toggleForcedEncounterIsHard = Storage.isTrueString;
                             }
-                            else if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
-                            {
+                            else if (settings.toggleForcedEncounterIsHard == Storage.isTrueString) {
                                 settings.toggleForcedEncounterIsHard = Storage.isFalseString;
                             }
                         }
                         GL.EndHorizontal();
                         GL.BeginHorizontal();
                         settings.forcedEncounterCr = GL.TextField(settings.forcedEncounterCr, 10, GL.Width(90f));
-                        settings.forcedEncounterCr = MenuTools.IntTestSettingStage1(settings.forcedEncounterCr);
-                        settings.forcedEncounterFinalCr = MenuTools.IntTestSettingStage2(settings.forcedEncounterCr, settings.forcedEncounterFinalCr);
+                        MenuTools.SettingParse(ref settings.forcedEncounterCr, ref settings.forcedEncounterFinalCr);
                         MenuTools.SingleLineLabel("Current CR: " + settings.forcedEncounterFinalCr);
                         GL.EndHorizontal();
                         GL.BeginHorizontal();
@@ -7997,33 +7832,25 @@ namespace BagOfTricks
                         GL.EndHorizontal();
 
                         GL.BeginHorizontal();
-                        if (GL.Button("Start Random Encounter", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button("Start Random Encounter", GL.ExpandWidth(false))) {
                             Storage.encounterError = "";
                             GameModeType currentMode = Game.Instance.CurrentMode;
-                            if (currentMode == GameModeType.GlobalMap)
-                            {
+                            if (currentMode == GameModeType.GlobalMap) {
                                 bool forcedEncounterIsHard;
                                 bool forcedEncounterIsCamp = false;
-                                if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
-                                {
+                                if (settings.toggleForcedEncounterIsHard == Storage.isTrueString) {
                                     forcedEncounterIsHard = true;
                                 }
-                                else
-                                {
+                                else {
                                     forcedEncounterIsHard = false;
                                 }
-                                switch (settings.forcedEncounterSelectedBlueprintMode)
-                                {
+                                switch (settings.forcedEncounterSelectedBlueprintMode) {
                                     case 0:
                                         List<string> blueprintRandomEncounter = Main.BlueprintsByTypes(new string[] { "BlueprintRandomEncounter" });
-                                        if (!Storage.blueprintRandomCombatEncounterGuids.Any())
-                                        {
-                                            foreach (string s in blueprintRandomEncounter)
-                                            {
+                                        if (!Storage.blueprintRandomCombatEncounterGuids.Any()) {
+                                            foreach (string s in blueprintRandomEncounter) {
                                                 BlueprintRandomEncounter bre = Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(s);
-                                                if (bre.name.Contains("Combat"))
-                                                {
+                                                if (bre.name.Contains("Combat")) {
                                                     Storage.blueprintRandomCombatEncounterGuids.Add(s);
                                                     modLogger.Log(settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
 
@@ -8042,14 +7869,12 @@ namespace BagOfTricks
                                 modLogger.Log("!!!" + settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
                                 Main.StartEncounter(Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid), settings.forcedEncounterFinalCr, settings.forcedEncounterPostion, forcedEncounterIsHard, forcedEncounterIsCamp);
                             }
-                            else
-                            {
+                            else {
                                 Storage.encounterError = "Can only be done on the Global Map.";
                             }
                         }
                         GL.EndHorizontal();
-                        if (Storage.encounterError != "")
-                        {
+                        if (Storage.encounterError != "") {
                             MenuTools.SingleLineLabel(Storage.encounterError);
                         }
                     }
@@ -8071,9 +7896,7 @@ namespace BagOfTricks
 
             GL.BeginHorizontal();
             settings.gameConstsAmount = GL.TextField(settings.gameConstsAmount, 10, GL.Width(85f));
-
-            settings.gameConstsAmount = MenuTools.IntTestSettingStage1(settings.gameConstsAmount);
-            settings.finalGameConstsAmount = MenuTools.IntTestSettingStage2(settings.gameConstsAmount, settings.finalGameConstsAmount);
+            MenuTools.SettingParse(ref settings.gameConstsAmount, ref settings.finalGameConstsAmount);
             GL.EndHorizontal();
 
             GL.BeginHorizontal();
@@ -8125,8 +7948,7 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        public static void FlyingHeight()
-        {
+        public static void FlyingHeight() {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
             GL.Label(RichText.Bold(Strings.GetText("headerOption_FlyingHeight")));
@@ -8134,50 +7956,39 @@ namespace BagOfTricks
             MenuTools.AddFavouriteButton(nameof(FlyingHeight));
             GL.EndHorizontal();
 
-            settings.flyingHeight = GL.TextField(settings.flyingHeight, 10, GL.Width(90f));
-
-            settings.flyingHeight = MenuTools.FloatTestSettingStage1(settings.flyingHeight);
-            settings.finalflyingHeight = MenuTools.FloatTestSettingStage2(settings.flyingHeight, settings.finalflyingHeight);
+            MenuTools.SettingsField(ref settings.flyingHeight, ref settings.finalflyingHeight);
 
             List<UnitEntityData> partyMembers = Game.Instance.Player.ControllableCharacters;
-
-            foreach (UnitEntityData controllableCharacter in partyMembers)
-            {
+            foreach (UnitEntityData controllableCharacter in Game.Instance.Player.ControllableCharacters) {
                 GL.BeginHorizontal();
                 MenuTools.SingleLineLabel(Strings.GetText("label_CurrentFlyingHeight") + $" ({controllableCharacter.CharacterName}): {controllableCharacter.FlyHeight}");
-                if (GL.Button($"+{settings.flyingHeight}", GL.Width(160f)))
-                {
+                if (GL.Button($"+{settings.flyingHeight}", GL.ExpandWidth(false))) {
                     controllableCharacter.FlyHeight += settings.finalflyingHeight;
                 }
-                if (GL.Button(Strings.GetText("button_SetTo0"), GL.Width(160f)))
-                {
+                if (GL.Button(Strings.GetText("button_SetTo0"), GL.ExpandWidth(false))) {
                     controllableCharacter.FlyHeight = 0f;
                 }
-                if (GL.Button($"-{settings.flyingHeight}", GL.Width(160f)))
-                {
+                if (GL.Button($"-{settings.flyingHeight}", GL.ExpandWidth(false))) {
                     controllableCharacter.FlyHeight -= settings.finalflyingHeight;
                 }
                 GL.EndHorizontal();
             }
 
             GL.BeginHorizontal();
-            settings.flyingHeightUseSlider = GL.Toggle(settings.flyingHeightUseSlider, MenuTools.TextWithTooltip("headerOption_UseSlider", "", " "), GL.ExpandWidth(false));
+            settings.flyingHeightUseSlider = GL.Toggle(settings.flyingHeightUseSlider, "", GL.ExpandWidth(false));
+            GL.Label(Strings.GetText("headerOption_UseSlider"), GL.ExpandWidth(false));
 
             Storage.flyingHeightSlider = GL.HorizontalSlider(Storage.flyingHeightSlider, -10f, 100f);
-            if (settings.flyingHeightUseSlider)
-            {
-                foreach (UnitEntityData controllableCharacter in partyMembers)
-                {
+            if (settings.flyingHeightUseSlider) {
+                foreach (UnitEntityData controllableCharacter in partyMembers) {
                     controllableCharacter.FlyHeight = Storage.flyingHeightSlider;
                 }
             }
             GL.EndHorizontal();
             GL.BeginHorizontal();
 
-            if (GL.Button(Strings.GetText("button_SetAllTo0"), GL.ExpandWidth(false)))
-            {
-                foreach (UnitEntityData controllableCharacter in partyMembers)
-                {
+            if (GL.Button(Strings.GetText("button_SetAllTo0"), GL.ExpandWidth(false))) {
+                foreach (UnitEntityData controllableCharacter in partyMembers) {
                     Storage.flyingHeightSlider = 0f;
                     controllableCharacter.FlyHeight = 0f;
                 }
@@ -8339,62 +8150,51 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        public static void RomanceCounterExperimental()
-        {
+        public static void RomanceCounterExperimental() {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showRomanceCountersExperimental = GL.Toggle(settings.showRomanceCountersExperimental, RichText.Bold($"{Strings.GetText("header_RomanceCounters")} ({Strings.GetText("header_Experimental")})"), GL.ExpandWidth(false));
+            settings.showRomanceCountersExperimental = GL.Toggle(settings.showRomanceCountersExperimental, "", GL.ExpandWidth(false));
+            GL.Label(RichText.Bold($"{Strings.GetText("header_RomanceCounters")} ({Strings.GetText("header_Experimental")})"), GL.ExpandWidth(false));
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(RomanceCounterExperimental));
             GL.EndHorizontal();
-            if (settings.showRomanceCountersExperimental)
-            {
+            if (settings.showRomanceCountersExperimental) {
                 GL.Space(10);
 
                 GL.BeginHorizontal();
-                settings.showRomanceCountersSpoilers = GL.Toggle(settings.showRomanceCountersSpoilers, Strings.GetText("label_ShowSpoilers"), GL.ExpandWidth(false));
+                settings.showRomanceCountersSpoilers = GL.Toggle(settings.showRomanceCountersSpoilers, "", GL.ExpandWidth(false));
+                GL.Label(Strings.GetText("label_ShowSpoilers"), GL.ExpandWidth(false));
                 GL.EndHorizontal();
 
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
-                settings.romanceCounterSetValue = GL.TextField(settings.romanceCounterSetValue, 6, GL.Width(100f));
-                settings.romanceCounterSetValue = MenuTools.FloatTestSettingStage1(settings.romanceCounterSetValue);
-                settings.finalRomanceCounterSetValue = MenuTools.FloatTestSettingStage2(settings.romanceCounterSetValue, settings.finalRomanceCounterSetValue);
-                GL.EndHorizontal();
+                MenuTools.SettingsField(ref settings.romanceCounterSetValue, ref settings.finalRomanceCounterSetValue, "headerOption_SettingsValue");
 
-                if (Storage.romanceCounterLoadExperimental)
-                {
+
+                if (Storage.romanceCounterLoadExperimental) {
                     Storage.blueprintRomanceCounters = Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
                     Storage.romanceCounterLoadExperimental = false;
                 }
 
-                foreach (BlueprintRomanceCounter bpc in Storage.blueprintRomanceCounters)
-                {
-                    if (!settings.showRomanceCountersSpoilers)
-                    {
-                        if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0")
-                        {
+
+                foreach (BlueprintRomanceCounter bpc in Storage.blueprintRomanceCounters) {
+                    if (!settings.showRomanceCountersSpoilers) {
+                        if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0") {
                             MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", "") + " " + Strings.GetText("label_RomanceCounter"));
-                            if (settings.settingShowDebugInfo)
-                            {
+                            if (settings.settingShowDebugInfo) {
                                 MenuTools.SingleLineLabel(bpc.AssetGuid);
                             }
 
                             GL.BeginHorizontal();
                             GL.Label(Strings.GetText("label_CounterValue") + ": " + bpc.CounterFlag.Value.ToString());
                             GL.FlexibleSpace();
-                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
                                 bpc.CounterFlag.Value++;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
                                 bpc.CounterFlag.Value--;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
                                 bpc.CounterFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                                 Storage.romanceCounterLoadExperimental = true;
                             }
@@ -8403,18 +8203,15 @@ namespace BagOfTricks
                             GL.BeginHorizontal();
                             GL.Label(Strings.GetText("label_LowerCutoff") + ": " + bpc.MinValueFlag.Value.ToString());
                             GL.FlexibleSpace();
-                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
                                 bpc.MinValueFlag.Value++;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
                                 bpc.MinValueFlag.Value--;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
                                 bpc.MinValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                                 Storage.romanceCounterLoadExperimental = true;
                             }
@@ -8423,18 +8220,15 @@ namespace BagOfTricks
                             GL.BeginHorizontal();
                             GL.Label(Strings.GetText("label_UpperCutoff") + ": " + bpc.MaxValueFlag.Value.ToString());
                             GL.FlexibleSpace();
-                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
                                 bpc.MaxValueFlag.Value++;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
                                 bpc.MaxValueFlag.Value--;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
-                            {
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
                                 bpc.MaxValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                                 Storage.romanceCounterLoadExperimental = true;
                             }
@@ -8443,28 +8237,23 @@ namespace BagOfTricks
                             GL.Space(10);
                         }
                     }
-                    else
-                    {
+                    else {
                         MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", ""));
-                        if (settings.settingShowDebugInfo)
-                        {
+                        if (settings.settingShowDebugInfo) {
                             MenuTools.SingleLineLabel(bpc.AssetGuid);
                         }
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_CounterValue") + ": " + bpc.CounterFlag.Value.ToString());
                         GL.FlexibleSpace();
-                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
                             bpc.CounterFlag.Value++;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
                             bpc.CounterFlag.Value--;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
                             bpc.CounterFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                             Storage.romanceCounterLoadExperimental = true;
                         }
@@ -8473,18 +8262,15 @@ namespace BagOfTricks
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_LowerCutoff") + ": " + bpc.MinValueFlag.Value.ToString());
                         GL.FlexibleSpace();
-                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
                             bpc.MinValueFlag.Value++;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
                             bpc.MinValueFlag.Value--;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
                             bpc.MinValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                             Storage.romanceCounterLoadExperimental = true;
                         }
@@ -8493,18 +8279,15 @@ namespace BagOfTricks
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_UpperCutoff") + ": " + bpc.MaxValueFlag.Value.ToString());
                         GL.FlexibleSpace();
-                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
                             bpc.MaxValueFlag.Value++;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
                             bpc.MaxValueFlag.Value--;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
-                        {
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
                             bpc.MaxValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                             Storage.romanceCounterLoadExperimental = true;
                         }
@@ -8514,8 +8297,7 @@ namespace BagOfTricks
                     }
                 }
             }
-            else
-            {
+            else {
                 Storage.romanceCounterLoadExperimental = true;
             }
             GL.EndVertical();
@@ -8692,8 +8474,7 @@ namespace BagOfTricks
             GL.BeginHorizontal();
             GL.Label(Strings.GetText("headerOption_SearchResultLimit") + ": ", GL.ExpandWidth(false));
             settings.resultLimit = GL.TextField(settings.resultLimit, GL.Width(150f));
-            settings.resultLimit = MenuTools.IntTestSettingStage1(settings.resultLimit);
-            settings.finalResultLimit = MenuTools.IntTestSettingStage2(settings.resultLimit, settings.finalResultLimit);
+            MenuTools.SettingParse(ref settings.resultLimit, ref settings.finalResultLimit);
             GL.EndHorizontal();
 
             MenuTools.SingleLineLabel(Strings.GetText("label_CurrentSearchResultLimit") +
