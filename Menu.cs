@@ -2,6 +2,7 @@
 
 using Kingmaker;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Area;
 using Kingmaker.Blueprints.CharGen;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -2972,6 +2973,10 @@ namespace BagOfTricks
                 MenuTools.ToggleButton(ref settings.toggleCookingAndHuntingInDungeons,
                     "buttonToggle_CookingAndHuntingInDungeons", "tooltip_CookingAndHuntingInDungeons",
                     nameof(settings.toggleCookingAndHuntingInDungeons));
+
+                GL.Space(10);
+
+                MenuTools.ToggleButton(ref settings.toggleAllowCampingEverywhere, "buttonToggle_AllowCampingEverywhere", "tooltip_AllowCampingEverywhere", nameof(settings.toggleAllowCampingEverywhere));
 
                 GL.Space(10);
 
@@ -6889,10 +6894,11 @@ namespace BagOfTricks
             if (settings.takeXIndex == 3)
             {
                 GL.BeginHorizontal();
-                GL.Label("Custom Value: ", GL.ExpandWidth(false));
+                GL.Label("自定义值：", GL.ExpandWidth(false));
                 settings.takeXCustom = GL.HorizontalSlider(settings.takeXCustom, 1f, 20f, GL.Width(300f));
                 GL.Label($" {Mathf.RoundToInt(settings.takeXCustom)}", GL.ExpandWidth(false));
                 GL.EndHorizontal();
+                MenuTools.ToggleButton(ref settings.toggleCustomTakeXAsMin, "buttonToggle_toggleCustomTakeXAsMin", "tooltip_toggleCustomTakeXAsMin");
             }
 
             GL.EndVertical();
@@ -7719,6 +7725,119 @@ namespace BagOfTricks
                     MiscExtras();
 
                     if (settings.settingShowDebugInfo) {
+
+
+                        if (GL.Button("Roll D20")) {
+                            modLogger.Log("D20: " + RuleRollDice.Dice.D20);
+                        }
+
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area.StaticScene")) {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                                SettlementState state = null;
+                                foreach (RegionState region in KingdomState.Instance.Regions) {
+                                    if (region.IsClaimed) {
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        try {
+                                            region.Blueprint.SettlementBuildArea.Area.StaticScene = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area.StaticScene;
+                                        }
+                                        catch (Exception e) {
+
+                                            modLogger.Log(e.ToString());
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area.DynamicScene")) {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                                SettlementState state = null;
+                                foreach (RegionState region in KingdomState.Instance.Regions) {
+                                    if (region.IsClaimed) {
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        try {
+                                            region.Blueprint.SettlementBuildArea.Area.DynamicScene = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area.DynamicScene;
+                                        }
+                                        catch (Exception e) {
+
+                                            modLogger.Log(e.ToString());
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area")) {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                                SettlementState state = null;
+                                foreach (RegionState region in KingdomState.Instance.Regions) {
+                                    if (region.IsClaimed) {
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        string guid = region.Blueprint.SettlementBuildArea.Area.AssetGuid;
+                                        region.Blueprint.SettlementBuildArea.Area = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area;
+                                        try {
+                                            Traverse.Create(region.Blueprint.SettlementBuildArea.Area).Field("m_AssetGuid").SetValue(guid);
+                                        }
+                                        catch (Exception e) {
+
+                                            modLogger.Log(e.ToString());
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea")) {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                                SettlementState state = null;
+                                foreach (RegionState region in KingdomState.Instance.Regions) {
+                                    if (region.IsClaimed) {
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        BlueprintAreaEnterPoint shrikeClone = UnityEngine.Object.Instantiate((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5"));
+                                        try {
+                                            Traverse.Create(shrikeClone).Field("m_AssetGuid").SetValue(region.Blueprint.SettlementBuildArea.AssetGuid);
+                                        }
+                                        catch (Exception e) {
+
+                                            modLogger.Log(e.ToString());
+                                        }
+
+                                        foreach (string s in Common.getObjectInfo(shrikeClone)) {
+                                            modLogger.Log(s);
+                                        }
+
+                                        region.Blueprint.SettlementBuildArea = shrikeClone;
+                                    }
+                                }
+                            }
+                        }
+                        if (GL.Button("RestoreTopologyFromScene")) {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                                SettlementState state = null;
+                                foreach (RegionState region in KingdomState.Instance.Regions) {
+                                    if (region.IsClaimed) {
+                                        region.Settlement.Topology.RestoreTopologyFromScene();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (GL.Button("Log SettlementBuildArea")) {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                                SettlementState state = null;
+                                foreach (RegionState region in KingdomState.Instance.Regions) {
+                                    if (region.IsClaimed) {
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        modLogger.Log(region.Blueprint.SettlementBuildArea.AssetGuid);
+                                    }
+                                }
+                            }
+                        }
+
+                        GL.Space(10);
 
                         if (GL.Button("Spawn Spiders & Spider Swarms")) {
 

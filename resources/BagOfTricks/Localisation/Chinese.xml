@@ -604,7 +604,6 @@
   <Localisation key="buttonToggle_AlignmentFix" value="中立阵营不会导致在守序或混乱轴上移动" />
   <Localisation key="buttonToggle_SpellbookAbilityAlignmentChecks" value="忽略法术书和阵营能力检定" />
   <Localisation key="buttonToggle_TabletopSpellAbilityRange" value="桌游法术 &amp; 能力范围（25 ft, 100 ft, 400 ft）" />
-  <Localisation key="tooltip_RespecCostMultiplier" value="设置相应角色重置的倍数。小于1的值将导致价格下降。" />
   <Localisation key="buttonToggle_SetSpeedOnSummon" value="设置召唤生物的移动速度" />
   <Localisation key="buttonToggle_EnableFocusCameraSelectedUnit" value="启用选定的头像自动获得焦点" />
   <Localisation key="buttonToggle_ClaimResources" value="自动获得你土地上所有的资源" />
@@ -619,6 +618,7 @@
   <Localisation key="buttonToggle_PassSavingThrowIndividual" value="总是通过豁免投掷检定" />
   <Localisation key="buttonToggle_NoAttacksOfOpportunity" value="无借机攻击" />
   <Localisation key="buttonToggle_CookingAndHuntingInDungeons" value="允许在地下城里烹饪和打猎" />
+  <Localisation key="buttonToggle_AllowCampingEverywhere" value="允许在任何地方露营" />
   <Localisation key="buttonToggle_ArmourChecksPenalty0" value="将盔甲检定惩罚设置为0" />
   <Localisation key="buttonToggle_SetEncumbrance" value="设置负重" />
   <Localisation key="buttonToggle_InstantPartyChange" value="即时更换队友" />
@@ -654,6 +654,7 @@
   <Localisation key="buttonToggle_CreateBattleLogFileHTML" value="使用HTML格式的日志文件" />
   <Localisation key="buttonToggle_CreateBattleLogFileBoT" value="使用百宝袋MOD格式的日志文件" />
   <Localisation key="buttonToggle_RespecCostMultiplier" value="角色重置消耗倍数" />
+  <Localisation key="buttonToggle_toggleCustomTakeXAsMin" value="使用自定义最小投掷值" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />
@@ -805,6 +806,7 @@
   <Localisation key="warning_PreventAlignmentChanges" value="阻止阵营改变处于活动状态！" />
   <Localisation key="warning_RevealLocations" value="不能反转已暴露位置！" />
   <Localisation key="warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites" value="随机生成敌对单元（实验）和从单元收藏夹或存储单元中生成敌人同时激活！" />
+  <Localisation key="tooltip_RespecCostMultiplier" value="设置相应成本的倍数。小于1的值将导致价格下降。" />
   <Localisation key="tooltip_BuffDurationMultiplier" value="选择所产生的增益效果持续时间将乘以所选值。&#xA;请注意，非常高的倍数可能会阻止它应用于持续时间非常长的增益效果。&#xA;如果是这种情况，您将能够在日志中看到错误（System.OverflowException）。" />
   <Localisation key="tooltip_SetEncumbrance" value="设置负重上限为单个角色和队伍共享的选择值。" />
   <Localisation key="tooltip_MaxAbilityScoreAtCC" value="使用文本输入框设置角色创建时的最大属性点数。" />
@@ -833,6 +835,7 @@
   <Localisation key="tooltip_InstantRest" value="立即将休息的所有效果应用于该队伍。" />
   <Localisation key="tooltip_InstantRestAfterCombat" value="在每次战斗后自动应用休息的所有效果。" />
   <Localisation key="tooltip_CookingAndHuntingInDungeons" value="允许在地牢的休息期间进行捕猎和烹饪。" />
+  <Localisation key="tooltip_AllowCampingEverywhere" value="允许在任何地方露营。&#xA;注意这会让你在不可能的地方呆上一段时间！&#xA;禁用需要重新启动游戏才能生效！" />
   <Localisation key="tooltip_NoRationsRequired" value="休息时不需要口粮。" />
   <Localisation key="tooltip_Add6Rations" value="增加了六份口粮到队伍的库存。" />
   <Localisation key="tooltip_MercenaryCostMultiplier" value="使用输入字段设置雇佣兵招募成本倍数" />
@@ -928,6 +931,7 @@
   <Localisation key="tooltip_RollWithDisadvantage" value="滚动两个d20而不是一个，结果取最低的一个。&#xA;可以设置为影响每个人，仅影响一方或仅影响敌人。" />
   <Localisation key="tooltip_AlwaysRoll20ForInitiative" value="﻿包括您的敌人在内的所有人都会主动滚动20。" />
   <Localisation key="tooltip_TakeX" value="﻿﻿从战斗中制造的D20卷将会得到设置值，即10、20或自定义值。" />
+  <Localisation key="tooltip_toggleCustomTakeXAsMin" value="设置的自定义值将用作最小投掷，即投掷将始终等于或高于自定义值。" />
   <Localisation key="tooltip_CameraRotation" value="启动相机旋转。" />
   <Localisation key="tooltip_CameraScrollSpeed" value="启用选项以改变相机的滚动速度。" />
   <Localisation key="tooltip_CameraZoomUnlocked" value="允许编辑相机的变焦限制。" />

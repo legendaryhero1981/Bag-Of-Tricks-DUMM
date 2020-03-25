@@ -1,4 +1,5 @@
-﻿using Kingmaker;
+﻿using Harmony;
+using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -793,6 +794,23 @@ namespace BagOfTricks
             s += "<br/>";
 
             return s;
+        }
+
+        public static string[] getObjectInfo(object o) {
+
+            string fields = "";
+            foreach (string field in Traverse.Create(o).Fields()) {
+                fields = fields + field + ", ";
+            }
+            string methods = "";
+            foreach (string method in Traverse.Create(o).Methods()) {
+                methods = methods + method + ", ";
+            }
+            string properties = "";
+            foreach (string property in Traverse.Create(o).Properties()) {
+                properties = properties + property + ", ";
+            }
+            return new string[] { fields, methods, properties };
         }
     }
 

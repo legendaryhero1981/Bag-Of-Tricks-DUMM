@@ -506,6 +506,8 @@ namespace BagOfTricks
                         return ref settings.toggleAutomaticallyLoadLastSave;
                     case "toggleSpawnEnemiesFromUnitFavourites":
                         return ref settings.toggleSpawnEnemiesFromUnitFavourites;
+                    case "toggleAllowCampingEverywhere":
+                        return ref settings.toggleAllowCampingEverywhere;
                     default:
                         throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
                 }
@@ -932,16 +934,21 @@ namespace BagOfTricks
                 modLogger.Log(Storage.notificationEkunQ2RewardArmor);
         }
 
-        public static void SetKeyBinding(ref KeyCode keyCode)
-        {
+        static private KeyCode[] mouseButtonsValid = { KeyCode.Mouse3, KeyCode.Mouse4, KeyCode.Mouse5, KeyCode.Mouse6 };
+        public static void SetKeyBinding(ref KeyCode keyCode) {
             string label = (keyCode == KeyCode.None) ? Strings.GetText("button_PressKey") : keyCode.ToString();
-            if (GL.Button(label, GL.ExpandWidth(false)))
-            {
+            if (GL.Button(label, GL.ExpandWidth(false))) {
                 keyCode = KeyCode.None;
             }
-            if (keyCode == KeyCode.None && Event.current != null && Event.current.isKey)
-            {
-                keyCode = Event.current.keyCode;
+            if (keyCode == KeyCode.None && Event.current != null) {
+                if (Event.current.isKey) {
+                    keyCode = Event.current.keyCode;
+                }
+                foreach (KeyCode mouseButton in mouseButtonsValid) {
+                    if (Input.GetKey(mouseButton)) {
+                        keyCode = mouseButton;
+                    }
+                }
             }
         }
 

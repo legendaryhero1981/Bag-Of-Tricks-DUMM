@@ -11,10 +11,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>BagOfTricks</RootNamespace>
     <AssemblyName>BagOfTricks</AssemblyName>
-    <ApplicationVersion>1.15.4.22</ApplicationVersion>
-    <AssemblyVersion>1.15.4.22</AssemblyVersion>
-    <FileVersion>1.15.4.22</FileVersion>
-    <Version>1.15.4.22</Version>
+    <ApplicationVersion>1.15.5.23</ApplicationVersion>
+    <AssemblyVersion>1.15.5.23</AssemblyVersion>
+    <FileVersion>1.15.5.23</FileVersion>
+    <Version>1.15.5.23</Version>
     <Authors>李允</Authors>
     <Company>Legend</Company>
     <Copyright>Copyright © Legend 2020</Copyright>
@@ -34,12 +34,6 @@
   </ItemGroup>
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
   <PropertyGroup>
-    <PostBuildEvent>D:\games\exe4j\jvm\file -cd~::-m!~ .::* "$(SolutionDir)\resources\BagOfTricks::$(TargetDir)" "$(TargetDir)::$(TargetDir)\BagOfTricks" ?::1</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|x64'">
-    <PlatformTarget>x64</PlatformTarget>
+    <PostBuildEvent>D:\games\exe4j\file -cd~::-m!~ .::* "$(SolutionDir)\resources\BagOfTricks::$(TargetDir)" "$(TargetDir)::$(TargetDir)\BagOfTricks" ?::1</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -61,6 +61,7 @@ using Kingmaker.UI.IngameMenu;
 using Kingmaker.UI.Kingdom;
 using Kingmaker.UI.Log;
 using Kingmaker.UI.MainMenuUI;
+using Kingmaker.UI.RestCamp;
 using Kingmaker.UI.ServiceWindow;
 using Kingmaker.UI.ServiceWindow.LocalMap;
 using Kingmaker.UnitLogic;
@@ -300,7 +301,13 @@ namespace BagOfTricks
                             __result = 20;
                             break;
                         case 3:
-                            __result = Mathf.RoundToInt(settings.takeXCustom);
+                            if (Strings.ToBool(settings.toggleCustomTakeXAsMin)) {
+                                __result = Math.Max(Mathf.RoundToInt(settings.takeXCustom), __result);
+                            }
+                            else {
+                                __result = Mathf.RoundToInt(settings.takeXCustom);
+
+                            }
                             break;
                     }
                 }
@@ -2562,6 +2569,7 @@ namespace BagOfTricks
 
                 if (Strings.ToBool(settings.toggleRemoveSummonsGlow)) {
                     unit.Buffs.RemoveFact(Utilities.GetBlueprintByGuid<BlueprintFact>("706c182e86d9be848b59ddccca73d13e")); // SummonedCreatureVisual
+                    unit.Buffs.RemoveFact(Utilities.GetBlueprintByGuid<BlueprintFact>("e4b996b5168fe284ab3141a91895d7ea")); // NaturalAllyCreatureVisual
                 }
             }
         }
@@ -3242,6 +3250,15 @@ namespace BagOfTricks
             public static void Postfix(ref int __result) {
                 if (Strings.ToBool(settings.toggleRespecCostMultiplier)) {
                     __result = Mathf.RoundToInt(__result * settings.repecCostMultiplier);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(RestCampController), "ShowRestUI")]
+        static class RestController_ShowRestUI_Patch {
+            static void Prefix() {
+                if (Strings.ToBool(settings.toggleAllowCampingEverywhere)) {
+                    Game.Instance.CurrentlyLoadedArea.CampingSettings.CampingAllowed = true;
                 }
             }
         }

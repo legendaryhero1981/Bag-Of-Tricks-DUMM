@@ -636,6 +636,8 @@ namespace BagOfTricks
         public string repecCostMultiplierString = "1";
         public float repecCostMultiplier = 1f;
 
+        public string toggleAllowCampingEverywhere = Storage.isFalseString;
+        public string toggleCustomTakeXAsMin = Storage.isFalseString;
 
         public override void Save(UnityModManager.ModEntry modEntry) {
             Save(this, modEntry);

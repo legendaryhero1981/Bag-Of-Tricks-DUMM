@@ -618,6 +618,7 @@
   <Localisation key="buttonToggle_PassSavingThrowIndividual" value="Always Pass Saving Throws" />
   <Localisation key="buttonToggle_NoAttacksOfOpportunity" value="No Attacks Of Opportunity" />
   <Localisation key="buttonToggle_CookingAndHuntingInDungeons" value="Allow Cooking And Hunting In Dungeons" />
+  <Localisation key="buttonToggle_AllowCampingEverywhere" value="Allow Camping Everywhere" />
   <Localisation key="buttonToggle_ArmourChecksPenalty0" value="Set Armour Check Penalty To 0" />
   <Localisation key="buttonToggle_SetEncumbrance" value="Set Encumbrance" />
   <Localisation key="buttonToggle_InstantPartyChange" value="Instantly Swap Party Members" />
@@ -653,6 +654,7 @@
   <Localisation key="buttonToggle_CreateBattleLogFileHTML" value="Use HTML Log File" />
   <Localisation key="buttonToggle_CreateBattleLogFileBoT" value="Use Bag of Tricks Log File" />
   <Localisation key="buttonToggle_RespecCostMultiplier" value="Respec Cost Multiplier" />
+  <Localisation key="buttonToggle_toggleCustomTakeXAsMin" value="Use Custom Value As Minimum Roll" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -833,6 +835,7 @@
   <Localisation key="tooltip_InstantRest" value="Applies all the effects of a rest immediately to the party." />
   <Localisation key="tooltip_InstantRestAfterCombat" value="Applies all the effects of a rest automatically after every combat." />
   <Localisation key="tooltip_CookingAndHuntingInDungeons" value="Allows to hunt and cook during rests in dungeons." />
+  <Localisation key="tooltip_AllowCampingEverywhere" value="Allows camping everywhere.&#xA;Note that this will allow you to pass time in places where it shouldn't be possible!&#xA;Disabling requires a game restart to take effect!" />
   <Localisation key="tooltip_NoRationsRequired" value="Disables to need for rations when resting." />
   <Localisation key="tooltip_Add6Rations" value="Adds six rations to the party's inventory." />
   <Localisation key="tooltip_MercenaryCostMultiplier" value="Use the input field to set a multiplier for the cost for recruiting a mercenary." />
@@ -928,6 +931,7 @@
   <Localisation key="tooltip_RollWithDisadvantage" value="Two d20s are rolled instead of one and the lowest one is taken as the result.&#xA;Can be set to affect everyone, only the party or only enemies." />
   <Localisation key="tooltip_AlwaysRoll20ForInitiative" value="﻿Everyone including your enemies rolls 20 for initiative." />
   <Localisation key="tooltip_TakeX" value="﻿﻿D20 rolls made out of combat will result in the set value i.e. 10, 20 or a custom one." />
+  <Localisation key="tooltip_toggleCustomTakeXAsMin" value="The set custom value will be used as a minimum roll i.e. you rolls will always be equal to or higher than the custom value." />
   <Localisation key="tooltip_CameraRotation" value="Enables camera rotation." />
   <Localisation key="tooltip_CameraScrollSpeed" value="Enables the option to change the scroll speed of the camera." />
   <Localisation key="tooltip_CameraZoomUnlocked" value="Enables editing the camera zoom limits." />
@@ -939,7 +943,7 @@
   <Localisation key="tooltip_EnableResetCutsceneLockHotkey" value="Enables to toggle the Reset Cutscene Lock option via hotkey." />
   <Localisation key="tooltip_AnimationCloseUMM" value="Closes the Unity Mod Manager interface once a play button is pressed." />
   <Localisation key="tooltip_ShowAreaName" value="Displays the current area's name at the top of the screen." />
-  <Localisation key="tooltip_ShowCombatDifficulty" value="Displays the combat difficulty and CR once combat starts.&#xA;If the development tools are enabled their combat difficulty display will be used instead.&#xA;Disabling requires a restart to take effect!" />
+  <Localisation key="tooltip_ShowCombatDifficulty" value="Displays the combat difficulty and CR once combat starts.&#xA;If the development tools are enabled their combat difficulty display will be used instead.&#xA;Disabling requires a game restart to take effect!" />
   <Localisation key="tooltip_UnityModManagerButton" value="﻿﻿Adds a button which opens the Unity Mod Manager UI to the ESC menu.&#xA;Requires to load a save or change the area in order to take effect." />
   <Localisation key="tooltip_UnityModManagerButtonIndex" value="Adjusts the position of the button (0 = bottom, 6 = top).&#xA;Requires to load a save or change the area in order to take effect." />
   <Localisation key="tooltip_AlignmentFix" value="E.g. when being Lawful Neutral a Neutral Good alignment shift&#xA;will bring you towards Lawful Good instead of Neutral Good" />
@@ -951,7 +955,7 @@
   <Localisation key="tooltip_NoNegativeLevels" value="Prevents party members from gaining negative levels.&#xA;The game will still display level drain messages in the battle log." />
   <Localisation key="tooltip_MakeSummonsControllable" value="Allows you to control summons summoned by party members. Only applies to those summoned after activating this option.&#xA;If the summon duration runs out while a summon's movement order is in progress the green preview marker will remain visible." />
   <Localisation key="tooltip_DisableWarpaintedSkullAbilityForSummonedBarbarians" value="Barbarians summoned by the Warpainted Skull of Duthica won't be able to use the Warpainted Skull of Duthica's ability themself." />
-  <Localisation key="tooltip__RemoveSummonsGlow" value="Removes the permanent glow from summons.&#xA;Does not apply to already summoned units." />
+  <Localisation key="tooltip_RemoveSummonsGlow" value="Removes the permanent glow from summons.&#xA;Does not apply to already summoned units." />
   <Localisation key="tooltip_RunPerceptionTriggerActions" value="Runs the actions attached to all the Perception Triggers in the current area&#xA;e.g. revealing hidden passages/fixing previously bugged ones." />
   <Localisation key="tooltip_FreezeTimedQuestAt90Days" value="Freezes the time left on timed quest at 90 days.&#xA;Once turned off timed quest will return to their normal state i.e. they will react as if time has progressed while the option was active.&#xA;Thus it is recommended to complete timed quest before turning it off or making sure that there is still time left." />
   <Localisation key="tooltip_ActionKey" value="﻿﻿The action key can be set to perform a range of actions via hotkey." />

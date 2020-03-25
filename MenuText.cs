@@ -704,6 +704,7 @@ namespace BagOfTricks
             {"buttonToggle_PassSavingThrowIndividual", "Always Pass Saving Throws"},
             {"buttonToggle_NoAttacksOfOpportunity", "No Attacks Of Opportunity"},
             {"buttonToggle_CookingAndHuntingInDungeons", "Allow Cooking And Hunting In Dungeons"},
+            {"buttonToggle_AllowCampingEverywhere", "Allow Camping Everywhere"},
             {"buttonToggle_ArmourChecksPenalty0", "Set Armour Check Penalty To 0"},
             {"buttonToggle_SetEncumbrance", "Set Encumbrance"},
             {"buttonToggle_InstantPartyChange", "Instantly Swap Party Members"},
@@ -739,6 +740,7 @@ namespace BagOfTricks
             {"buttonToggle_CreateBattleLogFileHTML", "Use HTML Log File"},
             {"buttonToggle_CreateBattleLogFileBoT", "Use Bag of Tricks Log File"},
             {"buttonToggle_RespecCostMultiplier", "Respec Cost Multiplier"},
+            {"buttonToggle_toggleCustomTakeXAsMin", "Use Custom Value As Minimum Roll"},
             //buttonToggle end
 
             //arrayItem start
@@ -1049,6 +1051,7 @@ namespace BagOfTricks
             {"tooltip_InstantRest", "Applies all the effects of a rest immediately to the party."},
             {"tooltip_InstantRestAfterCombat", "Applies all the effects of a rest automatically after every combat."},
             {"tooltip_CookingAndHuntingInDungeons", "Allows to hunt and cook during rests in dungeons."},
+            {"tooltip_AllowCampingEverywhere", "Allows camping everywhere.\nNote that this will allow you to pass time in places where it shouldn't be possible!\nDisabling requires a game restart to take effect!"},
             {"tooltip_NoRationsRequired", "Disables to need for rations when resting."},
             {"tooltip_Add6Rations", "Adds six rations to the party's inventory."},
 
@@ -1249,7 +1252,7 @@ namespace BagOfTricks
                 "tooltip_TakeX",
                 "﻿﻿D20 rolls made out of combat will result in the set value i.e. 10, 20 or a custom one."
             },
-
+            {"tooltip_toggleCustomTakeXAsMin", "The set custom value will be used as a minimum roll i.e. you rolls will always be equal to or higher than the custom value."},
             {"tooltip_CameraRotation", "Enables camera rotation."},
             {"tooltip_CameraScrollSpeed", "Enables the option to change the scroll speed of the camera."},
             {"tooltip_CameraZoomUnlocked", "Enables editing the camera zoom limits."},
@@ -1272,7 +1275,7 @@ namespace BagOfTricks
             {"tooltip_ShowAreaName", "Displays the current area's name at the top of the screen."},
             {
                 "tooltip_ShowCombatDifficulty",
-                "Displays the combat difficulty and CR once combat starts.\nIf the development tools are enabled their combat difficulty display will be used instead.\nDisabling requires a restart to take effect!"
+                "Displays the combat difficulty and CR once combat starts.\nIf the development tools are enabled their combat difficulty display will be used instead.\nDisabling requires a game restart to take effect!"
             },
 
 
