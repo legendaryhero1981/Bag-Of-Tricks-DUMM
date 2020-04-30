@@ -11,10 +11,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>BagOfTricks</RootNamespace>
     <AssemblyName>BagOfTricks</AssemblyName>
-    <ApplicationVersion>1.15.5.23</ApplicationVersion>
-    <AssemblyVersion>1.15.5.23</AssemblyVersion>
-    <FileVersion>1.15.5.23</FileVersion>
-    <Version>1.15.5.23</Version>
+    <ApplicationVersion>1.15.6.24</ApplicationVersion>
+    <AssemblyVersion>1.15.6.24</AssemblyVersion>
+    <FileVersion>1.15.6.24</FileVersion>
+    <Version>1.15.6.24</Version>
     <Authors>李允</Authors>
     <Company>Legend</Company>
     <Copyright>Copyright © Legend 2020</Copyright>
@@ -34,6 +34,6 @@
   </ItemGroup>
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
   <PropertyGroup>
-    <PostBuildEvent>D:\games\exe4j\file -cd~::-m!~ .::* "$(SolutionDir)\resources\BagOfTricks::$(TargetDir)" "$(TargetDir)::$(TargetDir)\BagOfTricks" ?::1</PostBuildEvent>
+    <PostBuildEvent>D:\games\exe4j\file -cd~::-m!~::-zdd~ .::*::* "$(SolutionDir)resources\BagOfTricks::$(TargetDir)::*BagOfTricks" "$(TargetDir)::$(TargetDir)BagOfTricks::G:\cache\截图\pkm\BagOfTricks" ?::?::BagOfTricks ?::?::9 ?::1::?</PostBuildEvent>
   </PropertyGroup>
 </Project>

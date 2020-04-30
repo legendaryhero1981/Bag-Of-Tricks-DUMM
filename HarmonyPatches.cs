@@ -2460,7 +2460,9 @@ namespace BagOfTricks
             private static void Postfix(RuleCalculateAttacksCount.AttacksCount ___PrimaryHand, RuleCalculateAttacksCount.AttacksCount ___SecondaryHand, RuleCalculateAttacksCount __instance) {
                 if (__instance.Initiator.IsPlayerFaction && Strings.ToBool(settings.toggleExtraAttacksParty)) {
                     ___PrimaryHand.MainAttacks += settings.extraAttacksPartyPrimaryHand;
-                    ___SecondaryHand.MainAttacks += settings.extraAttacksPartySecondaryHand;
+                    if (!__instance.Initiator.Body.SecondaryHand.HasShield) {
+                        ___SecondaryHand.MainAttacks += settings.extraAttacksPartySecondaryHand;
+                    }
                 }
             }
         }
