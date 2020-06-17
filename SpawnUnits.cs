@@ -1,38 +1,43 @@
-﻿using Kingmaker;
+﻿using BagOfTricks.ModUI;
+using BagOfTricks.Utils;
+using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Cheats;
 using Kingmaker.Utility;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-
 using UnityEngine;
-
 using GL = UnityEngine.GUILayout;
 using UnityModManager = UnityModManagerNet.UnityModManager;
 
 namespace BagOfTricks
 {
+
     // to-do: move buff, feats, items and abilities over to a similar structure
     public static class SpawnUnits
     {
         private static Settings settings = Main.settings;
         private static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
+
         private static List<string> unitsFavourites = new List<string>();
         public static List<string> UnitsFavourites { get => unitsFavourites; set => unitsFavourites = value; }
         private static List<string> favouritesGuids = new List<string>();
         public static List<string> FavouritesGuids { get => favouritesGuids; set => favouritesGuids = value; }
+
         public static readonly string favouritesFile = "Units.xml";
         public static string UnitSetsFolder { get; } = "UnitSets";
+
+
 
         public static void RenderMenu()
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showSpawnUnitsCategory = GL.Toggle(settings.showSpawnUnitsCategory, RichText.MainCategoryFormat(Strings.GetText("mainCategory_SpawnUnits")), GL.ExpandWidth(false), GL.ExpandWidth(false));
+            settings.showSpawnUnitsCategory = GL.Toggle(settings.showSpawnUnitsCategory, "", GL.ExpandWidth(false));
+            GL.Label(RichText.MainCategoryFormat(Strings.GetText("mainCategory_SpawnUnits")), GL.ExpandWidth(false));
             if (!settings.showSpawnUnitsCategory)
             {
                 GL.EndHorizontal();
@@ -41,28 +46,31 @@ namespace BagOfTricks
             {
                 MenuTools.FlexibleSpaceCategoryMenuElementsEndHorizontal("SpawnUnitsMenu");
                 SearchMenu();
+
             }
             GL.EndVertical();
         }
 
         private static List<bool> toggleResultDescription = new List<bool>();
-
         private static void SearchMenu()
         {
             FavouritesMenu();
+
             CustomSetsMenu();
+
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.unitSearch = GL.TextField(settings.unitSearch, GL.Width(400f));
+            settings.unitSearch = GL.TextField(settings.unitSearch, GL.Width(320f));
             GL.EndHorizontal();
-            GL.BeginHorizontal();
 
-            if (GL.Button(RichText.Bold(Strings.GetText("header_Search")), GL.Width(400f)))
+
+            GL.BeginHorizontal();
+            if (GL.Button(RichText.Bold(Strings.GetText("header_Search")), GL.Width(320f)))
             {
                 SearchValidUnits(settings.unitSearch, settings.unitSearchFilters);
             }
-
             GL.EndHorizontal();
+
             GL.BeginHorizontal();
             GL.Label(Strings.GetText("label_SearchBy") + ": ", GL.ExpandWidth(false));
             MenuTools.FilterButton(ref settings.toggleSearchByUnitObjectName, "label_ObjectName", new Action<string, string>(SearchValidUnits), settings.unitSearch, settings.unitSearchFilters);
@@ -73,57 +81,61 @@ namespace BagOfTricks
             FilterBox("button_Filters", ref settings.unitSearchFilters, "label_UnitSearchFiltersInfo");
             StoredUnitsMenu();
 
-            if (!searchResultGuiDs.Any())
+            if (!searchResultGUIDs.Any())
             {
                 MenuTools.SingleLineLabel(Strings.GetText("message_NoResult"));
             }
             else
             {
-                if (searchResultGuiDs.Count > settings.finalResultLimit)
+                if (searchResultGUIDs.Count > settings.finalResultLimit)
                 {
-                    MenuTools.SingleLineLabel($"{searchResultGuiDs.Count} " + Strings.GetText("label_Results"));
+                    MenuTools.SingleLineLabel($"{searchResultGUIDs.Count} " + Strings.GetText("label_Results"));
                     MenuTools.SingleLineLabel(Strings.GetText("label_TooManyResults_0") + $" { settings.finalResultLimit} " + Strings.GetText("label_TooManyResults_1"));
                     GL.Space(10);
                 }
                 else
                 {
-                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_Results") + $" ({searchResultGuiDs.Count()}):"));
-                    for (var i = 0; i < searchResultGuiDs.Count; i++)
+
+                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_Results") + $" ({searchResultGUIDs.Count()}):"));
+                    for (int i = 0; i < searchResultGUIDs.Count; i++)
                     {
 
                         GL.BeginHorizontal();
                         toggleResultDescription.Add(false);
-                        toggleResultDescription[i] = GL.Toggle(toggleResultDescription[i], $"{Strings.CleanName(searchResultObjectNames[i])} ({searchResultCr[i]})", GL.ExpandWidth(false));
+                        toggleResultDescription[i] = GL.Toggle(toggleResultDescription[i], "", GL.ExpandWidth(false));
+                        GL.Label($"{Strings.CleanName(searchResultObjectNames[i])} ({searchResultCR[i]})");
 
-                        MenuTools.AddRemoveButtonShiftAdd(ref storedGuiDs, searchResultGuiDs[i], ref refreshStoredGuiDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
-                        MenuTools.AddRemoveButton(ref unitsFavourites, searchResultGuiDs[i], ref favouritesLoad, Storage.favouriteTrueString, Storage.favouriteFalseString);
+                        MenuTools.AddRemoveButtonShiftAdd(ref storedGUIDs, searchResultGUIDs[i], ref refreshStoredGUIDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
+                        MenuTools.AddRemoveButton(ref unitsFavourites, searchResultGUIDs[i], ref favouritesLoad, Storage.favouriteTrueString, Storage.favouriteFalseString);
                         GL.EndHorizontal();
-                        UnitDetails(toggleResultDescription[i], searchResultGuiDs[i]);
+                        UnitDetails(toggleResultDescription[i], searchResultGUIDs[i]);
                     }
 
                     GL.BeginHorizontal();
-                    if (GL.Button(Strings.GetText("label_AddResultsToStoredUnits") + $" ({searchResultGuiDs.Count()})", GL.ExpandWidth(false)))
+                    if (GL.Button(Strings.GetText("label_AddResultsToStoredUnits") + $" ({searchResultGUIDs.Count()})", GL.ExpandWidth(false)))
                     {
-                        foreach (var guid in searchResultGuiDs.Where(guid => !storedGuiDs.Contains(guid)))
+                        foreach (string guid in searchResultGUIDs)
                         {
-                            storedGuiDs.Add(guid);
+                            if (!storedGUIDs.Contains(guid))
+                            {
+                                storedGUIDs.Add(guid);
+                            }
                         }
-
-                        refreshStoredGuiDs = true;
+                        refreshStoredGUIDs = true;
                     }
                     GL.EndHorizontal();
 
-                    var filename = "unit-";
-                    var searchName = Regex.Replace(settings.unitSearch, @"[\\/:*?""<>|]", "");
-                    if (!string.IsNullOrWhiteSpace(searchName))
+                    string filename = "unit-";
+                    string searchName = Regex.Replace(settings.unitSearch, @"[\\/:*?""<>|]", "");
+                    if (!String.IsNullOrWhiteSpace(searchName))
                     {
-                        filename += searchName;
+                        filename = filename + searchName;
                     }
                     else
                     {
-                        filename += "search-results";
+                        filename = filename + "search-results";
                     }
-                    MenuTools.ExportCopyGuidsNamesButtons(searchResultGuiDs.ToArray(), searchResultObjectNames.ToArray(), filename);
+                    MenuTools.ExportCopyGuidsNamesButtons(searchResultGUIDs.ToArray(), searchResultObjectNames.ToArray(), filename);
                 }
             }
             GL.EndVertical();
@@ -137,12 +149,12 @@ namespace BagOfTricks
         private static List<string> previewUnitsetsStringsCsv = new List<string>();
         private static List<bool> toggleUnitseitsPreviewTxt = new List<bool>();
         private static List<string> previewUnitsetisStringsTxt = new List<string>();
-
         private static void CustomSetsMenu()
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showUnitSets = GL.Toggle(settings.showUnitSets, RichText.Bold(Strings.GetText("headerOption_ShowUnitSets")), GL.ExpandWidth(false));
+            GL.Label(RichText.Bold(Strings.GetText("headerOption_ShowUnitSets")), GL.ExpandWidth(false));
+            settings.showUnitSets = GL.Toggle(settings.showUnitSets, "");
             GL.EndHorizontal();
             if (settings.showUnitSets == true)
             {
@@ -190,11 +202,11 @@ namespace BagOfTricks
 
         private static void GetCustomUnitSets(string[] files, List<string> previewStrings, List<bool> togglePreview)
         {
-            for (var i = 0; i < files.Length; i++)
+            for (int i = 0; i < files.Length; i++)
             {
                 if (previewStrings.Count == 0)
                 {
-                    for (var ii = 0; ii < files.Length; ii++)
+                    for (int ii = 0; ii < files.Length; ii++)
                     {
                         previewStrings.Add("");
                     }
@@ -202,7 +214,7 @@ namespace BagOfTricks
                 }
                 GL.BeginVertical("box");
                 GL.BeginHorizontal();
-                var lines = Array.Empty<string>();
+                string[] lines = Array.Empty<string>();
                 try
                 {
                     lines = File.ReadAllLines(files[i]);
@@ -217,34 +229,34 @@ namespace BagOfTricks
                 togglePreview.Add(false);
                 if (GL.Button(Strings.GetText("misc_Add") + $" {Path.GetFileNameWithoutExtension(files[i])}", GL.ExpandWidth(false)))
                 {
-                    for (var ii = 0; ii < lines.Length; ii++)
+                    for (int ii = 0; ii < lines.Length; ii++)
                     {
                         lines[ii] = lines[ii].Trim();
                         if (lines[ii].Contains(",") && lines[ii].IndexOf(",") == lines[ii].LastIndexOf(","))
                         {
-                            var splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
+                            string[] splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
                             splitLine[0] = splitLine[0].Trim();
                             splitLine[1] = splitLine[1].Trim();
 
-                            if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out var iTest) && splitLine[1] != "0")
+                            if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out int iTest) && splitLine[1] != "0")
                             {
-                                for (var amount = 0; amount < int.Parse(splitLine[1]); amount++)
+                                for (int amount = 0; amount < int.Parse(splitLine[1]); amount++)
                                 {
-                                    storedGuiDs.Add(splitLine[0]);
-                                    refreshStoredGuiDs = true;
-                                }                                
+                                    storedGUIDs.Add(splitLine[0]);
+                                    refreshStoredGUIDs = true;
+                                }
 
                             }
                             else if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && splitLine[1] == "")
                             {
-                                storedGuiDs.Add(splitLine[0]);
-                                refreshStoredGuiDs = true;
+                                storedGUIDs.Add(splitLine[0]);
+                                refreshStoredGUIDs = true;
                             }
                         }
                         else if (Utilities.GetBlueprintByGuid<BlueprintUnit>(lines[ii]) != null)
                         {
-                            storedGuiDs.Add(lines[ii]);
-                            refreshStoredGuiDs = true;
+                            storedGUIDs.Add(lines[ii]);
+                            refreshStoredGUIDs = true;
                         }
 
                     }
@@ -254,18 +266,18 @@ namespace BagOfTricks
                     if (!togglePreview[i])
                     {
                         togglePreview[i] = true;
-                        for (var ii = 0; ii < lines.Length; ii++)
+                        for (int ii = 0; ii < lines.Length; ii++)
                         {
                             lines[ii] = lines[ii].Trim();
 
                             if (lines[ii].Contains(",") && lines[ii].IndexOf(",") == lines[ii].LastIndexOf(","))
                             {
-                                var splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
+                                string[] splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
                                 splitLine[0] = splitLine[0].Trim();
                                 splitLine[1] = splitLine[1].Trim();
-                                var unitByGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]);
+                                BlueprintUnit unitByGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]);
 
-                                if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out var iTest) && splitLine[1] != "0")
+                                if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out int iTest) && splitLine[1] != "0")
                                 {
                                     if (ii == 0)
                                     {
@@ -290,7 +302,7 @@ namespace BagOfTricks
                             }
                             else if (Utilities.GetBlueprintByGuid<BlueprintUnit>(lines[ii]) != null)
                             {
-                                var unitByGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(lines[ii]);
+                                BlueprintUnit unitByGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(lines[ii]);
                                 if (ii == 0)
                                 {
                                     previewStrings[i] = previewStrings[i] + $"{Strings.CleanName(unitByGuid.name)} ({unitByGuid.CR})";
@@ -311,16 +323,16 @@ namespace BagOfTricks
                 GL.FlexibleSpace();
                 if (GL.Button(Strings.GetText("button_AddToFavourites"), GL.ExpandWidth(false)))
                 {
-                    for (var ii = 0; ii < lines.Length; ii++)
+                    for (int ii = 0; ii < lines.Length; ii++)
                     {
                         lines[ii] = lines[ii].Trim();
                         if (lines[ii].Contains(",") && lines[ii].IndexOf(",") == lines[ii].LastIndexOf(","))
                         {
-                            var splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
+                            string[] splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
                             splitLine[0] = splitLine[0].Trim();
                             splitLine[1] = splitLine[1].Trim();
 
-                            if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out var iTest) && splitLine[1] != "0")
+                            if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out int iTest) && splitLine[1] != "0")
                             {
                                 if (!UnitsFavourites.Contains(splitLine[0]))
                                 {
@@ -347,16 +359,16 @@ namespace BagOfTricks
                 }
                 if (GL.Button(Strings.GetText("button_RemoveFromFavourites"), GL.ExpandWidth(false)))
                 {
-                    for (var ii = 0; ii < lines.Length; ii++)
+                    for (int ii = 0; ii < lines.Length; ii++)
                     {
                         lines[ii] = lines[ii].Trim();
                         if (lines[ii].Contains(",") && lines[ii].IndexOf(",") == lines[ii].LastIndexOf(","))
                         {
-                            var splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
+                            string[] splitLine = lines[ii].Split(new string[] { "," }, StringSplitOptions.None);
                             splitLine[0] = splitLine[0].Trim();
                             splitLine[1] = splitLine[1].Trim();
 
-                            if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out var iTest) && splitLine[1] != "0")
+                            if (Utilities.GetBlueprintByGuid<BlueprintUnit>(splitLine[0]) != null && int.TryParse(splitLine[1], out int iTest) && splitLine[1] != "0")
                             {
                                 if (UnitsFavourites.Contains(splitLine[0]))
                                 {
@@ -384,51 +396,58 @@ namespace BagOfTricks
                 }
                 GL.EndHorizontal();
                 GL.EndVertical();
-                if (!togglePreview[i]) continue;
-                MenuTools.SingleLineLabel(previewStrings[i] != ""
-                    ? previewStrings[i]
-                    : Strings.GetText("message_NoValidEntriesFound"));
+                if (togglePreview[i])
+                {
+                    if (previewStrings[i] != "")
+                    {
+                        MenuTools.SingleLineLabel(previewStrings[i]);
+                    }
+                    else
+                    {
+                        MenuTools.SingleLineLabel(Strings.GetText("message_NoValidEntriesFound"));
+                    }
+                }
             }
         }
 
-        private static List<string> storedGuiDs = new List<string>();
-        public static List<string> GetStoredGuiDs { get => storedGuiDs;}
+        private static List<string> storedGUIDs = new List<string>();
+        public static List<string> GetStoredGUIDs { get => storedGUIDs; }
         private static string storedUnitsLabel = "";
-        private static bool refreshStoredGuiDs = true;
+        private static bool refreshStoredGUIDs = true;
         private static string[] unitStateStrings = { Strings.GetText("misc_Friendly"), Strings.GetText("misc_Passive"), Strings.GetText("misc_Hostile") };
         private static SelectionGrid unitStateGrid = new SelectionGrid(unitStateStrings, 3);
-
         private static void StoredUnitsMenu(bool actionKeyMenu = false)
         {
-            if (refreshStoredGuiDs)
+            if (refreshStoredGUIDs)
             {
-                storedUnitsLabel = RichText.Bold(Strings.GetText("label_StoredUnits") + $" ({storedGuiDs.Count()}): ");
-                foreach (var nameCr in storedGuiDs.Select(s => $"{Strings.CleanName(Utilities.GetBlueprintByGuid<BlueprintUnit>(s).name)} ({Utilities.GetBlueprintByGuid<BlueprintUnit>(s).CR})"))
+                storedUnitsLabel = RichText.Bold(Strings.GetText("label_StoredUnits") + $" ({storedGUIDs.Count()}): ");
+                foreach (string s in storedGUIDs)
                 {
-                    storedUnitsLabel = storedUnitsLabel + nameCr + ", ";
+                    string nameCR = $"{Strings.CleanName(Utilities.GetBlueprintByGuid<BlueprintUnit>(s).name)} ({Utilities.GetBlueprintByGuid<BlueprintUnit>(s).CR})";
+                    storedUnitsLabel = storedUnitsLabel + nameCR + ", ";
                 }
                 storedUnitsLabel = storedUnitsLabel.TrimEnd(new char[] { ',', ' ' });
-                refreshStoredGuiDs = false;
+                refreshStoredGUIDs = false;
             }
             GL.BeginVertical("box");
             MenuTools.SingleLineLabel(storedUnitsLabel);
-            if (storedGuiDs.Any())
+            if (storedGUIDs.Any())
             {
                 GL.BeginHorizontal();
 
                 if (GL.Button(Strings.GetText("label_ClearStoredUnits"), GL.ExpandWidth(false)))
                 {
-                    storedGuiDs.Clear();
-                    refreshStoredGuiDs = true;
+                    storedGUIDs.Clear();
+                    refreshStoredGUIDs = true;
                 }
                 if (GL.Button(RichText.Bold(Strings.GetText("button_Spawn")), GL.ExpandWidth(false)))
                 {
-                    var playerPos = Game.Instance.Player.MainCharacter.Value.Position;
-                    var angle = 0f;
-                    foreach (var guid in GetStoredGuiDs)
+                    Vector3 playerPos = Game.Instance.Player.MainCharacter.Value.Position;
+                    float angle = 0f;
+                    foreach (string guid in GetStoredGUIDs)
                     {
-                        var posXy = new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle)) * GetStoredGuiDs.Count() * 0.5f;
-                        var finalPos = new Vector3(posXy.x + playerPos.x, playerPos.y, playerPos.z + posXy.y);
+                        Vector2 posXY = new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle)) * GetStoredGUIDs.Count() * 0.5f;
+                        Vector3 finalPos = new Vector3(posXY.x + playerPos.x, playerPos.y, playerPos.z + posXY.y);
                         UnitSpawner(finalPos, guid);
                         angle++;
                     }
@@ -437,7 +456,7 @@ namespace BagOfTricks
                 GL.EndHorizontal();
                 if (!actionKeyMenu)
                 {
-                    if(!Strings.ToBool(settings.toggleEnableActionKey))
+                    if (!Strings.ToBool(settings.toggleEnableActionKey))
                     {
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_EnableActionKeyToSpawnHotkey") + ": ", GL.ExpandWidth(false));
@@ -451,12 +470,12 @@ namespace BagOfTricks
                         if (settings.actionKeyIndex != 7)
                         {
                             GL.Label(Strings.GetText("label_ActionKeyNotSetToSpawnUnits") + ": ", GL.ExpandWidth(false));
-                            if(GL.Button(Strings.GetText("label_SetToSpawnUnits"),GL.ExpandWidth(false)))
+                            if (GL.Button(Strings.GetText("label_SetToSpawnUnits"), GL.ExpandWidth(false)))
                             {
                                 settings.actionKeyIndex = 7;
                             }
                         }
-                        else if(!Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites))
+                        else if (!Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites))
                         {
                             GL.Label(Strings.GetText("label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored") + ": ", GL.ExpandWidth(false));
                             MenuTools.ToggleButtonNoGroup(ref settings.toggleSpawnEnemiesFromUnitFavourites, "buttonToggle_ActionKeySpawnUnitsFromUnitFavourites", "tooltip_ActionKeySpawnUnitsFromUnitFavourites");
@@ -464,12 +483,13 @@ namespace BagOfTricks
                         else
                         {
                             GL.Label(Strings.GetText("label_ActionKey") + ": ", GL.ExpandWidth(false));
-                            MenuTools.SetKeyBinding(ref settings.actionKey);
+                            Keys.SetKeyBinding(ref settings.actionKey);
                         }
                         GL.EndHorizontal();
                         GL.EndVertical();
 
                     }
+
                 }
             }
             GL.EndVertical();
@@ -477,36 +497,40 @@ namespace BagOfTricks
 
         public static void UnitSpawner(Vector3 finalPos, string guid)
         {
-            switch (unitStateGrid.selected)
+            if (unitStateGrid.selected == 0)
             {
-                case 0:
-                    Common.SpawnFriendlyUnit(finalPos, guid);
-                    break;
-                case 1:
-                    Common.SpawnPassiveUnit(finalPos, guid);
-                    break;
-                case 2:
-                    Common.SpawnHostileUnit(finalPos, guid);
-                    break;
-                default:
-                    modLogger.Log("unitStateGrid index not regcognised!");
-                    break;
+                Common.SpawnFriendlyUnit(finalPos, guid);
+
+            }
+            else if (unitStateGrid.selected == 1)
+            {
+                Common.SpawnPassiveUnit(finalPos, guid);
+
+            }
+            else if (unitStateGrid.selected == 2)
+            {
+                Common.SpawnHostileUnit(finalPos, guid);
+            }
+            else
+            {
+                modLogger.Log("unitStateGrid index not regcognised!");
             }
         }
 
-        private static bool favouritesLoad = true;                
-        private static List<string> favouriteObjectNamesClean = new List<string>();
-        private static List<int> favouriteCr = new List<int>();
+        private static bool favouritesLoad = true;
+        private static List<String> favouriteObjectNamesClean = new List<string>();
+        private static List<int> favouriteCR = new List<int>();
         private static List<bool> toggleFavouriteDescription = new List<bool>();
-
         public static void FavouritesMenu(bool actionKeyMenu = false)
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showUnitsFavourites = GL.Toggle(settings.showUnitsFavourites, RichText.Bold(Strings.GetText("headerOption_ShowFavourites")) + " ", GL.ExpandWidth(false));
+            GL.Label(RichText.Bold(Strings.GetText("headerOption_ShowFavourites")) + " ", GL.ExpandWidth(false));
+            settings.showUnitsFavourites = GL.Toggle(settings.showUnitsFavourites, "");
             GL.EndHorizontal();
             if (settings.showUnitsFavourites == true)
             {
+
                 if (favouritesLoad == true)
                 {
                     RefreshUnitFavourites();
@@ -521,15 +545,16 @@ namespace BagOfTricks
                 {
                     StoredUnitsMenu(actionKeyMenu);
 
-                    for (var i = 0; i < unitsFavourites.Count; i++)
+                    for (int i = 0; i < unitsFavourites.Count; i++)
                     {
 
                         GL.BeginHorizontal();
 
                         toggleFavouriteDescription.Add(false);
-                        toggleFavouriteDescription[i] = GL.Toggle(toggleFavouriteDescription[i], $"{favouriteObjectNamesClean[i]} ({favouriteCr[i]})", GL.ExpandWidth(false));
+                        toggleFavouriteDescription[i] = GL.Toggle(toggleFavouriteDescription[i], "", GL.ExpandWidth(false));
 
-                        MenuTools.AddRemoveButtonShiftAdd(ref storedGuiDs, favouritesGuids[i], ref refreshStoredGuiDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
+                        GL.Label($"{favouriteObjectNamesClean[i]} ({favouriteCR[i]})");
+                        MenuTools.AddRemoveButtonShiftAdd(ref storedGUIDs, favouritesGuids[i], ref refreshStoredGUIDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
 
                         if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false)))
                         {
@@ -538,19 +563,22 @@ namespace BagOfTricks
                         }
                         GL.EndHorizontal();
 
+
                         UnitDetails(toggleFavouriteDescription[i], favouritesGuids[i]);
                     }
-                    
+
                     GL.Space(10);
                     GL.BeginHorizontal();
                     if (GL.Button(Strings.GetText("label_AddFavouritesToStoredUnits") + $" ({favouritesGuids.Count()})", GL.ExpandWidth(false)))
                     {
-                        foreach (var guid in favouritesGuids.Where(guid => !storedGuiDs.Contains(guid)))
+                        foreach (string guid in favouritesGuids)
                         {
-                            storedGuiDs.Add(guid);
+                            if (!storedGUIDs.Contains(guid))
+                            {
+                                storedGUIDs.Add(guid);
+                            }
                         }
-
-                        refreshStoredGuiDs = true;
+                        refreshStoredGUIDs = true;
                     }
                     GL.EndHorizontal();
 
@@ -564,36 +592,34 @@ namespace BagOfTricks
             }
             GL.EndVertical();
         }
-
         private static void RefreshUnitFavourites()
         {
             Common.SerializeListString(unitsFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + favouritesFile);
 
             favouritesGuids = unitsFavourites;
             favouriteObjectNamesClean.Clear();
-            favouriteCr.Clear();
+            favouriteCR.Clear();
             toggleFavouriteDescription.Clear();
-            for (var i = 0; i < favouritesGuids.Count; i++)
+            for (int i = 0; i < favouritesGuids.Count; i++)
             {
-                var stringUnitObjectName = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).name;
+                string stringUnitObjectName = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).name;
                 favouriteObjectNamesClean.Add(Strings.CleanName(stringUnitObjectName));
-                var intUnitCr = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).CR;
-                favouriteCr.Add(intUnitCr);
+                int intUnitCR = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).CR;
+                favouriteCR.Add(intUnitCR);
             }
         }
 
         private static bool filterError = false;
         private static SimpleShowHideButton hideFilterButton = new SimpleShowHideButton(true);
-
         private static void FilterBox(string label, ref string textFieldString, string message, float width = 500f)
         {
             GL.BeginVertical("box");
-            GL.BeginHorizontal();            
+
+            GL.BeginHorizontal();
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
             textFieldString = GL.TextField(textFieldString, GL.Width(width));
             hideFilterButton.Render();
             GL.EndHorizontal();
-
             if (hideFilterButton.GetButtonText == Strings.GetText("misc_Hide"))
             {
                 MenuTools.SingleLineLabelGt(message);
@@ -608,29 +634,29 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        private static List<string> searchResultGuiDs = new List<string>();
-        private static List<string> searchResultObjectNames = new List<string>();
-        private static List<int> searchResultCr = new List<int>();
+        private static List<String> searchResultGUIDs = new List<string>();
+        private static List<String> searchResultObjectNames = new List<string>();
+        private static List<int> searchResultCR = new List<int>();
 
         private static void SearchValidUnits(string search, string filters)
         {
             filterError = false;
-            searchResultGuiDs.Clear();
+            searchResultGUIDs.Clear();
             searchResultObjectNames.Clear();
-            searchResultCr.Clear();
+            searchResultCR.Clear();
             toggleResultDescription.Clear();
-            var blueprintUnits = ResourcesLibrary.GetBlueprints<BlueprintUnit>();
-            foreach (var unit in blueprintUnits)
+            IEnumerable<BlueprintUnit> blueprintUnits = ResourcesLibrary.GetBlueprints<BlueprintUnit>();
+            foreach (BlueprintUnit unit in blueprintUnits)
             {
-                var unitAdded = false;
-                var guid = unit.AssetGuid;
+                bool unitAdded = false;
+                string guid = unit.AssetGuid;
                 if (Strings.ToBool(settings.toggleSearchByUnitObjectName))
                 {
-                    if(unit.name != null)
+                    if (unit.name != null)
                     {
-                        if(unit.name.Contains(search, StringComparison.CurrentCultureIgnoreCase))
+                        if (unit.name.Contains(search, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (!searchResultGuiDs.Contains(guid))
+                            if (!searchResultGUIDs.Contains(guid))
                             {
                                 AddResult(unit);
                                 unitAdded = true;
@@ -644,7 +670,7 @@ namespace BagOfTricks
                     {
                         if (unit.CharacterName.Contains(search, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (!searchResultGuiDs.Contains(guid))
+                            if (!searchResultGUIDs.Contains(guid))
                             {
                                 AddResult(unit);
                                 unitAdded = true;
@@ -652,13 +678,13 @@ namespace BagOfTricks
                         }
                     }
                 }
-                else if(Strings.ToBool(settings.toggleSearchByUnitType))
+                else if (Strings.ToBool(settings.toggleSearchByUnitType))
                 {
                     if (unit.Type?.Name != null)
                     {
                         if (unit.Type.Name.ToString().Contains(search, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (!searchResultGuiDs.Contains(guid))
+                            if (!searchResultGUIDs.Contains(guid))
                             {
                                 AddResult(unit);
                                 unitAdded = true;
@@ -666,7 +692,7 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if(!string.IsNullOrEmpty(filters) && !filterError && unitAdded)
+                if (!string.IsNullOrEmpty(filters) && !filterError && unitAdded)
                 {
                     FilterBoxParse(filters, unit);
                 }
@@ -678,14 +704,15 @@ namespace BagOfTricks
             // filters: cr(i|i,i,i|i-i|<i|>i), type(s), race(s), gender('m'|'f')
             filters = filters.ToLower();
             filters = Regex.Replace(filters, @"s", "");
-            var correctFilter = new Regex(@"^[A-Za-z0-9,:<>;!-]*$");
+            Regex correctFilter = new Regex(@"^[A-Za-z0-9,:<>;!-]*$");
             if (correctFilter.IsMatch(filters))
-            {               
-                var filterArray = filters.Split(';');
-                
-                foreach (var filter in filterArray)
+            {
+
+                string[] filterArray = filters.Split(';');
+
+                foreach (string filter in filterArray)
                 {
-                    var filterValue = filter.Split(':');
+                    string[] filterValue = filter.Split(':');
 
                     if (filterValue.Length != 2)
                     {
@@ -695,24 +722,24 @@ namespace BagOfTricks
                     }
                     else
                     {
-                        var type = filterValue[0];
-                        var value = filterValue[1];
-                        var not = false;
-                        if(type.Remove(1) == "!")
+                        string type = filterValue[0];
+                        string value = filterValue[1];
+                        bool not = false;
+                        if (type.Remove(1) == "!")
                         {
                             not = true;
-                            type = type.Remove(0,1);
+                            type = type.Remove(0, 1);
                         }
 
                         if (type == "cr")
                         {
                             if (value.Contains(","))
                             {
-                                var multipleCRs = value.Split(',');
-                                var crsValue = new List<int>();
-                                foreach (var cr in multipleCRs)
+                                string[] multipleCRs = value.Split(',');
+                                List<int> crsValue = new List<int>();
+                                foreach (string cr in multipleCRs)
                                 {
-                                    if (int.TryParse(cr, out var crOut))
+                                    if (int.TryParse(cr, out int crOut))
                                     {
                                         crsValue.Add(crOut);
                                     }
@@ -723,19 +750,20 @@ namespace BagOfTricks
                                         return;
                                     }
                                 }
-                                var check = !crsValue.Contains(unit.CR);
+                                bool check = !crsValue.Contains(unit.CR);
                                 if (not)
                                 {
                                     check = !check;
                                 }
-
-                                if (!check) continue;
-                                RemoveResult(unit);
-                                return;
+                                if (check)
+                                {
+                                    RemoveResult(unit);
+                                    return;
+                                }
                             }
                             else if (value.Contains("-"))
                             {
-                                var fromTo = value.Split('-');
+                                string[] fromTo = value.Split('-');
                                 if (fromTo.Length != 2)
                                 {
                                     modLogger.Log($"[FilterError] {Strings.GetText("warning_FilterPatternError1")}" + $"\n[FilterError]{filters}" + $"\n[FilterError] Unknown value format (expected i-i): {value}");
@@ -746,21 +774,22 @@ namespace BagOfTricks
                                 {
                                     int from;
                                     int to;
-                                    if (int.TryParse(fromTo[0], out var fromOut))
+                                    if (int.TryParse(fromTo[0], out int fromOut))
                                     {
                                         from = fromOut;
-                                        if (int.TryParse(fromTo[1], out var toOut))
+                                        if (int.TryParse(fromTo[1], out int toOut))
                                         {
                                             to = toOut;
-                                            var check = unit.CR < from || unit.CR > to;
+                                            bool check = unit.CR < from || unit.CR > to;
                                             if (not)
                                             {
                                                 check = !check;
                                             }
-
-                                            if (!check) continue;
-                                            RemoveResult(unit);
-                                            return;
+                                            if (check)
+                                            {
+                                                RemoveResult(unit);
+                                                return;
+                                            }
                                         }
                                         else
                                         {
@@ -779,7 +808,7 @@ namespace BagOfTricks
                             }
                             else if (value.Contains("<"))
                             {
-                                var lesser = value.Split('<');
+                                string[] lesser = value.Split('<');
                                 if (!string.IsNullOrEmpty(lesser[0]))
                                 {
                                     modLogger.Log($"[FilterError] {Strings.GetText("warning_FilterPatternError1")}" + $"\n[FilterError]{filters}" + $"\n[FilterError] Unknown value format (expected <i): {value}");
@@ -788,17 +817,18 @@ namespace BagOfTricks
                                 }
                                 else
                                 {
-                                    if (int.TryParse(lesser[1], out var lesserOut))
+                                    if (int.TryParse(lesser[1], out int lesserOut))
                                     {
-                                        var check = unit.CR >= lesserOut;
+                                        bool check = unit.CR >= lesserOut;
                                         if (not)
                                         {
                                             check = !check;
                                         }
-
-                                        if (!check) continue;
-                                        RemoveResult(unit);
-                                        return;
+                                        if (check)
+                                        {
+                                            RemoveResult(unit);
+                                            return;
+                                        }
                                     }
                                     else
                                     {
@@ -810,7 +840,7 @@ namespace BagOfTricks
                             }
                             else if (value.Contains(">"))
                             {
-                                var geater = value.Split('>');
+                                string[] geater = value.Split('>');
                                 if (!string.IsNullOrEmpty(geater[0]))
                                 {
                                     modLogger.Log($"[FilterError] {Strings.GetText("warning_FilterPatternError1")}" + $"\n[FilterError]{filters}" + $"\n[FilterError] Unknown value format (expected >i): {value}");
@@ -819,17 +849,18 @@ namespace BagOfTricks
                                 }
                                 else
                                 {
-                                    if (int.TryParse(geater[1], out var greaterOut))
+                                    if (int.TryParse(geater[1], out int greaterOut))
                                     {
-                                        var check = unit.CR <= greaterOut;
+                                        bool check = unit.CR <= greaterOut;
                                         if (not)
                                         {
                                             check = !check;
                                         }
-
-                                        if (!check) continue;
-                                        RemoveResult(unit);
-                                        return;
+                                        if (check)
+                                        {
+                                            RemoveResult(unit);
+                                            return;
+                                        }
                                     }
                                     else
                                     {
@@ -839,17 +870,18 @@ namespace BagOfTricks
                                     }
                                 }
                             }
-                            else if (int.TryParse(value, out var singleCr))
+                            else if (int.TryParse(value, out int singleCR))
                             {
-                                var check = unit.CR != singleCr;
+                                bool check = unit.CR != singleCR;
                                 if (not)
                                 {
                                     check = !check;
                                 }
-
-                                if (!check) continue;
-                                RemoveResult(unit);
-                                return;
+                                if (check)
+                                {
+                                    RemoveResult(unit);
+                                    return;
+                                }
                             }
                             else
                             {
@@ -866,30 +898,32 @@ namespace BagOfTricks
                                 RemoveResult(unit);
                                 return;
                             }
-                            else if(value.Contains(","))
+                            else if (value.Contains(","))
                             {
-                                var types = value.Split(',');
-                                var check = !types.Any(s => unit.Type.Name.ToString().Contains(s, StringComparison.CurrentCultureIgnoreCase));
-                                if(not)
-                                {
-                                    check = !check;
-                                }
-
-                                if (!check) continue;
-                                RemoveResult(unit);
-                                return;
-                            }
-                            else
-                            {
-                                var check = !unit.Type.Name.ToString().Contains(value, StringComparison.CurrentCultureIgnoreCase);
+                                string[] types = value.Split(',');
+                                bool check = !types.Any(s => unit.Type.Name.ToString().Contains(s, StringComparison.CurrentCultureIgnoreCase));
                                 if (not)
                                 {
                                     check = !check;
                                 }
-
-                                if (!check) continue;
-                                RemoveResult(unit);
-                                return;
+                                if (check)
+                                {
+                                    RemoveResult(unit);
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                bool check = !unit.Type.Name.ToString().Contains(value, StringComparison.CurrentCultureIgnoreCase);
+                                if (not)
+                                {
+                                    check = !check;
+                                }
+                                if (check)
+                                {
+                                    RemoveResult(unit);
+                                    return;
+                                }
                             }
                         }
                         else if (type == "race")
@@ -901,69 +935,66 @@ namespace BagOfTricks
                             }
                             else if (value.Contains(","))
                             {
-                                var races = value.Split(',');
+                                string[] races = value.Split(',');
 
-                                var check = !races.Any(s => unit.Race.Name.Contains(s, StringComparison.CurrentCultureIgnoreCase));
+                                bool check = !races.Any(s => unit.Race.Name.Contains(s, StringComparison.CurrentCultureIgnoreCase));
                                 if (not)
                                 {
                                     check = !check;
                                 }
-
-                                if (!check) continue;
-                                RemoveResult(unit);
-                                return;
+                                if (check)
+                                {
+                                    RemoveResult(unit);
+                                    return;
+                                }
                             }
                             else
                             {
-                                var check = !unit.Race.Name.Contains(value, StringComparison.CurrentCultureIgnoreCase);
+                                bool check = !unit.Race.Name.Contains(value, StringComparison.CurrentCultureIgnoreCase);
                                 if (not)
                                 {
                                     check = !check;
                                 }
-
-                                if (!check) continue;
-                                RemoveResult(unit);
-                                return;
+                                if (check)
+                                {
+                                    RemoveResult(unit);
+                                    return;
+                                }
                             }
                         }
                         else if (type == "gender")
                         {
-                            switch (value)
+                            if (value == "f")
                             {
-                                case "f":
+                                bool check = unit.Gender != Gender.Female;
+                                if (not)
                                 {
-                                    var check = unit.Gender != Gender.Female;
-                                    if (not)
-                                    {
-                                        check = !check;
-                                    }
-                                    if (check)
-                                    {
-                                        RemoveResult(unit);
-                                        return;
-                                    }
-
-                                    break;
+                                    check = !check;
                                 }
-                                case "m":
+                                if (check)
                                 {
-                                    var check = unit.Gender != Gender.Male;
-                                    if (not)
-                                    {
-                                        check = !check;
-                                    }
-                                    if (check)
-                                    {
-                                        RemoveResult(unit);
-                                        return;
-                                    }
-
-                                    break;
-                                }
-                                default:
-                                    modLogger.Log($"[FilterError] {Strings.GetText("warning_FilterPatternError1")}" + $"\n[FilterError] {filters}" + $"\n[FilterError] Neither m nor f: {value}");
-                                    filterError = true;
+                                    RemoveResult(unit);
                                     return;
+                                }
+                            }
+                            else if (value == "m")
+                            {
+                                bool check = unit.Gender != Gender.Male;
+                                if (not)
+                                {
+                                    check = !check;
+                                }
+                                if (check)
+                                {
+                                    RemoveResult(unit);
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                modLogger.Log($"[FilterError] {Strings.GetText("warning_FilterPatternError1")}" + $"\n[FilterError] {filters}" + $"\n[FilterError] Neither m nor f: {value}");
+                                filterError = true;
+                                return;
                             }
                         }
                         else
@@ -985,44 +1016,55 @@ namespace BagOfTricks
 
         private static void AddResult(BlueprintUnit unit)
         {
-            searchResultGuiDs.Add(unit.AssetGuid);
-            searchResultObjectNames.Add(unit.name ?? "No Object Name!");
-            searchResultCr.Add(unit.CR);
+            searchResultGUIDs.Add(unit.AssetGuid);
+
+            if (unit.name != null)
+            {
+                searchResultObjectNames.Add(unit.name);
+            }
+            else
+            {
+                searchResultObjectNames.Add("No Object Name!");
+            }
+
+            searchResultCR.Add(unit.CR);
         }
 
         private static void RemoveResult(BlueprintUnit unit)
         {
-            var i = searchResultGuiDs.IndexOf(unit.AssetGuid);
-            searchResultGuiDs.RemoveAt(i);
+            int i = searchResultGUIDs.IndexOf(unit.AssetGuid);
+            searchResultGUIDs.RemoveAt(i);
             searchResultObjectNames.RemoveAt(i);
-            searchResultCr.RemoveAt(i);
+            searchResultCR.RemoveAt(i);
         }
 
         private static void UnitDetails(bool toggle, string unitGuid)
         {
-            if (!toggle) return;
-            GL.BeginVertical("box");
+            if (toggle)
+            {
+                GL.BeginVertical("box");
 
-            var unitByGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitGuid);
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_UnitName") + ": ") + $"{unitByGuid.CharacterName}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_UnitGUID") + ": ") + $"{unitByGuid.AssetGuid}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ObjectName") + ": ") + $"{unitByGuid.name}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ObjectNameClean") + ": ") + $"{Strings.CleanName(unitByGuid.name)}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ChallengeRating") + ": ") + $"{unitByGuid.CR}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_UnitType") + ": ") + $"{unitByGuid.Type?.Name}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_Race") + ": ") + $"{unitByGuid.Race?.Name}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_Gender") + ": ") + $"{unitByGuid.Gender}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Strength") + ": ") + $"{unitByGuid.Strength}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Dexterity") + ": ") + $"{unitByGuid.Dexterity}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Constitution") + ": ") + $"{unitByGuid.Constitution}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Intelligence") + ": ") + $"{unitByGuid.Intelligence}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Wisdom") + ": ") + $"{unitByGuid.Wisdom}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Charisma") + ": ") + $"{unitByGuid.Charisma}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Speed") + ": ") + $"{unitByGuid.Speed}");
-            MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_BaseAttackBonus") + ": ") + $"{unitByGuid.BaseAttackBonus}");            
-                                             
-            MenuTools.CopyExportButtons("button_ExportUnitInfo", unitByGuid.name + ".txt", UnitInfo(unitByGuid),  "label_CopyUnitInformationToClipboard");
-            GL.EndVertical();
+                BlueprintUnit unitByGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitGuid);
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_UnitName") + ": ") + $"{unitByGuid.CharacterName}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_UnitGUID") + ": ") + $"{unitByGuid.AssetGuid}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ObjectName") + ": ") + $"{unitByGuid.name}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ObjectNameClean") + ": ") + $"{Strings.CleanName(unitByGuid.name)}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_ChallengeRating") + ": ") + $"{unitByGuid.CR}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_UnitType") + ": ") + $"{unitByGuid.Type?.Name}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_Race") + ": ") + $"{unitByGuid.Race?.Name}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("label_Gender") + ": ") + $"{unitByGuid.Gender}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Strength") + ": ") + $"{unitByGuid.Strength}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Dexterity") + ": ") + $"{unitByGuid.Dexterity}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Constitution") + ": ") + $"{unitByGuid.Constitution}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Intelligence") + ": ") + $"{unitByGuid.Intelligence}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Wisdom") + ": ") + $"{unitByGuid.Wisdom}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Charisma") + ": ") + $"{unitByGuid.Charisma}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_Speed") + ": ") + $"{unitByGuid.Speed}");
+                MenuTools.SingleLineLabelCopyBlueprintDetail(RichText.Bold(Strings.GetText("charStat_BaseAttackBonus") + ": ") + $"{unitByGuid.BaseAttackBonus}");
+
+                MenuTools.CopyExportButtons("button_ExportUnitInfo", unitByGuid.name + ".txt", UnitInfo(unitByGuid), "label_CopyUnitInformationToClipboard");
+                GL.EndVertical();
+            }
         }
 
         private static string[] UnitInfo(BlueprintUnit unit)

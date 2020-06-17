@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml.Serialization;
-
+﻿using BagOfTricks.Utils;
 using Kingmaker;
 using Kingmaker.Blueprints.Items;
 using Kingmaker.Cheats;
@@ -15,9 +7,15 @@ using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Enums;
 using Kingmaker.Items;
 using Kingmaker.UnitLogic.Alignments;
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Media;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 using UnityEngine;
-
 using GL = UnityEngine.GUILayout;
 using UnityModManager = UnityModManagerNet.UnityModManager;
 namespace BagOfTricks
@@ -69,14 +67,18 @@ namespace BagOfTricks
             GL.EndHorizontal();
         }
 
-        public static void ToggleButtonActionAtOnFavouritesMenu(ref string toggle, Action action, string buttonText, string buttonTooltip) {
+        public static void ToggleButtonActionAtOnFavouritesMenu(ref string toggle, Action action, string buttonText, string buttonTooltip)
+        {
             GL.BeginHorizontal();
-            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", ""), GL.ExpandWidth(false))) {
-                if (toggle == Storage.isFalseString) {
+            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", ""), GL.ExpandWidth(false)))
+            {
+                if (toggle == Storage.isFalseString)
+                {
                     action();
                     toggle = Storage.isTrueString;
                 }
-                else if (toggle == Storage.isTrueString) {
+                else if (toggle == Storage.isTrueString)
+                {
                     toggle = Storage.isFalseString;
                 }
             }
@@ -508,6 +510,8 @@ namespace BagOfTricks
                         return ref settings.toggleSpawnEnemiesFromUnitFavourites;
                     case "toggleAllowCampingEverywhere":
                         return ref settings.toggleAllowCampingEverywhere;
+                    case "toggleEnableRandomEncounterSettings":
+                        return ref settings.toggleEnableRandomEncounterSettings;
                     default:
                         throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
                 }
@@ -745,19 +749,23 @@ namespace BagOfTricks
             AddFavouriteButton(methodName, 20);
         }
 
-        public static void SettingsFieldNoLabel(ref string stringSetting, ref float finalSetting, int maxLength, float width) {
+        public static void SettingsFieldNoLabel(ref string stringSetting, ref float finalSetting, int maxLength, float width)
+        {
             GL.BeginHorizontal();
             stringSetting = GL.TextField(stringSetting, maxLength, GL.Width(width));
             SettingParse(ref stringSetting, ref finalSetting);
             GL.EndHorizontal();
         }
 
-        public static void SettingsField(ref string stringSetting, ref float finalSetting, string label, string tooltip, bool noZero = true) {
+        public static void SettingsField(ref string stringSetting, ref float finalSetting, string label, string tooltip, bool noZero = true)
+        {
             GL.BeginHorizontal();
-            if (tooltip != null) {
+            if (tooltip != null)
+            {
                 GL.Label(TextWithTooltip(label, tooltip, "", ": "), GL.ExpandWidth(false));
             }
-            else {
+            else
+            {
                 GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
             }
 
@@ -766,42 +774,53 @@ namespace BagOfTricks
             GL.EndHorizontal();
         }
 
-        public static void SettingsField(ref string stringSetting, ref float finalSetting, string label) {
+        public static void SettingsField(ref string stringSetting, ref float finalSetting, string label)
+        {
             SettingsField(ref stringSetting, ref finalSetting, label, null);
         }
 
-        public static void SettingsField(ref string stringSetting, ref float finalSetting) {
+        public static void SettingsField(ref string stringSetting, ref float finalSetting)
+        {
             SettingsField(ref stringSetting, ref finalSetting, "headerOption_SettingsValue");
         }
 
-        public static void CurrentMultiplier(float multiplier) {
+        public static void CurrentMultiplier(float multiplier)
+        {
             GL.BeginHorizontal();
             GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {multiplier}", GL.Width(150f));
             GL.EndHorizontal();
         }
 
-        public static void SettingParse(ref string stringSetting, ref int finalSetting) {
+        public static void SettingParse(ref string stringSetting, ref int finalSetting)
+        {
 
-            if (int.TryParse(stringSetting, out int result)) {
+            if (int.TryParse(stringSetting, out int result))
+            {
                 finalSetting = result;
 
             }
-            else {
+            else
+            {
                 stringSetting = "";
             }
         }
 
-        public static void SettingParse(ref string stringSetting, ref float finalSetting, bool noZero = true) {
-            if (noZero && stringSetting == "0" || stringSetting == "0..") {
+        public static void SettingParse(ref string stringSetting, ref float finalSetting, bool noZero = true)
+        {
+            if (noZero && stringSetting == "0" || stringSetting == "0..")
+            {
                 stringSetting = "0.";
             }
-            else if (float.TryParse(stringSetting, out float result)) {
-                if (!noZero || (noZero && result != 0)) {
+            else if (float.TryParse(stringSetting, out float result))
+            {
+                if (!noZero || (noZero && result != 0))
+                {
                     finalSetting = result;
                 }
             }
 
-            else {
+            else
+            {
                 stringSetting = "";
             }
         }
@@ -921,31 +940,35 @@ namespace BagOfTricks
                 var itemByGuid = Utilities.GetBlueprintByGuid<BlueprintItem>(itemGuid);
                 if (null == itemByGuid) return;
                 if (identify)
+                {
+                    ItemEntity itemEntity = Utilities.GetBlueprintByGuid<BlueprintItem>(itemGuid).CreateEntity();
+                    itemEntity.Identify();
                     for (var i = 0; i < itemAmount; i++)
-                    {
-                        var itemEntity = itemByGuid.CreateEntity();
-                        itemEntity.Identify();
                         Game.Instance.Player.Inventory.Add(itemEntity);
-                    }
-                else
-                    Game.Instance.Player.Inventory.Add(itemByGuid, itemAmount);
+                }
+                else Game.Instance.Player.Inventory.Add(itemByGuid, itemAmount);
             }
-            else
-                modLogger.Log(Storage.notificationEkunQ2RewardArmor);
+            else modLogger.Log(Storage.notificationEkunQ2RewardArmor);
         }
 
         static private KeyCode[] mouseButtonsValid = { KeyCode.Mouse3, KeyCode.Mouse4, KeyCode.Mouse5, KeyCode.Mouse6 };
-        public static void SetKeyBinding(ref KeyCode keyCode) {
+        public static void SetKeyBinding(ref KeyCode keyCode)
+        {
             string label = (keyCode == KeyCode.None) ? Strings.GetText("button_PressKey") : keyCode.ToString();
-            if (GL.Button(label, GL.ExpandWidth(false))) {
+            if (GL.Button(label, GL.ExpandWidth(false)))
+            {
                 keyCode = KeyCode.None;
             }
-            if (keyCode == KeyCode.None && Event.current != null) {
-                if (Event.current.isKey) {
+            if (keyCode == KeyCode.None && Event.current != null)
+            {
+                if (Event.current.isKey)
+                {
                     keyCode = Event.current.keyCode;
                 }
-                foreach (KeyCode mouseButton in mouseButtonsValid) {
-                    if (Input.GetKey(mouseButton)) {
+                foreach (KeyCode mouseButton in mouseButtonsValid)
+                {
+                    if (Input.GetKey(mouseButton))
+                    {
                         keyCode = mouseButton;
                     }
                 }
@@ -959,7 +982,7 @@ namespace BagOfTricks
 
         public static void IncompatibilityWarning(string warningLabel, string toggleA, string toggleB)
         {
-            if(Strings.ToBool(toggleA) && Strings.ToBool(toggleB))
+            if (Strings.ToBool(toggleA) && Strings.ToBool(toggleB))
             {
                 SingleLineLabel(warningLabel);
             }
@@ -983,6 +1006,14 @@ namespace BagOfTricks
             GL.Label(Strings.GetText("label_CurrentValue") + $": {setting}", GL.ExpandWidth(expandWidth));
         }
 
+    }
+
+    public class Localisation
+    {
+        [XmlAttribute]
+        public string key;
+        [XmlAttribute]
+        public string value;
     }
 
     public static class Strings
@@ -1085,14 +1116,6 @@ namespace BagOfTricks
             return itemName;
         }
 
-        public class Localisation
-        {
-            [XmlAttribute]
-            public string key;
-            [XmlAttribute]
-            public string value;
-        }
-
         public static Dictionary<string, string> current = MenuText.fallback;
         public static Dictionary<string, string> temp = new Dictionary<string, string>();
 
@@ -1159,44 +1182,6 @@ namespace BagOfTricks
             Storage.encumbranceArray = new[] { GetText("encumbrance_Light"), GetText("encumbrance_Medium"), GetText("encumbrance_Heavy"), GetText("encumbrance_Overload") };
             Storage.inventoryItemTypesArray = new[] { RichText.Bold(GetText("misc_All")), GetText("label_Armours"), GetText("label_Belts"), GetText("label_Footwear"), GetText("label_Gloves"), GetText("label_Headwear"), GetText("label_Neckwear"), GetText("label_NonUsable"), GetText("misc_Other"), GetText("label_Rings"), GetText("label_Shields"), GetText("label_ShoulderItems"), GetText("label_UsableItems"), GetText("label_Weapons"), GetText("label_WristItems") };
             Storage.weatherArray = new[] { GetText("arrayItem_Weather_Normal"), GetText("arrayItem_Weather_Rain"), GetText("arrayItem_Weather_Snow") };
-        }
-    }
-
-    public static class RichText
-    {
-        public static string Size(string s, int size)
-        {
-            return s;
-        }
-
-        public static string MainCategoryFormat(string s)
-        {
-            return $"<b> {s}</b>";
-        }
-
-        public static string Bold(string s)
-        {
-            return $"<b> {s}</b>";
-        }
-
-        public static string Italic(string s)
-        {
-            return $"<i> {s}</i>";
-        }
-
-        public static string BoldRedFormat(string s)
-        {
-            return $"<b><color=red>{s}</color></b>";
-        }
-
-        public static string WarningLargeRedFormat(string s)
-        {
-            return $"<b><color=red>{s}</color></b>";
-        }
-
-        public static string SizePercent(string s, int percent)
-        {
-            return $"<size={percent}%>{s}</size>";
         }
     }
 
@@ -1286,7 +1271,8 @@ namespace BagOfTricks
         public string amount = "";
         public int finalAmount = 0;
 
-        public void Render(string buttonLabel, ref int setting) {
+        public void Render(string buttonLabel, ref int setting)
+        {
             RenderField(label);
             GL.Space(10);
             RenderSetButton(buttonLabel, ref setting);

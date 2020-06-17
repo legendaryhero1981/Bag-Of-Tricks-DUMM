@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-
+﻿using BagOfTricks.Utils;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.Globalmap;
 using Kingmaker.UnitLogic;
-
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using TMPro;
-
 using UnityEngine;
 
 namespace BagOfTricks
@@ -31,7 +29,7 @@ namespace BagOfTricks
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.0.8";
+        public static readonly string gamerVersionAtCreation = "2.0.8-development";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
         public static readonly string bagOfTicksLogFile = "BagOfTricks";
@@ -599,7 +597,7 @@ namespace BagOfTricks
 
         public static float weatherIntensity = 0.5f;
 
-        public static string[] diceTypes = {"D0", "D1", "D2", "D3", "D4", "D6", "D8", "D10", "D12", "D20", "D100"};
+        public static string[] diceTypes = { "D0", "D1", "D2", "D3", "D4", "D6", "D8", "D10", "D12", "D20", "D100" };
 
         public static List<string> spiderGuids = new List<string>()
         {

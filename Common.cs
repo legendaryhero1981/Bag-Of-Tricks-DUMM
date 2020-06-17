@@ -2,12 +2,11 @@
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
-using Kingmaker.Blueprints.Classes.Selection;
-using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.Root;
 using Kingmaker.Blueprints.Root.Strings.GameLog;
 using Kingmaker.Cheats;
 using Kingmaker.Designers;
+using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.Enums;
 using Kingmaker.GameModes;
@@ -15,21 +14,16 @@ using Kingmaker.RuleSystem;
 using Kingmaker.UI;
 using Kingmaker.UI.Log;
 using Kingmaker.UnitLogic;
-using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Commands;
-using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Utility;
 using Kingmaker.View;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-
 using UnityEngine;
-
 using UnityModManager = UnityModManagerNet.UnityModManager;
 
 namespace BagOfTricks
@@ -38,7 +32,10 @@ namespace BagOfTricks
     {
         public static Settings settings = Main.settings;
 
-        public static UnitEntityData PlayerCharacter => Game.Instance.Player.MainCharacter;
+        public static UnitEntityData PlayerCharacter
+        {
+            get { return Game.Instance.Player.MainCharacter; }
+        }
 
         public static void SerializeListString(this List<string> list, string filePath)
         {
@@ -48,7 +45,6 @@ namespace BagOfTricks
                 serializer.Serialize(stream, list);
             }
         }
-
         public static void DeserializeListString(this List<string> list, string filePath)
         {
             try
@@ -56,7 +52,7 @@ namespace BagOfTricks
                 var serializer = new XmlSerializer(typeof(List<string>));
                 using (var stream = File.OpenRead(filePath))
                 {
-                    var other = (List<string>) serializer.Deserialize(stream);
+                    var other = (List<string>)(serializer.Deserialize(stream));
                     list.Clear();
                     list.AddRange(other);
                 }
@@ -69,16 +65,18 @@ namespace BagOfTricks
 
         public static void AddLogEntry(string message, Color color, bool gameDefaultColour = true)
         {
-            var currentGameMode = Game.Instance.CurrentMode;
-            if (Main.settings.toggleAddToLog == Storage.isTrueString &&
-                (currentGameMode == GameModeType.Default || currentGameMode == GameModeType.Pause))
+            GameModeType currentGameMode = Game.Instance.CurrentMode;
+            if (Main.settings.toggleAddToLog == Storage.isTrueString && (currentGameMode == GameModeType.Default || currentGameMode == GameModeType.Pause))
             {
-                if (gameDefaultColour) color = GameLogStrings.Instance.DefaultColor;
+                if (gameDefaultColour)
+                {
+                    color = GameLogStrings.Instance.DefaultColor;
+                }
 
-                var logItemData = new LogDataManager.LogItemData(message, GameLogStrings.Instance.DefaultColor, null,
-                    PrefixIcon.None);
+                LogDataManager.LogItemData logItemData = new LogDataManager.LogItemData(message, GameLogStrings.Instance.DefaultColor, null, PrefixIcon.None);
                 Game.Instance.UI.BattleLogManager.LogView.AddLogEntry(logItemData);
             }
+
         }
 
         public static bool IsEnemyOfPlayerGroup(UnitEntityData unit)
@@ -88,66 +86,36 @@ namespace BagOfTricks
 
         public static UnitEntityData GetUnitUnderMouse()
         {
-            var hoverUnit = Game.Instance?.UI?.SelectionManager?.HoverUnit;
-            if ((UnityEngine.Object) hoverUnit != (UnityEngine.Object) null) return hoverUnit.EntityData;
-
-            var camera = Game.GetCamera();
-            if (camera == null) return (UnitEntityData) null;
-
-            foreach (var raycastHit in Physics.RaycastAll(camera.ScreenPointToRay(Input.mousePosition),
-                camera.farClipPlane, 21761))
+            UnitEntityView hoverUnit = Game.Instance?.UI?.SelectionManager?.HoverUnit;
+            if ((UnityEngine.Object)hoverUnit != (UnityEngine.Object)null)
             {
-                var gameObject = raycastHit.collider.gameObject;
-                if (gameObject.CompareTag("SecondarySelection"))
-                    while (!(bool) (UnityEngine.Object) gameObject.GetComponent<UnitEntityView>() &&
-                           (bool) (UnityEngine.Object) gameObject.transform.parent)
-                        gameObject = gameObject.transform.parent.gameObject;
-                var component = gameObject.GetComponent<UnitEntityView>();
-                if ((bool) (UnityEngine.Object) component)
-                    return component.EntityData;
+                return hoverUnit.EntityData;
             }
 
-            return (UnitEntityData) null;
-        }
+            Camera camera = Game.GetCamera();
+            if (camera == null)
+            {
+                return (UnitEntityData)null;
+            }
 
-        public static void Kill(UnitEntityData unit)
-        {
-            unit.Descriptor.Damage = unit.Descriptor.Stats.HitPoints.ModifiedValue +
-                                     unit.Descriptor.Stats.TemporaryHitPoints.ModifiedValue;
-        }
-
-        public static void ForceKill(UnitEntityData unit)
-        {
-            unit.Descriptor.State.ForceKill = true;
-        }
-
-        public static void ResurrectAndFullRestore(UnitEntityData unit)
-        {
-            unit.Descriptor.ResurrectAndFullRestore();
-        }
-
-        public static void Buff(UnitEntityData unit, string buffGuid)
-        {
-            unit.Descriptor.AddFact((BlueprintUnitFact)Utilities.GetBlueprintByGuid<BlueprintBuff>(buffGuid), (MechanicsContext)null, new FeatureParam());
-        }
-
-        public static void Charm(UnitEntityData unit)
-        {
-            unit.Descriptor.Master = Game.Instance.Player.MainCharacter.Value;
-            unit.Descriptor.SetMaster(Game.Instance.Player.MainCharacter.Value);
-
-            unit.Descriptor.SwitchFactions(Game.Instance.BlueprintRoot.PlayerFaction, true);
-        }
-
-        public static void AddToParty(UnitEntityData unit)
-        {
-            Charm(unit);
-            Game.Instance.Player.AddCompanion(unit);
+            foreach (RaycastHit raycastHit in Physics.RaycastAll(camera.ScreenPointToRay(Input.mousePosition), camera.farClipPlane, 21761))
+            {
+                GameObject gameObject = raycastHit.collider.gameObject;
+                if (gameObject.CompareTag("SecondarySelection"))
+                {
+                    while (!(bool)((UnityEngine.Object)gameObject.GetComponent<UnitEntityView>()) && (bool)((UnityEngine.Object)gameObject.transform.parent))
+                        gameObject = gameObject.transform.parent.gameObject;
+                }
+                UnitEntityView component = gameObject.GetComponent<UnitEntityView>();
+                if ((bool)((UnityEngine.Object)component))
+                    return component.EntityData;
+            }
+            return (UnitEntityData)null;
         }
 
         public static void PostPartyChange()
         {
-            foreach (var unit in Game.Instance.Player.PartyCharacters)
+            foreach (UnitReference unit in Game.Instance.Player.PartyCharacters)
             {
                 unit.Value.IsInGame = true;
                 unit.Value.Position = GameHelper.GetPlayerCharacter().Position;
@@ -156,34 +124,46 @@ namespace BagOfTricks
 
         public static void TeleportPartyToPlayer()
         {
-            var currentMode = Game.Instance.CurrentMode;
-            var partyMembers = Game.Instance.Player?.ControllableCharacters;
+            GameModeType currentMode = Game.Instance.CurrentMode;
+            List<UnitEntityData> partyMembers = Game.Instance.Player.ControllableCharacters;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
-                foreach (var unit in partyMembers)
+            {
+                foreach (UnitEntityData unit in partyMembers)
+                {
                     if (unit != Game.Instance.Player.MainCharacter.Value)
                     {
                         unit.Commands.InterruptMove();
                         unit.Commands.InterruptMove();
                         unit.Position = Game.Instance.Player.MainCharacter.Value.Position;
-                    }
-        }
 
+                    }
+
+                }
+
+            }
+        }
         public static void TeleportEveryoneToPlayer()
         {
-            var currentMode = Game.Instance.CurrentMode;
+            GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
-                foreach (var unit in Game.Instance.State.Units)
+            {
+                foreach (UnitEntityData unit in Game.Instance.State.Units)
+                {
                     if (unit != Game.Instance.Player.MainCharacter.Value)
                     {
                         unit.Commands.InterruptMove();
                         unit.Commands.InterruptMove();
                         unit.Position = Game.Instance.Player.MainCharacter.Value.Position;
-                    }
-        }
 
+                    }
+
+                }
+
+            }
+        }
         public static void TeleportUnit(UnitEntityData unit, Vector3 position)
         {
-            var currentMode = Game.Instance.CurrentMode;
+            GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
                 unit.Commands.InterruptMove();
@@ -194,16 +174,17 @@ namespace BagOfTricks
 
         public static Vector3 MousePositionLocalMap()
         {
-            var currentMode = Game.Instance.CurrentMode;
+            GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
-                var camera = Game.GetCamera();
-                var hit = default(RaycastHit);
+                Camera camera = Game.GetCamera();
+                RaycastHit hit = default(RaycastHit);
                 if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit, camera.farClipPlane, 21761))
+                {
                     return hit.point;
+                }
                 return new Vector3();
             }
-
             return new Vector3();
         }
 
@@ -213,7 +194,7 @@ namespace BagOfTricks
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
                 UnitEntityData player = Game.Instance.Player.MainCharacter.Value;
-                UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);                
+                UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);
                 unit.Descriptor.SwitchFactions(Utilities.GetBlueprintByGuid<BlueprintFaction>("d8de50cc80eb4dc409a983991e0b77ad"), true); // d8de50cc80eb4dc409a983991e0b77ad Neutrals
                 unit.AttackFactions.Clear();
             }
@@ -230,38 +211,38 @@ namespace BagOfTricks
         }
         public static void SpawnHostileUnit(Vector3 position, string guid)
         {
-            var currentMode = Game.Instance.CurrentMode;
+            GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
-                var player = Game.Instance.Player;
-                var target = player.Party.Random<UnitEntityData>();
-                var executor = Game.Instance.EntityCreator.SpawnUnit(
-                    (BlueprintUnit) Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position,
-                    Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
+                Player player = Game.Instance.Player;
+                UnitEntityData target = player.Party.Random<UnitEntityData>();
+                UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
                 if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
+                {
                     executor.AttackFactions.Add(Game.Instance.BlueprintRoot.PlayerFaction);
+                }
                 executor.Commands.Run(UnitAttack.CreateAttackCommand(executor, target));
             }
         }
-
         public static void SpawnHostileUnit(Vector3 position, BlueprintUnit unit)
         {
-            var currentMode = Game.Instance.CurrentMode;
+            GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
-                var player = Game.Instance.Player;
-                var target = player.Party.Random<UnitEntityData>();
-                var executor = Game.Instance.EntityCreator.SpawnUnit(unit, position,
-                    Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
+                Player player = Game.Instance.Player;
+                UnitEntityData target = player.Party.Random<UnitEntityData>();
+                UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit(unit, position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
                 if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
+                {
                     executor.AttackFactions.Add(Game.Instance.BlueprintRoot.PlayerFaction);
+                }
                 executor.Commands.Run(UnitAttack.CreateAttackCommand(executor, target));
             }
         }
 
         public static void RotateUnit(UnitEntityData unit, Vector3 position)
         {
-            var currentMode = Game.Instance.CurrentMode;
+            GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
                 unit.LookAt(position);
@@ -271,68 +252,53 @@ namespace BagOfTricks
 
         public static List<UnitEntityData> GetCustomCompanions()
         {
-            var unitEntityData = Game.Instance.Player.AllCharacters;
-            var unitEntityDataNew = new List<UnitEntityData>();
+            List<UnitEntityData> unitEntityData = Game.Instance.Player.AllCharacters;
+            List<UnitEntityData> unitEntityDataNew = new List<UnitEntityData>();
 
-            foreach (var unit in unitEntityData)
+            foreach (UnitEntityData unit in unitEntityData)
+            {
                 if (unit.IsCustomCompanion())
+                {
                     unitEntityDataNew.Add(unit);
+                }
+            }
             return unitEntityDataNew;
         }
-
         public static List<UnitEntityData> GetPets()
         {
-            var unitEntityData = Game.Instance.Player.AllCharacters;
-            var unitEntityDataNew = new List<UnitEntityData>();
-            foreach (var unit in unitEntityData)
+            List<UnitEntityData> unitEntityData = Game.Instance.Player.AllCharacters;
+            List<UnitEntityData> unitEntityDataNew = new List<UnitEntityData>();
+            foreach (UnitEntityData unit in unitEntityData)
+            {
                 if (unit.Descriptor.IsPet)
+                {
                     unitEntityDataNew.Add(unit);
+                }
+            }
             return unitEntityDataNew;
         }
-
         public static List<UnitEntityData> GetEnemies()
         {
-            var enemyUnits = new List<UnitEntityData>();
-            using (var units = Game.Instance.State.Units.GetEnumerator())
+            List<UnitEntityData> enemyUnits = new List<UnitEntityData>();
+            using (EntityPoolEnumerator<UnitEntityData> units = Game.Instance.State.Units.GetEnumerator())
             {
                 while (units.MoveNext())
                 {
                     UnitEntityData unit;
-                    if ((unit = units.Current) != null && !unit.IsPlayerFaction && unit.IsInGame && unit.IsRevealed &&
-                        !unit.Descriptor.State.IsFinallyDead &&
-                        unit.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
+                    if ((unit = units.Current) != null && !unit.IsPlayerFaction && (unit.IsInGame && unit.IsRevealed) && (!unit.Descriptor.State.IsFinallyDead && unit.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction)))
+                    {
                         enemyUnits.Add(unit);
+                    }
                 }
-            }
 
+            }
             return enemyUnits;
         }
 
-        public static bool CheckUnitEntityData(UnitEntityData unitEntityData, int selection)
-        {
-            switch (selection)
-            {
-                case 0:
-                    return true;
-                case 1:
-                    if (unitEntityData.IsPlayerFaction) return true;
-                    return false;
-                case 2:
-                    if (unitEntityData.IsMainCharacter) return true;
-                    return false;
-                case 3:
-                    if (!unitEntityData.IsPlayerFaction &&
-                        unitEntityData.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
-                        return true;
-                    return false;
-            }
-
-            return false;
-        }
 
         public static string SizeToString(Size size)
         {
-            var sizeString = "!";
+            string sizeString = "!";
             switch (size)
             {
                 case Size.Colossal:
@@ -363,13 +329,13 @@ namespace BagOfTricks
                     sizeString = Strings.GetText("arrayItem_Size_Tiny");
                     break;
             }
-
             return sizeString;
+
         }
 
         public static string AlignmentToString(Alignment alignment)
         {
-            var alignmentString = "!";
+            string alignmentString = "!";
             switch (alignment)
             {
                 case Alignment.ChaoticEvil:
@@ -400,13 +366,12 @@ namespace BagOfTricks
                     alignmentString = Strings.GetText("arrayItem_Alignments_TrueNeutral");
                     break;
             }
-
             return alignmentString;
         }
 
         public static int IndexToAligment(int index)
         {
-            var alignment = 1;
+            int alignment = 1;
             switch (index)
             {
                 case 0:
@@ -437,13 +402,11 @@ namespace BagOfTricks
                     alignment = 20; //ChaoticEvil
                     break;
             }
-
             return alignment;
         }
-
         public static Encumbrance IntToEncumbrance(int index)
         {
-            var encumbrance = Encumbrance.Light;
+            Encumbrance encumbrance = Encumbrance.Light;
             switch (index)
             {
                 case 0:
@@ -459,13 +422,11 @@ namespace BagOfTricks
                     encumbrance = Encumbrance.Overload;
                     break;
             }
-
             return encumbrance;
         }
-
         public static DiceType IntToDiceType(int index)
         {
-            var diceType = DiceType.Zero;
+            DiceType diceType = DiceType.Zero;
             switch (index)
             {
                 case 0:
@@ -502,18 +463,23 @@ namespace BagOfTricks
                     diceType = DiceType.D100;
                     break;
             }
-
             return diceType;
         }
 
         public static string GenderToSymbol(Gender? gender)
         {
             if (gender == Gender.Female)
+            {
                 return "♀";
+            }
             else if (gender == Gender.Male)
+            {
                 return "♂";
+            }
             else
+            {
                 return "!";
+            }
         }
 
         public static void CloseMessageBox(DialogMessageBox.BoxButton btn)
@@ -522,89 +488,97 @@ namespace BagOfTricks
 
         public static void MoveArrayElementUp<T>(ref T[] array, T element)
         {
-            var index = Array.IndexOf(array, element);
+            int index = Array.IndexOf(array, element);
 
             if (index < array.Length - 1)
             {
-                var swappedElement = array[index + 1];
+                T swappedElement = array[index + 1];
 
                 array[index + 1] = element;
                 array[index] = swappedElement;
             }
         }
-
         public static void MakeArrayElementLast<T>(ref T[] array, T element)
         {
-            var index = Array.IndexOf(array, element);
+            int index = Array.IndexOf(array, element);
 
             if (index < array.Length - 1)
             {
-                var rotations = array.Length - 1 - index;
+                int rotations = array.Length - 1 - index;
                 array.Rotate(rotations);
             }
         }
-
         public static void MoveArrayElementDown<T>(ref T[] array, T element)
         {
-            var index = Array.IndexOf(array, element);
+            int index = Array.IndexOf(array, element);
 
             if (index > 0)
             {
-                var swappedElement = array[index - 1];
+                T swappedElement = array[index - 1];
 
                 array[index - 1] = element;
                 array[index] = swappedElement;
             }
         }
-
         public static void MakeArrayElementFirst<T>(ref T[] array, T element)
         {
-            var index = Array.IndexOf(array, element);
+            int index = Array.IndexOf(array, element);
 
-            if (index > 0) array.Rotate(-index);
+            if (index > 0)
+            {
+                array.Rotate(-index);
+            }
         }
-
         public static void Rotate<T>(this T[] array, int count)
         {
-            if (array == null || array.Length < 2) return;
+            if (array == null || array.Length < 2)
+            {
+                return;
+            }
 
             count %= array.Length;
-            if (count == 0) return;
-            var left = count < 0 ? -count : array.Length + count;
-            var right = count > 0 ? count : array.Length - count;
+            if (count == 0)
+            {
+                return;
+            }
+            int left = count < 0 ? -count : array.Length + count;
+            int right = count > 0 ? count : array.Length - count;
             if (left <= right)
-                for (var i = 0; i < left; i++)
+            {
+                for (int i = 0; i < left; i++)
                 {
                     var temp = array[0];
                     Array.Copy(array, 1, array, 0, array.Length - 1);
                     array[array.Length - 1] = temp;
                 }
+            }
             else
-                for (var i = 0; i < right; i++)
+            {
+                for (int i = 0; i < right; i++)
                 {
                     var temp = array[array.Length - 1];
                     Array.Copy(array, 0, array, 1, array.Length - 1);
                     array[0] = temp;
                 }
+            }
         }
 
 
         public static void MoveListElementUp<T>(ref List<T> list, T element)
         {
-            var index = list.IndexOf(element);
+            int index = list.IndexOf(element);
 
             if (index < list.Count - 1)
             {
-                var swappedElement = list[index - 1];
+                T swappedElement = list[index - 1];
 
                 list[index + 1] = element;
                 list[index] = swappedElement;
             }
         }
-
         public static void MakeListElementLast<T>(ref List<T> list, T element)
         {
-            var index = list.IndexOf(element);
+            int index = list.IndexOf(element);
 
             if (index < list.Count - 1)
             {
@@ -612,23 +586,21 @@ namespace BagOfTricks
                 list.Add(element);
             }
         }
-
         public static void MoveListElementDown<T>(ref List<T> list, T element)
         {
-            var index = list.IndexOf(element);
+            int index = list.IndexOf(element);
 
             if (index > 0)
             {
-                var swappedElement = list[index - 1];
+                T swappedElement = list[index - 1];
 
                 list[index - 1] = element;
                 list[index] = swappedElement;
             }
         }
-
         public static void MakeListElementFirst<T>(ref List<T> list, T element)
         {
-            var index = list.IndexOf(element);
+            int index = list.IndexOf(element);
 
             if (index > 0)
             {
@@ -644,82 +616,87 @@ namespace BagOfTricks
 
         public static T RandomElementUsing<T>(this IEnumerable<T> enumerable, System.Random rand)
         {
-            var index = rand.Next(0, enumerable.Count());
+            int index = rand.Next(0, enumerable.Count());
             return enumerable.ElementAt(index);
         }
 
-        private static Canvas[] hiddenCanvases;
 
-        public static void ToggleHud()
+        private static Canvas[] hiddenCanvases;
+        public static void ToggleHUD()
         {
+            Canvas[] temp = UnityEngine.Object.FindObjectsOfType<Canvas>();
             Storage.hudHidden = !Storage.hudHidden;
-            if (Storage.hudHidden) hiddenCanvases = UnityEngine.Object.FindObjectsOfType<Canvas>();
-            foreach (Component hiddenCanvas in hiddenCanvases) hiddenCanvas.gameObject.SetActive(!Storage.hudHidden);
+            if (Storage.hudHidden && temp != null && temp.Length > 0)
+            {
+                hiddenCanvases = temp;
+            }
+            if (hiddenCanvases != null && hiddenCanvases.Length > 0)
+            {
+                foreach (Component hiddenCanvas in hiddenCanvases)
+                {
+                    if (hiddenCanvas != null)
+                    {
+                        hiddenCanvas?.gameObject?.SetActive(!Storage.hudHidden);
+                    }
+                }
+            }
         }
 
         public static T CastObject<T>(object input)
         {
-            return (T) input;
+            return (T)input;
         }
 
-        public static bool DlcCheck(DlcType dlc)
+        public static bool DLCCheck(DlcType dlc)
         {
-            var enabled = BlueprintRoot.Instance.DlcSettings.Get(dlc)?.Enabled;
+            bool? enabled = BlueprintRoot.Instance.DlcSettings.Get(dlc)?.Enabled;
             if (enabled.HasValue)
                 return enabled.Value;
             return false;
         }
-
-        public static bool DlcTieflings()
+        public static bool DLCTieflings()
         {
-            return DlcCheck(DlcType.Tieflings);
+            return DLCCheck(DlcType.Tieflings);
         }
-
-        public static bool DlcVarnhold()
+        public static bool DLCVarnhold()
         {
-            return DlcCheck(DlcType.Varnhold);
+            return DLCCheck(DlcType.Varnhold);
         }
-
-        public static bool DlcEndless()
+        public static bool DLCEndless()
         {
-            return DlcCheck(DlcType.Endless);
+            return DLCCheck(DlcType.Endless);
         }
 
         public static string ExportPath()
         {
             if (Strings.ToBool(settings.toggleExportToModFolder))
+            {
                 return Storage.modEntryPath + Storage.exportFolder;
+            }
             else
+            {
                 return Application.persistentDataPath;
+            }
         }
 
-        public static int GetEncounterCr()
+        public static int GetEncounterCR()
         {
-            var blueprint =
-                Utilities.GetBlueprint<BlueprintStatProgression>(
-                    "Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset");
-            if (!(bool) (UnityEngine.Object) blueprint)
+            BlueprintStatProgression blueprint = Utilities.GetBlueprint<BlueprintStatProgression>("Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset");
+            if (!(bool)((UnityEngine.Object)blueprint))
                 blueprint = Utilities.GetBlueprint<BlueprintStatProgression>("19b09eaa18b203645b6f1d5f2edcb1e4");
-            if ((bool) (UnityEngine.Object) blueprint)
-                return Utilities.GetTotalChallengeRating(Game.Instance.State.Units.Where<UnitEntityData>(
-                        (Func<UnitEntityData, bool>) (u =>
-                        {
-                            if (u.IsInCombat)
-                                return !u.IsPlayerFaction;
-                            return false;
-                        })).Select<UnitEntityData, BlueprintUnit>(
-                        (Func<UnitEntityData, BlueprintUnit>) (u => u.Blueprint))
-                    .ToList<BlueprintUnit>());
-            UberDebug.LogChannel("SmartConsole",
-                string.Format("CR table not found at {0} or {1}, cannot calculate",
-                    (object) "Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset",
-                    (object) "19b09eaa18b203645b6f1d5f2edcb1e4"), (object[]) Array.Empty<object>());
+            if ((bool)((UnityEngine.Object)blueprint))
+                return Utilities.GetTotalChallengeRating(Game.Instance.State.Units.Where<UnitEntityData>((Func<UnitEntityData, bool>)(u =>
+                {
+                    if (u.IsInCombat)
+                        return !u.IsPlayerFaction;
+                    return false;
+                })).Select<UnitEntityData, BlueprintUnit>((Func<UnitEntityData, BlueprintUnit>)(u => u.Blueprint)).ToList<BlueprintUnit>());
+            UberDebug.LogChannel("SmartConsole", string.Format("CR table not found at {0} or {1}, cannot calculate", (object)"Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset", (object)"19b09eaa18b203645b6f1d5f2edcb1e4"), (object[])Array.Empty<object>());
             return -1;
         }
-
         public static string GetDifficulty()
         {
-            var num = GetEncounterCr() - Game.Instance.Player.PartyLevel;
+            int num = GetEncounterCR() - Game.Instance.Player.PartyLevel;
             if (num < 3)
                 return "Easy";
             return num < 5 ? "Hard" : "Boss";
@@ -727,7 +704,7 @@ namespace BagOfTricks
 
         public static void ModLoggerDebug(string message)
         {
-            if(settings.settingShowDebugInfo)
+            if (settings.settingShowDebugInfo)
             {
                 Main.modLogger.Log(message);
             }
@@ -747,7 +724,7 @@ namespace BagOfTricks
             }
         }
 
-        public static void RefreshArrayFromFile(ref string [] array, string folder, string fileFormat)
+        public static void RefreshArrayFromFile(ref string[] array, string folder, string fileFormat)
         {
             try
             {
@@ -780,6 +757,7 @@ namespace BagOfTricks
             }
         }
 
+
         public static string RemoveHtmlTags(string s)
         {
             return Regex.Replace(s, "<.*?>", String.Empty);
@@ -796,113 +774,141 @@ namespace BagOfTricks
             return s;
         }
 
-        public static string[] getObjectInfo(object o) {
+        public static string[] getObjectInfo(object o)
+        {
 
             string fields = "";
-            foreach (string field in Traverse.Create(o).Fields()) {
+            foreach (string field in Traverse.Create(o).Fields())
+            {
                 fields = fields + field + ", ";
             }
             string methods = "";
-            foreach (string method in Traverse.Create(o).Methods()) {
+            foreach (string method in Traverse.Create(o).Methods())
+            {
                 methods = methods + method + ", ";
             }
             string properties = "";
-            foreach (string property in Traverse.Create(o).Properties()) {
+            foreach (string property in Traverse.Create(o).Properties())
+            {
                 properties = properties + property + ", ";
             }
             return new string[] { fields, methods, properties };
         }
+
     }
 
     public class ModEntryCheck
     {
-        private UnityModManager.ModEntry _modEntry;
+
+        UnityModManager.ModEntry modEntry;
 
 
         public ModEntryCheck(string modId)
         {
-            _modEntry = UnityModManager.FindMod(modId);
+            modEntry = UnityModManager.FindMod(modId);
         }
 
         public bool ModIsActive()
         {
-            if (_modEntry != null && _modEntry.Assembly != null)
-                return _modEntry.Active;
+            if (modEntry != null && modEntry.Assembly != null)
+            {
+                return modEntry.Active;
+            }
             else
+            {
                 return false;
+            }
         }
-
         public bool IsInstalled()
         {
-            if (_modEntry != null)
+            if (modEntry != null)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
-
         public string Version()
         {
-            if (_modEntry != null)
-                return _modEntry.Info.Version;
+            if (modEntry != null)
+            {
+                return modEntry.Info.Version;
+            }
             else
+            {
                 return "";
+            }
         }
     }
 
-    internal class AutoCompleteDictionary<T> : SortedDictionary<string, T>
+    class AutoCompleteDictionary<T> : SortedDictionary<string, T>
     {
-        private AutoCompleteComparer _mComparer;
+        private AutoCompleteDictionary<T>.AutoCompleteComparer m_comparer;
 
         public AutoCompleteDictionary()
-            : base((IComparer<string>) new AutoCompleteComparer())
+          : base((IComparer<string>)new AutoCompleteDictionary<T>.AutoCompleteComparer())
         {
-            _mComparer = Comparer as AutoCompleteComparer;
+            this.m_comparer = this.Comparer as AutoCompleteDictionary<T>.AutoCompleteComparer;
         }
 
         public T LowerBound(string lookupString)
         {
-            _mComparer.Reset();
-            ContainsKey(lookupString);
-            return this[_mComparer.LowerBound];
+            this.m_comparer.Reset();
+            this.ContainsKey(lookupString);
+            return this[this.m_comparer.LowerBound];
         }
 
         public T UpperBound(string lookupString)
         {
-            _mComparer.Reset();
-            ContainsKey(lookupString);
-            return this[_mComparer.UpperBound];
+            this.m_comparer.Reset();
+            this.ContainsKey(lookupString);
+            return this[this.m_comparer.UpperBound];
         }
 
         public T AutoCompleteLookup(string lookupString)
         {
-            _mComparer.Reset();
-            ContainsKey(lookupString);
-            return this[_mComparer.UpperBound != null ? _mComparer.UpperBound : _mComparer.LowerBound];
+            this.m_comparer.Reset();
+            this.ContainsKey(lookupString);
+            return this[this.m_comparer.UpperBound != null ? this.m_comparer.UpperBound : this.m_comparer.LowerBound];
         }
 
         private class AutoCompleteComparer : IComparer<string>
         {
-            private string _mLowerBound;
-            private string _mUpperBound;
+            private string m_lowerBound;
+            private string m_upperBound;
 
-            public string LowerBound => _mLowerBound;
+            public string LowerBound
+            {
+                get
+                {
+                    return this.m_lowerBound;
+                }
+            }
 
-            public string UpperBound => _mUpperBound;
+            public string UpperBound
+            {
+                get
+                {
+                    return this.m_upperBound;
+                }
+            }
 
             public int Compare(string x, string y)
             {
-                var num = Comparer<string>.Default.Compare(x,y);
+                int num = Comparer<string>.Default.Compare(x, y);
                 if (num >= 0)
-                    _mLowerBound = y;
+                    this.m_lowerBound = y;
                 if (num <= 0)
-                    _mUpperBound = y;
+                    this.m_upperBound = y;
                 return num;
             }
 
             public void Reset()
             {
-                _mLowerBound = (string)null;
-                _mUpperBound = (string)null;
+                this.m_lowerBound = (string)null;
+                this.m_upperBound = (string)null;
             }
         }
     }

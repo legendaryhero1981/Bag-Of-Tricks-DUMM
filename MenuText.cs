@@ -613,6 +613,7 @@ namespace BagOfTricks
             {"buttonToggle_RevealMapLocations", "Reveal Map Locations"},
             {"buttonToggle_EnableTeleport", "Enable Teleport"},
             {"buttonToggle_RandomEncounterPossible", "Random Encounters Possible"},
+            {"buttonToggle_EnableRandomEncounterSettings", "Enable Random Encounter Settings"},
             {"buttonToggle_AlwaysSucceedAtAvoidingEncounters", "Always Succeed At Avoiding Encounters"},
             {"buttonToggle_InstantKingdomEvents", "Instant Kingdom Events"},
             {"buttonToggle_ForceSuccessTriumphs", "Force Success/Triumph"},
@@ -1205,6 +1206,7 @@ namespace BagOfTricks
             },
             {"tooltip_RandomEncounterPossible", "Disables random encounters on the global map."},
             {"tooltip_AlwaysSucceedAtAvoidingEncounters", "Avoiding random encounters will always be successful."},
+            {"tooltip_EnableRandomEncounterSettings", "Allows to change random encounter settings."},
 
             {"tooltip_UpgradeSettlementsAndBuildings", "Upgrade settlements and individual buildings."},
             {"tooltip_SetKingdomAlignment", "Set the kingdom's alignment to the one chosen from the selection grid."},

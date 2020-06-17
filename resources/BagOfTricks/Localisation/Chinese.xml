@@ -527,6 +527,7 @@
   <Localisation key="buttonToggle_RevealMapLocations" value="显示地图位置" />
   <Localisation key="buttonToggle_EnableTeleport" value="启用传送" />
   <Localisation key="buttonToggle_RandomEncounterPossible" value="可能的随机遭遇" />
+  <Localisation key="buttonToggle_EnableRandomEncounterSettings" value="启用随机遭遇设置" />
   <Localisation key="buttonToggle_AlwaysSucceedAtAvoidingEncounters" value="总是成功地避免遭遇" />
   <Localisation key="buttonToggle_InstantKingdomEvents" value="立即完成王国事件" />
   <Localisation key="buttonToggle_ForceSuccessTriumphs" value="强制成功/胜利" />
@@ -910,6 +911,7 @@
   <Localisation key="tooltip_RandomEncounterSettings" value="使用切换、滑块和输入文件来配置您喜欢的随机遭遇。" />
   <Localisation key="tooltip_RandomEncounterPossible" value="禁用世界地图上的随机遭遇。" />
   <Localisation key="tooltip_AlwaysSucceedAtAvoidingEncounters" value="避免随机遭遇总是成功的。" />
+  <Localisation key="tooltip_EnableRandomEncounterSettings" value="允许更改随机遭遇设置。" />
   <Localisation key="tooltip_UpgradeSettlementsAndBuildings" value="升级定居点和独立建筑。" />
   <Localisation key="tooltip_SetKingdomAlignment" value="将王国的排列与选择网格中的一个对齐。" />
   <Localisation key="tooltip_OverrideKingdomAlignmentResult" value="覆盖王国对齐结果。" />

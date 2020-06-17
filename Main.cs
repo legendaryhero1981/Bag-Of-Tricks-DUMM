@@ -1,4 +1,5 @@
-﻿using Harmony12;
+﻿using BagOfTricks.Utils;
+using Harmony12;
 
 using Kingmaker;
 using Kingmaker.Assets.UI;
@@ -85,9 +86,9 @@ namespace BagOfTricks
         public static bool versionMismatch = false;
         public static Vector2 scrollPosition;
 
-        public static UiCanvas mainCanvas = new UiCanvas("BoT_MainCanvas");
-        public static UitmpText sceneAreaInfo = new UitmpText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
-        public static UitmpText objectInfo = new UitmpText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
+        public static UICanvas mainCanvas = new UICanvas("BoT_MainCanvas");
+        public static UITMPText sceneAreaInfo = new UITMPText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
+        public static UITMPText objectInfo = new UITMPText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
 
         public static Logger botLoggerLog;
         public static Logger battleLoggerLog;
@@ -1408,77 +1409,111 @@ namespace BagOfTricks
 
         public static void CheckRandomEncounterSettings()
         {
-            if (settings.toggleRandomEncountersEnabled == Storage.isFalseString)
+            if (Strings.ToBool(settings.toggleEnableRandomEncounterSettings))
             {
-                Game.Instance.BlueprintRoot.RE.EncountersEnabled = false;
-            }
-            if (settings.toggleRandomEncountersEnabled == Storage.isTrueString)
-            {
-                Game.Instance.BlueprintRoot.RE.EncountersEnabled = true;
-            }
-            if (settings.randomEncounterChanceOnGlobalMap != Defaults.randomEncounterChanceOnGlobalMap)
-            {
-                Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap = settings.randomEncounterChanceOnGlobalMap;
-            }
-            if (settings.randomEncounterChanceOnCamp != Defaults.randomEncounterChanceOnCamp)
-            {
-                Game.Instance.BlueprintRoot.RE.ChanceOnCamp = settings.randomEncounterChanceOnCamp;
-            }
-            if (settings.randomEncounterChanceOnCampSecondTime != Defaults.randomEncounterChanceOnCampSecondTime)
-            {
-                Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime = settings.randomEncounterChanceOnCampSecondTime;
-            }
-            if (settings.randomEncounterHardEncounterChance != Defaults.randomEncounterHardEncounterChance)
-            {
-                Game.Instance.BlueprintRoot.RE.HardEncounterChance = settings.randomEncounterHardEncounterChance;
-            }
-            if (settings.randomEncounterHardEncounterMaxChance != Defaults.randomEncounterHardEncounterMaxChance)
-            {
-                Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance = settings.randomEncounterHardEncounterMaxChance;
-            }
-            if (settings.randomEncounterHardEncounterChanceIncrease != Defaults.randomEncounterHardEncounterChanceIncrease)
-            {
-                Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease = settings.randomEncounterHardEncounterChanceIncrease;
-            }
-            if (settings.randomEncounterStalkerAmbushChance != Defaults.randomEncounterStalkerAmbushChance)
-            {
-                Game.Instance.BlueprintRoot.RE.StalkerAmbushChance = settings.randomEncounterStalkerAmbushChance;
-            }
-            if (settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
-            {
-                Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
-            }
-            if (settings.randomEncounterSafeMilesAfterEncounter != Defaults.randomEncounterSafeMilesAfterEncounter)
-            {
-                Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter = settings.randomEncounterSafeMilesAfterEncounter;
-            }
-            if (settings.randomEncounterDefaultSafeZoneSize != Defaults.randomEncounterDefaultSafeZoneSize)
-            {
-                Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize = settings.randomEncounterDefaultSafeZoneSize;
-            }
-            if (settings.randomEncounterEncounterPawnOffset != Defaults.randomEncounterEncounterPawnOffset)
-            {
-                Game.Instance.BlueprintRoot.RE.EncounterPawnOffset = settings.randomEncounterEncounterPawnOffset;
-            }
-            if (settings.randomEncounterEncounterPawnDistanceFromLocation != Defaults.randomEncounterEncounterPawnDistanceFromLocation)
-            {
-                Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation = settings.randomEncounterEncounterPawnDistanceFromLocation;
-            }
-            if (settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
-            {
-                Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
-            }
-            if (settings.randomEncounterEncounterMinBonusCr != Defaults.randomEncounterEncounterMinBonusCr)
-            {
-                Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = settings.randomEncounterEncounterMinBonusCr;
-            }
-            if (settings.randomEncounterEncounterMaxBonusCr != Defaults.randomEncounterEncounterMaxBonusCr)
-            {
-                Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = settings.randomEncounterEncounterMaxBonusCr;
-            }
-            if (settings.randomEncounterHardEncounterBonusCr != Defaults.randomEncounterHardEncounterBonusCr)
-            {
-                Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = settings.randomEncounterHardEncounterBonusCr;
+                if (settings.toggleRandomEncountersEnabled == Storage.isFalseString)
+                {
+                    Game.Instance.BlueprintRoot.RE.EncountersEnabled = false;
+                }
+
+                if (settings.toggleRandomEncountersEnabled == Storage.isTrueString)
+                {
+                    Game.Instance.BlueprintRoot.RE.EncountersEnabled = true;
+                }
+
+                if (settings.randomEncounterChanceOnGlobalMap != Defaults.randomEncounterChanceOnGlobalMap)
+                {
+                    Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap = settings.randomEncounterChanceOnGlobalMap;
+                }
+
+                if (settings.randomEncounterChanceOnCamp != Defaults.randomEncounterChanceOnCamp)
+                {
+                    Game.Instance.BlueprintRoot.RE.ChanceOnCamp = settings.randomEncounterChanceOnCamp;
+                }
+
+                if (settings.randomEncounterChanceOnCampSecondTime != Defaults.randomEncounterChanceOnCampSecondTime)
+                {
+                    Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime =
+                        settings.randomEncounterChanceOnCampSecondTime;
+                }
+
+                if (settings.randomEncounterHardEncounterChance != Defaults.randomEncounterHardEncounterChance)
+                {
+                    Game.Instance.BlueprintRoot.RE.HardEncounterChance = settings.randomEncounterHardEncounterChance;
+                }
+
+                if (settings.randomEncounterHardEncounterMaxChance != Defaults.randomEncounterHardEncounterMaxChance)
+                {
+                    Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance =
+                        settings.randomEncounterHardEncounterMaxChance;
+                }
+
+                if (settings.randomEncounterHardEncounterChanceIncrease !=
+                    Defaults.randomEncounterHardEncounterChanceIncrease)
+                {
+                    Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease =
+                        settings.randomEncounterHardEncounterChanceIncrease;
+                }
+
+                if (settings.randomEncounterStalkerAmbushChance != Defaults.randomEncounterStalkerAmbushChance)
+                {
+                    Game.Instance.BlueprintRoot.RE.StalkerAmbushChance = settings.randomEncounterStalkerAmbushChance;
+                }
+
+                if (settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
+                {
+                    Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
+                }
+
+                if (settings.randomEncounterSafeMilesAfterEncounter != Defaults.randomEncounterSafeMilesAfterEncounter)
+                {
+                    Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter =
+                        settings.randomEncounterSafeMilesAfterEncounter;
+                }
+
+                if (settings.randomEncounterDefaultSafeZoneSize != Defaults.randomEncounterDefaultSafeZoneSize)
+                {
+                    Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize = settings.randomEncounterDefaultSafeZoneSize;
+                }
+
+                if (settings.randomEncounterEncounterPawnOffset != Defaults.randomEncounterEncounterPawnOffset)
+                {
+                    Game.Instance.BlueprintRoot.RE.EncounterPawnOffset = settings.randomEncounterEncounterPawnOffset;
+                }
+
+                if (settings.randomEncounterEncounterPawnDistanceFromLocation !=
+                    Defaults.randomEncounterEncounterPawnDistanceFromLocation)
+                {
+                    Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation =
+                        settings.randomEncounterEncounterPawnDistanceFromLocation;
+                }
+
+                if (settings.randomEncounterRollMiles != Defaults.randomEncounterRollMiles)
+                {
+                    Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
+                }
+
+                if (settings.randomEncounterRandomEncounterAvoidanceFailMargin !=
+                    Defaults.randomEncounterRandomEncounterAvoidanceFailMargin)
+                {
+                    Game.Instance.BlueprintRoot.RE.RandomEncounterAvoidanceFailMargin =
+                        settings.randomEncounterRandomEncounterAvoidanceFailMargin;
+                }
+
+                if (settings.randomEncounterEncounterMinBonusCr != Defaults.randomEncounterEncounterMinBonusCr)
+                {
+                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = settings.randomEncounterEncounterMinBonusCr;
+                }
+
+                if (settings.randomEncounterEncounterMaxBonusCr != Defaults.randomEncounterEncounterMaxBonusCr)
+                {
+                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = settings.randomEncounterEncounterMaxBonusCr;
+                }
+
+                if (settings.randomEncounterHardEncounterBonusCr != Defaults.randomEncounterHardEncounterBonusCr)
+                {
+                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = settings.randomEncounterHardEncounterBonusCr;
+                }
             }
         }
 
@@ -1575,10 +1610,10 @@ namespace BagOfTricks
 
         public static void SerializeFallback()
         {
-            var serializer = new XmlSerializer(typeof(Strings.Localisation[]), new XmlRootAttribute() { ElementName = "resources" });
+            var serializer = new XmlSerializer(typeof(Localisation[]), new XmlRootAttribute() { ElementName = "resources" });
             using (var stream = File.Create(Storage.modEntryPath + Storage.localisationFolder + "\\" + "fallback.xml"))
             {
-                serializer.Serialize(stream, MenuText.fallback.Select(kv => new Strings.Localisation() { key = kv.Key, value = kv.Value }).ToArray());
+                serializer.Serialize(stream, MenuText.fallback.Select(kv => new Localisation() { key = kv.Key, value = kv.Value }).ToArray());
             }
         }
 
@@ -1833,45 +1868,35 @@ namespace BagOfTricks
 
         public static void GetClassNames(UnitProgressionData prog)
         {
-            if (!Storage.classNames.Any() || !Storage.classData.Any())
+            if (Storage.classNames.Any() && Storage.classData.Any()) return;
+            Storage.classNames.Clear();
+            Storage.classData.Clear();
+            var bcc = ResourcesLibrary.GetBlueprints<BlueprintCharacterClass>();
+            foreach (var b in bcc)
             {
-                Storage.classNames.Clear();
-                Storage.classData.Clear();
-                var bcc = ResourcesLibrary.GetBlueprints<BlueprintCharacterClass>();
-                foreach (var b in bcc)
+                if (b.AssetGuid == "42a455d9ec1ad924d889272429eb8391" && !Common.DLCTieflings()) continue;
+                var cd = new ClassData(b);
+                var name = "";
+                if (!b.LocalizedName.IsEmpty() && b.LocalizedName != null)
                 {
-                    if (b.AssetGuid == "42a455d9ec1ad924d889272429eb8391" && !Common.DlcTieflings())
-                    {
-
-                    }
-                    else
-                    {
-                        var cd = new ClassData(b);
-                        var name = "";
-                        if (!b.LocalizedName.IsEmpty() && b.LocalizedName != null)
-                        {
-                            name = b.LocalizedName;
-                        }
-                        else if (b.Name != "" && b.Name != null)
-                        {
-                            name = b.Name;
-                        }
-                        else
-                        {
-                            name = b.name;
-                        }
-
-                        if (prog.GetClassLevel(cd.CharacterClass) > 0)
-                        {
-                            name = name + $" ({prog.GetClassLevel(cd.CharacterClass)})";
-                        }
-                        Storage.classNames.Add(name);
-                        Storage.classData.Add(cd);
-                    }
-
+                    name = b.LocalizedName;
                 }
-            }
+                else if (b.Name != "" && b.Name != null)
+                {
+                    name = b.Name;
+                }
+                else
+                {
+                    name = b.name;
+                }
 
+                if (prog.GetClassLevel(cd.CharacterClass) > 0)
+                {
+                    name = name + $" ({prog.GetClassLevel(cd.CharacterClass)})";
+                }
+                Storage.classNames.Add(name);
+                Storage.classData.Add(cd);
+            }
         }
 
         public static class HyperTheurgeHelper
@@ -2012,7 +2037,7 @@ namespace BagOfTricks
                 var stringAblilityName = Storage.abilityValidNames[i];
                 var stringAbilityObjectNames = Storage.abilityValidObjectNames[i];
                 var stringAbilityGuid = Storage.abilityValidGuids[i];
-                
+
                 if (Storage.abilityValidObjectNames[i].Contains(settings.abilitySearch, StringComparison.CurrentCultureIgnoreCase))
                 {
                     if (settings.toggleSearchByAbilityObjectName == Storage.isTrueString)

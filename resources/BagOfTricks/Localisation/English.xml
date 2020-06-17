@@ -527,6 +527,7 @@
   <Localisation key="buttonToggle_RevealMapLocations" value="Reveal Map Locations" />
   <Localisation key="buttonToggle_EnableTeleport" value="Enable Teleport" />
   <Localisation key="buttonToggle_RandomEncounterPossible" value="Random Encounters Possible" />
+  <Localisation key="buttonToggle_EnableRandomEncounterSettings" value="Enable Random Encounter Settings" />
   <Localisation key="buttonToggle_AlwaysSucceedAtAvoidingEncounters" value="Always Succeed At Avoiding Encounters" />
   <Localisation key="buttonToggle_InstantKingdomEvents" value="Instant Kingdom Events" />
   <Localisation key="buttonToggle_ForceSuccessTriumphs" value="Force Success/Triumph" />
@@ -910,6 +911,7 @@
   <Localisation key="tooltip_RandomEncounterSettings" value="Use the toggles, slider and input files to configure random encounter to your liking." />
   <Localisation key="tooltip_RandomEncounterPossible" value="Disables random encounters on the global map." />
   <Localisation key="tooltip_AlwaysSucceedAtAvoidingEncounters" value="Avoiding random encounters will always be successful." />
+  <Localisation key="tooltip_EnableRandomEncounterSettings" value="Allows to change random encounter settings." />
   <Localisation key="tooltip_UpgradeSettlementsAndBuildings" value="Upgrade settlements and individual buildings." />
   <Localisation key="tooltip_SetKingdomAlignment" value="Set the kingdom's alignment to the one chosen from the selection grid." />
   <Localisation key="tooltip_OverrideKingdomAlignmentResult" value="﻿Overrides kingdom alignment result." />

@@ -1,4 +1,6 @@
-﻿using Kingmaker;
+﻿using BagOfTricks.ModUI;
+using BagOfTricks.Utils;
+using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
@@ -76,10 +78,10 @@ namespace BagOfTricks {
                     KillFunctions();
                     break;
                 case 3:
-                    Common.ResurrectAndFullRestore(Common.GetUnitUnderMouse());
+                    Units.ResurrectAndFullRestore(Common.GetUnitUnderMouse());
                     break;
                 case 4:
-                    Common.Buff(Common.GetUnitUnderMouse(), Storage.buffFavouritesGuids[Main.settings.actionKeyBuffIndex]);
+                    Units.Buff(Common.GetUnitUnderMouse(), Storage.buffFavouritesGuids[Main.settings.actionKeyBuffIndex]);
                     break;
                 case 5:
                     editUnit = Common.GetUnitUnderMouse();
@@ -96,7 +98,7 @@ namespace BagOfTricks {
                             Vector3 pos = Common.MousePositionLocalMap();
                             float x = 0.0f;
                             float z = 0.0f;
-                            foreach (string guid in SpawnUnits.GetStoredGuiDs) {
+                            foreach (string guid in SpawnUnits.GetStoredGUIDs) {
                                 Vector3 finalPos = new Vector3(pos.x + 1.5f * x, pos.y, pos.z + 1.5f * z);
                                 SpawnUnits.UnitSpawner(finalPos, guid);
                                 x++;
@@ -137,10 +139,10 @@ namespace BagOfTricks {
                     FxHelper.SpawnFxOnPoint(BlueprintRoot.Instance.Cheats.SillyCheatBlood, Common.MousePositionLocalMap());
                     break;
                 case 11:
-                    Common.Charm(Common.GetUnitUnderMouse());
+                    Units.Charm(Common.GetUnitUnderMouse());
                     break;
                 case 12:
-                    Common.AddToParty(Common.GetUnitUnderMouse());
+                    Units.AddToParty(Common.GetUnitUnderMouse());
                     break;
                 case 13:
                     Common.GetUnitUnderMouse().Descriptor.Recreate = true;
@@ -150,10 +152,10 @@ namespace BagOfTricks {
         public static void KillFunctions() {
             switch (Main.settings.actionKeyKillIndex) {
                 case 0:
-                    Common.Kill(Common.GetUnitUnderMouse());
+                    Units.Kill(Common.GetUnitUnderMouse());
                     break;
                 case 1:
-                    Common.ForceKill(Common.GetUnitUnderMouse());
+                    Units.ForceKill(Common.GetUnitUnderMouse());
                     break;
             }
         }
@@ -181,7 +183,7 @@ namespace BagOfTricks {
             GL.BeginHorizontal();
             if (unit.Descriptor.HPLeft > 0) {
                 if (GL.Button(Strings.GetText("button_Kill"), GL.ExpandWidth(false))) {
-                    Common.Kill(unit);
+                    Units.Kill(unit);
                 }
                 if (GL.Button(Strings.GetText("button_Panic"), GL.ExpandWidth(false))) {
                     unit.Descriptor.AddFact((BlueprintUnitFact)Utilities.GetBlueprintByGuid<BlueprintBuff>("cf0e277e6b785f449bbaf4e993b556e0"), (MechanicsContext)null, new FeatureParam());
@@ -259,7 +261,7 @@ namespace BagOfTricks {
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_ActionKey") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.actionKey);
+                Keys.SetKeyBinding(ref settings.actionKey);
                 GL.EndHorizontal();
 
                 GL.Space(10);

@@ -639,7 +639,9 @@ namespace BagOfTricks
         public string toggleAllowCampingEverywhere = Storage.isFalseString;
         public string toggleCustomTakeXAsMin = Storage.isFalseString;
 
-        public override void Save(UnityModManager.ModEntry modEntry) {
+        public string toggleEnableRandomEncounterSettings = Storage.isFalseString;
+        public override void Save(UnityModManager.ModEntry modEntry)
+        {
             Save(this, modEntry);
         }
     }

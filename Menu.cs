@@ -1,4 +1,6 @@
-﻿using Harmony12;
+﻿using BagOfTricks.ModUI;
+using BagOfTricks.Utils;
+using Harmony12;
 
 using Kingmaker;
 using Kingmaker.Blueprints;
@@ -591,391 +593,472 @@ namespace BagOfTricks
             GL.BeginHorizontal();
             settings.randomEncounterSettingsShow = GL.Toggle(settings.randomEncounterSettingsShow, new GUIContent(RichText.Bold(Strings.GetText("header_RandomEncounterSettings")), Strings.GetText("tooltip_RandomEncounterSettings")));
             MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(RandomEncounterSettings));
-            if (settings.randomEncounterSettingsShow)
+            try
             {
-                RandomEcnountersPossible();
-
-                MenuTools.ToggleButton(ref settings.toggleEnableAvoidanceSuccess, "buttonToggle_AlwaysSucceedAtAvoidingEncounters", "tooltip_AlwaysSucceedAtAvoidingEncounters", nameof(settings.toggleEnableAvoidanceSuccess));
-
-                GL.Space(10);
-
-                GL.BeginVertical("box");
-                if (KingdomState.Instance != null)
+                if (settings.randomEncounterSettingsShow)
                 {
-                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_RegionREInformation") + " " + Strings.Parenthesis(((IList<BlueprintRegion>)BlueprintRoot.Instance.Kingdom.Regions).FirstOrDefault<BlueprintRegion>((Func<BlueprintRegion, bool>)(r => r.Id == Game.Instance.Player.GlobalMap.CurrentRegion)).LocalizedName)));
+                    GL.BeginVertical("box");
+
+                    MenuTools.ToggleButton(ref settings.toggleEnableRandomEncounterSettings,
+                        "buttonToggle_EnableRandomEncounterSettings", "tooltip_EnableRandomEncounterSettings",
+                        nameof(settings.toggleEnableRandomEncounterSettings));
+                    if (Strings.ToBool(settings.toggleEnableRandomEncounterSettings))
+                    {
+                        RandomEcnountersPossible();
+
+                        MenuTools.ToggleButton(ref settings.toggleEnableAvoidanceSuccess,
+                            "buttonToggle_AlwaysSucceedAtAvoidingEncounters",
+                            "tooltip_AlwaysSucceedAtAvoidingEncounters", nameof(settings.toggleEnableAvoidanceSuccess));
+
+                        GL.Space(10);
+
+                        GL.BeginVertical("box");
+                        if (KingdomState.Instance != null)
+                        {
+                            MenuTools.SingleLineLabel(RichText.Bold(
+                                Strings.GetText("label_RegionREInformation") + " " + Strings.Parenthesis(
+                                    ((IList<BlueprintRegion>)BlueprintRoot.Instance.Kingdom.Regions)
+                                    .FirstOrDefault<BlueprintRegion>((Func<BlueprintRegion, bool>)(r =>
+                                       r.Id == Game.Instance.Player.GlobalMap.CurrentRegion)).LocalizedName)));
+                        }
+                        else
+                        {
+                            MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_RegionREInformation")));
+                        }
+
+                        GL.Space(10);
+                        if (settings.settingShowDebugInfo && KingdomState.Instance != null)
+                        {
+                            MenuTools.SingleLineLabel("REModifierClaimed: " +
+                                                      Game.Instance.Player.Kingdom.REModifierClaimed);
+                            MenuTools.SingleLineLabel("REModifierUnclaimed: " +
+                                                      Game.Instance.Player.Kingdom.REModifierUnclaimed);
+                            MenuTools.SingleLineLabel("REModifierUpgraded: " +
+                                                      Game.Instance.Player.Kingdom.REModifierUpgraded);
+                            MenuTools.SingleLineLabel("IsEncounterChanceInCurrentRegionReduced: " +
+                                                      Game.Instance.Player.REManager
+                                                          .IsEncounterChanceInCurrentRegionReduced);
+                            GL.Space(10);
+
+                        }
+
+                        isEncounterChanceInCurrentRegionReduced =
+                            Game.Instance.Player.REManager.IsEncounterChanceInCurrentRegionReduced
+                                ? Storage.isTrueString
+                                : Storage.isFalseString;
+                        MenuTools.SingleLineLabel(Strings.GetText("label_EncounterChanceReduced") + ": " +
+                                                  isEncounterChanceInCurrentRegionReduced);
+                        MenuTools.SingleLineLabel(Strings.GetText("headerOption_ChanceOnGlobalMap") + ": " +
+                                                  Game.Instance.Player.REManager.GlobalMapEncounterChance);
+                        MenuTools.SingleLineLabel(Strings.GetText("headerOption_HardEncounterChanceOnGlobalMap") +
+                                                  ": " + Game.Instance.Player.REManager.GlobalMapHardEncounterChance);
+                        MenuTools.SingleLineLabel(Strings.GetText("headerOption_ChanceWhenCamping") + ": " +
+                                                  Game.Instance.Player.REManager.CampEncounterChance);
+                        GL.EndVertical();
+                        GL.Space(10);
+                        MenuTools.SingleLineLabelGt("label_EncounterChanceInformation", true);
+
+
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
+                        settings.randomEncounterSettingFloatAmountLimited =
+                            GL.HorizontalSlider(settings.randomEncounterSettingFloatAmountLimited, 0f, 1f,
+                                GL.Width(400f));
+                        GL.Label($" {Math.Round(settings.randomEncounterSettingFloatAmountLimited, 2)}",
+                            GL.ExpandWidth(false));
+                        GL.EndHorizontal();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_ChanceOnGlobalMap") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterChanceOnGlobalMap =
+                                settings.randomEncounterSettingFloatAmountLimited;
+                            Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap =
+                                settings.randomEncounterChanceOnGlobalMap;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap =
+                                Defaults.randomEncounterChanceOnGlobalMap;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_ChanceWhenCamping") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.ChanceOnCamp +
+                            ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterChanceOnCamp = settings.randomEncounterSettingFloatAmountLimited;
+                            Game.Instance.BlueprintRoot.RE.ChanceOnCamp = settings.randomEncounterChanceOnCamp;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.ChanceOnCamp = Defaults.randomEncounterChanceOnCamp;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_ChanceWhenCampingAfterAttackDuringRest") + " ",
+                            GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterChanceOnCampSecondTime =
+                                settings.randomEncounterSettingFloatAmountLimited;
+                            Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime =
+                                settings.randomEncounterChanceOnCampSecondTime;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime =
+                                Defaults.randomEncounterChanceOnCampSecondTime;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_HardEncounterChance") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.HardEncounterChance + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterHardEncounterChance =
+                                settings.randomEncounterSettingFloatAmountLimited;
+                            Game.Instance.BlueprintRoot.RE.HardEncounterChance =
+                                settings.randomEncounterHardEncounterChance;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.HardEncounterChance =
+                                Defaults.randomEncounterHardEncounterChance;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_HardEncounterMaxChance") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterHardEncounterMaxChance =
+                                settings.randomEncounterSettingFloatAmountLimited;
+                            Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance =
+                                settings.randomEncounterHardEncounterMaxChance;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance =
+                                Defaults.randomEncounterHardEncounterMaxChance;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_HardEncounterChanceIncreaseIncrements") + " ",
+                            GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterHardEncounterChanceIncrease =
+                                settings.randomEncounterSettingFloatAmountLimited;
+                            Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease =
+                                settings.randomEncounterHardEncounterChanceIncrease;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease =
+                                Defaults.randomEncounterHardEncounterChanceIncrease;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_StalkerAmbushChances") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.StalkerAmbushChance + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterStalkerAmbushChance =
+                                settings.randomEncounterSettingFloatAmountLimited;
+                            Game.Instance.BlueprintRoot.RE.StalkerAmbushChance =
+                                settings.randomEncounterStalkerAmbushChance;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.StalkerAmbushChance =
+                                Defaults.randomEncounterStalkerAmbushChance;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.Space(10);
+
+                        MenuTools.SettingsField(ref settings.randomEncounterSettingFloatAmount,
+                            ref settings.randomEncounterSettingFloatAmountFinal);
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_MilesUntilNextEncounterRoll") + " ",
+                            GL.ExpandWidth(false));
+
+                        GL.Label(
+                            Strings.Parenthesis(Strings.GetText("label_CurrentValue") + ": " +
+                                                Game.Instance.BlueprintRoot.RE.RollMiles), GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterRollMiles = settings.randomEncounterSettingFloatAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.RollMiles = Defaults.randomEncounterRollMiles;
+                        GL.EndHorizontal();
+                        MenuTools.SingleLineLabel(
+                            Strings.Parenthesis(Strings.GetText("label_MilesUntilNextEncounterInfo")));
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_SafeMilesAfterEncounter") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterSafeMilesAfterEncounter =
+                                settings.randomEncounterSettingFloatAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter =
+                                settings.randomEncounterSafeMilesAfterEncounter;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter =
+                                Defaults.randomEncounterSafeMilesAfterEncounter;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_SafeZoneSize") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterDefaultSafeZoneSize =
+                                settings.randomEncounterSettingFloatAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize =
+                                settings.randomEncounterDefaultSafeZoneSize;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize =
+                                Defaults.randomEncounterDefaultSafeZoneSize;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_EncounterPawnOffset") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.EncounterPawnOffset + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterEncounterPawnOffset =
+                                settings.randomEncounterSettingFloatAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.EncounterPawnOffset =
+                                settings.randomEncounterEncounterPawnOffset;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.EncounterPawnOffset =
+                                Defaults.randomEncounterEncounterPawnOffset;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_EncounterPawnDistanceFromLocation") + " ",
+                            GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation + ")",
+                            GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterEncounterPawnDistanceFromLocation =
+                                settings.randomEncounterSettingFloatAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation =
+                                settings.randomEncounterEncounterPawnDistanceFromLocation;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation =
+                                Defaults.randomEncounterEncounterPawnDistanceFromLocation;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
+                        settings.randomEncounterSettingIntAmount =
+                            GL.TextField(settings.randomEncounterSettingIntAmount, 6, GL.Width(100f));
+                        MenuTools.SettingParse(ref settings.randomEncounterSettingIntAmount,
+                            ref settings.randomEncounterSettingIntAmountFinal);
+                        GL.EndHorizontal();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_AvoidanceFailMargin") + " ", GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.RandomEncounterAvoidanceFailMargin + ")",
+                            GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterRandomEncounterAvoidanceFailMargin =
+                                settings.randomEncounterSettingIntAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.RandomEncounterAvoidanceFailMargin =
+                                settings.randomEncounterRandomEncounterAvoidanceFailMargin;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.RandomEncounterAvoidanceFailMargin =
+                                Defaults.randomEncounterRandomEncounterAvoidanceFailMargin;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_MinimalChallengeRatingBonus") + " ",
+                            GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterEncounterMinBonusCr = settings.randomEncounterSettingIntAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR =
+                                settings.randomEncounterEncounterMinBonusCr;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR =
+                                Defaults.randomEncounterEncounterMinBonusCr;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_MaximalChallengeRatingBonus") + " ",
+                            GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterEncounterMaxBonusCr = settings.randomEncounterSettingIntAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR =
+                                settings.randomEncounterEncounterMaxBonusCr;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR =
+                                Defaults.randomEncounterEncounterMaxBonusCr;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+
+                        GL.BeginVertical("box");
+                        GL.BeginHorizontal();
+                        GL.Label(Strings.GetText("headerOption_HardEncounterChallengeRatingBonus") + " ",
+                            GL.ExpandWidth(false));
+
+                        GL.Label(
+                            "(" + Strings.GetText("label_CurrentValue") + ": " +
+                            Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR + ")", GL.ExpandWidth(true));
+                        if (GL.Button(
+                            Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
+                            GL.ExpandWidth(false)))
+                        {
+                            settings.randomEncounterHardEncounterBonusCr =
+                                settings.randomEncounterSettingIntAmountFinal;
+                            Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR =
+                                settings.randomEncounterHardEncounterBonusCr;
+                        }
+
+                        if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
+                            Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR =
+                                Defaults.randomEncounterHardEncounterBonusCr;
+                        GL.EndHorizontal();
+                        GL.EndVertical();
+                    }
+
+                    GL.EndVertical();
                 }
-                else
-                {
-                    MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_RegionREInformation")));
-                }
-                GL.Space(10);
-                if (settings.settingShowDebugInfo && KingdomState.Instance != null)
-                {
-                    MenuTools.SingleLineLabel("REModifierClaimed: " + Game.Instance.Player.Kingdom.REModifierClaimed);
-                    MenuTools.SingleLineLabel("REModifierUnclaimed: " + Game.Instance.Player.Kingdom.REModifierUnclaimed);
-                    MenuTools.SingleLineLabel("REModifierUpgraded: " + Game.Instance.Player.Kingdom.REModifierUpgraded);
-                    MenuTools.SingleLineLabel("IsEncounterChanceInCurrentRegionReduced: " + Game.Instance.Player.REManager.IsEncounterChanceInCurrentRegionReduced);
-                    GL.Space(10);
-
-                }
-                isEncounterChanceInCurrentRegionReduced = Game.Instance.Player.REManager.IsEncounterChanceInCurrentRegionReduced ? Storage.isTrueString : Storage.isFalseString;
-                MenuTools.SingleLineLabel(Strings.GetText("label_EncounterChanceReduced") + ": " + isEncounterChanceInCurrentRegionReduced);
-                MenuTools.SingleLineLabel(Strings.GetText("headerOption_ChanceOnGlobalMap") + ": " + Game.Instance.Player.REManager.GlobalMapEncounterChance);
-                MenuTools.SingleLineLabel(Strings.GetText("headerOption_HardEncounterChanceOnGlobalMap") + ": " + Game.Instance.Player.REManager.GlobalMapHardEncounterChance);
-                MenuTools.SingleLineLabel(Strings.GetText("headerOption_ChanceWhenCamping") + ": " + Game.Instance.Player.REManager.CampEncounterChance);
-                GL.EndVertical();
-                GL.Space(10);
-                MenuTools.SingleLineLabelGt("label_EncounterChanceInformation", true);
-
-
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
-                settings.randomEncounterSettingFloatAmountLimited =
-                    GL.HorizontalSlider(settings.randomEncounterSettingFloatAmountLimited, 0f, 1f, GL.Width(400f));
-                GL.Label($" {Math.Round(settings.randomEncounterSettingFloatAmountLimited, 2)}", GL.ExpandWidth(false));
-                GL.EndHorizontal();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_ChanceOnGlobalMap") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap + ")", GL.ExpandWidth(true));
-                if (GL.Button(
-                    Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterChanceOnGlobalMap = settings.randomEncounterSettingFloatAmountLimited;
-                    Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap = settings.randomEncounterChanceOnGlobalMap;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.ChanceOnGlobalMap = Defaults.randomEncounterChanceOnGlobalMap;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_ChanceWhenCamping") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " + Game.Instance.BlueprintRoot.RE.ChanceOnCamp +
-                    ")", GL.ExpandWidth(true));
-                if (GL.Button(
-                    Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterChanceOnCamp = settings.randomEncounterSettingFloatAmountLimited;
-                    Game.Instance.BlueprintRoot.RE.ChanceOnCamp = settings.randomEncounterChanceOnCamp;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.ChanceOnCamp = Defaults.randomEncounterChanceOnCamp;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_ChanceWhenCampingAfterAttackDuringRest") + " ",
-                    GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime + ")", GL.ExpandWidth(true));
-                if (GL.Button(
-                    Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterChanceOnCampSecondTime = settings.randomEncounterSettingFloatAmountLimited;
-                    Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime =
-                        settings.randomEncounterChanceOnCampSecondTime;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.ChanceOnCampSecondTime =
-                        Defaults.randomEncounterChanceOnCampSecondTime;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_HardEncounterChance") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.HardEncounterChance + ")", GL.ExpandWidth(true));
-                if (GL.Button(
-                    Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterHardEncounterChance = settings.randomEncounterSettingFloatAmountLimited;
-                    Game.Instance.BlueprintRoot.RE.HardEncounterChance = settings.randomEncounterHardEncounterChance;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.HardEncounterChance = Defaults.randomEncounterHardEncounterChance;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_HardEncounterMaxChance") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance + ")", GL.ExpandWidth(true));
-                if (GL.Button(
-                    Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterHardEncounterMaxChance = settings.randomEncounterSettingFloatAmountLimited;
-                    Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance =
-                        settings.randomEncounterHardEncounterMaxChance;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.HardEncounterMaxChance =
-                        Defaults.randomEncounterHardEncounterMaxChance;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_HardEncounterChanceIncreaseIncrements") + " ",
-                    GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease + ")", GL.ExpandWidth(true));
-                if (GL.Button(
-                    Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterHardEncounterChanceIncrease =
-                        settings.randomEncounterSettingFloatAmountLimited;
-                    Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease =
-                        settings.randomEncounterHardEncounterChanceIncrease;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.HardEncounterChanceIncrease =
-                        Defaults.randomEncounterHardEncounterChanceIncrease;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_StalkerAmbushChances") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.StalkerAmbushChance + ")", GL.ExpandWidth(true));
-                if (GL.Button(
-                    Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountLimited})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterStalkerAmbushChance = settings.randomEncounterSettingFloatAmountLimited;
-                    Game.Instance.BlueprintRoot.RE.StalkerAmbushChance = settings.randomEncounterStalkerAmbushChance;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.StalkerAmbushChance = Defaults.randomEncounterStalkerAmbushChance;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.Space(10);
-
-                MenuTools.SettingsField(ref settings.randomEncounterSettingFloatAmount, ref settings.randomEncounterSettingFloatAmountFinal);
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_MilesUntilNextEncounterRoll") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    Strings.Parenthesis(Strings.GetText("label_CurrentValue") + ": " +
-                                        Game.Instance.BlueprintRoot.RE.RollMiles), GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterRollMiles = settings.randomEncounterSettingFloatAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.RollMiles = settings.randomEncounterRollMiles;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.RollMiles = Defaults.randomEncounterRollMiles;
-                GL.EndHorizontal();
-                MenuTools.SingleLineLabel(Strings.Parenthesis(Strings.GetText("label_MilesUntilNextEncounterInfo")));
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_SafeMilesAfterEncounter") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterSafeMilesAfterEncounter = settings.randomEncounterSettingFloatAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter =
-                        settings.randomEncounterSafeMilesAfterEncounter;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.SafeMilesAfterEncounter =
-                        Defaults.randomEncounterSafeMilesAfterEncounter;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_SafeZoneSize") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterDefaultSafeZoneSize = settings.randomEncounterSettingFloatAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize = settings.randomEncounterDefaultSafeZoneSize;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.DefaultSafeZoneSize = Defaults.randomEncounterDefaultSafeZoneSize;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_EncounterPawnOffset") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.EncounterPawnOffset + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterEncounterPawnOffset = settings.randomEncounterSettingFloatAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.EncounterPawnOffset = settings.randomEncounterEncounterPawnOffset;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.EncounterPawnOffset = Defaults.randomEncounterEncounterPawnOffset;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_EncounterPawnDistanceFromLocation") + " ",
-                    GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingFloatAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterEncounterPawnDistanceFromLocation =
-                        settings.randomEncounterSettingFloatAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation =
-                        settings.randomEncounterEncounterPawnDistanceFromLocation;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.EncounterPawnDistanceFromLocation =
-                        Defaults.randomEncounterEncounterPawnDistanceFromLocation;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
-                settings.randomEncounterSettingIntAmount =
-                    GL.TextField(settings.randomEncounterSettingIntAmount, 6, GL.Width(100f));
-                MenuTools.SettingParse(ref settings.randomEncounterSettingIntAmount,
-                    ref settings.randomEncounterSettingIntAmountFinal);
-                GL.EndHorizontal();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_AvoidanceFailMargin") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.RandomEncounterAvoidanceFailMargin + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterRandomEncounterAvoidanceFailMargin =
-                        settings.randomEncounterSettingIntAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.RandomEncounterAvoidanceFailMargin =
-                        settings.randomEncounterRandomEncounterAvoidanceFailMargin;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.RandomEncounterAvoidanceFailMargin =
-                        Defaults.randomEncounterRandomEncounterAvoidanceFailMargin;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_MinimalChallengeRatingBonus") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterEncounterMinBonusCr = settings.randomEncounterSettingIntAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = settings.randomEncounterEncounterMinBonusCr;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.EncounterMinBonusCR = Defaults.randomEncounterEncounterMinBonusCr;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_MaximalChallengeRatingBonus") + " ", GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterEncounterMaxBonusCr = settings.randomEncounterSettingIntAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = settings.randomEncounterEncounterMaxBonusCr;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.EncounterMaxBonusCR = Defaults.randomEncounterEncounterMaxBonusCr;
-                GL.EndHorizontal();
-                GL.EndVertical();
-
-                GL.BeginVertical("box");
-                GL.BeginHorizontal();
-                GL.Label(Strings.GetText("headerOption_HardEncounterChallengeRatingBonus") + " ",
-                    GL.ExpandWidth(false));
-
-                GL.Label(
-                    "(" + Strings.GetText("label_CurrentValue") + ": " +
-                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR + ")", GL.ExpandWidth(true));
-                if (GL.Button(Strings.GetText("button_Apply") + $"({settings.randomEncounterSettingIntAmountFinal})",
-                    GL.ExpandWidth(false)))
-                {
-                    settings.randomEncounterHardEncounterBonusCr = settings.randomEncounterSettingIntAmountFinal;
-                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = settings.randomEncounterHardEncounterBonusCr;
-                }
-
-                if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
-                    Game.Instance.BlueprintRoot.RE.HardEncounterBonusCR = Defaults.randomEncounterHardEncounterBonusCr;
-                GL.EndHorizontal();
-                GL.EndVertical();
+            }
+            catch (Exception e)
+            {
+                modLogger.Log(e.ToString());
             }
             GL.EndVertical();
         }
@@ -3117,12 +3200,13 @@ namespace BagOfTricks
 
                 GL.BeginVertical("box");
                 MenuTools.ToggleButton(ref settings.toggleRespecCostMultiplier, "buttonToggle_RespecCostMultiplier", "tooltip_RespecCostMultiplier");
-                if (Strings.ToBool(settings.toggleRespecCostMultiplier)) {
+                if (Strings.ToBool(settings.toggleRespecCostMultiplier))
+                {
                     MenuTools.SettingsField(ref settings.repecCostMultiplierString, ref settings.repecCostMultiplier, "header_CustomMultiplier", "tooltip_RespecCostMultiplier", false);
                     MenuTools.CurrentMultiplier(settings.repecCostMultiplier);
                 }
                 GL.EndVertical();
-             }
+            }
 
             GL.EndVertical();
         }
@@ -3132,7 +3216,7 @@ namespace BagOfTricks
         {
             if (settings.settingShowDebugInfo)
             {
-                if (Common.DlcEndless())
+                if (Common.DLCEndless())
                 {
                     GL.BeginVertical("box");
                     GL.BeginHorizontal();
@@ -3746,7 +3830,7 @@ namespace BagOfTricks
                     if (Storage.enemyUnits[Storage.enemyUnitIndex].Descriptor.HPLeft > 0)
                     {
                         if (GL.Button(Strings.GetText("button_Kill"), GL.ExpandWidth(false)))
-                            Common.Kill(Storage.enemyUnits[Storage.enemyUnitIndex]);
+                            Units.Kill(Storage.enemyUnits[Storage.enemyUnitIndex]);
                         if (GL.Button(Strings.GetText("button_Panic"), GL.ExpandWidth(false)))
                             enemyUnits[Storage.enemyUnitIndex].Descriptor.AddFact(
                                 (BlueprintUnitFact)Utilities.GetBlueprintByGuid<BlueprintBuff>(
@@ -3778,7 +3862,7 @@ namespace BagOfTricks
                         GL.BeginHorizontal();
                         if (GL.Button(Strings.GetText("button_KillAll"), GL.ExpandWidth(false)))
                             foreach (var enemy in Storage.enemyUnits)
-                                Common.Kill(enemy);
+                                Units.Kill(enemy);
                         if (GL.Button(Strings.GetText("button_PanicAll"), GL.ExpandWidth(false)))
                             foreach (var enemy in Storage.enemyUnits)
                                 enemy.Descriptor.AddFact(
@@ -4214,38 +4298,49 @@ namespace BagOfTricks
                     GL.Label(new GUIContent(Strings.ToggleSpaceLeftFormat(Strings.GetText("toggle_AddMultipleItems")), Strings.GetText("tooltip_AddMultipleItems")), GL.ExpandWidth(false));
                     GL.EndHorizontal();
 
-                    if (settings.multipleItems == true) {
+                    if (settings.multipleItems == true)
+                    {
                         Storage.itemMultipleGuid = settings.itemGuid.Trim().Split(',').Select(p => p.Trim()).ToList();
                         bool allValid = false;
 
-                        for (int i = 0; i < Storage.itemMultipleGuid.Count; i++) {
-                            if (Utilities.GetBlueprintByGuid<BlueprintItem>(Storage.itemMultipleGuid[i]) != null) {
+                        for (int i = 0; i < Storage.itemMultipleGuid.Count; i++)
+                        {
+                            if (Utilities.GetBlueprintByGuid<BlueprintItem>(Storage.itemMultipleGuid[i]) != null)
+                            {
                                 allValid = true;
                             }
-                            else {
+                            else
+                            {
                                 allValid = false;
 
                             }
                         }
 
-                        if (allValid) {
+                        if (allValid)
+                        {
                             GL.BeginHorizontal();
                             string items = Strings.GetText("misc_items");
                             string times = Strings.GetText("misc_times");
-                            if (Storage.itemMultipleGuid.Count == 1) {
+                            if (Storage.itemMultipleGuid.Count == 1)
+                            {
                                 items = Strings.GetText("misc_item");
                             }
-                            if (settings.finalItemAmount == 1) {
+                            if (settings.finalItemAmount == 1)
+                            {
                                 times = Strings.GetText("misc_time");
                             }
                             string buttonString = Strings.GetText("button_Receive") + $" { Storage.itemMultipleGuid.Count} {items} {settings.finalItemAmount} {times}";
 
-                            if (GL.Button(buttonString, GL.Width(300f))) {
-                                for (int i = 0; i < Storage.itemMultipleGuid.Count; i++) {
-                                    if (Storage.itemMultipleGuid[i] != "c5d4962385e0e9c439ab935d83361947") {
+                            if (GL.Button(buttonString, GL.Width(300f)))
+                            {
+                                for (int i = 0; i < Storage.itemMultipleGuid.Count; i++)
+                                {
+                                    if (Storage.itemMultipleGuid[i] != "c5d4962385e0e9c439ab935d83361947")
+                                    {
                                         MenuTools.AddSingleItemAmount(Storage.itemMultipleGuid[i], settings.finalItemAmount, settings.addItemIdentified);
                                     }
-                                    else {
+                                    else
+                                    {
                                         Storage.errorString = Strings.GetText("error_EkunQ2");
                                         modLogger.Log(Storage.notificationEkunQ2RewardArmor);
                                     }
@@ -6068,7 +6163,7 @@ namespace BagOfTricks
                 Main.ToggleActiveWarning(ref settings.toggleInstantCooldown, ref settings.toggleInstantCooldownMainChar,
                     "buttonToggle_NoCooldown");
 
-                if (Common.DlcTieflings())
+                if (Common.DLCTieflings())
                 {
                     MenuTools.ToggleButton(ref settings.toggleNoBurnKineticist, "buttonToggle_NoBurnKineticist",
                         "tooltip_NoBurnKineticist", nameof(settings.toggleNoBurnKineticist));
@@ -6345,7 +6440,7 @@ namespace BagOfTricks
             {
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_Teleport") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.teleportKey);
+                Keys.SetKeyBinding(ref settings.teleportKey);
                 GL.EndHorizontal();
             }
             MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(TravelTeleport));
@@ -6673,10 +6768,12 @@ namespace BagOfTricks
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
-                    if (GL.Button($"+{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false))) {
+                    if (GL.Button($"+{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false)))
+                    {
                         KingdomState.Instance.BPPerTurn = KingdomState.Instance.BPPerTurn + settings.finalBuildPointAmount;
                     }
-                    if (GL.Button($"-{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false))) {
+                    if (GL.Button($"-{settings.buildPointAmount} " + Strings.GetText("button_BaseBPIncome"), GL.ExpandWidth(false)))
+                    {
                         KingdomState.Instance.BPPerTurn = KingdomState.Instance.BPPerTurn - settings.finalBuildPointAmount;
                     }
                     GL.EndHorizontal();
@@ -6790,7 +6887,7 @@ namespace BagOfTricks
                 {
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("label_TogglePartyAlwaysRolls20") + ": ", GL.ExpandWidth(false));
-                    MenuTools.SetKeyBinding(ref settings.togglePartyAlwaysRoll20Key);
+                    Keys.SetKeyBinding(ref settings.togglePartyAlwaysRoll20Key);
                     GL.EndHorizontal();
                 }
 
@@ -6931,15 +7028,15 @@ namespace BagOfTricks
 
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("label_RotateCameraLeft") + ": ", GL.ExpandWidth(false));
-                    MenuTools.SetKeyBinding(ref settings.cameraTurnLeft);
+                    Keys.SetKeyBinding(ref settings.cameraTurnLeft);
                     GL.EndHorizontal();
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("label_RotateCameraRight") + ": ", GL.ExpandWidth(false));
-                    MenuTools.SetKeyBinding(ref settings.cameraTurnRight);
+                    Keys.SetKeyBinding(ref settings.cameraTurnRight);
                     GL.EndHorizontal();
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("label_ResetCameraRotation") + ": ", GL.ExpandWidth(false));
-                    MenuTools.SetKeyBinding(ref settings.cameraReset);
+                    Keys.SetKeyBinding(ref settings.cameraReset);
                     GL.EndHorizontal();
                 }
 
@@ -7071,11 +7168,11 @@ namespace BagOfTricks
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_FocusCamera") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.focusCameraKey);
+                Keys.SetKeyBinding(ref settings.focusCameraKey);
                 GL.EndHorizontal();
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_CycleFocus") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.focusCylceKey);
+                Keys.SetKeyBinding(ref settings.focusCylceKey);
                 GL.EndHorizontal();
 
                 if (settings.focusCameraToggle)
@@ -7142,7 +7239,7 @@ namespace BagOfTricks
             {
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("button_ResetCutsceneLock") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.resetCutsceneLockKey);
+                Keys.SetKeyBinding(ref settings.resetCutsceneLockKey);
                 GL.EndHorizontal();
             }
 
@@ -7660,21 +7757,26 @@ namespace BagOfTricks
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(Experimental));
             GL.EndHorizontal();
-            if (settings.showExperimentalCategory) {
+            if (settings.showExperimentalCategory)
+            {
                 MenuTools.SingleLineLabel(RichText.WarningLargeRedFormat(Strings.GetText("warning_Experimental")));
 
                 GL.BeginHorizontal();
-                if (GL.Button(RichText.Bold($"{settings.toggleExperimentalIUnderstand} " + Strings.GetText("buttonToggle_experimentalIUnderstand")), GL.ExpandWidth(false))) {
-                    if (settings.toggleExperimentalIUnderstand == Storage.isFalseString) {
+                if (GL.Button(RichText.Bold($"{settings.toggleExperimentalIUnderstand} " + Strings.GetText("buttonToggle_experimentalIUnderstand")), GL.ExpandWidth(false)))
+                {
+                    if (settings.toggleExperimentalIUnderstand == Storage.isFalseString)
+                    {
                         settings.toggleExperimentalIUnderstand = Storage.isTrueString;
                     }
-                    else if (settings.toggleExperimentalIUnderstand == Storage.isTrueString) {
+                    else if (settings.toggleExperimentalIUnderstand == Storage.isTrueString)
+                    {
                         settings.toggleExperimentalIUnderstand = Storage.isFalseString;
                     }
                 }
                 GL.EndHorizontal();
 
-                if (settings.toggleExperimentalIUnderstand == Storage.isTrueString) {
+                if (settings.toggleExperimentalIUnderstand == Storage.isTrueString)
+                {
 
                     GL.Space(10);
 
@@ -7724,23 +7826,31 @@ namespace BagOfTricks
 
                     MiscExtras();
 
-                    if (settings.settingShowDebugInfo) {
+                    if (settings.settingShowDebugInfo)
+                    {
 
 
-                        if (GL.Button("Roll D20")) {
+                        if (GL.Button("Roll D20"))
+                        {
                             modLogger.Log("D20: " + RuleRollDice.Dice.D20);
                         }
 
-                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area.StaticScene")) {
-                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area.StaticScene"))
+                        {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null)
+                            {
                                 SettlementState state = null;
-                                foreach (RegionState region in KingdomState.Instance.Regions) {
-                                    if (region.IsClaimed) {
+                                foreach (RegionState region in KingdomState.Instance.Regions)
+                                {
+                                    if (region.IsClaimed)
+                                    {
                                         modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
-                                        try {
+                                        try
+                                        {
                                             region.Blueprint.SettlementBuildArea.Area.StaticScene = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area.StaticScene;
                                         }
-                                        catch (Exception e) {
+                                        catch (Exception e)
+                                        {
 
                                             modLogger.Log(e.ToString());
                                         }
@@ -7750,16 +7860,22 @@ namespace BagOfTricks
                             }
                         }
 
-                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area.DynamicScene")) {
-                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area.DynamicScene"))
+                        {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null)
+                            {
                                 SettlementState state = null;
-                                foreach (RegionState region in KingdomState.Instance.Regions) {
-                                    if (region.IsClaimed) {
+                                foreach (RegionState region in KingdomState.Instance.Regions)
+                                {
+                                    if (region.IsClaimed)
+                                    {
                                         modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
-                                        try {
+                                        try
+                                        {
                                             region.Blueprint.SettlementBuildArea.Area.DynamicScene = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area.DynamicScene;
                                         }
-                                        catch (Exception e) {
+                                        catch (Exception e)
+                                        {
 
                                             modLogger.Log(e.ToString());
                                         }
@@ -7769,18 +7885,24 @@ namespace BagOfTricks
                             }
                         }
 
-                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area")) {
-                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea.Area"))
+                        {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null)
+                            {
                                 SettlementState state = null;
-                                foreach (RegionState region in KingdomState.Instance.Regions) {
-                                    if (region.IsClaimed) {
+                                foreach (RegionState region in KingdomState.Instance.Regions)
+                                {
+                                    if (region.IsClaimed)
+                                    {
                                         modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
                                         string guid = region.Blueprint.SettlementBuildArea.Area.AssetGuid;
                                         region.Blueprint.SettlementBuildArea.Area = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area;
-                                        try {
+                                        try
+                                        {
                                             Traverse.Create(region.Blueprint.SettlementBuildArea.Area).Field("m_AssetGuid").SetValue(guid);
                                         }
-                                        catch (Exception e) {
+                                        catch (Exception e)
+                                        {
 
                                             modLogger.Log(e.ToString());
                                         }
@@ -7790,22 +7912,29 @@ namespace BagOfTricks
                             }
                         }
 
-                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea")) {
-                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                        if (GL.Button("Set BlueprintRegion.SettlementBuildArea"))
+                        {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null)
+                            {
                                 SettlementState state = null;
-                                foreach (RegionState region in KingdomState.Instance.Regions) {
-                                    if (region.IsClaimed) {
+                                foreach (RegionState region in KingdomState.Instance.Regions)
+                                {
+                                    if (region.IsClaimed)
+                                    {
                                         modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
                                         BlueprintAreaEnterPoint shrikeClone = UnityEngine.Object.Instantiate((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5"));
-                                        try {
+                                        try
+                                        {
                                             Traverse.Create(shrikeClone).Field("m_AssetGuid").SetValue(region.Blueprint.SettlementBuildArea.AssetGuid);
                                         }
-                                        catch (Exception e) {
+                                        catch (Exception e)
+                                        {
 
                                             modLogger.Log(e.ToString());
                                         }
 
-                                        foreach (string s in Common.getObjectInfo(shrikeClone)) {
+                                        foreach (string s in Common.getObjectInfo(shrikeClone))
+                                        {
                                             modLogger.Log(s);
                                         }
 
@@ -7814,22 +7943,30 @@ namespace BagOfTricks
                                 }
                             }
                         }
-                        if (GL.Button("RestoreTopologyFromScene")) {
-                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                        if (GL.Button("RestoreTopologyFromScene"))
+                        {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null)
+                            {
                                 SettlementState state = null;
-                                foreach (RegionState region in KingdomState.Instance.Regions) {
-                                    if (region.IsClaimed) {
+                                foreach (RegionState region in KingdomState.Instance.Regions)
+                                {
+                                    if (region.IsClaimed)
+                                    {
                                         region.Settlement.Topology.RestoreTopologyFromScene();
                                     }
                                 }
                             }
                         }
 
-                        if (GL.Button("Log SettlementBuildArea")) {
-                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null) {
+                        if (GL.Button("Log SettlementBuildArea"))
+                        {
+                            if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null)
+                            {
                                 SettlementState state = null;
-                                foreach (RegionState region in KingdomState.Instance.Regions) {
-                                    if (region.IsClaimed) {
+                                foreach (RegionState region in KingdomState.Instance.Regions)
+                                {
+                                    if (region.IsClaimed)
+                                    {
                                         modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
                                         modLogger.Log(region.Blueprint.SettlementBuildArea.AssetGuid);
                                     }
@@ -7839,18 +7976,22 @@ namespace BagOfTricks
 
                         GL.Space(10);
 
-                        if (GL.Button("Spawn Spiders & Spider Swarms")) {
+                        if (GL.Button("Spawn Spiders & Spider Swarms"))
+                        {
 
                             Vector3 worldPosition = Game.Instance.ClickEventsController.WorldPosition;
 
                             List<BlueprintUnit> blueprintUnitList = new List<BlueprintUnit>();
-                            foreach (string guid in Storage.spiderGuids) {
+                            foreach (string guid in Storage.spiderGuids)
+                            {
                                 blueprintUnitList.Add(Utilities.GetBlueprintByGuid<BlueprintUnit>(guid));
                             }
 
                             float numF = 0.0f;
-                            foreach (BlueprintUnit unit in blueprintUnitList) {
-                                if (!((UnityEngine.Object)unit == (UnityEngine.Object)null)) {
+                            foreach (BlueprintUnit unit in blueprintUnitList)
+                            {
+                                if (!((UnityEngine.Object)unit == (UnityEngine.Object)null))
+                                {
                                     Game.Instance.EntityCreator.SpawnUnit(unit, new Vector3(worldPosition.x + 2f * numF, worldPosition.y, worldPosition.z + 2f * numF), Quaternion.identity, Game.Instance.State.LoadedAreaState.MainState);
                                     ++numF;
                                 }
@@ -7858,24 +7999,30 @@ namespace BagOfTricks
                         }
 
 
-                        if (GL.Button("+10 Days")) {
+                        if (GL.Button("+10 Days"))
+                        {
                             Game.Instance.AdvanceGameTime(TimeSpan.FromDays(10));
                         }
-                        if (GL.Button("+1 Days")) {
+                        if (GL.Button("+1 Days"))
+                        {
                             Game.Instance.AdvanceGameTime(TimeSpan.FromDays(1));
                         }
 
                         GL.Space(10);
 
-                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)) {
-                            if (GL.Button($"Check {entry.Key} (Player)")) {
+                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
+                        {
+                            if (GL.Button($"Check {entry.Key} (Player)"))
+                            {
                                 RuleSkillCheck evt = new RuleSkillCheck(Game.Instance.Player.MainCharacter.Value, entry.Value, 20);
                                 Rulebook.Trigger<RuleSkillCheck>(evt);
                             }
                         }
                         GL.Space(10);
-                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)) {
-                            if (GL.Button($"Check {entry.Key} (Party)")) {
+                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
+                        {
+                            if (GL.Button($"Check {entry.Key} (Party)"))
+                            {
                                 RulePartySkillCheck evt = new RulePartySkillCheck(entry.Value, 20);
                                 Rulebook.Trigger<RulePartySkillCheck>(evt);
                             }
@@ -7883,15 +8030,18 @@ namespace BagOfTricks
 
                         GL.Space(10);
 
-                        if (GL.Button("Add Nyrissa Ray To Player")) {
+                        if (GL.Button("Add Nyrissa Ray To Player"))
+                        {
                             Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(Utilities.GetBlueprintByGuid<BlueprintUnitFact>("6a36a87c3d0094c46a9bef26afc3cb50"), (MechanicsContext)null, new FeatureParam());
                         }
 
-                        if (GL.Button("Add Summon Natures Ally To Player")) {
+                        if (GL.Button("Add Summon Natures Ally To Player"))
+                        {
                             Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(Utilities.GetBlueprintByGuid<BlueprintUnitFact>("c6147854641924442a3bb736080cfeb6"), (MechanicsContext)null, new FeatureParam());
                         }
 
-                        if (GL.Button("Fire Acid Arrow At Player")) {
+                        if (GL.Button("Fire Acid Arrow At Player"))
+                        {
                             BlueprintAbility bp = Utilities.GetBlueprint<BlueprintAbility>("9a46dfd390f943647ab4395fc997936d");
                             UnitDescriptor caster = Game.Instance.Player.MainCharacter.Value.Descriptor;
                             AbilityData abilityData = new AbilityData(bp, caster);
@@ -7905,19 +8055,22 @@ namespace BagOfTricks
                         }
 
 
-                        if (GL.Button("Log Player CR")) {
+                        if (GL.Button("Log Player CR"))
+                        {
                             modLogger.Log(Game.Instance.Player.MainCharacter.Value.Blueprint.CR.ToString());
                         }
 
 
-                        if (GUILayout.Button("Spawn Enemy With Random Tag At Player (CR10)")) {
+                        if (GUILayout.Button("Spawn Enemy With Random Tag At Player (CR10)"))
+                        {
                             UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
 
                             List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
 
                             Game.Instance.EntityCreator.SpawnUnit(units[0], GameHelper.GetPlayerCharacter().Position, new Quaternion(), Game.Instance.Player.CrossSceneState);
                         }
-                        if (GUILayout.Button("Spawn Enemy With Humanoid Tag At Player")) {
+                        if (GUILayout.Button("Spawn Enemy With Humanoid Tag At Player"))
+                        {
                             UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
 
                             List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
@@ -7928,11 +8081,14 @@ namespace BagOfTricks
 
                         MenuTools.SingleLineLabel("<b>Start Random Encounter</b>");
                         GL.BeginHorizontal();
-                        if (GL.Button($"{settings.toggleForcedEncounterIsHard} Hard Encounter", GL.ExpandWidth(false))) {
-                            if (settings.toggleForcedEncounterIsHard == Storage.isFalseString) {
+                        if (GL.Button($"{settings.toggleForcedEncounterIsHard} Hard Encounter", GL.ExpandWidth(false)))
+                        {
+                            if (settings.toggleForcedEncounterIsHard == Storage.isFalseString)
+                            {
                                 settings.toggleForcedEncounterIsHard = Storage.isTrueString;
                             }
-                            else if (settings.toggleForcedEncounterIsHard == Storage.isTrueString) {
+                            else if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
+                            {
                                 settings.toggleForcedEncounterIsHard = Storage.isFalseString;
                             }
                         }
@@ -7951,25 +8107,33 @@ namespace BagOfTricks
                         GL.EndHorizontal();
 
                         GL.BeginHorizontal();
-                        if (GL.Button("Start Random Encounter", GL.ExpandWidth(false))) {
+                        if (GL.Button("Start Random Encounter", GL.ExpandWidth(false)))
+                        {
                             Storage.encounterError = "";
                             GameModeType currentMode = Game.Instance.CurrentMode;
-                            if (currentMode == GameModeType.GlobalMap) {
+                            if (currentMode == GameModeType.GlobalMap)
+                            {
                                 bool forcedEncounterIsHard;
                                 bool forcedEncounterIsCamp = false;
-                                if (settings.toggleForcedEncounterIsHard == Storage.isTrueString) {
+                                if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
+                                {
                                     forcedEncounterIsHard = true;
                                 }
-                                else {
+                                else
+                                {
                                     forcedEncounterIsHard = false;
                                 }
-                                switch (settings.forcedEncounterSelectedBlueprintMode) {
+                                switch (settings.forcedEncounterSelectedBlueprintMode)
+                                {
                                     case 0:
                                         List<string> blueprintRandomEncounter = Main.BlueprintsByTypes(new string[] { "BlueprintRandomEncounter" });
-                                        if (!Storage.blueprintRandomCombatEncounterGuids.Any()) {
-                                            foreach (string s in blueprintRandomEncounter) {
+                                        if (!Storage.blueprintRandomCombatEncounterGuids.Any())
+                                        {
+                                            foreach (string s in blueprintRandomEncounter)
+                                            {
                                                 BlueprintRandomEncounter bre = Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(s);
-                                                if (bre.name.Contains("Combat")) {
+                                                if (bre.name.Contains("Combat"))
+                                                {
                                                     Storage.blueprintRandomCombatEncounterGuids.Add(s);
                                                     modLogger.Log(settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
 
@@ -7988,12 +8152,14 @@ namespace BagOfTricks
                                 modLogger.Log("!!!" + settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
                                 Main.StartEncounter(Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid), settings.forcedEncounterFinalCr, settings.forcedEncounterPostion, forcedEncounterIsHard, forcedEncounterIsCamp);
                             }
-                            else {
+                            else
+                            {
                                 Storage.encounterError = "Can only be done on the Global Map.";
                             }
                         }
                         GL.EndHorizontal();
-                        if (Storage.encounterError != "") {
+                        if (Storage.encounterError != "")
+                        {
                             MenuTools.SingleLineLabel(Storage.encounterError);
                         }
                     }
@@ -8067,7 +8233,8 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        public static void FlyingHeight() {
+        public static void FlyingHeight()
+        {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
             GL.Label(RichText.Bold(Strings.GetText("headerOption_FlyingHeight")));
@@ -8078,16 +8245,20 @@ namespace BagOfTricks
             MenuTools.SettingsField(ref settings.flyingHeight, ref settings.finalflyingHeight);
 
             List<UnitEntityData> partyMembers = Game.Instance.Player.ControllableCharacters;
-            foreach (UnitEntityData controllableCharacter in Game.Instance.Player.ControllableCharacters) {
+            foreach (UnitEntityData controllableCharacter in Game.Instance.Player.ControllableCharacters)
+            {
                 GL.BeginHorizontal();
                 MenuTools.SingleLineLabel(Strings.GetText("label_CurrentFlyingHeight") + $" ({controllableCharacter.CharacterName}): {controllableCharacter.FlyHeight}");
-                if (GL.Button($"+{settings.flyingHeight}", GL.ExpandWidth(false))) {
+                if (GL.Button($"+{settings.flyingHeight}", GL.ExpandWidth(false)))
+                {
                     controllableCharacter.FlyHeight += settings.finalflyingHeight;
                 }
-                if (GL.Button(Strings.GetText("button_SetTo0"), GL.ExpandWidth(false))) {
+                if (GL.Button(Strings.GetText("button_SetTo0"), GL.ExpandWidth(false)))
+                {
                     controllableCharacter.FlyHeight = 0f;
                 }
-                if (GL.Button($"-{settings.flyingHeight}", GL.ExpandWidth(false))) {
+                if (GL.Button($"-{settings.flyingHeight}", GL.ExpandWidth(false)))
+                {
                     controllableCharacter.FlyHeight -= settings.finalflyingHeight;
                 }
                 GL.EndHorizontal();
@@ -8098,16 +8269,20 @@ namespace BagOfTricks
             GL.Label(Strings.GetText("headerOption_UseSlider"), GL.ExpandWidth(false));
 
             Storage.flyingHeightSlider = GL.HorizontalSlider(Storage.flyingHeightSlider, -10f, 100f);
-            if (settings.flyingHeightUseSlider) {
-                foreach (UnitEntityData controllableCharacter in partyMembers) {
+            if (settings.flyingHeightUseSlider)
+            {
+                foreach (UnitEntityData controllableCharacter in partyMembers)
+                {
                     controllableCharacter.FlyHeight = Storage.flyingHeightSlider;
                 }
             }
             GL.EndHorizontal();
             GL.BeginHorizontal();
 
-            if (GL.Button(Strings.GetText("button_SetAllTo0"), GL.ExpandWidth(false))) {
-                foreach (UnitEntityData controllableCharacter in partyMembers) {
+            if (GL.Button(Strings.GetText("button_SetAllTo0"), GL.ExpandWidth(false)))
+            {
+                foreach (UnitEntityData controllableCharacter in partyMembers)
+                {
                     Storage.flyingHeightSlider = 0f;
                     controllableCharacter.FlyHeight = 0f;
                 }
@@ -8269,7 +8444,8 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-        public static void RomanceCounterExperimental() {
+        public static void RomanceCounterExperimental()
+        {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
             settings.showRomanceCountersExperimental = GL.Toggle(settings.showRomanceCountersExperimental, "", GL.ExpandWidth(false));
@@ -8277,7 +8453,8 @@ namespace BagOfTricks
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton(nameof(RomanceCounterExperimental));
             GL.EndHorizontal();
-            if (settings.showRomanceCountersExperimental) {
+            if (settings.showRomanceCountersExperimental)
+            {
                 GL.Space(10);
 
                 GL.BeginHorizontal();
@@ -8288,32 +8465,40 @@ namespace BagOfTricks
                 MenuTools.SettingsField(ref settings.romanceCounterSetValue, ref settings.finalRomanceCounterSetValue, "headerOption_SettingsValue");
 
 
-                if (Storage.romanceCounterLoadExperimental) {
+                if (Storage.romanceCounterLoadExperimental)
+                {
                     Storage.blueprintRomanceCounters = Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
                     Storage.romanceCounterLoadExperimental = false;
                 }
 
 
-                foreach (BlueprintRomanceCounter bpc in Storage.blueprintRomanceCounters) {
-                    if (!settings.showRomanceCountersSpoilers) {
-                        if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0") {
+                foreach (BlueprintRomanceCounter bpc in Storage.blueprintRomanceCounters)
+                {
+                    if (!settings.showRomanceCountersSpoilers)
+                    {
+                        if (bpc.AssetGuid != "7345208aba59cf74ca1e26091e1446d0")
+                        {
                             MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", "") + " " + Strings.GetText("label_RomanceCounter"));
-                            if (settings.settingShowDebugInfo) {
+                            if (settings.settingShowDebugInfo)
+                            {
                                 MenuTools.SingleLineLabel(bpc.AssetGuid);
                             }
 
                             GL.BeginHorizontal();
                             GL.Label(Strings.GetText("label_CounterValue") + ": " + bpc.CounterFlag.Value.ToString());
                             GL.FlexibleSpace();
-                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                            {
                                 bpc.CounterFlag.Value++;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                            {
                                 bpc.CounterFlag.Value--;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                            {
                                 bpc.CounterFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                                 Storage.romanceCounterLoadExperimental = true;
                             }
@@ -8322,15 +8507,18 @@ namespace BagOfTricks
                             GL.BeginHorizontal();
                             GL.Label(Strings.GetText("label_LowerCutoff") + ": " + bpc.MinValueFlag.Value.ToString());
                             GL.FlexibleSpace();
-                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                            {
                                 bpc.MinValueFlag.Value++;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                            {
                                 bpc.MinValueFlag.Value--;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                            {
                                 bpc.MinValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                                 Storage.romanceCounterLoadExperimental = true;
                             }
@@ -8339,15 +8527,18 @@ namespace BagOfTricks
                             GL.BeginHorizontal();
                             GL.Label(Strings.GetText("label_UpperCutoff") + ": " + bpc.MaxValueFlag.Value.ToString());
                             GL.FlexibleSpace();
-                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
+                            if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                            {
                                 bpc.MaxValueFlag.Value++;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
+                            if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                            {
                                 bpc.MaxValueFlag.Value--;
                                 Storage.romanceCounterLoadExperimental = true;
                             }
-                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
+                            if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                            {
                                 bpc.MaxValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                                 Storage.romanceCounterLoadExperimental = true;
                             }
@@ -8356,23 +8547,28 @@ namespace BagOfTricks
                             GL.Space(10);
                         }
                     }
-                    else {
+                    else
+                    {
                         MenuTools.SingleLineLabel(bpc.name.Replace("RomanceCounter", ""));
-                        if (settings.settingShowDebugInfo) {
+                        if (settings.settingShowDebugInfo)
+                        {
                             MenuTools.SingleLineLabel(bpc.AssetGuid);
                         }
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_CounterValue") + ": " + bpc.CounterFlag.Value.ToString());
                         GL.FlexibleSpace();
-                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                        {
                             bpc.CounterFlag.Value++;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                        {
                             bpc.CounterFlag.Value--;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                        {
                             bpc.CounterFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                             Storage.romanceCounterLoadExperimental = true;
                         }
@@ -8381,15 +8577,18 @@ namespace BagOfTricks
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_LowerCutoff") + ": " + bpc.MinValueFlag.Value.ToString());
                         GL.FlexibleSpace();
-                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                        {
                             bpc.MinValueFlag.Value++;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                        {
                             bpc.MinValueFlag.Value--;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                        {
                             bpc.MinValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                             Storage.romanceCounterLoadExperimental = true;
                         }
@@ -8398,15 +8597,18 @@ namespace BagOfTricks
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_UpperCutoff") + ": " + bpc.MaxValueFlag.Value.ToString());
                         GL.FlexibleSpace();
-                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false))) {
+                        if (GL.Button("<b>+</b>", GL.ExpandWidth(false)))
+                        {
                             bpc.MaxValueFlag.Value++;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false))) {
+                        if (GL.Button("<b>-</b>", GL.ExpandWidth(false)))
+                        {
                             bpc.MaxValueFlag.Value--;
                             Storage.romanceCounterLoadExperimental = true;
                         }
-                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false))) {
+                        if (GL.Button(Strings.GetText("button_SetTo") + $" {Mathf.RoundToInt(settings.finalRomanceCounterSetValue)}", GL.ExpandWidth(false)))
+                        {
                             bpc.MaxValueFlag.Value = Mathf.RoundToInt(settings.finalRomanceCounterSetValue);
                             Storage.romanceCounterLoadExperimental = true;
                         }
@@ -8416,7 +8618,8 @@ namespace BagOfTricks
                     }
                 }
             }
-            else {
+            else
+            {
                 Storage.romanceCounterLoadExperimental = true;
             }
             GL.EndVertical();
@@ -8710,63 +8913,63 @@ namespace BagOfTricks
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_Teleport") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.teleportKey);
+                Keys.SetKeyBinding(ref settings.teleportKey);
                 GL.EndHorizontal();
 
                 GL.Space(10);
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_RotateCameraLeft") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.cameraTurnLeft);
+                Keys.SetKeyBinding(ref settings.cameraTurnLeft);
                 GL.EndHorizontal();
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_RotateCameraRight") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.cameraTurnRight);
+                Keys.SetKeyBinding(ref settings.cameraTurnRight);
                 GL.EndHorizontal();
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_ResetCameraRotation") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.cameraReset);
+                Keys.SetKeyBinding(ref settings.cameraReset);
                 GL.EndHorizontal();
 
                 GL.Space(10);
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_FocusCamera") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.focusCameraKey);
+                Keys.SetKeyBinding(ref settings.focusCameraKey);
                 GL.EndHorizontal();
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_CycleFocus") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.focusCylceKey);
+                Keys.SetKeyBinding(ref settings.focusCylceKey);
                 GL.EndHorizontal();
 
                 GL.Space(10);
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_TogglePartyAlwaysRolls20") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.togglePartyAlwaysRoll20Key);
+                Keys.SetKeyBinding(ref settings.togglePartyAlwaysRoll20Key);
                 GL.EndHorizontal();
 
                 GL.Space(10);
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("button_ResetCutsceneLock") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.resetCutsceneLockKey);
+                Keys.SetKeyBinding(ref settings.resetCutsceneLockKey);
                 GL.EndHorizontal();
 
                 GL.Space(10);
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("label_ActionKey") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.actionKey);
+                Keys.SetKeyBinding(ref settings.actionKey);
                 GL.EndHorizontal();
 
                 GL.Space(10);
 
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("buttonToggle_ToggleHUD") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.hudToggleKey);
+                Keys.SetKeyBinding(ref settings.hudToggleKey);
                 GL.EndHorizontal();
             }
 
@@ -9104,8 +9307,14 @@ namespace BagOfTricks
                 GL.Space(10);
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("buttonToggle_ToggleHUD") + ": ", GL.ExpandWidth(false));
-                MenuTools.SetKeyBinding(ref settings.hudToggleKey);
+                Keys.SetKeyBinding(ref settings.hudToggleKey);
                 GL.EndHorizontal();
+                if (settings.settingShowDebugInfo)
+                {
+                    GL.BeginHorizontal();
+                    GL.Label("Storage.hudHidden: " + Storage.hudHidden);
+                    GL.EndHorizontal();
+                }
             }
 
             GL.EndVertical();
