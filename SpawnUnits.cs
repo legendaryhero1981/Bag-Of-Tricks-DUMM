@@ -36,8 +36,7 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            settings.showSpawnUnitsCategory = GL.Toggle(settings.showSpawnUnitsCategory, "", GL.ExpandWidth(false));
-            GL.Label(RichText.MainCategoryFormat(Strings.GetText("mainCategory_SpawnUnits")), GL.ExpandWidth(false));
+            settings.showSpawnUnitsCategory = GL.Toggle(settings.showSpawnUnitsCategory, RichText.MainCategoryFormat(Strings.GetText("mainCategory_SpawnUnits")), GL.ExpandWidth(false));
             if (!settings.showSpawnUnitsCategory)
             {
                 GL.EndHorizontal();
