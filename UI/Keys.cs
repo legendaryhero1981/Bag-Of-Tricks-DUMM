@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using GL = UnityEngine.GUILayout;
 
 
-namespace BagOfTricks.ModUI {
+namespace BagOfTricks.ModUI
+{
     static class Keys {
         static private KeyCode[] mouseButtonsValid = { KeyCode.Mouse3, KeyCode.Mouse4, KeyCode.Mouse5, KeyCode.Mouse6 };
         public static void SetKeyBinding(ref KeyCode keyCode) {

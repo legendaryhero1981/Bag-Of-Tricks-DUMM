@@ -57,10 +57,10 @@ namespace BagOfTricks
             }
 
             var partyMembers = Game.Instance?.Player.ControllableCharacters;
-            foreach (var u in partyMembers)
+            foreach (var partyMember in partyMembers)
             {
-                ApplyInstantRest(u);
-                var pair = UnitPartDualCompanion.GetPair(u);
+                ApplyInstantRest(partyMember);
+                var pair = UnitPartDualCompanion.GetPair(partyMember);
                 if (pair != null) ApplyInstantRest(pair);
             }
 

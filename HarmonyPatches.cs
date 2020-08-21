@@ -203,30 +203,12 @@ namespace BagOfTricks
         [HarmonyPatch(typeof(FogOfWarRenderer), "Update")]
         public static class FogOfWarRenderer_Update_Patch
         {
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                var codes = new List<CodeInstruction>(instructions);
-                int foundfoundFogOfWarGlobalFlag = -1;
-
-                for (int i = 0; i < codes.Count; i++)
-                {
-                    if (codes[i].opcode == OpCodes.Ldstr && (string)codes[i].operand == "_FogOfWarGlobalFlag" && codes[i + 5].opcode == OpCodes.Brfalse)
-                    {
-                        foundfoundFogOfWarGlobalFlag = i + 6;
-                        break;
-                    }
+            public static bool Prefix() {
+                if (!Strings.ToBool(settings.toggleFogOfWarVisuals)) {
+                    Shader.SetGlobalFloat("_FogOfWarGlobalFlag", 0.0f);
+                    return false;
                 }
-
-                if (settings.toggleFogOfWarVisuals == Storage.isFalseString)
-                {
-                    codes[foundfoundFogOfWarGlobalFlag].opcode = OpCodes.Ldc_I4_0;
-                }
-                else
-                {
-                    codes[foundfoundFogOfWarGlobalFlag].opcode = OpCodes.Ldc_I4_1;
-                }
-
-                return codes.AsEnumerable();
+                return true;
             }
         }
 
@@ -1267,8 +1249,8 @@ namespace BagOfTricks
             }
         }
 
-        [HarmonyPatch(typeof(ClickGroundHandler), "MoveSelectedUnitsToPoint", new Type[] { typeof(Vector3), typeof(Vector3), typeof(bool), typeof(float), typeof(Action<UnitEntityData, Vector3, float?, float, float>) })]
-        public static class ClickGroundHandler_MoveSelectedUnitsToPoint_Patche
+        [HarmonyPatch(typeof(ClickGroundHandler), "MoveSelectedUnitsToPoint", new Type[] { typeof(Vector3), typeof(Vector3), typeof(bool), typeof(bool), typeof(float), typeof(bool), typeof(Action<UnitEntityData, Vector3, float?, float, float, bool>) })]
+        public static class ClickGroundHandler_MoveSelectedUnitsToPoint_Patch
         {
             public static bool Prefix(ref bool __state)
             {
@@ -1276,7 +1258,7 @@ namespace BagOfTricks
                 return !__state;
             }
 
-            public static void Postfix(bool __state, ClickGroundHandler __instance, Vector3 worldPosition, Vector3 direction, bool preview, float formationSpaceFactor, Action<UnitEntityData, Vector3, float?, float, float> commandRunner)
+            public static void Postfix(bool __state, ClickGroundHandler __instance, Vector3 worldPosition, Vector3 direction, bool preview, bool showTargetMarker, float formationSpaceFactor, bool ignoreHold, Action<UnitEntityData, Vector3, float?, float, float, bool> commandRunner)
             {
                 if (__state)
                 {
@@ -1284,7 +1266,7 @@ namespace BagOfTricks
                     {
                         Traverse.Create(__instance).Field("m_UnitWaitAgentList").Method("Clear").GetValue();
                     }
-                    List<UnitEntityData> selectedUnits = Game.Instance.UI.SelectionManager.GetSelectedUnits();
+                    List<UnitEntityData> selectedUnits = Game.Instance.UI.SelectionManagerPC.GetSelectedUnits();
                     List<UnitEntityData> allUnits;
                     if (selectedUnits.Count == 1)
                     {
@@ -1336,7 +1318,7 @@ namespace BagOfTricks
                             }
                             else
                             {
-                                commandRunner(unit, PartyFormationHelper.ResultPositions[i], speedLimit > unit.CurrentSpeedMps ? speedLimit : unit.CurrentSpeedMps, orientation, array[count] * 0.05f);
+                                commandRunner(unit, PartyFormationHelper.ResultPositions[i], speedLimit > unit.CurrentSpeedMps ? speedLimit : unit.CurrentSpeedMps, orientation, array[count] * 0.05f, showTargetMarker);
                             }
                         }
                         count++;
@@ -1375,7 +1357,7 @@ namespace BagOfTricks
                             }
                             else
                             {
-                                commandRunner(selectedUnit, vector, speedLimit > selectedUnit.CurrentSpeedMps ? speedLimit : selectedUnit.CurrentSpeedMps, orientation, 0.0f);
+                                commandRunner(selectedUnit, vector, speedLimit > selectedUnit.CurrentSpeedMps ? speedLimit : selectedUnit.CurrentSpeedMps, orientation, 0.0f, showTargetMarker);
                             }
                         }
                     }
@@ -1859,7 +1841,7 @@ namespace BagOfTricks
                         GameModeType currentMode = Game.Instance.CurrentMode;
                         if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
                         {
-                            List<UnitEntityData> selectedUnits = Game.Instance.UI.SelectionManager.GetSelectedUnits();
+                            List<UnitEntityData> selectedUnits = Game.Instance.UI.SelectionManagerPC.GetSelectedUnits();
                             Vector3 mousePosition = Common.MousePositionLocalMap();
                             foreach (UnitEntityData unit in selectedUnits)
                             {
@@ -3465,11 +3447,11 @@ namespace BagOfTricks
 
                 if (Strings.ToBool(settings.toggleUnlimitedCasting) && SceneManager.GetActiveScene().name == "HouseAtTheEdgeOfTime_Courtyard_Light")
                 {
-                    UIUtility.ShowMessageBox(Strings.GetText("warning_UnlimitedCasting"), DialogMessageBox.BoxType.Message, new Action<DialogMessageBox.BoxButton>(Common.CloseMessageBox));
+                    UIUtility.ShowMessageBox(Strings.GetText("warning_UnlimitedCasting"), DialogMessageBoxBase.BoxType.Message, new Action<DialogMessageBoxBase.BoxButton>(Common.CloseMessageBox));
                 }
                 if (Strings.ToBool(settings.toggleNoDamageFromEnemies) && Game.Instance.CurrentlyLoadedArea.AssetGuid == "0ba5b24abcd5523459e54cd5877cb837")
                 {
-                    UIUtility.ShowMessageBox(Strings.GetText("warning_NoDamageFromEnemies"), DialogMessageBox.BoxType.Message, new Action<DialogMessageBox.BoxButton>(Common.CloseMessageBox));
+                    UIUtility.ShowMessageBox(Strings.GetText("warning_NoDamageFromEnemies"), DialogMessageBoxBase.BoxType.Message, new Action<DialogMessageBoxBase.BoxButton>(Common.CloseMessageBox));
                 }
 
             }
@@ -4106,7 +4088,7 @@ namespace BagOfTricks
         [HarmonyPatch(typeof(LogDataManager), "AddLogLine")]
         static class LogDataManager_AddLogLinep_Patch
         {
-            private static void Postfix(LogDataManager.LogItemData data, bool visibleChannel)
+            private static void Postfix(LogItemData data, bool visibleChannel)
             {
                 if (Strings.ToBool(settings.toggleCreateBattleLogFile))
                 {

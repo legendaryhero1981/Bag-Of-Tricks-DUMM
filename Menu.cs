@@ -1,7 +1,6 @@
 ﻿using BagOfTricks.ModUI;
 using BagOfTricks.Utils;
 using Harmony12;
-
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Area;
@@ -49,17 +48,14 @@ using Kingmaker.Visual.Animation.Kingmaker;
 using Kingmaker.Visual.FogOfWar;
 using Kingmaker.Visual.Particles;
 using Kingmaker.Visual.WeatherSystem;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using GL = UnityEngine.GUILayout;
 using UnityModManager = UnityModManagerNet.UnityModManager;
 
@@ -6758,13 +6754,13 @@ namespace BagOfTricks
 
                     GL.BeginHorizontal();
                     if (GL.Button($"+{settings.buildPointAmount} BP", GL.ExpandWidth(false)))
-                        KingdomState.Instance.BP = KingdomState.Instance.BP + settings.finalBuildPointAmount;
+                        KingdomState.Instance.BuildPoints = KingdomState.Instance.BuildPoints + settings.finalBuildPointAmount;
                     if (GL.Button($"-{settings.buildPointAmount} BP", GL.ExpandWidth(false)))
-                        KingdomState.Instance.BP = KingdomState.Instance.BP - settings.finalBuildPointAmount;
+                        KingdomState.Instance.BuildPoints = KingdomState.Instance.BuildPoints - settings.finalBuildPointAmount;
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("label_CurrentBuildPoints") + $": {KingdomState.Instance.BP}", GL.ExpandWidth(false));
+                    GL.Label(Strings.GetText("label_CurrentBuildPoints") + $": {KingdomState.Instance.BuildPoints}", GL.ExpandWidth(false));
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
@@ -7780,7 +7776,8 @@ namespace BagOfTricks
 
                     GL.Space(10);
 
-                    MenuTools.ToggleButton(ref settings.togglePreventQuestFailure, "buttonToggle_PreventQuestFailure", "tooltip_PreventQuestFailure", nameof(settings.togglePreventQuestFailure));
+                    MenuTools.ToggleButton(ref settings.togglePreventQuestFailure, "buttonToggle_PreventQuestFailure",
+                        "tooltip_PreventQuestFailure", nameof(settings.togglePreventQuestFailure));
 
                     GL.Space(10);
 
@@ -7844,10 +7841,14 @@ namespace BagOfTricks
                                 {
                                     if (region.IsClaimed)
                                     {
-                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " +
+                                                      region.Settlement.Name + " [" +
+                                                      region.Settlement.Level.ToString() + "]");
                                         try
                                         {
-                                            region.Blueprint.SettlementBuildArea.Area.StaticScene = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area.StaticScene;
+                                            region.Blueprint.SettlementBuildArea.Area.StaticScene =
+                                                ((BlueprintAreaEnterPoint) ResourcesLibrary.TryGetBlueprint(
+                                                    "af0c5168fff671946847de582c3811f5")).Area.StaticScene;
                                         }
                                         catch (Exception e)
                                         {
@@ -7869,10 +7870,14 @@ namespace BagOfTricks
                                 {
                                     if (region.IsClaimed)
                                     {
-                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " +
+                                                      region.Settlement.Name + " [" +
+                                                      region.Settlement.Level.ToString() + "]");
                                         try
                                         {
-                                            region.Blueprint.SettlementBuildArea.Area.DynamicScene = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area.DynamicScene;
+                                            region.Blueprint.SettlementBuildArea.Area.DynamicScene =
+                                                ((BlueprintAreaEnterPoint) ResourcesLibrary.TryGetBlueprint(
+                                                    "af0c5168fff671946847de582c3811f5")).Area.DynamicScene;
                                         }
                                         catch (Exception e)
                                         {
@@ -7894,12 +7899,17 @@ namespace BagOfTricks
                                 {
                                     if (region.IsClaimed)
                                     {
-                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " +
+                                                      region.Settlement.Name + " [" +
+                                                      region.Settlement.Level.ToString() + "]");
                                         string guid = region.Blueprint.SettlementBuildArea.Area.AssetGuid;
-                                        region.Blueprint.SettlementBuildArea.Area = ((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5")).Area;
+                                        region.Blueprint.SettlementBuildArea.Area =
+                                            ((BlueprintAreaEnterPoint) ResourcesLibrary.TryGetBlueprint(
+                                                "af0c5168fff671946847de582c3811f5")).Area;
                                         try
                                         {
-                                            Traverse.Create(region.Blueprint.SettlementBuildArea.Area).Field("m_AssetGuid").SetValue(guid);
+                                            Traverse.Create(region.Blueprint.SettlementBuildArea.Area)
+                                                .Field("m_AssetGuid").SetValue(guid);
                                         }
                                         catch (Exception e)
                                         {
@@ -7921,11 +7931,18 @@ namespace BagOfTricks
                                 {
                                     if (region.IsClaimed)
                                     {
-                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
-                                        BlueprintAreaEnterPoint shrikeClone = UnityEngine.Object.Instantiate((BlueprintAreaEnterPoint)ResourcesLibrary.TryGetBlueprint("af0c5168fff671946847de582c3811f5"));
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " +
+                                                      region.Settlement.Name + " [" +
+                                                      region.Settlement.Level.ToString() + "]");
+                                        BlueprintAreaEnterPoint shrikeClone =
+                                            (BlueprintAreaEnterPoint) SerializedScriptableObject.Instantiate(
+                                                (SerializedScriptableObject) ResourcesLibrary.TryGetBlueprint(
+                                                    "af0c5168fff671946847de582c3811f5"));
+
                                         try
                                         {
-                                            Traverse.Create(shrikeClone).Field("m_AssetGuid").SetValue(region.Blueprint.SettlementBuildArea.AssetGuid);
+                                            Traverse.Create(shrikeClone).Field("m_AssetGuid")
+                                                .SetValue(region.Blueprint.SettlementBuildArea.AssetGuid);
                                         }
                                         catch (Exception e)
                                         {
@@ -7943,6 +7960,7 @@ namespace BagOfTricks
                                 }
                             }
                         }
+
                         if (GL.Button("RestoreTopologyFromScene"))
                         {
                             if (KingdomState.Instance?.Regions != null && KingdomState.Instance != null)
@@ -7967,7 +7985,9 @@ namespace BagOfTricks
                                 {
                                     if (region.IsClaimed)
                                     {
-                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " + region.Settlement.Name + " [" + region.Settlement.Level.ToString() + "]");
+                                        modLogger.Log(region.Blueprint.LocalizedName.ToString() + " - " +
+                                                      region.Settlement.Name + " [" +
+                                                      region.Settlement.Level.ToString() + "]");
                                         modLogger.Log(region.Blueprint.SettlementBuildArea.AssetGuid);
                                     }
                                 }
@@ -7990,182 +8010,227 @@ namespace BagOfTricks
                             float numF = 0.0f;
                             foreach (BlueprintUnit unit in blueprintUnitList)
                             {
-                                if (!((UnityEngine.Object)unit == (UnityEngine.Object)null))
+                                if (unit != null)
                                 {
-                                    Game.Instance.EntityCreator.SpawnUnit(unit, new Vector3(worldPosition.x + 2f * numF, worldPosition.y, worldPosition.z + 2f * numF), Quaternion.identity, Game.Instance.State.LoadedAreaState.MainState);
-                                    ++numF;
+                                    {
+                                        Game.Instance.EntityCreator.SpawnUnit(unit,
+                                            new Vector3(worldPosition.x + 2f * numF, worldPosition.y,
+                                                worldPosition.z + 2f * numF), Quaternion.identity,
+                                            Game.Instance.State.LoadedAreaState.MainState);
+                                        ++numF;
+                                    }
                                 }
                             }
-                        }
 
 
-                        if (GL.Button("+10 Days"))
-                        {
-                            Game.Instance.AdvanceGameTime(TimeSpan.FromDays(10));
-                        }
-                        if (GL.Button("+1 Days"))
-                        {
-                            Game.Instance.AdvanceGameTime(TimeSpan.FromDays(1));
-                        }
-
-                        GL.Space(10);
-
-                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
-                        {
-                            if (GL.Button($"Check {entry.Key} (Player)"))
+                            if (GL.Button("+10 Days"))
                             {
-                                RuleSkillCheck evt = new RuleSkillCheck(Game.Instance.Player.MainCharacter.Value, entry.Value, 20);
-                                Rulebook.Trigger<RuleSkillCheck>(evt);
+                                Game.Instance.AdvanceGameTime(TimeSpan.FromDays(10));
                             }
-                        }
-                        GL.Space(10);
-                        foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
-                        {
-                            if (GL.Button($"Check {entry.Key} (Party)"))
+
+                            if (GL.Button("+1 Days"))
                             {
-                                RulePartySkillCheck evt = new RulePartySkillCheck(entry.Value, 20);
-                                Rulebook.Trigger<RulePartySkillCheck>(evt);
+                                Game.Instance.AdvanceGameTime(TimeSpan.FromDays(1));
                             }
-                        }
 
-                        GL.Space(10);
+                            GL.Space(10);
 
-                        if (GL.Button("Add Nyrissa Ray To Player"))
-                        {
-                            Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(Utilities.GetBlueprintByGuid<BlueprintUnitFact>("6a36a87c3d0094c46a9bef26afc3cb50"), (MechanicsContext)null, new FeatureParam());
-                        }
-
-                        if (GL.Button("Add Summon Natures Ally To Player"))
-                        {
-                            Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(Utilities.GetBlueprintByGuid<BlueprintUnitFact>("c6147854641924442a3bb736080cfeb6"), (MechanicsContext)null, new FeatureParam());
-                        }
-
-                        if (GL.Button("Fire Acid Arrow At Player"))
-                        {
-                            BlueprintAbility bp = Utilities.GetBlueprint<BlueprintAbility>("9a46dfd390f943647ab4395fc997936d");
-                            UnitDescriptor caster = Game.Instance.Player.MainCharacter.Value.Descriptor;
-                            AbilityData abilityData = new AbilityData(bp, caster);
-                            AbilityParams abilityParams = new AbilityParams();
-                            abilityParams.CasterLevel = 10;
-                            abilityParams.SpellLevel = 10;
-                            abilityParams.SpellSource = SpellSource.None;
-                            TargetWrapper targetWrapper = GameHelper.GetPlayerCharacter();
-                            AbilityExecutionContext context = new AbilityExecutionContext(abilityData, abilityParams, targetWrapper);
-                            Game.Instance.AbilityExecutor.Execute(context);
-                        }
-
-
-                        if (GL.Button("Log Player CR"))
-                        {
-                            modLogger.Log(Game.Instance.Player.MainCharacter.Value.Blueprint.CR.ToString());
-                        }
-
-
-                        if (GUILayout.Button("Spawn Enemy With Random Tag At Player (CR10)"))
-                        {
-                            UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
-
-                            List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
-
-                            Game.Instance.EntityCreator.SpawnUnit(units[0], GameHelper.GetPlayerCharacter().Position, new Quaternion(), Game.Instance.Player.CrossSceneState);
-                        }
-                        if (GUILayout.Button("Spawn Enemy With Humanoid Tag At Player"))
-                        {
-                            UnitTag reUnitTag = (UnitTag)UnityEngine.Random.Range(1, 136);
-
-                            List<BlueprintUnit> units = OwlcatReSelector.SelectUnits(10, reUnitTag);
-
-                            Game.Instance.EntityCreator.SpawnUnit(units[0], GameHelper.GetPlayerCharacter().Position, new Quaternion(), Game.Instance.Player.CrossSceneState);
-                        }
-
-
-                        MenuTools.SingleLineLabel("<b>Start Random Encounter</b>");
-                        GL.BeginHorizontal();
-                        if (GL.Button($"{settings.toggleForcedEncounterIsHard} Hard Encounter", GL.ExpandWidth(false)))
-                        {
-                            if (settings.toggleForcedEncounterIsHard == Storage.isFalseString)
+                            foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict
+                                .Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
                             {
-                                settings.toggleForcedEncounterIsHard = Storage.isTrueString;
-                            }
-                            else if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
-                            {
-                                settings.toggleForcedEncounterIsHard = Storage.isFalseString;
-                            }
-                        }
-                        GL.EndHorizontal();
-                        GL.BeginHorizontal();
-                        settings.forcedEncounterCr = GL.TextField(settings.forcedEncounterCr, 10, GL.Width(90f));
-                        MenuTools.SettingParse(ref settings.forcedEncounterCr, ref settings.forcedEncounterFinalCr);
-                        MenuTools.SingleLineLabel("Current CR: " + settings.forcedEncounterFinalCr);
-                        GL.EndHorizontal();
-                        GL.BeginHorizontal();
-                        GL.Label("Avoidance: ", GL.ExpandWidth(false));
-                        settings.forcedEncounterSelectedAvoidance = GL.SelectionGrid(settings.forcedEncounterSelectedAvoidance, new string[] { "Skill Test", "Succeed", "Fail", "Fail Critically" }, 4);
-                        GL.EndHorizontal();
-                        GL.BeginHorizontal();
-                        settings.forcedEncounterSelectedBlueprintMode = GL.SelectionGrid(settings.forcedEncounterSelectedBlueprintMode, new string[] { "Random Combat Encounter", "Pick Blueprint (not implemented yet)" }, 2);
-                        GL.EndHorizontal();
-
-                        GL.BeginHorizontal();
-                        if (GL.Button("Start Random Encounter", GL.ExpandWidth(false)))
-                        {
-                            Storage.encounterError = "";
-                            GameModeType currentMode = Game.Instance.CurrentMode;
-                            if (currentMode == GameModeType.GlobalMap)
-                            {
-                                bool forcedEncounterIsHard;
-                                bool forcedEncounterIsCamp = false;
-                                if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
+                                if (GL.Button($"Check {entry.Key} (Player)"))
                                 {
-                                    forcedEncounterIsHard = true;
+                                    RuleSkillCheck evt = new RuleSkillCheck(Game.Instance.Player.MainCharacter.Value,
+                                        entry.Value, 20);
+                                    Rulebook.Trigger<RuleSkillCheck>(evt);
+                                }
+                            }
+
+                            GL.Space(10);
+                            foreach (KeyValuePair<string, StatType> entry in Storage.statsSkillsDict
+                                .Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value))
+                            {
+                                if (GL.Button($"Check {entry.Key} (Party)"))
+                                {
+                                    RulePartySkillCheck evt = new RulePartySkillCheck(entry.Value, 20);
+                                    Rulebook.Trigger<RulePartySkillCheck>(evt);
+                                }
+                            }
+
+                            GL.Space(10);
+
+                            if (GL.Button("Add Nyrissa Ray To Player"))
+                            {
+                                Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(
+                                    Utilities.GetBlueprintByGuid<BlueprintUnitFact>("6a36a87c3d0094c46a9bef26afc3cb50"),
+                                    (MechanicsContext) null, new FeatureParam());
+                            }
+
+                            if (GL.Button("Add Summon Natures Ally To Player"))
+                            {
+                                Game.Instance.Player.MainCharacter.Value.Descriptor.AddFact(
+                                    Utilities.GetBlueprintByGuid<BlueprintUnitFact>("c6147854641924442a3bb736080cfeb6"),
+                                    (MechanicsContext) null, new FeatureParam());
+                            }
+
+                            if (GL.Button("Fire Acid Arrow At Player"))
+                            {
+                                BlueprintAbility bp =
+                                    Utilities.GetBlueprint<BlueprintAbility>("9a46dfd390f943647ab4395fc997936d");
+                                UnitDescriptor caster = Game.Instance.Player.MainCharacter.Value.Descriptor;
+                                AbilityData abilityData = new AbilityData(bp, caster);
+                                AbilityParams abilityParams = new AbilityParams();
+                                abilityParams.CasterLevel = 10;
+                                abilityParams.SpellLevel = 10;
+                                abilityParams.SpellSource = SpellSource.None;
+                                TargetWrapper targetWrapper = GameHelper.GetPlayerCharacter();
+                                AbilityExecutionContext context =
+                                    new AbilityExecutionContext(abilityData, abilityParams, targetWrapper);
+                                Game.Instance.AbilityExecutor.Execute(context);
+                            }
+
+
+                            if (GL.Button("Log Player CR"))
+                            {
+                                modLogger.Log(Game.Instance.Player.MainCharacter.Value.Blueprint.CR.ToString());
+                            }
+
+
+                            if (GUILayout.Button("Spawn Enemy With Random Tag At Player (CR10)"))
+                            {
+                                UnitTag reUnitTag = (UnitTag) UnityEngine.Random.Range(1, 136);
+
+                                List<BlueprintUnit> units = OwlcatRESelector.SelectUnits(10, reUnitTag);
+
+                                Game.Instance.EntityCreator.SpawnUnit(units[0],
+                                    GameHelper.GetPlayerCharacter().Position, new Quaternion(),
+                                    Game.Instance.Player.CrossSceneState);
+                            }
+
+                            if (GUILayout.Button("Spawn Enemy With Humanoid Tag At Player"))
+                            {
+                                UnitTag reUnitTag = (UnitTag) UnityEngine.Random.Range(1, 136);
+
+                                List<BlueprintUnit> units = OwlcatRESelector.SelectUnits(10, reUnitTag);
+
+                                Game.Instance.EntityCreator.SpawnUnit(units[0],
+                                    GameHelper.GetPlayerCharacter().Position, new Quaternion(),
+                                    Game.Instance.Player.CrossSceneState);
+                            }
+
+
+                            MenuTools.SingleLineLabel("<b>Start Random Encounter</b>");
+                            GL.BeginHorizontal();
+                            if (GL.Button($"{settings.toggleForcedEncounterIsHard} Hard Encounter",
+                                GL.ExpandWidth(false)))
+                            {
+                                if (settings.toggleForcedEncounterIsHard == Storage.isFalseString)
+                                {
+                                    settings.toggleForcedEncounterIsHard = Storage.isTrueString;
+                                }
+                                else if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
+                                {
+                                    settings.toggleForcedEncounterIsHard = Storage.isFalseString;
+                                }
+                            }
+
+                            GL.EndHorizontal();
+                            GL.BeginHorizontal();
+                            settings.forcedEncounterCr = GL.TextField(settings.forcedEncounterCr, 10, GL.Width(90f));
+                            MenuTools.SettingParse(ref settings.forcedEncounterCr, ref settings.forcedEncounterFinalCr);
+                            MenuTools.SingleLineLabel("Current CR: " + settings.forcedEncounterFinalCr);
+                            GL.EndHorizontal();
+                            GL.BeginHorizontal();
+                            GL.Label("Avoidance: ", GL.ExpandWidth(false));
+                            settings.forcedEncounterSelectedAvoidance = GL.SelectionGrid(
+                                settings.forcedEncounterSelectedAvoidance,
+                                new string[] {"Skill Test", "Succeed", "Fail", "Fail Critically"}, 4);
+                            GL.EndHorizontal();
+                            GL.BeginHorizontal();
+                            settings.forcedEncounterSelectedBlueprintMode = GL.SelectionGrid(
+                                settings.forcedEncounterSelectedBlueprintMode,
+                                new string[] {"Random Combat Encounter", "Pick Blueprint (not implemented yet)"}, 2);
+                            GL.EndHorizontal();
+
+                            GL.BeginHorizontal();
+                            if (GL.Button("Start Random Encounter", GL.ExpandWidth(false)))
+                            {
+                                Storage.encounterError = "";
+                                GameModeType currentMode = Game.Instance.CurrentMode;
+                                if (currentMode == GameModeType.GlobalMap)
+                                {
+                                    bool forcedEncounterIsHard;
+                                    bool forcedEncounterIsCamp = false;
+                                    if (settings.toggleForcedEncounterIsHard == Storage.isTrueString)
+                                    {
+                                        forcedEncounterIsHard = true;
+                                    }
+                                    else
+                                    {
+                                        forcedEncounterIsHard = false;
+                                    }
+
+                                    switch (settings.forcedEncounterSelectedBlueprintMode)
+                                    {
+                                        case 0:
+                                            List<string> blueprintRandomEncounter =
+                                                Main.BlueprintsByTypes(new string[] {"BlueprintRandomEncounter"});
+                                            if (!Storage.blueprintRandomCombatEncounterGuids.Any())
+                                            {
+                                                foreach (string s in blueprintRandomEncounter)
+                                                {
+                                                    BlueprintRandomEncounter bre =
+                                                        Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(s);
+                                                    if (bre.name.Contains("Combat"))
+                                                    {
+                                                        Storage.blueprintRandomCombatEncounterGuids.Add(s);
+                                                        modLogger.Log(
+                                                            settings.forcedEncounterGuid + " | " +
+                                                            Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(
+                                                                settings.forcedEncounterGuid).name + " | " +
+                                                            settings.forcedEncounterFinalCr + " | " +
+                                                            settings.forcedEncounterPostion + " | " +
+                                                            forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
+
+                                                    }
+                                                }
+                                            }
+
+                                            System.Random random = new System.Random();
+                                            int i = random.Next(0, blueprintRandomEncounter.Count);
+                                            settings.forcedEncounterGuid =
+                                                Storage.blueprintRandomCombatEncounterGuids[i];
+                                            break;
+                                        case 1:
+                                            settings.forcedEncounterGuid = "3ec6e886801cb5c4fb6315163be3e0e1";
+                                            break;
+                                    }
+
+                                    modLogger.Log("!!!" + settings.forcedEncounterGuid + " | " +
+                                                  Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(
+                                                      settings.forcedEncounterGuid).name + " | " +
+                                                  settings.forcedEncounterFinalCr + " | " +
+                                                  settings.forcedEncounterPostion + " | " + forcedEncounterIsHard +
+                                                  " | " + forcedEncounterIsCamp);
+                                    Main.StartEncounter(
+                                        Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings
+                                            .forcedEncounterGuid), settings.forcedEncounterFinalCr,
+                                        settings.forcedEncounterPostion, forcedEncounterIsHard, forcedEncounterIsCamp);
                                 }
                                 else
                                 {
-                                    forcedEncounterIsHard = false;
+                                    Storage.encounterError = "Can only be done on the Global Map.";
                                 }
-                                switch (settings.forcedEncounterSelectedBlueprintMode)
-                                {
-                                    case 0:
-                                        List<string> blueprintRandomEncounter = Main.BlueprintsByTypes(new string[] { "BlueprintRandomEncounter" });
-                                        if (!Storage.blueprintRandomCombatEncounterGuids.Any())
-                                        {
-                                            foreach (string s in blueprintRandomEncounter)
-                                            {
-                                                BlueprintRandomEncounter bre = Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(s);
-                                                if (bre.name.Contains("Combat"))
-                                                {
-                                                    Storage.blueprintRandomCombatEncounterGuids.Add(s);
-                                                    modLogger.Log(settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
-
-                                                }
-                                            }
-                                        }
-
-                                        System.Random random = new System.Random();
-                                        int i = random.Next(0, blueprintRandomEncounter.Count);
-                                        settings.forcedEncounterGuid = Storage.blueprintRandomCombatEncounterGuids[i];
-                                        break;
-                                    case 1:
-                                        settings.forcedEncounterGuid = "3ec6e886801cb5c4fb6315163be3e0e1";
-                                        break;
-                                }
-                                modLogger.Log("!!!" + settings.forcedEncounterGuid + " | " + Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid).name + " | " + settings.forcedEncounterFinalCr + " | " + settings.forcedEncounterPostion + " | " + forcedEncounterIsHard + " | " + forcedEncounterIsCamp);
-                                Main.StartEncounter(Utilities.GetBlueprintByGuid<BlueprintRandomEncounter>(settings.forcedEncounterGuid), settings.forcedEncounterFinalCr, settings.forcedEncounterPostion, forcedEncounterIsHard, forcedEncounterIsCamp);
                             }
-                            else
+
+                            GL.EndHorizontal();
+                            if (Storage.encounterError != "")
                             {
-                                Storage.encounterError = "Can only be done on the Global Map.";
+                                MenuTools.SingleLineLabel(Storage.encounterError);
                             }
-                        }
-                        GL.EndHorizontal();
-                        if (Storage.encounterError != "")
-                        {
-                            MenuTools.SingleLineLabel(Storage.encounterError);
                         }
                     }
-
                 }
-
             }
             GL.EndVertical();
         }
@@ -8375,8 +8440,7 @@ namespace BagOfTricks
                 if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
                 {
                     UnityModManager.UI.Instance.ToggleWindow();
-
-                    Game.Instance.UI.Canvas.GroupManager.OpenPartyWithCallback(null, true);
+                    EventBus.RaiseEvent((Action<IGroupChangerHandler>)(h => h.HandleCall((Action)(() => {}), (Action)null, true)));
                 }
             }
 
@@ -8467,7 +8531,7 @@ namespace BagOfTricks
 
                 if (Storage.romanceCounterLoadExperimental)
                 {
-                    Storage.blueprintRomanceCounters = Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
+                    Storage.blueprintRomanceCounters = ResourcesLibrary.GetBlueprints<BlueprintRomanceCounter>().ToArray();
                     Storage.romanceCounterLoadExperimental = false;
                 }
 
@@ -8647,7 +8711,7 @@ namespace BagOfTricks
 
                 if (Storage.romanceCounterLoad)
                 {
-                    Storage.blueprintRomanceCounters = Resources.FindObjectsOfTypeAll<BlueprintRomanceCounter>();
+                    Storage.blueprintRomanceCounters = ResourcesLibrary.GetBlueprints<BlueprintRomanceCounter>().ToArray();
                     Storage.romanceCounterLoad = false;
                 }
 
@@ -9109,7 +9173,7 @@ namespace BagOfTricks
                                         Strings.GetText("taxCollector_Collected_0_0") + ": + " + collectedMoney + " " +
                                         Strings.GetText("taxCollector_Money") + ", + " + collectedBp + " " +
                                         Strings.GetText("taxCollector_BuildPoints");
-                                    KingdomState.Instance.BP = KingdomState.Instance.BP + collectedBp;
+                                    KingdomState.Instance.BuildPoints = KingdomState.Instance.BuildPoints + collectedBp;
                                     Game.Instance.UI.Common.UISound.Play(UISoundType.LootCollectGold);
                                     Common.AddLogEntry(
                                         Strings.GetText("logMessage_Received") + " " + collectedMoney + " " +
@@ -9137,7 +9201,7 @@ namespace BagOfTricks
                                 }
                                 else if (collectedMoney < 1 && collectedBp >= 1)
                                 {
-                                    KingdomState.Instance.BP = KingdomState.Instance.BP + collectedBp;
+                                    KingdomState.Instance.BuildPoints = KingdomState.Instance.BuildPoints + collectedBp;
                                     TaxCollector.resultLine0 =
                                         Strings.GetText("taxCollector_Collected_0_0") + " " + collectedBp + " " +
                                         Strings.GetText("taxCollector_BuildPoints");

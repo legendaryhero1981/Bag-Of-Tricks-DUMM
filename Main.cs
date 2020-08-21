@@ -1,6 +1,5 @@
 ﻿using BagOfTricks.Utils;
 using Harmony12;
-
 using Kingmaker;
 using Kingmaker.Assets.UI;
 using Kingmaker.Blueprints;
@@ -25,7 +24,6 @@ using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.Utility;
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,10 +33,8 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Xml;
 using System.Xml.Serialization;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using GL = UnityEngine.GUILayout;
 using ModEntry = UnityModManagerNet.UnityModManager.ModEntry;
 using UnityModManager = UnityModManagerNet.UnityModManager;
@@ -1279,11 +1275,9 @@ namespace BagOfTricks
             if (blueprint.IsRandomizedCombat)
             {
                 randomEncounterData.SpawnersGroups = RandomEncounterUnitSelector.Select(blueprint, cr);
-                if (!randomEncounterData.SpawnersGroups.All<SpawnersGroupData>((Func<SpawnersGroupData, bool>)(g => g.Spawners.All<RandomSpawnerData>((Func<RandomSpawnerData, bool>)(s => (bool)((UnityEngine.Object)s.Unit))))))
+                if (!randomEncounterData.SpawnersGroups.All<SpawnersGroupData>((Func<SpawnersGroupData, bool>)(g => g.Spawners.All<RandomSpawnerData>((Func<RandomSpawnerData, bool>)(s => (bool)((SerializedScriptableObject)s.Unit))))))
                 {
-                    var errorCantStartEncounter = $"Can't start encounter: {blueprint} CR {cr} -  try a different CR.";
-                    modLogger.Log(errorCantStartEncounter);
-                    Storage.encounterError = errorCantStartEncounter;
+                    UberDebug.LogWarningChannel("RE", string.Format("Can't start encounter: {0} CR{1}", (object)blueprint, (object)cr), (object[])Array.Empty<object>());
                     return;
                 }
             }

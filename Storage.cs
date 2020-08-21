@@ -17,8 +17,7 @@ namespace BagOfTricks
     {
         public static Settings settings;
 
-        public static string[] mainToolbarStrings = new string[]
-        {
+        public static string[] mainToolbarStrings = {
             RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")),
             RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")),
             RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")),
@@ -29,7 +28,7 @@ namespace BagOfTricks
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.0.8-development";
+        public static readonly string gamerVersionAtCreation = "2.1.0h-development";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
         public static readonly string bagOfTicksLogFile = "BagOfTricks";
@@ -113,11 +112,11 @@ namespace BagOfTricks
 
         public static List<BlueprintScriptableObject> blueprintList = new List<BlueprintScriptableObject>();
 
-        public static string[] itemSetsCsv = new string[] { };
+        public static string[] itemSetsCsv = { };
         public static List<bool> toggleItemSetsPreviewCsv = new List<bool>();
         public static List<string> previewItemSetsStringsCsv = new List<string>();
 
-        public static string[] itemSetsTxt = new string[] { };
+        public static string[] itemSetsTxt = { };
         public static List<bool> toggleItemSeitsPreviewTxt = new List<bool>();
         public static List<string> previewItemSetisStringsTxt = new List<string>();
 
@@ -183,8 +182,7 @@ namespace BagOfTricks
         public static int statsSelectedControllableCharacterIndex = 0;
         public static int statsSelectedControllableCharacterIndexOld = 0;
 
-        public static string[] individualSkillsArray = new string[]
-        {
+        public static string[] individualSkillsArray = {
             Strings.GetText("charStat_Athletics"), Strings.GetText("charStat_KnowledgeArcana"),
             Strings.GetText("charStat_KnowledgeWorld"), Strings.GetText("charStat_LoreNature"),
             Strings.GetText("charStat_LoreReligion"), Strings.GetText("charStat_Mobility"),
@@ -194,8 +192,7 @@ namespace BagOfTricks
             Strings.GetText("charStat_Diplomacy"), Strings.GetText("charStat_Intimidate")
         };
 
-        public static string[] individualSavesArray = new string[]
-        {
+        public static string[] individualSavesArray = {
             Strings.GetText("charStat_Fortitude"), Strings.GetText("charStat_Reflex"), Strings.GetText("charStat_Will")
         };
 
@@ -284,8 +281,7 @@ namespace BagOfTricks
 
         public static readonly string taxCollectorFile = "Save.xml";
 
-        public static string[] alignmentsArrayKingdom = new string[]
-        {
+        public static string[] alignmentsArrayKingdom = {
             Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"),
             Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"),
             Strings.GetText("arrayItem_Alignments_TrueNeutral"), Strings.GetText("arrayItem_Alignments_ChaoticNeutral"),
@@ -293,8 +289,7 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_Alignments_ChaoticEvil"), Strings.GetText("arrayItem_Alignments_NoChange")
         };
 
-        public static string[] alignmentsArrayStats = new string[]
-        {
+        public static string[] alignmentsArrayStats = {
             Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"),
             Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"),
             Strings.GetText("arrayItem_Alignments_TrueNeutral"), Strings.GetText("arrayItem_Alignments_ChaoticNeutral"),
@@ -304,8 +299,7 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_Alignments_Chaotic")
         };
 
-        public static string[] alignmentsArrayKingdomStats = new string[]
-        {
+        public static string[] alignmentsArrayKingdomStats = {
             Strings.GetText("arrayItem_Alignments_LawfulGood"), Strings.GetText("arrayItem_Alignments_NeutralGood"),
             Strings.GetText("arrayItem_Alignments_ChaoticGood"), Strings.GetText("arrayItem_Alignments_LawfulNeutral"),
             Strings.GetText("arrayItem_Alignments_TrueNeutral"), Strings.GetText("arrayItem_Alignments_ChaoticNeutral"),
@@ -316,8 +310,7 @@ namespace BagOfTricks
 
         public static int statsSelectedAlignmentIndex = 0;
 
-        public static string[] takeXArray = new string[]
-        {
+        public static string[] takeXArray = {
             Strings.GetText("arrayItem_takeX_Off"), Strings.GetText("arrayItem_takeX_Take10"),
             Strings.GetText("arrayItem_takeX_Take20"), Strings.GetText("arrayItem_takeX_TakeCustomValue")
         };
@@ -325,7 +318,7 @@ namespace BagOfTricks
         public static List<string> menuItemFavourites = new List<string>();
         public static readonly string favouritesMenuItemsFile = "MenuItems.xml";
 
-        public static string[] localisationsXml = new string[] { };
+        public static string[] localisationsXml = { };
         public static List<string> localisationsXmlFiles = new List<string>();
         public static int selectedLocalisationOld = -1;
 
@@ -333,8 +326,7 @@ namespace BagOfTricks
 
         public static int partySelectedSizeIndex = 0;
 
-        public static string[] charSizeArray = new string[]
-        {
+        public static string[] charSizeArray = {
             Strings.GetText("arrayItem_Size_Fine"), Strings.GetText("arrayItem_Size_Diminutive"),
             Strings.GetText("arrayItem_Size_Tiny"), Strings.GetText("arrayItem_Size_Small"),
             Strings.GetText("arrayItem_Size_Medium"), Strings.GetText("arrayItem_Size_Large"),
@@ -353,8 +345,7 @@ namespace BagOfTricks
         public static bool featFavouritesLoad = true;
         public static int featsParamIndex = 0;
 
-        public static string[] featsParamArray = new string[]
-        {
+        public static string[] featsParamArray = {
             Strings.GetText("misc_None"), Strings.GetText("arrayItem_FeatParam_FencingGrace"),
             Strings.GetText("arrayItem_FeatParam_ImprovedCritical"),
             Strings.GetText("arrayItem_FeatParam_SlashingGrace"),
@@ -416,14 +407,12 @@ namespace BagOfTricks
         public static bool romanceCounterLoadExperimental = true;
 
 
-        public static string[] neverRollXArray = new string[]
-        {
+        public static string[] neverRollXArray = {
             Strings.GetText("arrayItem_NeverRollX_Everyone"), Strings.GetText("arrayItem_NeverRollX_OnlyParty"),
             Strings.GetText("arrayItem_NeverRollX_OnlyEnemies")
         };
 
-        public static string[] unitEntityDataSelectionGridArray = new string[]
-        {
+        public static string[] unitEntityDataSelectionGridArray = {
             Strings.GetText("arrayItem_NeverRollX_Everyone"), Strings.GetText("arrayItem_NeverRollX_OnlyParty"),
             Strings.GetText("arrayItem_NeverRollX_OnlyMainChar"), Strings.GetText("arrayItem_NeverRollX_OnlyEnemies")
         };
@@ -447,8 +436,7 @@ namespace BagOfTricks
         public static List<ClassData> classData = new List<ClassData>();
         public static float classLevelSlider = 0;
 
-        public static string[] unitEntityDataArray = new string[]
-        {
+        public static string[] unitEntityDataArray = {
             Strings.GetText("arrayItem_UnityEntityData_Party"),
             Strings.GetText("arrayItem_UnityEntityData_ControllableCharacters"),
             Strings.GetText("arrayItem_UnityEntityData_ActiveCompanions"),
@@ -563,8 +551,7 @@ namespace BagOfTricks
 
         public static float healthPercentageSlider = 1f;
 
-        public static string[] encumbranceArray = new string[]
-        {
+        public static string[] encumbranceArray = {
             Strings.GetText("encumbrance_Light"), Strings.GetText("encumbrance_Medium"),
             Strings.GetText("encumbrance_Heavy"), Strings.GetText("encumbrance_Overload")
         };
@@ -576,8 +563,7 @@ namespace BagOfTricks
         public static List<string> inventoryItems = new List<string>();
         public static List<int> inventoryItemsCount = new List<int>();
 
-        public static string[] inventoryItemTypesArray = new string[]
-        {
+        public static string[] inventoryItemTypesArray = {
             RichText.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"),
             Strings.GetText("label_Belts"), Strings.GetText("label_Footwear"), Strings.GetText("label_Gloves"),
             Strings.GetText("label_Headwear"), Strings.GetText("label_Neckwear"), Strings.GetText("label_NonUsable"),
@@ -587,8 +573,7 @@ namespace BagOfTricks
         };
 
 
-        public static string[] weatherArray = new string[]
-        {
+        public static string[] weatherArray = {
             Strings.GetText("arrayItem_Weather_Normal"), Strings.GetText("arrayItem_Weather_Rain"),
             Strings.GetText("arrayItem_Weather_Snow")
         };

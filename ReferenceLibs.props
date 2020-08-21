@@ -1,5 +1,13 @@
 <Project>
   <ItemGroup>
+    <Reference Include="UnityModManager">
+      <HintPath>G:\games\DearUnityModManager\UnityModManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>G:\games\DearUnityModManager\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="0Harmony">
       <HintPath>G:\games\DearUnityModManager\0Harmony-1.2.dll</HintPath>
       <Private>false</Private>
@@ -9,412 +17,316 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>F:\games\Pathfinder Kingmaker Definitive Edition\Kingmaker_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>F:\games\Pathfinder Kingmaker Definitive Edition\Kingmaker_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="AuraSupportPlugin">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\AuraSupportPlugin.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Boo.Lang">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Boo.Lang.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.AccessibilityModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.AccessibilityModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="DemiLib">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\DemiLib.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.AIModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="DotNetZip">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\DotNetZip.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\DOTween.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ARModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ARModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="DOTween43">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\DOTween43.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.AssetBundleModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="DOTween46">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\DOTween46.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="DOTween50">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\DOTween50.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="DOTweenPro">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\DOTweenPro.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="GalaxyCSharp">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\GalaxyCSharp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="I18N">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\I18N.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="I18N.CJK">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\I18N.CJK.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="I18N.MidEast">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\I18N.MidEast.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="I18N.Other">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\I18N.Other.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="I18N.Rare">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\I18N.Rare.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="I18N.West">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\I18N.West.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Interop.AuraServiceLib">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Interop.AuraServiceLib.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="KDTree">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\KDTree.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Kingmaker.Import">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Kingmaker.Import.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Mono.Posix">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Mono.Posix.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Mono.Security">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Mono.Security.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="mscorlib">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\mscorlib.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>G:\games\DearUnityModManager\Newtonsoft.Json.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Pathfinding.ClipperLib">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Pathfinding.ClipperLib.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Pathfinding.Ionic.Zip.Reduced">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Pathfinding.JsonFx">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Pathfinding.JsonFx.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Pathfinding.Poly2Tri">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Pathfinding.Poly2Tri.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="ProBuilderCore-Unity5">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\ProBuilderCore-Unity5.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="ProBuilderMeshOps-Unity5">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\ProBuilderMeshOps-Unity5.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="System.Configuration">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\System.Configuration.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Security">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\System.Security.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="System.ServiceModel.Internals">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\System.ServiceModel.Internals.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Triangle">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Triangle.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\Unity.Analytics.DataPrivacy.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AccessibilityModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AIModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.AIModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.Analytics.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.ARModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ARModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.BaselibModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.BaselibModule.dll</HintPath>
-      <Private>false</Private>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.BaselibModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ClothModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ClothModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.CloudWebServicesModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.CloudWebServicesModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ClusterInputModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ClusterInputModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ClusterInputModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ClusterRendererModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ClusterRendererModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ClusterRendererModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.CrashReportingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.CrashReportingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.CrashReportingModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.DirectorModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.DirectorModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.FileSystemHttpModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.FileSystemHttpModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.FacebookModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.FacebookModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.GameCenterModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.GameCenterModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.GameCenterModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.GameCenterModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.GridModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.GridModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.GridModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.HotReloadModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.HotReloadModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.HotReloadModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.HotReloadModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.InputModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.InputModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.InputModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.LocalizationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.LocalizationModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.Networking.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ParticlesLegacyModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ParticlesLegacyModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.PerformanceReportingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.PerformanceReportingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.Physics2DModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.PerformanceReportingModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ProfilerModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ProfilerModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.ScreenCaptureModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.SharedInternalsModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.SpatialTracking.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.SharedInternalsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.SharedInternalsModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.SpatialTrackingModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.SpatialTrackingModule.dll</HintPath>
-      <Private>false</Private>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.SpatialTrackingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.SpriteMaskModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.SpriteMaskModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.SpriteMaskModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.SpriteShapeModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.SpriteShapeModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.StandardEvents">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.StandardEvents.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.StreamingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.StreamingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.StyleSheetsModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.StyleSheetsModule.dll</HintPath>
-      <Private>false</Private>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.StyleSheetsModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.SubstanceModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.SubstanceModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.SubstanceModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.SubstanceModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TerrainModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.TerrainModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TerrainPhysicsModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.TerrainPhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.TextCoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TilemapModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.TilemapModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.Timeline">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.Timeline.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.TilemapModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.TilemapModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TimelineModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.TimelineModule.dll</HintPath>
-      <Private>false</Private>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.TimelineModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.TLSModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.TLSModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.TLSModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.TLSModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UI.dll</HintPath>
-      <Private>false</Private>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UIElementsModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UIElementsModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UIModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UmbraModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UmbraModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UmbraModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UmbraModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UNETModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UNETModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UNETModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UNETModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityAnalyticsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityConnectModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityConnectModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityConnectModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityTestProtocolModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.VehiclesModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.VideoModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.VehiclesModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.VehiclesModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.VRModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.VRModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.VFXModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.VFXModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.WebModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.WebModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.VideoModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.WindModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.WindModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.VRModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.XRModule">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityEngine.XRModule.dll</HintPath>
-      <Private>false</Private>
+    <Reference Include="UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.WindModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="UnityFbxPrefab">
-      <HintPath>F:\games\Pathfinder Kingmaker Beneath the Stolen Lands\Kingmaker_Data\Managed\UnityFbxPrefab.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityModManager">
-      <HintPath>G:\games\DearUnityModManager\UnityModManager.dll</HintPath>
+    <Reference Include="UnityEngine.XRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.XRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

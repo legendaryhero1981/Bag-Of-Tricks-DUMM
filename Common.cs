@@ -1,7 +1,6 @@
 ﻿using Harmony;
 using Kingmaker;
 using Kingmaker.Blueprints;
-using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Root;
 using Kingmaker.Blueprints.Root.Strings.GameLog;
 using Kingmaker.Cheats;
@@ -73,7 +72,7 @@ namespace BagOfTricks
                     color = GameLogStrings.Instance.DefaultColor;
                 }
 
-                LogDataManager.LogItemData logItemData = new LogDataManager.LogItemData(message, GameLogStrings.Instance.DefaultColor, null, PrefixIcon.None);
+                LogItemData logItemData = new LogItemData(message, GameLogStrings.Instance.DefaultColor, null, PrefixIcon.None, new List<LogChannel> { LogChannel.None });
                 Game.Instance.UI.BattleLogManager.LogView.AddLogEntry(logItemData);
             }
 
@@ -86,8 +85,8 @@ namespace BagOfTricks
 
         public static UnitEntityData GetUnitUnderMouse()
         {
-            UnitEntityView hoverUnit = Game.Instance?.UI?.SelectionManager?.HoverUnit;
-            if ((UnityEngine.Object)hoverUnit != (UnityEngine.Object)null)
+            UnitEntityView hoverUnit = Game.Instance?.UI?.SelectionManagerPC?.HoverUnit;
+            if (hoverUnit != null)
             {
                 return hoverUnit.EntityData;
             }
@@ -482,7 +481,7 @@ namespace BagOfTricks
             }
         }
 
-        public static void CloseMessageBox(DialogMessageBox.BoxButton btn)
+        public static void CloseMessageBox(DialogMessageBoxBase.BoxButton btn)
         {
         }
 
@@ -681,19 +680,17 @@ namespace BagOfTricks
 
         public static int GetEncounterCR()
         {
-            BlueprintStatProgression blueprint = Utilities.GetBlueprint<BlueprintStatProgression>("Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset");
-            if (!(bool)((UnityEngine.Object)blueprint))
-                blueprint = Utilities.GetBlueprint<BlueprintStatProgression>("19b09eaa18b203645b6f1d5f2edcb1e4");
-            if ((bool)((UnityEngine.Object)blueprint))
+            if ((bool)((SerializedScriptableObject)BlueprintRoot.Instance.Progression.CRTable))
                 return Utilities.GetTotalChallengeRating(Game.Instance.State.Units.Where<UnitEntityData>((Func<UnitEntityData, bool>)(u =>
                 {
                     if (u.IsInCombat)
                         return !u.IsPlayerFaction;
                     return false;
                 })).Select<UnitEntityData, BlueprintUnit>((Func<UnitEntityData, BlueprintUnit>)(u => u.Blueprint)).ToList<BlueprintUnit>());
-            UberDebug.LogChannel("SmartConsole", string.Format("CR table not found at {0} or {1}, cannot calculate", (object)"Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset", (object)"19b09eaa18b203645b6f1d5f2edcb1e4"), (object[])Array.Empty<object>());
+            UberDebug.LogChannel("SmartConsole", "CR table not found at Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset or 19b09eaa18b203645b6f1d5f2edcb1e4, cannot calculate", (object[])Array.Empty<object>());
             return -1;
         }
+
         public static string GetDifficulty()
         {
             int num = GetEncounterCR() - Game.Instance.Player.PartyLevel;
