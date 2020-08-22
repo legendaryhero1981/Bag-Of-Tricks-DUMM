@@ -659,7 +659,8 @@ namespace BagOfTricks
 
         public static List<string> BlueprintsByTypes(string[] validTypes)
         {
-            return ResourcesLibrary.LibraryObject.GetAllBlueprints().AsParallel().WithMergeOptions(ParallelMergeOptions.FullyBuffered)
+            return ResourcesLibrary.LibraryObject.GetAllBlueprints()
+                .AsParallel().WithMergeOptions(ParallelMergeOptions.FullyBuffered)
                 .Where(e => validTypes.Contains(e.GetType().Name))
                 .Select(e => e.AssetGuid).ToList();
         }
