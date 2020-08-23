@@ -667,12 +667,12 @@ namespace BagOfTricks
 
         public static void CreateFilteredItemSet(string labelString, string[] types)
         {
-            if (!GL.Button(labelString, GL.ExpandWidth(false))) return;
-            ModEntry.OnModActions.Push(m =>
-                BlueprintsByTypes(types).AsParallel().WithMergeOptions(ParallelMergeOptions.FullyBuffered)
+            if (GL.Button(labelString, GL.ExpandWidth(false)))
+                ModEntry.OnModActions.Push(m => BlueprintsByTypes(types)
+                    .AsParallel().WithMergeOptions(ParallelMergeOptions.FullyBuffered)
                     .Where(e => ExcludeGuid != e && null != Utilities.GetBlueprintByGuid<BlueprintItem>(e))
                     .ForEach(item => MenuTools.AddSingleItemAmount(item, 1, settings.addItemIdentified)
-            ));
+                ));
         }
 
         public static void GetCustomItemSets(string[] files, List<string> previewStrings, List<bool> togglePreview)
