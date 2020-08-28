@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityModManager = UnityModManagerNet.UnityModManager;
 
@@ -34,32 +33,6 @@ namespace BagOfTricks
         public static UnitEntityData PlayerCharacter
         {
             get { return Game.Instance.Player.MainCharacter; }
-        }
-
-        public static void SerializeListString(this List<string> list, string filePath)
-        {
-            var serializer = new XmlSerializer(typeof(List<string>));
-            using (var stream = File.Create(filePath))
-            {
-                serializer.Serialize(stream, list);
-            }
-        }
-        public static void DeserializeListString(this List<string> list, string filePath)
-        {
-            try
-            {
-                var serializer = new XmlSerializer(typeof(List<string>));
-                using (var stream = File.OpenRead(filePath))
-                {
-                    var other = (List<string>)(serializer.Deserialize(stream));
-                    list.Clear();
-                    list.AddRange(other);
-                }
-            }
-            catch (Exception e)
-            {
-                Main.modLogger.Log("\n" + filePath + "\n" + e.ToString());
-            }
         }
 
         public static void AddLogEntry(string message, Color color, bool gameDefaultColour = true)
@@ -559,52 +532,6 @@ namespace BagOfTricks
                     Array.Copy(array, 0, array, 1, array.Length - 1);
                     array[0] = temp;
                 }
-            }
-        }
-
-
-        public static void MoveListElementUp<T>(ref List<T> list, T element)
-        {
-            int index = list.IndexOf(element);
-
-            if (index < list.Count - 1)
-            {
-                T swappedElement = list[index - 1];
-
-                list[index + 1] = element;
-                list[index] = swappedElement;
-            }
-        }
-        public static void MakeListElementLast<T>(ref List<T> list, T element)
-        {
-            int index = list.IndexOf(element);
-
-            if (index < list.Count - 1)
-            {
-                list.Remove(element);
-                list.Add(element);
-            }
-        }
-        public static void MoveListElementDown<T>(ref List<T> list, T element)
-        {
-            int index = list.IndexOf(element);
-
-            if (index > 0)
-            {
-                T swappedElement = list[index - 1];
-
-                list[index - 1] = element;
-                list[index] = swappedElement;
-            }
-        }
-        public static void MakeListElementFirst<T>(ref List<T> list, T element)
-        {
-            int index = list.IndexOf(element);
-
-            if (index > 0)
-            {
-                list.Remove(element);
-                list.Insert(0, element);
             }
         }
 

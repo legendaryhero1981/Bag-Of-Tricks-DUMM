@@ -599,7 +599,7 @@
   <Localisation key="buttonToggle_InstantCooldownMainChar" value="玩家无使用能力和施法冷却时间" />
   <Localisation key="buttonToggle_DexBonusLimit99" value="设置最大敏捷奖励点数为99" />
   <Localisation key="buttonToggle_PassSkillChecksIndividual" value="总是通过技能检定" />
-  <Localisation key="buttonToggle_PassSkillChecksIndividualDC99" value="设置困难等级为-99" />
+  <Localisation key="buttonToggle_PassSkillChecksIndividualDC99" value="设置难度等级为-99" />
   <Localisation key="buttonToggle_ItemsWeighZero" value="物品无重量" />
   <Localisation key="buttonToggle_ExtraAttacksParty" value="每轮额外攻击" />
   <Localisation key="buttonToggle_AlignmentFix" value="中立阵营不会导致在守序或混乱轴上移动" />
@@ -918,22 +918,22 @@
   <Localisation key="tooltip_InstantKingdomEvents" value="﻿﻿立即完成王国事件。" />
   <Localisation key="tooltip_ForceSuccessTriumphs" value="﻿﻿﻿﻿﻿﻿王国事件的结果强制成功/胜利。" />
   <Localisation key="tooltip_IgnoreBuildingRestrictions" value="﻿﻿﻿忽略王国建设的限制。" />
-  <Localisation key="tooltip_PassSkillChecksIndividual" value="允许您选择在检定时始终通过的个人技能。" />
-  <Localisation key="tooltip_PassSkillChecksIndividualDC99" value="允许您选择在检定时始终通过的个人技能 -99。" />
-  <Localisation key="tooltip_PassSavingThrowIndividual" value="允许您选择在检定时始终通过的个人豁免检定。" />
+  <Localisation key="tooltip_PassSkillChecksIndividual" value="允许您始终通过个人技能检定。" />
+  <Localisation key="tooltip_PassSkillChecksIndividualDC99" value="设置所有技能检定的难度级别为-99点。" />
+  <Localisation key="tooltip_PassSavingThrowIndividual" value="允许您始终通过个人豁免检定。" />
   <Localisation key="tooltip_AllHitsAreCritical" value="该队进行的所有攻击都造成致命一击。" />
-  <Localisation key="tooltip_MainCharacterRolls20" value="主角在d20上的每个滚都会产生一个自然的20。" />
-  <Localisation key="tooltip_PartyAlwaysRolls20" value="队伍在d20上的每一次滚动都会得到一个自然的20。" />
-  <Localisation key="tooltip_EnablePartyAlwaysRoll20Hotkey" value="启用热键切换队伍总是滚动20。" />
-  <Localisation key="tooltip_EnemiesAlwaysRoll1" value="敌人在d20上每滚一次，就会得到一个自然的1。" />
-  <Localisation key="tooltip_EveryoneExceptPlayerFactionRolls1" value="除了玩家派别的成员之外，任何人在d20上每滚动一次，都会得到一个自然的1。" />
-  <Localisation key="tooltip_NeverRoll1" value="d20滚动1永远不会发生。&#xA;可以设置为影响每个人，仅影响一方或仅影响敌人。" />
-  <Localisation key="tooltip_NeverRoll20" value="在d20上滚动20永远不会发生。&#xA;可以设置为影响每个人，仅影响一方或仅影响敌人。" />
-  <Localisation key="tooltip_RollWithAdvantage" value="滚动两个d20而不是一个，结果取最高d20。&#xA;可以设置为影响每个人，仅影响一方或仅影响敌人。" />
-  <Localisation key="tooltip_RollWithDisadvantage" value="滚动两个d20而不是一个，结果取最低的一个。&#xA;可以设置为影响每个人，仅影响一方或仅影响敌人。" />
-  <Localisation key="tooltip_AlwaysRoll20ForInitiative" value="﻿包括您的敌人在内的所有人都会主动滚动20。" />
-  <Localisation key="tooltip_TakeX" value="﻿﻿从战斗中制造的D20卷将会得到设置值，即10、20或自定义值。" />
-  <Localisation key="tooltip_toggleCustomTakeXAsMin" value="设置的自定义值将用作最小投掷，即投掷将始终等于或高于自定义值。" />
+  <Localisation key="tooltip_MainCharacterRolls20" value="主角在20面骰子上的每次投掷都会是20点。" />
+  <Localisation key="tooltip_PartyAlwaysRolls20" value="队伍在20面骰子上的每次投掷都会是20点。" />
+  <Localisation key="tooltip_EnablePartyAlwaysRoll20Hotkey" value="启用热键切换队伍总是投掷20点。" />
+  <Localisation key="tooltip_EnemiesAlwaysRoll1" value="敌人在20面骰子上每次投掷都会是1点。" />
+  <Localisation key="tooltip_EveryoneExceptPlayerFactionRolls1" value="除了玩家队伍的成员之外，任何人在20面骰子上每次投掷都会是1点。" />
+  <Localisation key="tooltip_NeverRoll1" value="在20面骰子上投掷出1点永远不会发生。&#xA;可以设置为影响所有人，仅影响队伍或仅影响敌人。" />
+  <Localisation key="tooltip_NeverRoll20" value="在20面骰子上投掷出20点永远不会发生。&#xA;可以设置为影响所有人，仅影响队伍或仅影响敌人。" />
+  <Localisation key="tooltip_RollWithAdvantage" value="投掷两个20面骰子而不是一个，结果取较高的骰子点数。&#xA;可以设置为影响所有人，仅影响队伍或仅影响敌人。" />
+  <Localisation key="tooltip_RollWithDisadvantage" value="投掷两个20面骰子而不是一个，结果取较低的骰子点数。&#xA;可以设置为影响所有人，仅影响队伍或仅影响敌人。" />
+  <Localisation key="tooltip_AlwaysRoll20ForInitiative" value="总是投掷20点。可以设置为影响所有人，仅影响队伍或仅影响敌人。" />
+  <Localisation key="tooltip_TakeX" value="﻿﻿战斗外的20面骰子将产生设定值，即10点、20点或自定义点数。" />
+  <Localisation key="tooltip_toggleCustomTakeXAsMin" value="设置的自定义值将用作最小掷骰，即你的掷骰点数将始终等于或高于自定义点数。" />
   <Localisation key="tooltip_CameraRotation" value="启动相机旋转。" />
   <Localisation key="tooltip_CameraScrollSpeed" value="启用选项以改变相机的滚动速度。" />
   <Localisation key="tooltip_CameraZoomUnlocked" value="允许编辑相机的变焦限制。" />

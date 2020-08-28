@@ -1,4 +1,5 @@
-﻿using BagOfTricks.Utils;
+﻿using BagOfTricks.Favourites;
+using BagOfTricks.Utils;
 using Harmony12;
 using Kingmaker;
 using Kingmaker.Assets.UI;
@@ -107,6 +108,8 @@ namespace BagOfTricks
 
             Storage.modEntryPath = modEntry.Path;
 
+            FavouritesFactory.Init(modEntry.Path);
+
             if (File.Exists(modEntry.Path + "debug"))
             {
                 settings.settingShowDebugInfo = true;
@@ -179,7 +182,7 @@ namespace BagOfTricks
                 versionMismatch = true;
             }
 
-            LoadFavourites();
+            FavouritesFactory.DeserializeFavourites();
             var harmony = HarmonyInstance.Create(modEntry.Info.Id);
 
             try
@@ -232,12 +235,6 @@ namespace BagOfTricks
             settings.unityModManagerButtonIndex = Mathf.Clamp(settings.unityModManagerButtonIndex, 0f, 6f);
 
             Storage.flyingHeightSlider = Mathf.Clamp(Storage.flyingHeightSlider, -10f, 100f);
-            Storage.itemFavouritesGuids = Storage.itemFavourites;
-            Storage.buffFavouritesGuids = Storage.buffFavourites;
-            Storage.featFavouritesGuids = Storage.featFavourites;
-            Storage.abilitiesFavouritesGuids = Storage.abilitiesFavourites;
-
-            SpawnUnits.FavouritesGuids = SpawnUnits.UnitsFavourites;
 
             if (!settings.settingKeepGuids)
             {
@@ -258,7 +255,7 @@ namespace BagOfTricks
                         Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
                     }
                     Strings.RefreshStrings();
-                    Storage.mainToolbarStrings = new string[] { RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
+                    Storage.mainToolbarStrings = new string[] { RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
                     settings.filterButtonText = Strings.GetText("misc_Enable");
                     settings.currentSceneString = Strings.GetText("misc_Display");
                     settings.showAllBuffs = Strings.GetText("misc_Display");
@@ -500,13 +497,13 @@ namespace BagOfTricks
         {
             if (Storage.settingsWarning)
             {
-                MenuTools.SingleLineLabel(RichText.WarningLargeRedFormat(Strings.GetText("warning_SettingsXML_0")));
+                MenuTools.SingleLineLabel(RichTextUtils.WarningLargeRedFormat(Strings.GetText("warning_SettingsXML_0")));
 
-                MenuTools.SingleLineLabel(RichText.WarningLargeRedFormat(Strings.GetText("warning_SettingsXML_1")));
+                MenuTools.SingleLineLabel(RichTextUtils.WarningLargeRedFormat(Strings.GetText("warning_SettingsXML_1")));
 
                 GL.Space(10);
 
-                if (GL.Button(RichText.Bold(Strings.GetText("button_Confirm")), GL.ExpandWidth(false)))
+                if (GL.Button(RichTextUtils.Bold(Strings.GetText("button_Confirm")), GL.ExpandWidth(false)))
                 {
                     Storage.settingsWarning = false;
                 }
@@ -531,7 +528,7 @@ namespace BagOfTricks
                     switch (settings.mainToolbarIndex)
                     {
                         case 0:
-                            Menu.FavouriteFunctions();
+                            ModUI.FavouriteFunctions.Render();
                             break;
                         case 1:
                             Menu.Cheat();
@@ -583,7 +580,7 @@ namespace BagOfTricks
                     Storage.loadOnce = false;
                 }
 
-                MenuTools.SingleLineLabel(RichText.Bold(Strings.GetText("label_SelectLanguage") + ":"));
+                MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("label_SelectLanguage") + ":"));
                 GL.BeginHorizontal();
                 if (GL.Button(Strings.GetText("button_LoadRefreshAvailableLanguages"), GL.ExpandWidth(false)))
                 {
@@ -628,7 +625,7 @@ namespace BagOfTricks
                             Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
                         }
                         Strings.RefreshStrings();
-                        Storage.mainToolbarStrings = new string[] { RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
+                        Storage.mainToolbarStrings = new string[] { RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
                         settings.filterButtonText = Strings.GetText("misc_Enable");
                         settings.currentSceneString = Strings.GetText("misc_Display");
                         settings.showAllBuffs = Strings.GetText("misc_Display");
@@ -640,7 +637,7 @@ namespace BagOfTricks
 
                 GL.Space(10);
 
-                if (GL.Button(RichText.Bold(Strings.GetText("button_Confirm")), GL.ExpandWidth(false)))
+                if (GL.Button(RichTextUtils.Bold(Strings.GetText("button_Confirm")), GL.ExpandWidth(false)))
                 {
                     settings.firstLaunch = false;
                 }
@@ -783,13 +780,13 @@ namespace BagOfTricks
                                 splitLine[1] = splitLine[1].Trim();
                                 if (ExcludeGuid == splitLine[0]) continue;
                                 var itemByGuid = Utilities.GetBlueprintByGuid<BlueprintItem>(splitLine[0]);
-                                if (null == itemByGuid || Storage.itemFavourites.Contains(splitLine[0])) continue;
+                                if (null == itemByGuid || FavouritesFactory.GetFavouriteItems.FavouritesList.Contains(splitLine[0])) continue;
                                 if ("" == splitLine[1] || "0" != splitLine[1] && int.TryParse(splitLine[1], out _))
-                                    Storage.itemFavourites.Add(splitLine[0]);
+                                    FavouritesFactory.GetFavouriteItems.FavouritesList.Add(splitLine[0]);
                             }
-                            else if (ExcludeGuid != lines[j] && !Storage.itemFavourites.Contains(lines[j]) &&
+                            else if (ExcludeGuid != lines[j] && !FavouritesFactory.GetFavouriteItems.FavouritesList.Contains(lines[j]) &&
                                      null != Utilities.GetBlueprintByGuid<BlueprintItem>(lines[j]))
-                                Storage.itemFavourites.Add(lines[j]);
+                                FavouritesFactory.GetFavouriteItems.FavouritesList.Add(lines[j]);
                         }
 
                         RefreshItemFavourites();
@@ -808,13 +805,13 @@ namespace BagOfTricks
                                 splitLine[1] = splitLine[1].Trim();
                                 if (ExcludeGuid == splitLine[0]) continue;
                                 var itemByGuid = Utilities.GetBlueprintByGuid<BlueprintItem>(splitLine[0]);
-                                if (null == itemByGuid || !Storage.itemFavourites.Contains(splitLine[0])) continue;
+                                if (null == itemByGuid || !FavouritesFactory.GetFavouriteItems.FavouritesList.Contains(splitLine[0])) continue;
                                 if ("" == splitLine[1] || "0" != splitLine[1] && int.TryParse(splitLine[1], out _))
-                                    Storage.itemFavourites.Remove(splitLine[0]);
+                                    FavouritesFactory.GetFavouriteItems.FavouritesList.Remove(splitLine[0]);
                             }
-                            else if (ExcludeGuid != lines[j] && Storage.itemFavourites.Contains(lines[j]) &&
+                            else if (ExcludeGuid != lines[j] && FavouritesFactory.GetFavouriteItems.FavouritesList.Contains(lines[j]) &&
                                      null != Utilities.GetBlueprintByGuid<BlueprintItem>(lines[j]))
-                                Storage.itemFavourites.Remove(lines[j]);
+                                FavouritesFactory.GetFavouriteItems.FavouritesList.Remove(lines[j]);
                         }
 
                         RefreshItemFavourites();
@@ -944,14 +941,12 @@ namespace BagOfTricks
 
         public static void RefreshItemFavourites()
         {
-            Common.SerializeListString(Storage.itemFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesItemsFile);
-
-            Storage.itemFavouritesGuids = Storage.itemFavourites;
+            FavouritesFactory.GetFavouriteItems.Serialize();
             Storage.itemFavouritesNames.Clear();
             Storage.toggleItemFavouriteDescription.Clear();
-            for (var i = 0; i < Storage.itemFavouritesGuids.Count; i++)
+            for (var i = 0; i < FavouritesFactory.GetFavouriteItems.FavouritesList.Count; i++)
             {
-                Storage.itemFavouritesNames.Add(Utilities.GetBlueprintByGuid<BlueprintItem>(Storage.itemFavourites[i]).Name);
+                Storage.itemFavouritesNames.Add(Utilities.GetBlueprintByGuid<BlueprintItem>(FavouritesFactory.GetFavouriteItems.FavouritesList[i]).Name);
             }
         }
 
@@ -1054,24 +1049,22 @@ namespace BagOfTricks
 
         public static void RefreshBuffFavourites()
         {
-            Common.SerializeListString(Storage.buffFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesBuffsFile);
-
-            Storage.buffFavouritesGuids = Storage.buffFavourites;
+            FavouritesFactory.GetFavouriteBuffs.Serialize();
             Storage.buffFavouritesNames.Clear();
             Storage.buffFavouritesDescriptions.Clear();
-            for (var i = 0; i < Storage.buffFavouritesGuids.Count; i++)
+            for (var i = 0; i < FavouritesFactory.GetFavouriteBuffs.FavouritesList.Count; i++)
             {
-                var stringBuffName = Utilities.GetBlueprintByGuid<BlueprintBuff>(Storage.buffFavourites[i]).Name;
+                var stringBuffName = Utilities.GetBlueprintByGuid<BlueprintBuff>(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i]).Name;
                 if (stringBuffName != "" && stringBuffName != null)
                 {
                     Storage.buffFavouritesNames.Add(stringBuffName);
                 }
                 else
                 {
-                    var stringBuffObjectNames = Utilities.GetBlueprintByGuid<BlueprintBuff>(Storage.buffFavourites[i]).name;
+                    var stringBuffObjectNames = Utilities.GetBlueprintByGuid<BlueprintBuff>(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i]).name;
                     Storage.buffFavouritesNames.Add(stringBuffObjectNames);
                 }
-                Storage.buffFavouritesDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(Storage.buffFavourites[i])));
+                Storage.buffFavouritesDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i])));
             }
         }
 
@@ -1294,34 +1287,6 @@ namespace BagOfTricks
             {
                 Game.Instance.Player.REManager.OnGlobalMapEncounterStarted(blueprint, isHard);
                 UnityModManager.UI.Instance.ToggleWindow();
-            }
-        }
-
-        static void LoadFavourites()
-        {
-            if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesItemsFile))
-            {
-                Common.DeserializeListString(Storage.itemFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesItemsFile);
-            }
-            if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesBuffsFile))
-            {
-                Common.DeserializeListString(Storage.buffFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesBuffsFile);
-            }
-            if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesFeatsFile))
-            {
-                Common.DeserializeListString(Storage.featFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesFeatsFile);
-            }
-            if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesAbilitiesFile))
-            {
-                Common.DeserializeListString(Storage.abilitiesFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesAbilitiesFile);
-            }
-            if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile))
-            {
-                Common.DeserializeListString(Storage.togglesFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile);
-            }
-            if (File.Exists(Storage.modEntryPath + Storage.favouritesFolder + "\\" + SpawnUnits.favouritesFile))
-            {
-                Common.DeserializeListString(SpawnUnits.UnitsFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + SpawnUnits.favouritesFile);
             }
         }
 
@@ -1614,24 +1579,22 @@ namespace BagOfTricks
 
         public static void RefreshFeatFavourites()
         {
-            Common.SerializeListString(Storage.featFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesFeatsFile);
-
-            Storage.featFavouritesGuids = Storage.featFavourites;
+            FavouritesFactory.GetFavouriteFeats.Serialize();
             Storage.featFavouritesNames.Clear();
             Storage.featFavouritesDescriptions.Clear();
-            for (var i = 0; i < Storage.featFavouritesGuids.Count; i++)
+            for (var i = 0; i < FavouritesFactory.GetFavouriteFeats.FavouritesList.Count; i++)
             {
-                var stringFeatName = Utilities.GetBlueprintByGuid<BlueprintFeature>(Storage.featFavourites[i]).Name;
+                var stringFeatName = Utilities.GetBlueprintByGuid<BlueprintFeature>(FavouritesFactory.GetFavouriteFeats.FavouritesList[i]).Name;
                 if (stringFeatName != "" && stringFeatName != null)
                 {
                     Storage.featFavouritesNames.Add(stringFeatName);
                 }
                 else
                 {
-                    var stringFeatObjectNames = Utilities.GetBlueprintByGuid<BlueprintFeature>(Storage.featFavourites[i]).name;
+                    var stringFeatObjectNames = Utilities.GetBlueprintByGuid<BlueprintFeature>(FavouritesFactory.GetFavouriteFeats.FavouritesList[i]).name;
                     Storage.featFavouritesNames.Add(stringFeatObjectNames);
                 }
-                Storage.featFavouritesDescriptions.Add(GetFeatDescription(Utilities.GetBlueprintByGuid<BlueprintFeature>(Storage.featFavourites[i])));
+                Storage.featFavouritesDescriptions.Add(GetFeatDescription(Utilities.GetBlueprintByGuid<BlueprintFeature>(FavouritesFactory.GetFavouriteFeats.FavouritesList[i])));
             }
         }
 
@@ -1797,17 +1760,11 @@ namespace BagOfTricks
             }
         }
 
-
-        public static void RefreshTogglesFavourites()
-        {
-            Common.SerializeListString(Storage.togglesFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile);
-        }
-
         public static void ToggleActiveWarning(ref string toggleMain, ref string toggleOther, string buttonToggle)
         {
             if (toggleMain == Storage.isTrueString && toggleOther == Storage.isTrueString)
             {
-                MenuTools.SingleLineLabel(RichText.Bold("'" + Strings.GetText(buttonToggle) + "' " + Strings.GetText("warning_AlsoEnabled")));
+                MenuTools.SingleLineLabel(RichTextUtils.Bold("'" + Strings.GetText(buttonToggle) + "' " + Strings.GetText("warning_AlsoEnabled")));
             }
         }
 
@@ -1980,24 +1937,22 @@ namespace BagOfTricks
 
         public static void RefreshAbilityFavourites()
         {
-            Common.SerializeListString(Storage.abilitiesFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesAbilitiesFile);
-
-            Storage.abilitiesFavouritesGuids = Storage.abilitiesFavourites;
+            FavouritesFactory.GetFavouriteAbilities.Serialize();
             Storage.abilitiesFavouritesNames.Clear();
             Storage.abilitiesFavouritesDescriptions.Clear();
-            for (var i = 0; i < Storage.abilitiesFavouritesGuids.Count; i++)
+            for (var i = 0; i < FavouritesFactory.GetFavouriteAbilities.FavouritesList.Count; i++)
             {
-                var stringAbilityName = Utilities.GetBlueprintByGuid<BlueprintAbility>(Storage.abilitiesFavourites[i]).Name;
+                var stringAbilityName = Utilities.GetBlueprintByGuid<BlueprintAbility>(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]).Name;
                 if (stringAbilityName != "" && stringAbilityName != null)
                 {
                     Storage.abilitiesFavouritesNames.Add(stringAbilityName);
                 }
                 else
                 {
-                    var stringAbilityObjectNames = Utilities.GetBlueprintByGuid<BlueprintAbility>(Storage.abilitiesFavourites[i]).name;
+                    var stringAbilityObjectNames = Utilities.GetBlueprintByGuid<BlueprintAbility>(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]).name;
                     Storage.abilitiesFavouritesNames.Add(stringAbilityObjectNames);
                 }
-                Storage.abilitiesFavouritesDescriptions.Add(Utilities.GetBlueprintByGuid<BlueprintAbility>(Storage.abilitiesFavourites[i]).Description);
+                Storage.abilitiesFavouritesDescriptions.Add(Utilities.GetBlueprintByGuid<BlueprintAbility>(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]).Description);
             }
         }
 

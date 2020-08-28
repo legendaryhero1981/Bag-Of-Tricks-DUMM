@@ -163,7 +163,7 @@ namespace BagOfTricks {
         public static void RenderMenu() {
             GL.BeginVertical("box");
             GL.BeginHorizontal();
-            GL.Label(RichText.MainCategoryFormat(Strings.GetText("mainCategory_BlueprintModding")));
+            GL.Label(RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_BlueprintModding")));
             GL.FlexibleSpace();
             MenuTools.AddFavouriteButton("BlueprintModdingRender");
             GL.EndHorizontal();
@@ -205,12 +205,12 @@ namespace BagOfTricks {
 
                 GL.Space(10);
 
-                showModifiedBlueprints = GL.Toggle(showModifiedBlueprints, RichText.Bold(Strings.GetText("toggle_ShowModifiedItems")));
+                showModifiedBlueprints = GL.Toggle(showModifiedBlueprints, RichTextUtils.Bold(Strings.GetText("toggle_ShowModifiedItems")));
                 if (showModifiedBlueprints) {
                     GL.Space(10);
 
                     GL.BeginHorizontal();
-                    if (GL.Button(RichText.Bold(Strings.GetText("button_LoadRefresh")), GL.ExpandWidth(false))) {
+                    if (GL.Button(RichTextUtils.Bold(Strings.GetText("button_LoadRefresh")), GL.ExpandWidth(false))) {
                         blueprintLists = false;
                     }
                     GL.EndHorizontal();
@@ -293,7 +293,7 @@ namespace BagOfTricks {
         public static TextFieldFloat itemTypesTextFieldFloat = new TextFieldFloat();
         public static SelectionGrid diceTypesGrid = new SelectionGrid(Storage.diceTypes, 4);
         public static void ItemTypesMenu() {
-            showItemTypes = GL.Toggle(showItemTypes, RichText.Bold(Strings.GetText("toggle_ShowItemTypes")));
+            showItemTypes = GL.Toggle(showItemTypes, RichTextUtils.Bold(Strings.GetText("toggle_ShowItemTypes")));
             if (showItemTypes) {
                 GL.Space(10);
                 itemTypesGrid.Render();

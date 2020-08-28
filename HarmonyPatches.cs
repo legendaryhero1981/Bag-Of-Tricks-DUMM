@@ -1,4 +1,6 @@
-﻿using BagOfTricks.Utils;
+﻿using BagOfTricks.Favourites;
+using BagOfTricks.Utils;
+using BagOfTricks.Utils.Kingmaker;
 using Harmony12;
 
 using JetBrains.Annotations;
@@ -237,45 +239,46 @@ namespace BagOfTricks
         {
             static void Postfix(RuleRollD20 __instance, ref int __result)
             {
-                if (settings.toggleRollWithDisadvantage == Storage.isTrueString)
+                Common.ModLoggerDebug("Initial D20Roll: " + __result);
+                if (Strings.ToBool(settings.toggleRollWithDisadvantage))
                 {
                     switch (settings.rollWithDisadvantageeIndex)
                     {
                         case 0:
-                            __result = Math.Min(__result, RuleRollDice.Dice.D20);
+                            __result = Math.Min(__result, UnityEngine.Random.Range(1, 21));
                             break;
                         case 1:
                             if (__instance.Initiator.IsPlayerFaction)
                             {
-                                __result = Math.Min(__result, RuleRollDice.Dice.D20);
+                                __result = Math.Min(__result, UnityEngine.Random.Range(1, 21));
                             }
                             break;
                         case 2:
                             if (!__instance.Initiator.IsPlayerFaction && __instance.Initiator.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
                             {
-                                __result = Math.Min(__result, RuleRollDice.Dice.D20);
+                                __result = Math.Min(__result, UnityEngine.Random.Range(1, 21));
                             }
                             break;
                     }
                 }
 
-                if (settings.toggleRollWithAdvantage == Storage.isTrueString)
+                if (Strings.ToBool(settings.toggleRollWithAdvantage))
                 {
                     switch (settings.rollWithAdvantageIndex)
                     {
                         case 0:
-                            __result = Math.Max(__result, RuleRollDice.Dice.D20);
+                            __result = Math.Max(__result, UnityEngine.Random.Range(1, 21));
                             break;
                         case 1:
                             if (__instance.Initiator.IsPlayerFaction)
                             {
-                                __result = Math.Max(__result, RuleRollDice.Dice.D20);
+                                __result = Math.Max(__result, UnityEngine.Random.Range(1, 21));
                             }
                             break;
                         case 2:
                             if (!__instance.Initiator.IsPlayerFaction && __instance.Initiator.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
                             {
-                                __result = Math.Max(__result, RuleRollDice.Dice.D20);
+                                __result = Math.Max(__result, UnityEngine.Random.Range(1, 21));
                             }
                             break;
                     }
@@ -376,36 +379,34 @@ namespace BagOfTricks
                         __result = 1;
                     }
                 }
+                Common.ModLoggerDebug("Modified D20Roll: " + __result);
             }
         }
 
-        [HarmonyPatch(typeof(RuleInitiativeRoll), "OnTrigger")]
+        [HarmonyPatch(typeof(RuleInitiativeRoll), "Result", MethodType.Getter)]
         public static class RuleInitiativeRoll_OnTrigger_Patch
         {
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            static void Postfix(RuleInitiativeRoll __instance, ref int __result)
             {
-                var codes = new List<CodeInstruction>(instructions);
-                var codesDefault = new List<CodeInstruction>(instructions);
-                int found20 = -1;
+                if (Strings.ToBool(settings.toggleRoll20Initiative)) {
+                    Common.ModLoggerDebug("Initial InitiativeRoll: " + __result);
+                    switch (settings.roll20InitiativeIndex) {
+                        case 0:
+                            __result = 20;
+                            break;
+                        case 1:
+                            if (__instance.Initiator.IsPlayerFaction) {
+                                __result = 20;
 
-                for (int i = 0; i < codes.Count; i++)
-                {
-                    if (codes[i].opcode == OpCodes.Ret && codes[i - 1].opcode == OpCodes.Call && codes[i - 2].opcode == OpCodes.Call)
-                    {
-                        found20 = i - 2;
-                        break;
+                            }
+                            break;
+                        case 2:
+                            if (!__instance.Initiator.IsPlayerFaction && __instance.Initiator.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction)) {
+                                __result = 20;
+                            }
+                            break;
                     }
-                }
-
-                if (settings.toggleRoll20Initiative == Storage.isTrueString)
-                {
-                    codes[found20].opcode = OpCodes.Ldc_I4_S;
-                    codes[found20].operand = 20;
-                    return codes.AsEnumerable();
-                }
-                else
-                {
-                    return codesDefault.AsEnumerable();
+                    Common.ModLoggerDebug("Modified InitiativeRoll: " + __result);
                 }
             }
         }
@@ -1887,35 +1888,10 @@ namespace BagOfTricks
         {
             private static void Postfix(UnityModManager __instance)
             {
-                if (Storage.itemFavourites.Any())
-                {
-                    Common.SerializeListString(Storage.itemFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesItemsFile);
-                }
-                if (Storage.buffFavourites.Any())
-                {
-                    Common.SerializeListString(Storage.buffFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesBuffsFile);
-                }
-                if (Storage.featFavourites.Any())
-                {
-                    Common.SerializeListString(Storage.featFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesFeatsFile);
-                }
-                if (Storage.abilitiesFavourites.Any())
-                {
-                    Common.SerializeListString(Storage.abilitiesFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesAbilitiesFile);
-                }
-                if (Storage.togglesFavourites.Any())
-                {
-                    Common.SerializeListString(Storage.togglesFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + Storage.favouritesTogglesFile);
-                }
-                if (settings.toggleEnableTaxCollector == Storage.isTrueString)
-                {
+                FavouritesFactory.SerializeFavourites();
+                if (settings.toggleEnableTaxCollector == Storage.isTrueString) {
                     TaxCollector.Serialize(Main.taxSettings, Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
                 }
-                if (SpawnUnits.UnitsFavourites.Any())
-                {
-                    Common.SerializeListString(SpawnUnits.UnitsFavourites, Storage.modEntryPath + Storage.favouritesFolder + "\\" + SpawnUnits.favouritesFile);
-                }
-
             }
         }
 
@@ -2201,19 +2177,19 @@ namespace BagOfTricks
                         switch (digits)
                         {
                             case 8:
-                                ___PlayerMoneyNow.text = RichText.SizePercent(s, 80);
+                                ___PlayerMoneyNow.text = RichTextUtils.SizePercent(s, 80);
                                 break;
                             case 9:
-                                ___PlayerMoneyNow.text = RichText.SizePercent(s, 75);
+                                ___PlayerMoneyNow.text = RichTextUtils.SizePercent(s, 75);
                                 break;
                             case 10:
-                                ___PlayerMoneyNow.text = RichText.SizePercent(s, 70);
+                                ___PlayerMoneyNow.text = RichTextUtils.SizePercent(s, 70);
                                 break;
                             case 11:
-                                ___PlayerMoneyNow.text = RichText.SizePercent(s, 65);
+                                ___PlayerMoneyNow.text = RichTextUtils.SizePercent(s, 65);
                                 break;
                             case 12:
-                                ___PlayerMoneyNow.text = RichText.SizePercent(s, 60);
+                                ___PlayerMoneyNow.text = RichTextUtils.SizePercent(s, 60);
                                 break;
                         }
                     }
@@ -2650,7 +2626,7 @@ namespace BagOfTricks
                     {
                         if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == statType)
                         {
-                            if (Units.CheckUnitEntityData(unit, (UnitSelectType)settings.indexPassSkillChecksIndividual))
+                            if (UnitEntityDataUtils.CheckUnitEntityData(unit, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
                                 dc = -99;
                             }
@@ -2659,6 +2635,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(RulePartySkillCheck), MethodType.Constructor)]
         [HarmonyPatch(new Type[] { typeof(StatType), typeof(int) })]
         public static class RulePartySkillCheckk_RollResult_Patch
@@ -2703,7 +2680,7 @@ namespace BagOfTricks
                     {
                         if (Strings.ToBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                         {
-                            if (Units.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
+                            if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
                                 __result = true;
                             }
@@ -2716,7 +2693,7 @@ namespace BagOfTricks
                     {
                         if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
                         {
-                            if (Units.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
+                            if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
                                 __result = true;
                             }
@@ -2777,7 +2754,7 @@ namespace BagOfTricks
                     {
                         if (Strings.ToBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                         {
-                            if (Units.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
+                            if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
                                 __result = true;
                             }
@@ -2790,7 +2767,7 @@ namespace BagOfTricks
                     {
                         if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
                         {
-                            if (Units.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
+                            if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
                                 __result = true;
                             }
@@ -3217,7 +3194,7 @@ namespace BagOfTricks
                 if (Strings.ToBool(settings.toggleMakeSummmonsControllable) && Storage.summonedByPlayerFaction)
                 {
                     Common.ModLoggerDebug($"SummonPool.Register: Unit [{unit.CharacterName}] [{unit.UniqueId}]");
-                    Units.Charm(unit);
+                    UnitEntityDataUtils.Charm(unit);
 
                     if (unit.Blueprint.AssetGuid == "6fdf7a3f850a1eb48bfbf44d9d0f45dd" && Strings.ToBool(settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians)) // WarpaintedSkullSummonedBarbarians
                     {
@@ -3396,7 +3373,7 @@ namespace BagOfTricks
                     {
                         if (Strings.ToBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                         {
-                            if (Units.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
+                            if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
                                 __result = true;
                             }
@@ -3411,7 +3388,7 @@ namespace BagOfTricks
         {
             static bool Prefix(UnitEntityData target)
             {
-                if (Strings.ToBool(settings.toggleNoAttacksOfOpportunity) && Units.CheckUnitEntityData(target, (UnitSelectType)settings.indexNoAttacksOfOpportunity))
+                if (Strings.ToBool(settings.toggleNoAttacksOfOpportunity) && UnitEntityDataUtils.CheckUnitEntityData(target, (UnitSelectType)settings.indexNoAttacksOfOpportunity))
                 {
                     return false;
                 }
@@ -3770,12 +3747,12 @@ namespace BagOfTricks
         {
             public static void Prefix(UnitEntityData initiator, BlueprintUnit blueprint, Vector3 position, ref Rounds duration, ref int level, RuleSummonUnit __instance)
             {
-                if (Strings.ToBool(settings.toggleSummonDurationMultiplier) && Units.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSummonDurationMultiplier))
+                if (Strings.ToBool(settings.toggleSummonDurationMultiplier) && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSummonDurationMultiplier))
                 {
                     duration = new Rounds(Convert.ToInt32(duration.Value * settings.finalSummonDurationMultiplierValue)); ;
                 }
 
-                if (Strings.ToBool(settings.toggleSetSummonLevelTo20) && Units.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSetSummonLevelTo20))
+                if (Strings.ToBool(settings.toggleSetSummonLevelTo20) && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSetSummonLevelTo20))
                 {
                     level = 20;
                 }
@@ -3797,7 +3774,9 @@ namespace BagOfTricks
             {
                 try
                 {
-                    if (Strings.ToBool(settings.toggleBuffDurationMultiplier) && Units.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexBuffDurationMultiplier) && duration != null && Units.CheckUnitEntityData(context.MaybeCaster, (UnitSelectType)settings.indexBuffDurationMultiplier))
+                    if (Strings.ToBool(settings.toggleBuffDurationMultiplier) && duration != null
+                    && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexBuffDurationMultiplier)
+                    && UnitEntityDataUtils.CheckUnitEntityData(context.MaybeCaster, (UnitSelectType)settings.indexBuffDurationMultiplier))
                     {
                         duration = TimeSpan.FromTicks(Convert.ToInt64(duration.Value.Ticks * settings.finalBuffDurationMultiplierValue));
                     }

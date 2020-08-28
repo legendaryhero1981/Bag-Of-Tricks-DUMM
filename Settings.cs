@@ -114,6 +114,7 @@ namespace BagOfTricks
         public string toggleArcaneSpellFailureRoll = Storage.isFalseString;
         public string toggleArcaneSpellFailureRollOutOfCombatOnly = Storage.isFalseString;
         public string toggleRoll20Initiative = Storage.isFalseString;
+        public int roll20InitiativeIndex = 0;
         public string togglePartyAlwaysRoll20 = Storage.isFalseString;
         public KeyCode togglePartyAlwaysRoll20Key = KeyCode.Insert;
         public string toggleEnablePartyAlwaysRoll20Hotkey = Storage.isFalseString;

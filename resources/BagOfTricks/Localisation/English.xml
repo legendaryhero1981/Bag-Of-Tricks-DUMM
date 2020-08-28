@@ -931,7 +931,7 @@
   <Localisation key="tooltip_NeverRoll20" value="Rolls of 20 on a d20 never occur.&#xA;Can be set to affect everyone, only the party or only enemies." />
   <Localisation key="tooltip_RollWithAdvantage" value="Two d20s are rolled instead of one and the highest one is taken as the result.&#xA;Can be set to affect everyone, only the party or only enemies." />
   <Localisation key="tooltip_RollWithDisadvantage" value="Two d20s are rolled instead of one and the lowest one is taken as the result.&#xA;Can be set to affect everyone, only the party or only enemies." />
-  <Localisation key="tooltip_AlwaysRoll20ForInitiative" value="﻿Everyone including your enemies rolls 20 for initiative." />
+  <Localisation key="tooltip_AlwaysRoll20ForInitiative" value="﻿Always rolls 20 for initiative. Can be set to affect everyone, only the party or only enemies." />
   <Localisation key="tooltip_TakeX" value="﻿﻿D20 rolls made out of combat will result in the set value i.e. 10, 20 or a custom one." />
   <Localisation key="tooltip_toggleCustomTakeXAsMin" value="The set custom value will be used as a minimum roll i.e. you rolls will always be equal to or higher than the custom value." />
   <Localisation key="tooltip_CameraRotation" value="Enables camera rotation." />

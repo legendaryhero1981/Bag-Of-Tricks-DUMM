@@ -11,10 +11,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>BagOfTricks</RootNamespace>
     <AssemblyName>BagOfTricks</AssemblyName>
-    <ApplicationVersion>1.16.2.27</ApplicationVersion>
-    <AssemblyVersion>1.16.2.27</AssemblyVersion>
-    <FileVersion>1.16.2.27</FileVersion>
-    <Version>1.16.2.27</Version>
+    <ApplicationVersion>1.16.4.28</ApplicationVersion>
+    <AssemblyVersion>1.16.4.28</AssemblyVersion>
+    <FileVersion>1.16.4.28</FileVersion>
+    <Version>1.16.4.28</Version>
     <Authors>李允</Authors>
     <Company>Legend</Company>
     <Copyright>Copyright © Legend 2020</Copyright>

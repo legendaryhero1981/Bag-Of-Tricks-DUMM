@@ -1,4 +1,5 @@
-﻿using BagOfTricks.Utils;
+﻿using BagOfTricks.Favourites;
+using BagOfTricks.Utils;
 using Kingmaker;
 using Kingmaker.Blueprints.Items;
 using Kingmaker.Cheats;
@@ -18,6 +19,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 using GL = UnityEngine.GUILayout;
 using UnityModManager = UnityModManagerNet.UnityModManager;
+
 namespace BagOfTricks
 {
     public static class MenuTools
@@ -119,6 +121,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         public static void ToggleButtonNoGroup(ref string toggle, string buttonText, string buttonTooltip, bool boldText = false)
         {
             if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", "", boldText), GL.ExpandWidth(false)))
@@ -134,6 +137,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         public static void ToggleButton(ref string toggle, string buttonText, string buttonTooltip, bool boldText = false)
         {
             GL.BeginHorizontal();
@@ -151,6 +155,7 @@ namespace BagOfTricks
             }
             GL.EndHorizontal();
         }
+
         public static void ToggleButton(ref string toggle, string buttonText, string buttonTooltip, string toggleName, bool boldText = false)
         {
             GL.BeginVertical("box");
@@ -168,21 +173,13 @@ namespace BagOfTricks
                 }
             }
             GL.FlexibleSpace();
-            if (Storage.togglesFavourites.Contains(toggleName + "," + buttonText + "," + buttonTooltip))
-            {
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(toggleName + "," + buttonText + "," + buttonTooltip)) {
                 if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false)))
-                {
-                    Storage.togglesFavourites.Remove(toggleName + "," + buttonText + "," + buttonTooltip);
-                    Storage.togglesFavouritesLoad = true;
-                }
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(toggleName + "," + buttonText + "," + buttonTooltip);
             }
-            else
-            {
+            else {
                 if (GL.Button(Storage.favouriteFalseString, GL.ExpandWidth(false)))
-                {
-                    Storage.togglesFavourites.Add(toggleName + "," + buttonText + "," + buttonTooltip);
-                    Storage.togglesFavouritesLoad = true;
-                }
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(toggleName + "," + buttonText + "," + buttonTooltip);
             }
             GL.EndHorizontal();
             GL.EndVertical();
@@ -192,13 +189,9 @@ namespace BagOfTricks
         {
 
             if (boldText)
-            {
-                return new GUIContent(textFront + RichText.Bold(Strings.GetText(textMain)) + textBack, Strings.GetText(tooltip));
-            }
+                return new GUIContent(textFront + RichTextUtils.Bold(Strings.GetText(textMain)) + textBack, Strings.GetText(tooltip));
             else
-            {
                 return new GUIContent(textFront + Strings.GetText(textMain) + textBack, Strings.GetText(tooltip));
-            }
         }
 
         public static GUIContent TextWithTooltip(string textMain, string tooltip, bool boldText = false)
@@ -206,7 +199,7 @@ namespace BagOfTricks
 
             if (boldText)
             {
-                return new GUIContent(RichText.Bold(Strings.GetText(textMain)), Strings.GetText(tooltip));
+                return new GUIContent(RichTextUtils.Bold(Strings.GetText(textMain)), Strings.GetText(tooltip));
             }
             else
             {
@@ -256,13 +249,9 @@ namespace BagOfTricks
         {
             GUIContent content;
             if (bold)
-            {
-                content = new GUIContent(RichText.Bold(Strings.GetText(label)), Strings.GetText(tooltip));
-            }
+                content = new GUIContent(RichTextUtils.Bold(Strings.GetText(label)), Strings.GetText(tooltip));
             else
-            {
                 content = new GUIContent(Strings.GetText(label), Strings.GetText(tooltip));
-            }
             GL.BeginHorizontal();
             GL.Label(content);
             GL.EndHorizontal();
@@ -271,10 +260,7 @@ namespace BagOfTricks
         public static void SingleLineLabelGt(string label, bool bold = false)
         {
             string content = Strings.GetText(label);
-            if (bold)
-            {
-                content = RichText.Bold(content);
-            }
+            if (bold) content = RichTextUtils.Bold(content);
 
             GL.BeginHorizontal();
             GL.Label(content);
@@ -525,48 +511,35 @@ namespace BagOfTricks
 
         public static void AddFavouriteButton(string methodName)
         {
-            if (Storage.togglesFavourites.Contains(methodName))
-            {
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(methodName)) {
                 if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false)))
-                {
-                    Storage.togglesFavourites.Remove(methodName);
-                    Storage.togglesFavouritesLoad = true;
-                }
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(methodName);
             }
-            else
-            {
+            else {
                 if (GL.Button(Storage.favouriteFalseString, GL.ExpandWidth(false)))
-                {
-                    Storage.togglesFavourites.Add(methodName);
-                    Storage.togglesFavouritesLoad = true;
-                }
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(methodName);
             }
         }
+
         public static void AddFavouriteButton(string methodName, int size)
         {
-            if (Storage.togglesFavourites.Contains(methodName))
-            {
-                if (GL.Button(RichText.Size(Storage.favouriteTrueString, size), GL.ExpandWidth(false)))
-                {
-                    Storage.togglesFavourites.Remove(methodName);
-                    Storage.togglesFavouritesLoad = true;
-                }
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(methodName)) {
+                if (GL.Button(RichTextUtils.Size(Storage.favouriteTrueString, size), GL.ExpandWidth(false)))
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(methodName);
             }
-            else
-            {
-                if (GL.Button(RichText.Size(Storage.favouriteFalseString, size), GL.ExpandWidth(false)))
-                {
-                    Storage.togglesFavourites.Add(methodName);
-                    Storage.togglesFavouritesLoad = true;
-                }
+            else {
+                if (GL.Button(RichTextUtils.Size(Storage.favouriteFalseString, size), GL.ExpandWidth(false)))
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(methodName);
             }
         }
+
         public static void FlexibleSpaceFavouriteButtonEndHorizontal(string methodName)
         {
             GL.FlexibleSpace();
             AddFavouriteButton(methodName);
             GL.EndHorizontal();
         }
+
         public static void FlexibleSpaceCategoryMenuElementsEndHorizontal(string methodName)
         {
             GL.FlexibleSpace();
@@ -621,11 +594,13 @@ namespace BagOfTricks
                 }
             }
         }
+
         public static void ExportCopyGuidsNamesButtons(string[] resultGuids, string[] resultNames, string filename)
         {
             CopyExportButtons("button_ExportCurrentSearchResultGuids", $"{filename}-guids.txt", resultGuids);
             CopyExportButtons("button_ExportCurrentSearchResultNames", $"{filename}-names.txt", resultNames);
         }
+
         public static void ExportButton(string label, string fileNameWithFormat, string[] infomration)
         {
             if (GL.Button(Strings.GetText(label), GL.ExpandWidth(false)))
@@ -633,6 +608,7 @@ namespace BagOfTricks
                 File.WriteAllLines(Path.Combine(Common.ExportPath(), fileNameWithFormat), infomration);
             }
         }
+
         public static void ButtonCopy(string content, string label = "label_CopyToClipboard")
         {
             if (GL.Button(Strings.GetText(label)))
@@ -648,6 +624,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         public static void CopyExportButtons(string exportLabel, string fileNameWithFormat, string[] information, string labelCopy = "label_CopyToClipboard")
         {
             GL.BeginHorizontal();
@@ -680,61 +657,41 @@ namespace BagOfTricks
         {
             if (Array.IndexOf(methods, methodName) > 0)
             {
-                if (GL.Button(new GUIContent(RichText.Size(Storage.upArrow, size), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false)))
+                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.upArrow, size), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false)))
                 {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                    {
                         Common.MakeArrayElementFirst(ref methods, methodName);
-                    }
                     else
-                    {
                         Common.MoveArrayElementDown(ref methods, methodName);
-                    }
                 }
             }
             if (Array.IndexOf(methods, methodName) < methods.Length - 1)
             {
-                if (GL.Button(new GUIContent(RichText.Size(Storage.downArrow, size), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false)))
+                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.downArrow, size), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false)))
                 {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                    {
                         Common.MakeArrayElementLast(ref methods, methodName);
-                    }
                     else
-                    {
                         Common.MoveArrayElementUp(ref methods, methodName);
-                    }
                 }
             }
         }
-        public static void AddUpDownButtons(string methodName, ref List<string> methods, int size)
-        {
-            if (methods.IndexOf(methodName) > 0)
-            {
-                if (GL.Button(new GUIContent(RichText.Size(Storage.upArrow, size), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false)))
-                {
+
+        public static void AddUpDownButtons(string methodName, ref List<string> methods, int arrowSize) {
+            if (methods.IndexOf(methodName) > 0) {
+                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.upArrow, arrowSize), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false))) {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                    {
-                        Common.MakeListElementFirst(ref methods, methodName);
-                    }
+                        ListUtils.MakeElementFirst(ref methods, methodName);
                     else
-                    {
-                        Common.MoveListElementDown(ref methods, methodName);
-                    }
+                        ListUtils.MoveElementUp(ref methods, methodName);
                 }
             }
-            if (methods.IndexOf(methodName) < methods.Count - 1)
-            {
-                if (GL.Button(new GUIContent(RichText.Size(Storage.downArrow, size), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false)))
-                {
+            if (methods.IndexOf(methodName) < methods.Count - 1) {
+                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.downArrow, arrowSize), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false))) {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                    {
-                        Common.MakeListElementLast(ref methods, methodName);
-                    }
+                        ListUtils.MakeElementLast(ref methods, methodName);
                     else
-                    {
-                        Common.MoveListElementUp(ref methods, methodName);
-                    }
+                        ListUtils.MoveElementDown(ref methods, methodName);
                 }
             }
         }
@@ -787,7 +744,7 @@ namespace BagOfTricks
         public static void CurrentMultiplier(float multiplier)
         {
             GL.BeginHorizontal();
-            GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {multiplier}", GL.Width(150f));
+            GL.Label(Strings.GetText("label_CurrentMultiplier") + $": {multiplier}", GL.ExpandWidth(false));
             GL.EndHorizontal();
         }
 
@@ -882,18 +839,17 @@ namespace BagOfTricks
             GL.EndVertical();
         }
 
-
         public static TextFieldInt unitAlignmentTextField = new TextFieldInt();
         public static void UnitAlignment(UnitEntityData unit)
         {
             GL.BeginVertical("box");
-            SingleLineLabel(RichText.Bold(Strings.GetText("header_Alignment")));
-            SingleLineLabel(RichText.Bold(Strings.GetText("warning_Alignment")));
+            MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_Alignment")));
+            MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("warning_Alignment")));
 
             if (Strings.ToBool(settings.togglePreventAlignmentChanges))
             {
                 GL.Space(10);
-                SingleLineLabel(RichText.Bold(Strings.GetText("warning_PreventAlignmentChanges")));
+                MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("warning_PreventAlignmentChanges")));
                 GL.Space(10);
             }
 
@@ -951,7 +907,7 @@ namespace BagOfTricks
             else modLogger.Log(Storage.notificationEkunQ2RewardArmor);
         }
 
-        static private KeyCode[] mouseButtonsValid = { KeyCode.Mouse3, KeyCode.Mouse4, KeyCode.Mouse5, KeyCode.Mouse6 };
+        private static KeyCode[] mouseButtonsValid = { KeyCode.Mouse3, KeyCode.Mouse4, KeyCode.Mouse5, KeyCode.Mouse6 };
         public static void SetKeyBinding(ref KeyCode keyCode)
         {
             string label = (keyCode == KeyCode.None) ? Strings.GetText("button_PressKey") : keyCode.ToString();
@@ -992,6 +948,7 @@ namespace BagOfTricks
         {
             SingleLineLabel(Strings.GetText("label_CurrentValue") + $": {setting}");
         }
+
         public static void CurrentValue<T>(T setting)
         {
             SingleLineLabel(Strings.GetText("label_CurrentValue") + $": {setting}");
@@ -1001,11 +958,11 @@ namespace BagOfTricks
         {
             GL.Label(Strings.GetText("label_CurrentValue") + $": {setting}", GL.ExpandWidth(expandWidth));
         }
+
         public static void CurrentValueNoGroup<T>(T setting, bool expandWidth = false)
         {
             GL.Label(Strings.GetText("label_CurrentValue") + $": {setting}", GL.ExpandWidth(expandWidth));
         }
-
     }
 
     public class Localisation
@@ -1053,7 +1010,7 @@ namespace BagOfTricks
             else
             {
                 modLogger.Log($"{key} not found!");
-                return RichText.WarningLargeRedFormat("ERROR");
+                return RichTextUtils.WarningLargeRedFormat("ERROR");
             }
         }
 
@@ -1067,7 +1024,7 @@ namespace BagOfTricks
             else
             {
                 modLogger.Log($"{key} not found!");
-                return RichText.WarningLargeRedFormat("ERROR");
+                return RichTextUtils.WarningLargeRedFormat("ERROR");
             }
         }
 
@@ -1180,7 +1137,7 @@ namespace BagOfTricks
             Storage.unitEntityDataArray = new[] { GetText("arrayItem_UnityEntityData_Party"), GetText("arrayItem_UnityEntityData_ControllableCharacters"), GetText("arrayItem_UnityEntityData_ActiveCompanions"), GetText("arrayItem_UnityEntityData_AllCharacters"), GetText("arrayItem_UnityEntityData_Mercenaries"), GetText("arrayItem_UnityEntityData_Pets"), GetText("arrayItem_UnityEntityData_Enemies") };
             Storage.unitEntityDataArrayNoEnemies = Storage.unitEntityDataArray.Take(Storage.unitEntityDataArray.Count() - 1).ToArray();
             Storage.encumbranceArray = new[] { GetText("encumbrance_Light"), GetText("encumbrance_Medium"), GetText("encumbrance_Heavy"), GetText("encumbrance_Overload") };
-            Storage.inventoryItemTypesArray = new[] { RichText.Bold(GetText("misc_All")), GetText("label_Armours"), GetText("label_Belts"), GetText("label_Footwear"), GetText("label_Gloves"), GetText("label_Headwear"), GetText("label_Neckwear"), GetText("label_NonUsable"), GetText("misc_Other"), GetText("label_Rings"), GetText("label_Shields"), GetText("label_ShoulderItems"), GetText("label_UsableItems"), GetText("label_Weapons"), GetText("label_WristItems") };
+            Storage.inventoryItemTypesArray = new [] { RichTextUtils.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"), Strings.GetText("label_Belts"), Strings.GetText("label_Footwear"), Strings.GetText("label_Gloves"), Strings.GetText("label_Headwear"), Strings.GetText("label_Neckwear"), Strings.GetText("label_NonUsable"), Strings.GetText("misc_Other"), Strings.GetText("label_Rings"), Strings.GetText("label_Shields"), Strings.GetText("label_ShoulderItems"), Strings.GetText("label_UsableItems"), Strings.GetText("label_Weapons"), Strings.GetText("label_WristItems") };
             Storage.weatherArray = new[] { GetText("arrayItem_Weather_Normal"), GetText("arrayItem_Weather_Rain"), GetText("arrayItem_Weather_Snow") };
         }
     }
@@ -1332,6 +1289,7 @@ namespace BagOfTricks
             MenuTools.SettingParse(ref amount, ref finalAmount);
             GL.EndHorizontal();
         }
+
         public void RenderField(string newLabel)
         {
             GL.BeginHorizontal();
@@ -1340,12 +1298,14 @@ namespace BagOfTricks
             MenuTools.SettingParse(ref amount, ref finalAmount);
             GL.EndHorizontal();
         }
+
         public void RenderFieldNoGroup()
         {
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
             amount = GL.TextField(amount, GL.Width(230f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
         }
+
         public void RenderFieldNoGroup(string newLabel)
         {
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
@@ -1362,6 +1322,7 @@ namespace BagOfTricks
             }
             GL.EndHorizontal();
         }
+
         public void RendeSetButtonNoGroup(string buttonLabel, ref float setting)
         {
             if (GL.Button(buttonLabel + $" {finalAmount}", GL.ExpandWidth(false)))
@@ -1410,8 +1371,6 @@ namespace BagOfTricks
         private bool _useCustom = false;
         private TextFieldFloat _customMultiplierTextFieldFloat = new TextFieldFloat();
         private bool _settingsLoaded = false;
-
-
 
         public MultiplierCustom(float min, float max)
         {

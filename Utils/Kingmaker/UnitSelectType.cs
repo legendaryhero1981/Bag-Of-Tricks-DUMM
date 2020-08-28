@@ -1,5 +1,4 @@
-﻿namespace BagOfTricks.Utils
-{
+﻿namespace BagOfTricks.Utils.Kingmaker {
     public enum UnitSelectType {
         Everyone,
         Party,

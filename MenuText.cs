@@ -1249,10 +1249,10 @@ namespace BagOfTricks
                 "tooltip_RollWithDisadvantage",
                 "Two d20s are rolled instead of one and the lowest one is taken as the result.\nCan be set to affect everyone, only the party or only enemies."
             },
-            {"tooltip_AlwaysRoll20ForInitiative", "﻿Everyone including your enemies rolls 20 for initiative."},
+            {"tooltip_AlwaysRoll20ForInitiative", "Always rolls 20 for initiative. Can be set to affect everyone, only the party or only enemies."},
             {
                 "tooltip_TakeX",
-                "﻿﻿D20 rolls made out of combat will result in the set value i.e. 10, 20 or a custom one."
+                "D20 rolls made out of combat will result in the set value i.e. 10, 20 or a custom one."
             },
             {"tooltip_toggleCustomTakeXAsMin", "The set custom value will be used as a minimum roll i.e. you rolls will always be equal to or higher than the custom value."},
             {"tooltip_CameraRotation", "Enables camera rotation."},

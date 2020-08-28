@@ -1,6 +1,6 @@
 ﻿namespace BagOfTricks.Utils
 {
-    public static class RichText
+    public static class RichTextUtils
     {
         public static string Size(string s, int size)
         {
@@ -14,12 +14,12 @@
 
         public static string Bold(string s)
         {
-            return $"<b> {s}</b>";
+            return $"<b>  {s}</b>";
         }
 
         public static string Italic(string s)
         {
-            return $"<i> {s}</i>";
+            return $"<i>  {s}</i>";
         }
 
         public static string BoldRedFormat(string s)

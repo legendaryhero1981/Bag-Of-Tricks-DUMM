@@ -18,17 +18,17 @@ namespace BagOfTricks
         public static Settings settings;
 
         public static string[] mainToolbarStrings = {
-            RichText.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")),
-            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")),
-            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Mods")),
-            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Tools")),
-            RichText.MainCategoryFormat(Strings.GetText("mainCategory_Settings"))
+            RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")),
+            RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")),
+            RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")),
+            RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")),
+            RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings"))
         };
 
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.1.0h-development";
+        public static readonly string gamerVersionAtCreation = "2.1.0j";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
         public static readonly string bagOfTicksLogFile = "BagOfTricks";
@@ -106,7 +106,6 @@ namespace BagOfTricks
         public static readonly string downArrow = "<color=grey><b>▼</b></color>";
 
         public static bool itemFavouritesLoad = true;
-        public static List<string> itemFavouritesGuids = new List<string>();
         public static List<string> itemFavouritesNames = new List<string>();
         public static List<bool> toggleItemFavouriteDescription = new List<bool>();
 
@@ -150,7 +149,6 @@ namespace BagOfTricks
         public static List<string> buffResultDescriptions = new List<string>();
 
         public static bool buffFavouritesLoad = true;
-        public static List<string> buffFavouritesGuids = new List<string>();
         public static List<string> buffFavouritesNames = new List<string>();
         public static List<bool> buffToggleFavouriteDescription = new List<bool>();
         public static List<string> buffFavouritesDescriptions = new List<string>();
@@ -265,12 +263,6 @@ namespace BagOfTricks
         public static string modAssemblyName = "";
 
 
-        public static List<string> itemFavourites = new List<string>();
-        public static readonly string favouritesItemsFile = "Items.xml";
-
-        public static List<string> buffFavourites = new List<string>();
-        public static readonly string favouritesBuffsFile = "Buffs.xml";
-
         public static bool globalChanged = false;
         public static string fovValue = "1";
         public static string globalString = Strings.GetText("button_SetGlobalMapZoomLevel");
@@ -315,8 +307,6 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_takeX_Take20"), Strings.GetText("arrayItem_takeX_TakeCustomValue")
         };
 
-        public static List<string> menuItemFavourites = new List<string>();
-        public static readonly string favouritesMenuItemsFile = "MenuItems.xml";
 
         public static string[] localisationsXml = { };
         public static List<string> localisationsXmlFiles = new List<string>();
@@ -358,9 +348,6 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_FeatParam_SpellFocus"), Strings.GetText("arrayItem_FeatParam_GreaterSpellFocus")
         };
 
-        public static List<string> featFavourites = new List<string>();
-        public static readonly string favouritesFeatsFile = "Feats.xml";
-        public static List<string> featFavouritesGuids = new List<string>();
         public static List<string> featFavouritesNames = new List<string>();
         public static List<bool> featToggleFavouriteDescription = new List<bool>();
         public static List<string> featFavouritesDescriptions = new List<string>();
@@ -416,11 +403,6 @@ namespace BagOfTricks
             Strings.GetText("arrayItem_NeverRollX_Everyone"), Strings.GetText("arrayItem_NeverRollX_OnlyParty"),
             Strings.GetText("arrayItem_NeverRollX_OnlyMainChar"), Strings.GetText("arrayItem_NeverRollX_OnlyEnemies")
         };
-
-        public static List<string> togglesFavourites = new List<string>();
-        public static readonly string favouritesTogglesFileOld = "Toggles.xml";
-        public static readonly string favouritesTogglesFile = "Functions.xml";
-        public static bool togglesFavouritesLoad = true;
 
         public static UnitEntityData unitLockPick;
 
@@ -480,9 +462,8 @@ namespace BagOfTricks
         public static List<string> addAbilitiesAllDescriptions = new List<string>();
 
         public static bool addAbilitiesFavouritesLoad = true;
-        public static List<string> abilitiesFavourites = new List<string>();
-        public static readonly string favouritesAbilitiesFile = "Abilities.xml";
-        public static List<string> abilitiesFavouritesGuids = new List<string>();
+
+
         public static List<string> abilitiesFavouritesNames = new List<string>();
         public static List<bool> abilitiesToggleFavouriteDescription = new List<bool>();
         public static List<string> abilitiesFavouritesDescriptions = new List<string>();
@@ -564,7 +545,7 @@ namespace BagOfTricks
         public static List<int> inventoryItemsCount = new List<int>();
 
         public static string[] inventoryItemTypesArray = {
-            RichText.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"),
+            RichTextUtils.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"),
             Strings.GetText("label_Belts"), Strings.GetText("label_Footwear"), Strings.GetText("label_Gloves"),
             Strings.GetText("label_Headwear"), Strings.GetText("label_Neckwear"), Strings.GetText("label_NonUsable"),
             Strings.GetText("misc_Other"), Strings.GetText("label_Rings"), Strings.GetText("label_Shields"),

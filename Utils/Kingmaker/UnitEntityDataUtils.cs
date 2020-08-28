@@ -6,10 +6,14 @@ using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BagOfTricks.Utils
-{
-    class Units {
+namespace BagOfTricks.Utils.Kingmaker {
+    class UnitEntityDataUtils {
         public static bool CheckUnitEntityData(UnitEntityData unitEntityData, UnitSelectType selectType) {
             if (unitEntityData == null) {
                 return false;
