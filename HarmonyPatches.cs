@@ -1,5 +1,6 @@
 ﻿using BagOfTricks.Favourites;
 using BagOfTricks.Utils;
+using BagOfTricks.Utils.HarmonyPatches;
 using BagOfTricks.Utils.Kingmaker;
 using Harmony12;
 
@@ -58,6 +59,7 @@ using Kingmaker.RuleSystem.Rules.Abilities;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.TextTools;
 using Kingmaker.UI;
+using Kingmaker.UI._ConsoleUI.Models;
 using Kingmaker.UI.Common;
 using Kingmaker.UI.Group;
 using Kingmaker.UI.IngameMenu;
@@ -91,6 +93,7 @@ using Kingmaker.View.MapObjects;
 using Kingmaker.View.MapObjects.InteractionRestrictions;
 using Kingmaker.View.Spawners;
 using Kingmaker.Visual;
+using Kingmaker.Visual.Animation.Kingmaker.Actions;
 using Kingmaker.Visual.FogOfWar;
 using Kingmaker.Visual.HitSystem;
 using Kingmaker.Visual.LocalMap;
@@ -104,6 +107,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 using TMPro;
+using TurnBased.Controllers;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -1226,27 +1230,39 @@ namespace BagOfTricks
         [HarmonyPatch(typeof(ClickGroundHandler), "RunCommand")]
         public static class ClickGroundHandler_RunCommand_Patch
         {
-            public static bool Prefix(ref bool __state)
-            {
-                __state = settings.toggleMoveSpeedAsOne == Storage.isTrueString;
-                return !__state;
-            }
-
-            public static void Postfix(bool __state, UnitEntityData unit, Vector3 p, float? speedLimit, float orientation, float delay)
-            {
-                if (__state)
-                {
-                    UnitMoveTo unitMoveTo = new UnitMoveTo(p, 0.3f);
-                    unitMoveTo.MovementDelay = delay;
-                    unitMoveTo.Orientation = orientation;
-                    unitMoveTo.SpeedLimit = speedLimit;
-                    unitMoveTo.OverrideSpeed = speedLimit;
-                    unit.Commands.Run(unitMoveTo);
-                    if (unit.Commands.Queue.FirstOrDefault(c => c is UnitMoveTo) == unitMoveTo || Game.Instance.IsPaused)
-                    {
-                        ClickGroundHandler.ShowDestination(unit, unitMoveTo.Target, false);
+            public static bool Prefix(UnitEntityData unit, Vector3 p, float? speedLimit, float orientation, float delay, bool showTargetMarker) {
+                if (Strings.ToBool(settings.toggleMoveSpeedAsOne)) {
+                    speedLimit = UnitEntityDataUtils.GetMaxSpeed(Game.Instance.UI.SelectionManager.SelectedUnits);
+                    if (Strings.ToBool(settings.togglePartyMovementSpeedMultiplier)) {
+                        speedLimit = speedLimit * settings.partyMovementSpeedMultiplierValue;
                     }
+                    UnitMoveTo unitMoveTo1 = new UnitMoveTo(p, 0.3f);
+                    unitMoveTo1.MovementDelay = delay;
+                    unitMoveTo1.Orientation = new float?(orientation);
+                    unitMoveTo1.CreatedByPlayer = true;
+                    UnitMoveTo unitMoveTo2 = unitMoveTo1;
+                    if (BuildModeUtility.IsDevelopment) {
+                        float speedForce = Traverse.CreateWithType("Kingmaker.Cheats.CheatsAnimation").Field("SpeedForce").GetValue<float>();
+                        float moveType = Traverse.CreateWithType("Kingmaker.Cheats.CheatsAnimation").Field("moveType").GetValue<float>();
+                        if (speedForce > 0.0) {
+                            unitMoveTo2.OverrideSpeed = speedForce;
+
+                        }
+                        unitMoveTo2.MovementType = (UnitAnimationActionLocoMotion.WalkSpeedType)moveType;
+                    }
+                    unitMoveTo2.OverrideSpeed = speedLimit;
+                    unitMoveTo2.SpeedLimit = speedLimit;
+                    unitMoveTo2.ShowTargetMarker = showTargetMarker;
+                    unit.Commands.Run((UnitCommand)unitMoveTo2);
+                    if (unit.Commands.Queue.FirstOrDefault<UnitCommand>((Func<UnitCommand, bool>)(c => c is UnitMoveTo)) != unitMoveTo2 && !Game.Instance.IsPaused) {
+
+                    }
+                    else {
+                        ClickGroundHandler.ShowDestination(unit, unitMoveTo2.Target, false);
+                    }
+                    return false;
                 }
+                return true;
             }
         }
 
@@ -2006,22 +2022,17 @@ namespace BagOfTricks
         }
 
         [HarmonyPatch(typeof(CameraZoom))]
-        [HarmonyPatch("TickZoom")]
-        public static class CameraZoom_TickZoom_Patch
-        {
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
+        [HarmonyPatch("TickSmoothZoomToTargetValue")]
+        public static class CameraZoom_TickSmoothZoomToTargetValue_Patch {
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
                 var codes = new List<CodeInstruction>(instructions);
-                if (settings.toggleEnableCameraZoom == Storage.isTrueString)
-                {
+                if (settings.toggleEnableCameraZoom == Storage.isTrueString) {
 
                     int foundFovMin = -1;
                     int foundFovMax = -1;
 
-                    for (int i = 0; i < codes.Count; i++)
-                    {
-                        if (codes[i].opcode == OpCodes.Callvirt && codes[i - 1].opcode == OpCodes.Call && codes[i - 2].opcode == OpCodes.Call)
-                        {
+                    for (int i = 0; i < codes.Count; i++) {
+                        if (codes[i].opcode == OpCodes.Callvirt && codes[i - 1].opcode == OpCodes.Call && codes[i - 2].opcode == OpCodes.Call) {
                             foundFovMin = i - 4;
                             foundFovMax = i - 6;
                             break;
@@ -2041,6 +2052,7 @@ namespace BagOfTricks
                 return codes.AsEnumerable();
             }
         }
+
 
         [HarmonyPatch(typeof(CameraRig))]
         [HarmonyPatch("SetMapMode")]
@@ -3656,48 +3668,31 @@ namespace BagOfTricks
             }
         }
 
-        [HarmonyPatch(typeof(BlueprintUnit), "PreloadResources")]
-        public static class BlueprintUnit_PreloadResources_Patch
-        {
-            public static void Postfix(BlueprintUnit __instance)
-            {
-                if (Strings.ToBool(settings.toggleSpiderBegone))
-                {
-                    if (__instance.Type?.AssetGuidThreadSafe == "243702bdc53e2574aaa34d1e3eafe6aa")
-                    {
-                        __instance.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("cc124e00e9ed4a441bc10de414f02312").Prefab;
-                    }
-                    else if (__instance.Type?.AssetGuidThreadSafe == "0fd1473096fbdda4db770cca8366c5e1")
-                    {
-                        __instance.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("12a5944fa27307e4e8b6f56431d5cc8c").Prefab;
-                    }
-                    else if (Storage.spiderGuids.Contains(__instance.AssetGuidThreadSafe))
-                    {
-                        __instance.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("cc124e00e9ed4a441bc10de414f02312").Prefab;
-                    }
+        [HarmonyPatch(typeof(UnitEntityData), "CreateView")]
+        public static class UnitEntityData_CreateView_Patch {
+            public static void Prefix(ref UnitEntityData __instance) {
+                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+                    SpidersBegone.CheckAndReplace(ref __instance);
                 }
             }
         }
+
+        [HarmonyPatch(typeof(BlueprintUnit), "PreloadResources")]
+        public static class BlueprintUnit_PreloadResources_Patch {
+            public static void Prefix(ref BlueprintUnit __instance) {
+                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+                    SpidersBegone.CheckAndReplace(ref __instance);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(EntityCreationController), "SpawnUnit")]
         [HarmonyPatch(new Type[] { typeof(BlueprintUnit), typeof(Vector3), typeof(Quaternion), typeof(SceneEntitiesState) })]
         public static class EntityCreationControllert_SpawnUnit_Patch1
         {
-            public static void Postfix(ref BlueprintUnit unit)
-            {
-                if (Strings.ToBool(settings.toggleSpiderBegone))
-                {
-                    if (unit.Type?.AssetGuidThreadSafe == "243702bdc53e2574aaa34d1e3eafe6aa")
-                    {
-                        unit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("cc124e00e9ed4a441bc10de414f02312").Prefab;
-                    }
-                    else if (unit.Type?.AssetGuidThreadSafe == "0fd1473096fbdda4db770cca8366c5e1")
-                    {
-                        unit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("12a5944fa27307e4e8b6f56431d5cc8c").Prefab;
-                    }
-                    else if (Storage.spiderGuids.Contains(unit.AssetGuidThreadSafe))
-                    {
-                        unit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("cc124e00e9ed4a441bc10de414f02312").Prefab;
-                    }
+            public static void Prefix(ref BlueprintUnit unit) {
+                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+                    SpidersBegone.CheckAndReplace(ref unit);
                 }
             }
         }
@@ -3705,25 +3700,11 @@ namespace BagOfTricks
         [HarmonyPatch(new Type[] { typeof(BlueprintUnit), typeof(UnitEntityView), typeof(Vector3), typeof(Quaternion), typeof(SceneEntitiesState) })]
         public static class EntityCreationControllert_SpawnUnit_Patch2
         {
-            public static void Postfix(ref BlueprintUnit unit)
-            {
-                if (Strings.ToBool(settings.toggleSpiderBegone))
-                {
-                    if (unit.Type?.AssetGuidThreadSafe == "243702bdc53e2574aaa34d1e3eafe6aa")
-                    {
-                        unit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("cc124e00e9ed4a441bc10de414f02312").Prefab;
-                    }
-                    else if (unit.Type?.AssetGuidThreadSafe == "0fd1473096fbdda4db770cca8366c5e1")
-                    {
-                        unit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("12a5944fa27307e4e8b6f56431d5cc8c").Prefab;
-                    }
-                    else if (Storage.spiderGuids.Contains(unit.AssetGuidThreadSafe))
-                    {
-                        unit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>("cc124e00e9ed4a441bc10de414f02312").Prefab;
-                    }
+            public static void Prefix(ref BlueprintUnit unit) {
+                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+                    SpidersBegone.CheckAndReplace(ref unit);
                 }
             }
-
         }
 
         [HarmonyPatch(typeof(ContextConditionAlignment), "CheckCondition")]

@@ -1,6 +1,7 @@
 ﻿using BagOfTricks.Favourites;
 using BagOfTricks.ModUI;
 using BagOfTricks.Utils;
+using BagOfTricks.Utils.HarmonyPatches;
 using BagOfTricks.Utils.Kingmaker;
 using Harmony12;
 using Kingmaker;
@@ -6848,17 +6849,13 @@ namespace BagOfTricks
                         GL.Width(250f)))
                     {
                         settings.savedFovMin = settings.finalFovValue.ToString();
-                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(
-                            AccessTools.Method(typeof(CameraZoom), "TickZoom"),
-                            new HarmonyMethod(typeof(HarmonyPatches).GetMethod("CameraZoom_TickZoom_Patch")), null);
+                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(AccessTools.Method(typeof(CameraZoom), "TickSmoothZoomToTargetValue"), new HarmonyMethod(typeof(BagOfTricks.HarmonyPatches).GetMethod("CameraZoom_TickSmoothZoomToTargetValue_Patch")), null);
                     }
 
                     if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
                     {
                         settings.savedFovMin = Defaults.fovMin.ToString();
-                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(
-                            AccessTools.Method(typeof(CameraZoom), "TickZoom"),
-                            new HarmonyMethod(typeof(HarmonyPatches).GetMethod("CameraZoom_TickZoom_Patch")), null);
+                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(AccessTools.Method(typeof(CameraZoom), "TickSmoothZoomToTargetValue"), new HarmonyMethod(typeof(BagOfTricks.HarmonyPatches).GetMethod("CameraZoom_TickSmoothZoomToTargetValue_Patch")), null);
                     }
 
                     GL.EndHorizontal();
@@ -6870,17 +6867,13 @@ namespace BagOfTricks
                         GL.Width(250f)))
                     {
                         settings.savedFovMax = settings.finalFovValue.ToString();
-                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(
-                            AccessTools.Method(typeof(CameraZoom), "TickZoom"),
-                            new HarmonyMethod(typeof(HarmonyPatches).GetMethod("CameraZoom_TickZoom_Patch")), null);
+                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(AccessTools.Method(typeof(CameraZoom), "TickSmoothZoomToTargetValue"), new HarmonyMethod(typeof(BagOfTricks.HarmonyPatches).GetMethod("CameraZoom_TickSmoothZoomToTargetValue_Patch")), null);
                     }
 
                     if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
                     {
                         settings.savedFovMax = Defaults.fovMax.ToString();
-                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(
-                            AccessTools.Method(typeof(CameraZoom), "TickZoom"),
-                            new HarmonyMethod(typeof(HarmonyPatches).GetMethod("CameraZoom_TickZoom_Patch")), null);
+                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(AccessTools.Method(typeof(CameraZoom), "TickSmoothZoomToTargetValue"), new HarmonyMethod(typeof(BagOfTricks.HarmonyPatches).GetMethod("CameraZoom_TickSmoothZoomToTargetValue_Patch")), null);
                     }
 
                     GL.EndHorizontal();
@@ -6900,9 +6893,7 @@ namespace BagOfTricks
                     if (GL.Button(Strings.GetText("button_Default"), GL.ExpandWidth(false)))
                     {
                         settings.savedFovGlobalMap = Defaults.fovGlobalMap.ToString();
-                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(
-                            AccessTools.Method(typeof(CameraZoom), "TickZoom"),
-                            new HarmonyMethod(typeof(HarmonyPatches).GetMethod("CameraZoom_TickZoom_Patch")), null);
+                        HarmonyInstance.Create("kingmaker.camerazoom").Patch(AccessTools.Method(typeof(CameraZoom), "SetMapMode"), new HarmonyMethod(typeof(BagOfTricks.HarmonyPatches).GetMethod("CameraRig_SetMapMode_Patch")), null);
                         Storage.globalChanged = true;
                         Storage.globalString = Strings.GetText("label_GlobalMapZoomLevelRestartButtonChange");
                     }
@@ -7780,7 +7771,7 @@ namespace BagOfTricks
                             Vector3 worldPosition = Game.Instance.ClickEventsController.WorldPosition;
 
                             List<BlueprintUnit> blueprintUnitList = new List<BlueprintUnit>();
-                            foreach (string guid in Storage.spiderGuids)
+                            foreach (string guid in SpidersBegone.GetSpiderGuids)
                             {
                                 blueprintUnitList.Add(Utilities.GetBlueprintByGuid<BlueprintUnit>(guid));
                             }

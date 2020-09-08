@@ -28,7 +28,7 @@ namespace BagOfTricks
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.1.0j";
+        public static readonly string gamerVersionAtCreation = "2.1.1";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
         public static readonly string bagOfTicksLogFile = "BagOfTricks";
@@ -564,30 +564,6 @@ namespace BagOfTricks
         public static float weatherIntensity = 0.5f;
 
         public static string[] diceTypes = { "D0", "D1", "D2", "D3", "D4", "D6", "D8", "D10", "D12", "D20", "D100" };
-
-        public static List<string> spiderGuids = new List<string>()
-        {
-            "ae2806b1e73ed7b4e9e9ae966de4dad6", //Corrupted_BloomInfusedSpiderMatriarch
-            "d0e28afa4e4c0994cb6deae66612445a", //CR1_GiantSpiderMite
-            "c4b33e5fd3d3a6f46b2aade647b0bf25", //CR1_GiantSpiderStandard
-            "a28e944558ed5b64790c3701e8c89d75", //CR1_SpiderSwarm
-            "e9c1c68972cc4904dacdf2df9acf6730", //CR2_GiantSpiderAdvanced
-            "18a3ceeb3fb44f24ea6d3035a5f05a8c", //CR2_GiantSpiderMiteAdvanced
-            "ba9451623f3f13742a8bd12da4822d2b", //CR4_GiantSpider
-            "da2f152d19ce4d54e8c17da91f01fabd", //CR5_QuickSpiderSwarm
-            "a813d907bc55e734584d99a038c9211e", //CR6_BloomInfusedSpider
-            "51c66b0783a748c4b9538f0f0678c4d7", //CR7_GiantSpiderDoombringing
-            "07467e9a29a215346ab66fec7963eb62", //CR7_GiantSpiderQuickling
-            "63897b4df57da2f4396ca8a6f34723e7", //CR11_BloomInfusedSpiderMatriarch
-            "ed734a6c822bdac448b98abfd7c03814", //GiantSpider_Cutscene
-            "4622aca7715007147b26b7fc26db3df8", //GiantSpiderBloomInfused
-            "5bb1781abca825f49a53869ff79a2c6f", //GiantSpiderMiniboss
-            "9e120b5e0ad3c794491c049aa24b9fde", //GiantSpiderSummoned
-            "f2327e24765fb6342975b6216bfb307b", //SpiderSwarmSummoned
-            "36fe14f64d7746f429d30f9dd7b2e652", //SycamoreBoss_GiantSpider
-            "af6700830836d9643939e1a1801a65af", //TrollLairFW_Zzamas
-            "254091b112392c04db701331fbea3b8f", //Zzamas
-        };
 
         public static string kingdomCustomName = string.Empty;
 

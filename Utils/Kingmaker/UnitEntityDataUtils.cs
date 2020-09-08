@@ -6,14 +6,18 @@ using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BagOfTricks.Utils.Kingmaker {
-    class UnitEntityDataUtils {
+namespace BagOfTricks.Utils.Kingmaker
+{
+    static class UnitEntityDataUtils {
+
+
+        public static float GetMaxSpeed(List<UnitEntityData> data) {
+            return (data.Select((u => u.ModifiedSpeedMps)).Max());
+        }
+
         public static bool CheckUnitEntityData(UnitEntityData unitEntityData, UnitSelectType selectType) {
             if (unitEntityData == null) {
                 return false;

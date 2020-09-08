@@ -74,7 +74,7 @@
   <Localisation key="header_CarryingCapacity" value="负重能力" />
   <Localisation key="header_About" value="关于" />
   <Localisation key="header_KingdomAlignment" value="王国阵营" />
-  <Localisation key="header_PartySpeed" value="王国阵营" />
+  <Localisation key="header_PartySpeed" value="队伍移动速度" />
   <Localisation key="header_Achievements" value="成就" />
   <Localisation key="label_CurrentMultiplier" value="当前倍数" />
   <Localisation key="label_CurrentMoney" value="当前金钱数" />

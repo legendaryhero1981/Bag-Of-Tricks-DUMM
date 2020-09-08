@@ -98,7 +98,7 @@ namespace BagOfTricks
             {"header_CarryingCapacity", "Carrying Capacity"},
             {"header_About", "About"},
             {"header_KingdomAlignment", "Kingdom Alignment"},
-            {"header_PartySpeed", "Kingdom Alignment"},
+            {"header_PartySpeed", "Party Speed"},
             {"header_Achievements", "Achievements"},
             //header end
 
@@ -1010,7 +1010,7 @@ namespace BagOfTricks
             },
             {
                 "tooltip_FullHitdiceEachLevel",
-                "Removes the halving of the hit die value by the game when adding hit point on level up."
+                "Removes the halving of the hit die value by the game when adding hit points on level up."
             },
             {
                 "tooltip_RollHitDiceEachLevel",

@@ -74,7 +74,7 @@
   <Localisation key="header_CarryingCapacity" value="Carrying Capacity" />
   <Localisation key="header_About" value="About" />
   <Localisation key="header_KingdomAlignment" value="Kingdom Alignment" />
-  <Localisation key="header_PartySpeed" value="Kingdom Alignment" />
+  <Localisation key="header_PartySpeed" value="Party Speed" />
   <Localisation key="header_Achievements" value="Achievements" />
   <Localisation key="label_CurrentMultiplier" value="Current Multiplier" />
   <Localisation key="label_CurrentMoney" value="Current Money" />
@@ -814,7 +814,7 @@
   <Localisation key="tooltip_MinAbilityScoreAtCC" value="Use the input field to set the minimal ability score at character creation." />
   <Localisation key="tooltip_AbilityPointsAtCCPlayer" value="﻿Use the input field to set the ability points at character creation for the player." />
   <Localisation key="tooltip_AbilityPointsAtCCmerc" value="﻿Use the input field to set the ability points at character creation for mercenaries." />
-  <Localisation key="tooltip_FullHitdiceEachLevel" value="Removes the halving of the hit die value by the game when adding hit point on level up." />
+  <Localisation key="tooltip_FullHitdiceEachLevel" value="Removes the halving of the hit die value by the game when adding hit points on level up." />
   <Localisation key="tooltip_RollHitDiceEachLevel" value="Instead of adding half the hit die value every level up the added value is determined by a roll." />
   <Localisation key="tooltip_AddCasterLevel" value="﻿Use the input field to set the caster level." />
   <Localisation key="tooltip_NoLevelUpRestirctions" value="You can level up even when you don't meet the experience requirements or are already level 20.&#xA;The UI indicators won't immediately update to show that a level up is available/unavailable." />
