@@ -59,7 +59,6 @@ using Kingmaker.RuleSystem.Rules.Abilities;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.TextTools;
 using Kingmaker.UI;
-using Kingmaker.UI._ConsoleUI.Models;
 using Kingmaker.UI.Common;
 using Kingmaker.UI.Group;
 using Kingmaker.UI.IngameMenu;
@@ -107,7 +106,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 using TMPro;
-using TurnBased.Controllers;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -209,8 +207,10 @@ namespace BagOfTricks
         [HarmonyPatch(typeof(FogOfWarRenderer), "Update")]
         public static class FogOfWarRenderer_Update_Patch
         {
-            public static bool Prefix() {
-                if (!Strings.ToBool(settings.toggleFogOfWarVisuals)) {
+            public static bool Prefix()
+            {
+                if (!Strings.ToBool(settings.toggleFogOfWarVisuals))
+                {
                     Shader.SetGlobalFloat("_FogOfWarGlobalFlag", 0.0f);
                     return false;
                 }
@@ -392,20 +392,24 @@ namespace BagOfTricks
         {
             static void Postfix(RuleInitiativeRoll __instance, ref int __result)
             {
-                if (Strings.ToBool(settings.toggleRoll20Initiative)) {
+                if (Strings.ToBool(settings.toggleRoll20Initiative))
+                {
                     Common.ModLoggerDebug("Initial InitiativeRoll: " + __result);
-                    switch (settings.roll20InitiativeIndex) {
+                    switch (settings.roll20InitiativeIndex)
+                    {
                         case 0:
                             __result = 20;
                             break;
                         case 1:
-                            if (__instance.Initiator.IsPlayerFaction) {
+                            if (__instance.Initiator.IsPlayerFaction)
+                            {
                                 __result = 20;
 
                             }
                             break;
                         case 2:
-                            if (!__instance.Initiator.IsPlayerFaction && __instance.Initiator.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction)) {
+                            if (!__instance.Initiator.IsPlayerFaction && __instance.Initiator.Descriptor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
+                            {
                                 __result = 20;
                             }
                             break;
@@ -729,8 +733,6 @@ namespace BagOfTricks
         [HarmonyPatch(new Type[] { typeof(UnitCommand.CommandType) })]
         public static class UnitCombatState_HasCooldownForCommand_Patch2
         {
-
-
             public static void Postfix(ref bool __result, UnitCombatState __instance)
             {
                 if (Strings.ToBool(settings.toggleInstantCooldown) && __instance.Unit.IsDirectlyControllable)
@@ -979,7 +981,6 @@ namespace BagOfTricks
             }
         }
 
-
         [HarmonyPatch(typeof(MapMovementController), "GetRegionalModifier", new Type[] { })]
         public static class MovementSpeed_GetRegionalModifier_Patch1
         {
@@ -1000,7 +1001,6 @@ namespace BagOfTricks
             }
         }
 
-
         [HarmonyPatch(typeof(StatsDistribution), "CanRemove")]
         public static class StatsDistribution_CanRemove_Patch
         {
@@ -1012,6 +1012,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(StatsDistribution), "CanAdd")]
         public static class StatsDistribution_CanAdd_Patch
         {
@@ -1033,6 +1034,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(StatsDistribution), "GetAddCost")]
         public static class StatsDistribution_GetAddCost_Patch
         {
@@ -1054,6 +1056,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(StatsDistribution), "GetRemoveCost")]
         public static class StatsDistribution_GetRemoveCost_Patch
         {
@@ -1076,7 +1079,6 @@ namespace BagOfTricks
                 }
             }
         }
-
 
         [HarmonyPatch(typeof(KingdomEvent), "ForceFinalResolve")]
         public static class KingdomEvent_ForceFinalResolve_Patch
@@ -1131,6 +1133,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(EquipmentRestrictionClass), "CanBeEquippedBy")]
         public static class EquipmentRestrictionClassNew_CanBeEquippedBy_Patch
         {
@@ -1142,6 +1145,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(EquipmentRestrictionStat), "CanBeEquippedBy")]
         public static class EquipmentRestrictionStat_CanBeEquippedBy_Patch
         {
@@ -1153,6 +1157,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(ItemEntityArmor), "CanBeEquippedInternal")]
         public static class ItemEntityArmor_CanBeEquippedInternal_Patch
         {
@@ -1165,6 +1170,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(ItemEntityShield), "CanBeEquippedInternal")]
         public static class ItemEntityShield_CanBeEquippedInternal_Patch
         {
@@ -1177,6 +1183,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(ItemEntityWeapon), "CanBeEquippedInternal")]
         public static class ItemEntityWeapon_CanBeEquippedInternal_Patch
         {
@@ -1226,14 +1233,16 @@ namespace BagOfTricks
             }
         }
 
-
         [HarmonyPatch(typeof(ClickGroundHandler), "RunCommand")]
         public static class ClickGroundHandler_RunCommand_Patch
         {
-            public static bool Prefix(UnitEntityData unit, Vector3 p, float? speedLimit, float orientation, float delay, bool showTargetMarker) {
-                if (Strings.ToBool(settings.toggleMoveSpeedAsOne)) {
+            public static bool Prefix(UnitEntityData unit, Vector3 p, float? speedLimit, float orientation, float delay, bool showTargetMarker)
+            {
+                if (Strings.ToBool(settings.toggleMoveSpeedAsOne))
+                {
                     speedLimit = UnitEntityDataUtils.GetMaxSpeed(Game.Instance.UI.SelectionManager.SelectedUnits);
-                    if (Strings.ToBool(settings.togglePartyMovementSpeedMultiplier)) {
+                    if (Strings.ToBool(settings.togglePartyMovementSpeedMultiplier))
+                    {
                         speedLimit = speedLimit * settings.partyMovementSpeedMultiplierValue;
                     }
                     UnitMoveTo unitMoveTo1 = new UnitMoveTo(p, 0.3f);
@@ -1241,10 +1250,12 @@ namespace BagOfTricks
                     unitMoveTo1.Orientation = new float?(orientation);
                     unitMoveTo1.CreatedByPlayer = true;
                     UnitMoveTo unitMoveTo2 = unitMoveTo1;
-                    if (BuildModeUtility.IsDevelopment) {
+                    if (BuildModeUtility.IsDevelopment)
+                    {
                         float speedForce = Traverse.CreateWithType("Kingmaker.Cheats.CheatsAnimation").Field("SpeedForce").GetValue<float>();
                         float moveType = Traverse.CreateWithType("Kingmaker.Cheats.CheatsAnimation").Field("moveType").GetValue<float>();
-                        if (speedForce > 0.0) {
+                        if (speedForce > 0.0)
+                        {
                             unitMoveTo2.OverrideSpeed = speedForce;
 
                         }
@@ -1254,10 +1265,12 @@ namespace BagOfTricks
                     unitMoveTo2.SpeedLimit = speedLimit;
                     unitMoveTo2.ShowTargetMarker = showTargetMarker;
                     unit.Commands.Run((UnitCommand)unitMoveTo2);
-                    if (unit.Commands.Queue.FirstOrDefault<UnitCommand>((Func<UnitCommand, bool>)(c => c is UnitMoveTo)) != unitMoveTo2 && !Game.Instance.IsPaused) {
+                    if (unit.Commands.Queue.FirstOrDefault<UnitCommand>((Func<UnitCommand, bool>)(c => c is UnitMoveTo)) != unitMoveTo2 && !Game.Instance.IsPaused)
+                    {
 
                     }
-                    else {
+                    else
+                    {
                         ClickGroundHandler.ShowDestination(unit, unitMoveTo2.Target, false);
                     }
                     return false;
@@ -1502,7 +1515,6 @@ namespace BagOfTricks
                         if (context.AbilityBlueprint.HasLogic<AbilityUseOnRest>())
                         {
                             AbilityUseOnRestType componentType = context.AbilityBlueprint.GetComponent<AbilityUseOnRest>().Type;
-                            //bool healDamage = componentType == AbilityUseOnRestType.HealDamage || componentType == AbilityUseOnRestType.HealDamage;
                             bool healDamage = componentType == AbilityUseOnRestType.HealDamage;
                             targets = targets.Where(target =>
                             {
@@ -1523,7 +1535,6 @@ namespace BagOfTricks
                 }
             }
         }
-
 
         [HarmonyPatch(typeof(RuleDealDamage), "ApplyDifficultyModifiers")]
         public static class RuleDealDamage_ApplyDifficultyModifiers_Patch
@@ -1790,7 +1801,6 @@ namespace BagOfTricks
                             else
                             {
                                 settings.partyMembersFocusPositionCounter = 0;
-
                             }
                         }
                     }
@@ -1801,7 +1811,6 @@ namespace BagOfTricks
                         {
                             settings.togglePartyAlwaysRoll20 = Storage.isTrueString;
                             Common.AddLogEntry(Strings.GetText("buttonToggle_PartyAlwaysRolls20") + ": " + Strings.GetText("logMessage_Enabled"), Color.black);
-
                         }
 
                         else if (settings.togglePartyAlwaysRoll20 == Storage.isTrueString)
@@ -1816,7 +1825,6 @@ namespace BagOfTricks
                         Game.Instance.CheatResetCutsceneLock();
                         Common.AddLogEntry(Strings.GetText("button_ResetCutsceneLock") + ": " + Strings.GetText("logMessage_Enabled"), Color.black);
                     }
-
 
                     if (Input.GetKeyDown(settings.actionKey) && settings.toggleEnableActionKey == Storage.isTrueString && settings.actionKeyIndex == 6 && ActionKey.teleportUnit != null && ActionKey.teleportUnit.IsInGame)
                     {
@@ -1845,13 +1853,11 @@ namespace BagOfTricks
                         ActionKey.Functions(settings.actionKeyIndex);
                     }
 
-
                     if (Strings.ToBool(settings.toggleHudToggle) && Game.Instance.Player.ControllableCharacters.Any()
                     && Input.GetKeyDown(settings.hudToggleKey) && Game.Instance.CurrentMode != GameModeType.None)
                     {
                         Common.ToggleHUD();
                     }
-
 
                     if (Input.GetKey(settings.teleportKey) && settings.toggleEnableTeleport == Storage.isTrueString)
                     {
@@ -1905,7 +1911,8 @@ namespace BagOfTricks
             private static void Postfix(UnityModManager __instance)
             {
                 FavouritesFactory.SerializeFavourites();
-                if (settings.toggleEnableTaxCollector == Storage.isTrueString) {
+                if (settings.toggleEnableTaxCollector == Storage.isTrueString)
+                {
                     TaxCollector.Serialize(Main.taxSettings, Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
                 }
             }
@@ -1988,6 +1995,7 @@ namespace BagOfTricks
                 return true;
             }
         }
+
         [HarmonyPatch(typeof(LocalMap), "OnShow")]
         static class LocalMap_OnShow_Patch
         {
@@ -2023,16 +2031,21 @@ namespace BagOfTricks
 
         [HarmonyPatch(typeof(CameraZoom))]
         [HarmonyPatch("TickSmoothZoomToTargetValue")]
-        public static class CameraZoom_TickSmoothZoomToTargetValue_Patch {
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+        public static class CameraZoom_TickSmoothZoomToTargetValue_Patch
+        {
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
                 var codes = new List<CodeInstruction>(instructions);
-                if (settings.toggleEnableCameraZoom == Storage.isTrueString) {
+                if (settings.toggleEnableCameraZoom == Storage.isTrueString)
+                {
 
                     int foundFovMin = -1;
                     int foundFovMax = -1;
 
-                    for (int i = 0; i < codes.Count; i++) {
-                        if (codes[i].opcode == OpCodes.Callvirt && codes[i - 1].opcode == OpCodes.Call && codes[i - 2].opcode == OpCodes.Call) {
+                    for (int i = 0; i < codes.Count; i++)
+                    {
+                        if (codes[i].opcode == OpCodes.Callvirt && codes[i - 1].opcode == OpCodes.Call && codes[i - 2].opcode == OpCodes.Call)
+                        {
                             foundFovMin = i - 4;
                             foundFovMax = i - 6;
                             break;
@@ -2052,7 +2065,6 @@ namespace BagOfTricks
                 return codes.AsEnumerable();
             }
         }
-
 
         [HarmonyPatch(typeof(CameraRig))]
         [HarmonyPatch("SetMapMode")]
@@ -2085,7 +2097,6 @@ namespace BagOfTricks
             }
         }
 
-        //UI start
         [HarmonyPatch(typeof(EscMenuWindow), "Initialize")]
         internal static class EscMenuWindow_Initialize_Patch
         {
@@ -2112,6 +2123,7 @@ namespace BagOfTricks
                 }
 
             }
+
             public static void OnClick()
             {
                 try
@@ -2125,6 +2137,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(Inventory), "Initialize")]
         internal static class Inventory_Initialize_Patch
         {
@@ -2146,7 +2159,6 @@ namespace BagOfTricks
                             RectTransform lockPicksTextRectTransform = Storage.lockPicksNow.GetComponent<RectTransform>();
                             lockPicksTextRectTransform.sizeDelta = new Vector2(lockPicksTextRectTransform.rect.width * 4, lockPicksTextRectTransform.rect.height);
                             Storage.lockPicksNow.text = $"<size=90%><b>{Strings.GetText("label_LockPicks")}:</b> {Storage.lockPicks}</size>";
-
                         }
                         catch (Exception exception)
                         {
@@ -2156,6 +2168,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(Inventory), "OnShow")]
         internal static class Inventory_OnShow_Patch
         {
@@ -2172,9 +2185,9 @@ namespace BagOfTricks
                         modLogger.Log(exception.ToString());
                     }
                 }
-
             }
         }
+
         [HarmonyPatch(typeof(Inventory), "UpdatePlayerMoneyAndInventoryWeight")]
         internal static class Inventory_UpdatePlayerMoneyAndInventoryWeight_Patch
         {
@@ -2213,7 +2226,6 @@ namespace BagOfTricks
 
             }
         }
-        //UI end
 
         [HarmonyPatch(typeof(Player), "OnAreaLoaded")]
         internal static class Player_OnAreaLoaded_Patch
@@ -2225,6 +2237,7 @@ namespace BagOfTricks
                 ActionKey.rotateUnit = null;
             }
         }
+
         [HarmonyPatch(typeof(Player), "AttachPartyMember")]
         internal static class Player_AttachPartyMember_Patch
         {
@@ -2250,6 +2263,7 @@ namespace BagOfTricks
                 Main.ReloadPartyState();
             }
         }
+
         [HarmonyPatch(typeof(Player), "DismissCompanion")]
         internal static class Player_DismissCompanion_Patch
         {
@@ -2258,6 +2272,7 @@ namespace BagOfTricks
                 Main.ReloadPartyState();
             }
         }
+
         [HarmonyPatch(typeof(Player), "SwapAttachedAndDetachedPartyMembers")]
         internal static class Player_SwapAttachedAndDetachedPartyMembers_Patch
         {
@@ -2430,9 +2445,7 @@ namespace BagOfTricks
                     unit.Stats.HitPoints.BaseValue -= hitDie / 2;
                     unit.Stats.HitPoints.BaseValue += roll;
                 }
-
             }
-
         }
 
         [HarmonyPatch(typeof(PrerequisiteFeature), "Check")]
@@ -2480,7 +2493,6 @@ namespace BagOfTricks
                 {
                     Game.Instance.TimeController.DebugTimeScale = settings.debugTimeMultiplier;
                 }
-
                 if (settings.finalCustomDebugTimeMultiplier != Defaults.debugTimeScale && settings.useCustomDebugTimeMultiplier == true && Game.Instance.TimeController.DebugTimeScale != settings.finalCustomDebugTimeMultiplier)
                 {
                     Game.Instance.TimeController.DebugTimeScale = settings.finalCustomDebugTimeMultiplier;
@@ -2521,6 +2533,7 @@ namespace BagOfTricks
 
             }
         }
+
         [HarmonyPatch(typeof(GlobalMapTeleport), "RunAction")]
         public static class GlobalMapTeleport_RunAction_Patch
         {
@@ -2547,6 +2560,7 @@ namespace BagOfTricks
                 return true;
             }
         }
+
         [HarmonyPatch(typeof(Game), "AdvanceGameTime")]
         public static class Game_AdvanceGameTime_Patch
         {
@@ -2577,6 +2591,7 @@ namespace BagOfTricks
                 return true;
             }
         }
+
         [HarmonyPatch(typeof(RuleDealDamage), "ApplyDifficultyModifiers")]
         static class RuleDealDamage_ApplyDifficultyModifiers_PostPatch
         {
@@ -2685,7 +2700,6 @@ namespace BagOfTricks
                         }
                     }
                 }
-
                 if (Strings.ToBool(settings.togglePassSavingThrowIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSavingThrowIndividualArray.Count(); i++)
@@ -2740,7 +2754,6 @@ namespace BagOfTricks
             }
         }
 
-
         [HarmonyPatch(typeof(RulePartySkillCheck), "IsPassed", MethodType.Getter)]
         public static class RulePartySkillCheck_IsPassed_Patch
         {
@@ -2759,7 +2772,6 @@ namespace BagOfTricks
                         }
                     }
                 }
-
                 if (Strings.ToBool(settings.togglePassSavingThrowIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSavingThrowIndividualArray.Count(); i++)
@@ -2788,6 +2800,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(StaticEntityData), "IsPerceptionCheckPassed", MethodType.Getter)]
         public static class StaticEntityData_IsPerceptionCheckPassed_Patch
         {
@@ -2851,7 +2864,6 @@ namespace BagOfTricks
             }
         }
 
-
         [HarmonyPatch(typeof(BlueprintCookingRecipe), "CheckIngredients")]
         public static class BlueprintCookingRecipe_CheckIngredients_Patch
         {
@@ -2863,6 +2875,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(BlueprintCookingRecipe), "SpendIngredients")]
         public static class BlueprintCookingRecipe_SpendIngredients_Patch
         {
@@ -2888,6 +2901,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(AbilityAcceptBurnOnCast), "OnCast")]
         public static class UnitPartKineticistt_AcceptBurn_Patch
         {
@@ -2913,6 +2927,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(Game), "LoadGame")]
         public static class Game_LoadGame_Patch
         {
@@ -2926,6 +2941,7 @@ namespace BagOfTricks
                 Main.ReloadPartyState();
             }
         }
+
         [HarmonyPatch(typeof(SteamSavesReplicator), "DeleteSave")]
         public static class SteamSavesReplicator_DeleteSave_Patch
         {
@@ -2955,6 +2971,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(UnitPartKineticist), "ClearAcceptedBurn")]
         public static class UnitPartKineticist_ClearAcceptedBurn_Patch
         {
@@ -2997,6 +3014,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(BlueprintArmorType), "MaxDexterityBonus", MethodType.Getter)]
         public static class BlueprintArmorType_MaxDexterityBonus_Patch
         {
@@ -3020,6 +3038,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(BlueprintArmorType), "Weight", MethodType.Getter)]
         public static class BlueprintArmorType_Weight_Patch
         {
@@ -3031,6 +3050,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(BlueprintItemArmor), "Weight", MethodType.Getter)]
         public static class BlueprintItemArmor_Weight_Patch
         {
@@ -3042,6 +3062,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(BlueprintItemShield), "Weight", MethodType.Getter)]
         public static class BlueprintItemShield_Weight_Patch
         {
@@ -3053,6 +3074,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(BlueprintItemWeapon), "Weight", MethodType.Getter)]
         public static class BlueprintItemWeapon_Weight_Patch
         {
@@ -3064,6 +3086,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(BlueprintWeaponType), "Weight", MethodType.Getter)]
         public static class BlueprintWeaponType_Weight_Patch
         {
@@ -3107,6 +3130,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(UnitAlignment), "Set", new Type[] { typeof(Alignment), typeof(bool) })]
         static class UnitAlignment_Set_Patch
         {
@@ -3118,6 +3142,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(UnitAlignment), "Shift", new Type[] { typeof(AlignmentShiftDirection), typeof(int), typeof(IAlignmentShiftProvider) })]
         static class UnitAlignment_Shift_Patch
         {
@@ -3181,6 +3206,7 @@ namespace BagOfTricks
                 return true;
             }
         }
+
         [HarmonyPatch(typeof(AbilityCasterAlignment), "CorrectCaster")]
         static class AbilityCasterAlignment_CheckAlignment_Patch
         {
@@ -3202,7 +3228,6 @@ namespace BagOfTricks
                 {
                     unit.Descriptor.Stats.GetStat(StatType.Speed).BaseValue = settings.setSpeedOnSummonValue;
                 }
-
                 if (Strings.ToBool(settings.toggleMakeSummmonsControllable) && Storage.summonedByPlayerFaction)
                 {
                     Common.ModLoggerDebug($"SummonPool.Register: Unit [{unit.CharacterName}] [{unit.UniqueId}]");
@@ -3218,7 +3243,6 @@ namespace BagOfTricks
                     }
                     Storage.summonedByPlayerFaction = false;
                 }
-
                 if (Strings.ToBool(settings.toggleRemoveSummonsGlow))
                 {
                     unit.Buffs.RemoveFact(Utilities.GetBlueprintByGuid<BlueprintFact>("706c182e86d9be848b59ddccca73d13e")); // SummonedCreatureVisual
@@ -3238,6 +3262,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(QuestObjective), "TimeToFail", MethodType.Getter)]
         static class QuestObjective_HandleTimePassed_Patch
         {
@@ -3378,7 +3403,6 @@ namespace BagOfTricks
                         }
                     }
                 }
-
                 if (Strings.ToBool(settings.togglePassSavingThrowIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSavingThrowIndividualArray.Count(); i++)
@@ -3471,6 +3495,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(PartyEncumbranceController), "UpdatePartyEncumbrance")]
         static class PartyEncumbranceController_UpdatePartyEncumbrance_Patch
         {
@@ -3497,6 +3522,7 @@ namespace BagOfTricks
                 return true;
             }
         }
+
         [HarmonyPatch(typeof(IngameMenuManager), "OpenGroupManager")]
         static class IngameMenuManager_OpenGroupManager_Patch
         {
@@ -3523,6 +3549,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(SmartConsole), "WriteLine")]
         static class SmartConsole_WriteLine_Patch
         {
@@ -3536,6 +3563,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(SmartConsole), "Initialise")]
         static class SmartConsole_Initialise_Patch
         {
@@ -3547,6 +3575,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(MainMenu), "Start")]
         static class MainMenu_Start_Patch
         {
@@ -3560,6 +3589,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(MainMenuButtons), "Update")]
         static class MainMenuButtons_Update_Patch
         {
@@ -3573,7 +3603,6 @@ namespace BagOfTricks
                 Storage.firstStart = false;
             }
         }
-
 
         [HarmonyPatch(typeof(UnitPartNegativeLevels), "Add")]
         static class UnitPartNegativeLevels_Add_Patch
@@ -3623,6 +3652,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(IgnorePrerequisites), "Ignore", MethodType.Getter)]
         static class IgnorePrerequisites_Ignore_Patch
         {
@@ -3634,6 +3664,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(PrerequisiteCasterTypeSpellLevel), "Check")]
         public static class PrerequisiteCasterTypeSpellLevel_Check_Patch
         {
@@ -3645,6 +3676,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(PrerequisiteNoArchetype), "Check")]
         public static class PrerequisiteNoArchetype_Check_Patch
         {
@@ -3656,6 +3688,7 @@ namespace BagOfTricks
                 }
             }
         }
+
         [HarmonyPatch(typeof(PrerequisiteStatValue), "Check")]
         public static class PrerequisiteStatValue_Check_Patch
         {
@@ -3669,18 +3702,24 @@ namespace BagOfTricks
         }
 
         [HarmonyPatch(typeof(UnitEntityData), "CreateView")]
-        public static class UnitEntityData_CreateView_Patch {
-            public static void Prefix(ref UnitEntityData __instance) {
-                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+        public static class UnitEntityData_CreateView_Patch
+        {
+            public static void Prefix(ref UnitEntityData __instance)
+            {
+                if (Strings.ToBool(settings.toggleSpiderBegone))
+                {
                     SpidersBegone.CheckAndReplace(ref __instance);
                 }
             }
         }
 
         [HarmonyPatch(typeof(BlueprintUnit), "PreloadResources")]
-        public static class BlueprintUnit_PreloadResources_Patch {
-            public static void Prefix(ref BlueprintUnit __instance) {
-                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+        public static class BlueprintUnit_PreloadResources_Patch
+        {
+            public static void Prefix(ref BlueprintUnit __instance)
+            {
+                if (Strings.ToBool(settings.toggleSpiderBegone))
+                {
                     SpidersBegone.CheckAndReplace(ref __instance);
                 }
             }
@@ -3690,18 +3729,23 @@ namespace BagOfTricks
         [HarmonyPatch(new Type[] { typeof(BlueprintUnit), typeof(Vector3), typeof(Quaternion), typeof(SceneEntitiesState) })]
         public static class EntityCreationControllert_SpawnUnit_Patch1
         {
-            public static void Prefix(ref BlueprintUnit unit) {
-                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+            public static void Prefix(ref BlueprintUnit unit)
+            {
+                if (Strings.ToBool(settings.toggleSpiderBegone))
+                {
                     SpidersBegone.CheckAndReplace(ref unit);
                 }
             }
         }
+
         [HarmonyPatch(typeof(EntityCreationController), "SpawnUnit")]
         [HarmonyPatch(new Type[] { typeof(BlueprintUnit), typeof(UnitEntityView), typeof(Vector3), typeof(Quaternion), typeof(SceneEntitiesState) })]
         public static class EntityCreationControllert_SpawnUnit_Patch2
         {
-            public static void Prefix(ref BlueprintUnit unit) {
-                if (Strings.ToBool(settings.toggleSpiderBegone)) {
+            public static void Prefix(ref BlueprintUnit unit)
+            {
+                if (Strings.ToBool(settings.toggleSpiderBegone))
+                {
                     SpidersBegone.CheckAndReplace(ref unit);
                 }
             }
@@ -3785,7 +3829,6 @@ namespace BagOfTricks
             }
         }
 
-
         [HarmonyPatch(typeof(DungeonStageInitializer), "Initialize")]
         static class DungeonStageInitializer_Initialize_Patch
         {
@@ -3794,6 +3837,7 @@ namespace BagOfTricks
                 Common.ModLoggerDebug("Game.Instance.Player.DungeonState.Stage: " + Game.Instance.Player.DungeonState.Stage);
             }
         }
+
         [HarmonyPatch(typeof(DungeonDebug), "SaveStage")]
         static class DungeonDebug_SaveStage_Patch_Pre
         {
@@ -3803,6 +3847,7 @@ namespace BagOfTricks
                 Common.ModLoggerDebug("DungeonDebug.SaveStage Path: " + Path.Combine(Application.persistentDataPath, "DungeonStages"));
             }
         }
+
         [HarmonyPatch(typeof(DungeonDebug), "SaveStage")]
         static class DungeonDebug_SaveStage_Patch_Post
         {
@@ -3845,6 +3890,7 @@ namespace BagOfTricks
                 return true;
             }
         }
+
         [HarmonyPatch(typeof(UIUtilityItem), "GetArmorData")]
         public static class UIUtilityItem_GetArmorData_Patch
         {
@@ -3884,7 +3930,6 @@ namespace BagOfTricks
                 }
             }
         }
-
 
         [HarmonyPatch(typeof(BlueprintAbility), "GetRange")]
         static class BlueprintAbility_GetRange_Patch_Pre
@@ -3965,9 +4010,6 @@ namespace BagOfTricks
                     }
 
                 }
-
-
-
                 if (Strings.ToBool(settings.toggleSpellAbilityRangeMultiplier))
                 {
                     if (settings.useCustomSpellAbilityRangeMultiplier)
@@ -4014,24 +4056,15 @@ namespace BagOfTricks
         {
             private static void Postfix(ref UnitEntityData __result)
             {
-                if (Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier) && Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplierUnitSpawner))
+                if (__result == null || !Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier) ||
+                    !Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplierUnitSpawner)) return;
+                if (__result.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
                 {
-                    if (__result.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
-                    {
-                        Common.ModLoggerDebug("UnitSpawner.Spawn: " + __result.CharacterName);
-                        if (settings.useCustomEnemyBaseHitPointsMultiplier)
-                        {
-                            __result.Stats.HitPoints.BaseValue = Mathf.RoundToInt(__result.Stats.HitPoints.BaseValue * settings.customEnemyBaseHitPointsMultiplier);
-                        }
-                        else
-                        {
-                            __result.Stats.HitPoints.BaseValue = Mathf.RoundToInt(__result.Stats.HitPoints.BaseValue * settings.enemyBaseHitPointsMultiplier);
-                        }
-                    }
+                    Common.ModLoggerDebug("UnitSpawner.Spawn: " + __result.CharacterName);
+                    __result.Stats.HitPoints.BaseValue = settings.useCustomEnemyBaseHitPointsMultiplier ? Mathf.RoundToInt(__result.Stats.HitPoints.BaseValue * settings.customEnemyBaseHitPointsMultiplier) : Mathf.RoundToInt(__result.Stats.HitPoints.BaseValue * settings.enemyBaseHitPointsMultiplier);
                 }
             }
         }
-
 
         [HarmonyPatch(typeof(SplashScreenController), "Start")]
         public class SplashScreenController_Start_Patch
