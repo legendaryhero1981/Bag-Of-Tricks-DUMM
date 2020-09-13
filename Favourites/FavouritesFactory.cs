@@ -9,7 +9,7 @@ namespace BagOfTricks.Favourites {
     public static class FavouritesFactory {
         private static FavouritesManager abilities;
         private static FavouritesManager buffs;
-        private static FavouritesManager feats;
+        private static FavouritesModdedGuidManager feats;
         private static FavouritesManager functions;
         private static FavouritesManager items;
         private static FavouritesManager units;
@@ -20,7 +20,7 @@ namespace BagOfTricks.Favourites {
         public static string GetFavouritesFolder => favouritesFolder;
         public static FavouritesManager GetFavouriteAbilities => abilities;
         public static FavouritesManager GetFavouriteBuffs => buffs;
-        public static FavouritesManager GetFavouriteFeats => feats;
+        public static FavouritesModdedGuidManager GetFavouriteFeats => feats;
         public static FavouritesManager GetFavouriteFunctions => functions;
         public static FavouritesManager GetFavouriteItems => items;
         public static FavouritesManager GetFavouriteUnits => units;
@@ -43,7 +43,7 @@ namespace BagOfTricks.Favourites {
             managers.Add(abilities);
             buffs = new FavouritesManager(modEntryPath, favouritesFolder, FavouriteXMLFile.Buffs);
             managers.Add(buffs);
-            feats = new FavouritesManager(modEntryPath, favouritesFolder, FavouriteXMLFile.Feats);
+            feats = new FavouritesModdedGuidManager(modEntryPath, favouritesFolder, FavouriteXMLFile.Feats);
             managers.Add(feats);
             functions = new FavouritesManager(modEntryPath, favouritesFolder, FavouriteXMLFile.Functions);
             managers.Add(functions);

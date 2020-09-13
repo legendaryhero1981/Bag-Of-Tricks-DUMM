@@ -7,7 +7,7 @@ using UnityModManager = UnityModManagerNet.UnityModManager;
 using BagOfTricks.Favourites;
 
 namespace BagOfTricks.ModUI {
-    public static class FavouriteFunctions {
+    public static class FavouriteFunctionsMenu {
         private static Settings settings = Main.settings;
         private static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
         private static List<string> favouritesList = FavouritesFactory.GetFavouriteFunctions.FavouritesList;
@@ -20,7 +20,7 @@ namespace BagOfTricks.ModUI {
             else {
                 GL.BeginVertical("box");
                 GL.BeginHorizontal();
-                settings.editFavouriteFunctionsPosition = GL.Toggle(settings.editFavouriteFunctionsPosition, RichTextUtils.Bold(Strings.GetText("toggle_MoveFavourites")), GL.ExpandWidth(false));
+                settings.editFavouriteFunctionsPosition = GL.Toggle(settings.editFavouriteFunctionsPosition, " " + RichTextUtils.Bold(Strings.GetText("toggle_MoveFavourites")), GL.ExpandWidth(false));
                 GL.EndHorizontal();
                 GL.EndVertical();
                 GL.Space(10);
@@ -33,7 +33,14 @@ namespace BagOfTricks.ModUI {
                             MenuTools.AddUpDownButtons(favouritesList[i], ref favouritesList, 13);
                             GL.EndHorizontal();
                         }
-                        MenuTools.ToggleButtonFavouritesMenu(ref MenuTools.GetToggleButton(sA[0]), sA[1], sA[2]);
+                        try {
+                            MenuTools.ToggleButtonFavouritesMenu(ref MenuTools.GetToggleButton(sA[0]), sA[1], sA[2]);
+                        }
+                        catch (ArgumentException) {
+                            GL.BeginHorizontal();
+                            MenuTools.SingleLineLabel(sA[0] + " " + Strings.GetText("error_NotFound"));
+                        }
+
                         GL.FlexibleSpace();
                         if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false))) {
                             favouritesList.Remove(favouritesList[i]);
@@ -44,21 +51,30 @@ namespace BagOfTricks.ModUI {
                     }
                     else if (sA.Length == 1) {
 
+
+                        if (settings.editFavouriteFunctionsPosition) {
+                            GL.BeginVertical("box");
+                            GL.BeginHorizontal();
+                            MenuTools.AddUpDownButtons(favouritesList[i], ref favouritesList, 13);
+                            GL.EndHorizontal();
+                        }
                         try {
-                            if (settings.editFavouriteFunctionsPosition) {
-                                GL.BeginVertical("box");
-                                GL.BeginHorizontal();
-                                MenuTools.AddUpDownButtons(favouritesList[i], ref favouritesList, 13);
-                                GL.EndHorizontal();
-                            }
-                            typeof(BagOfTricks.Menu).GetMethod(sA[0]).Invoke(typeof(BagOfTricks.Menu), new object[] { });
-                            if (settings.editFavouriteFunctionsPosition) {
-                                GL.EndVertical();
-                            }
+                            typeof(BagOfTricks.MainMenu).GetMethod(sA[0]).Invoke(typeof(BagOfTricks.MainMenu), new object[] { });
                         }
-                        catch (Exception e) {
-                            modLogger.Log(e.ToString());
+                        catch (NullReferenceException) {
+                            GL.BeginHorizontal();
+                            MenuTools.SingleLineLabel(sA[0] + " " + Strings.GetText("error_NotFound"));
+                            GL.FlexibleSpace();
+                            if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false))) {
+                                favouritesList.Remove(favouritesList[i]);
+
+                            }
+                            GL.EndHorizontal();
                         }
+                        if (settings.editFavouriteFunctionsPosition) {
+                            GL.EndVertical();
+                        }
+
                     }
 
                 }

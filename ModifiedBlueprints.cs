@@ -181,7 +181,7 @@ namespace BagOfTricks {
             }
             GL.EndHorizontal();
 
-            if (Strings.ToBool(settings.toggleItemModding)) {
+            if (StringUtils.ToToggleBool(settings.toggleItemModding)) {
                 MenuTools.SingleLineLabel(Strings.GetText("label_ItemModdingInfo"));
 
                 GL.BeginHorizontal();
@@ -549,7 +549,7 @@ namespace BagOfTricks {
                         GL.BeginHorizontal();
                         break;
                 }
-                if (GL.Button(Strings.GetText("button_SetTo") + $" {statTypes[i]}", GL.Width(210f))) {
+                if (GL.Button(Strings.GetText("button_SetTo") + $" {statTypes[i]}", GL.ExpandWidth(false))) {
                     FileInfo file = new FileInfo(Storage.modEntryPath + Storage.modifiedBlueprintsFolder + "\\" + guid + ".json");
                     if (File.Exists(file.FullName)) {
                         T modifiedItem = ModifiedBlueprintTools.DeserialiseItem<T>(file);
@@ -828,7 +828,7 @@ namespace BagOfTricks {
         }
 
         public static void Patch() {
-            if (Strings.ToBool(settings.toggleItemModding)) {
+            if (StringUtils.ToToggleBool(settings.toggleItemModding)) {
                 try {
                     string path = Storage.modEntryPath + Storage.modifiedBlueprintsFolder;
                     DirectoryInfo directory = new DirectoryInfo(path);

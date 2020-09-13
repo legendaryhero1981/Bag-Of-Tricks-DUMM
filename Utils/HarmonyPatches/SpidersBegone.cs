@@ -1,11 +1,10 @@
-﻿using Harmony;
-using Kingmaker.Blueprints;
+﻿using Kingmaker.Blueprints;
 using Kingmaker.Cheats;
 using Kingmaker.EntitySystem.Entities;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace BagOfTricks.Utils.HarmonyPatches {
+namespace BagOfTricks.Utils.HarmonyPatches
+{
     static class SpidersBegone {
         private const string prefabRatSwarmGUID = "ccd9a62b2c6cb304d9abf10f0d95d746";
         private const string prefabWolfBlackGUID = "0dc0f602a83a2034ba5842f73c0012c1";

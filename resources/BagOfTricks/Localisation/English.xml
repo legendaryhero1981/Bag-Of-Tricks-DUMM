@@ -656,6 +656,7 @@
   <Localisation key="buttonToggle_CreateBattleLogFileBoT" value="Use Bag of Tricks Log File" />
   <Localisation key="buttonToggle_RespecCostMultiplier" value="Respec Cost Multiplier" />
   <Localisation key="buttonToggle_toggleCustomTakeXAsMin" value="Use Custom Value As Minimum Roll" />
+  <Localisation key="buttonToggle_AccessRemoteCharacters" value="Access Remote Characters" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -843,6 +844,7 @@
   <Localisation key="tooltip_VendorSellMultiplier" value="Enables a multiplier for goods sold to vendors." />
   <Localisation key="tooltip_VendorsSellFor0" value="All items sold are worth 0." />
   <Localisation key="tooltip_VendorsBuyFor0" value="All items bought are worth 0." />
+  <Localisation key="tooltip_AccessRemoteCharacters" value="Allows you to access remote characters' inventories, character screens and spell books while outside of the capital." />
   <Localisation key="tooltip_RepeatableLockPicking" value="Locks can be picked repeatedly.&#xA;Required for Lock Picking Causes Weariness and Use Lock Pick" />
   <Localisation key="tooltip_RepeatableLockPickingWeariness" value="Each attempt at picking a lock causes weariness.&#xA;Below the value can be customized (1.0 = 1 hour of weariness per attempt)." />
   <Localisation key="tooltip_1EqualsHourWeariness" value="1.0 = 1 hour of weariness per attempt." />
@@ -873,7 +875,7 @@
   <Localisation key="tooltip_AddMultipleItems" value="Allows you to insert multiple Guid separated by commas." />
   <Localisation key="tooltip_ShowEnemies" value="Display enemies instead of party members." />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿Enabling this options will allow you to add versions of feats the game doesn't normally include e.g. Fencing Grace (Greatclub)." />
-  <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="Use the slider or a custom multiplier to adjust spell and ability ranges." />
+  <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="Use the slider or a custom multiplier to adjust spell and ability ranges.&#xA;Increasing the range can allow enemies to kill vital characters they couldn't target normally!" />
   <Localisation key="tooltip_EnemyBaseHitPointsMultiplier" value="Use the slider or a custom multiplier to adjust enemy base hit points.&#xA;Only affects random encounters and enemies that haven't been spawned yet (e.g. unvisited areas)!" />
   <Localisation key="tooltip_EnemyBaseHitPointsMultiplierCampEncounter" value="Enables the hit point multiplier for hostile encounters during/after rests." />
   <Localisation key="tooltip_EnemyBaseHitPointsMultiplierUnitSpawner" value="Enables the hit point multiplier for hostile encounter in unvisited local areas and enemy random encounters on the global map." />
@@ -1061,6 +1063,7 @@
   <Localisation key="encumbrance_Overload" value="Overload" />
   <Localisation key="error_EkunQ2" value="c5d4962385e0e9c439ab935d83361947 (EkunQ2_rewardArmor) causes errors and thus won't be added." />
   <Localisation key="error_NotFound" value="not found!" />
+  <Localisation key="error_InvalidGUID" value="is an invalid GUID!" />
   <Localisation key="taxCollector_Lord" value="Lord" />
   <Localisation key="taxCollector_Lady" value="Lady" />
   <Localisation key="taxCollector_Excellence" value="Excellence" />

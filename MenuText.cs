@@ -742,6 +742,7 @@ namespace BagOfTricks
             {"buttonToggle_CreateBattleLogFileBoT", "Use Bag of Tricks Log File"},
             {"buttonToggle_RespecCostMultiplier", "Respec Cost Multiplier"},
             {"buttonToggle_toggleCustomTakeXAsMin", "Use Custom Value As Minimum Roll"},
+            {"buttonToggle_AccessRemoteCharacters", "Access Remote Characters"},
             //buttonToggle end
 
             //arrayItem start
@@ -1063,6 +1064,7 @@ namespace BagOfTricks
             {"tooltip_VendorSellMultiplier", "Enables a multiplier for goods sold to vendors."},
             {"tooltip_VendorsSellFor0", "All items sold are worth 0."},
             {"tooltip_VendorsBuyFor0", "All items bought are worth 0."},
+            {"tooltip_AccessRemoteCharacters", "Allows you to access remote characters' inventories, character screens and spell books while outside of the capital."},
 
             {
                 "tooltip_RepeatableLockPicking",
@@ -1133,7 +1135,7 @@ namespace BagOfTricks
                 "﻿Enabling this options will allow you to add versions of feats the game doesn't normally include e.g. Fencing Grace (Greatclub)."
             },
 
-            {"tooltip_SpellAbilityRangeMultiplier", "Use the slider or a custom multiplier to adjust spell and ability ranges."},
+            {"tooltip_SpellAbilityRangeMultiplier", "Use the slider or a custom multiplier to adjust spell and ability ranges.\nIncreasing the range can allow enemies to kill vital characters they couldn't target normally!"},
             {"tooltip_EnemyBaseHitPointsMultiplier", "Use the slider or a custom multiplier to adjust enemy base hit points.\nOnly affects random encounters and enemies that haven't been spawned yet (e.g. unvisited areas)!"},
             {"tooltip_EnemyBaseHitPointsMultiplierCampEncounter", "Enables the hit point multiplier for hostile encounters during/after rests."},
             {"tooltip_EnemyBaseHitPointsMultiplierUnitSpawner", "Enables the hit point multiplier for hostile encounter in unvisited local areas and enemy random encounters on the global map."},
@@ -1491,6 +1493,7 @@ namespace BagOfTricks
                 "c5d4962385e0e9c439ab935d83361947 (EkunQ2_rewardArmor) causes errors and thus won't be added."
             },
             {"error_NotFound", "not found!"},
+            {"error_InvalidGUID", "is an invalid GUID!"},
             //error end
 
             //taxCollector start

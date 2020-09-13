@@ -52,7 +52,7 @@ namespace BagOfTricks {
 
 
             GL.BeginHorizontal();
-            if (GL.Button(RichTextUtils.Bold(Strings.GetText("header_Search")), GL.Width(320f))) {
+            if (GL.Button(RichTextUtils.Bold(Strings.GetText("header_Search")), GL.ExpandWidth(false))) {
                 SearchValidUnits(settings.unitSearch, settings.unitSearchFilters);
             }
             GL.EndHorizontal();
@@ -337,8 +337,14 @@ namespace BagOfTricks {
             if (refreshStoredGUIDs) {
                 storedUnitsLabel = RichTextUtils.Bold(Strings.GetText("label_StoredUnits") + $" ({storedGUIDs.Count()}): ");
                 foreach (string s in storedGUIDs) {
-                    string nameCR = $"{Strings.CleanName(Utilities.GetBlueprintByGuid<BlueprintUnit>(s).name)} ({Utilities.GetBlueprintByGuid<BlueprintUnit>(s).CR})";
-                    storedUnitsLabel = storedUnitsLabel + nameCR + ", ";
+                    BlueprintUnit blueprintUnit = Utilities.GetBlueprintByGuid<BlueprintUnit>(s);
+                    if (blueprintUnit != null) {
+                        string nameCR = $"{Strings.CleanName(Utilities.GetBlueprintByGuid<BlueprintUnit>(s).name)} ({Utilities.GetBlueprintByGuid<BlueprintUnit>(s).CR})";
+                        storedUnitsLabel = storedUnitsLabel + nameCR + ", ";
+                    }
+                    else {
+                        storedUnitsLabel = s + " " + Strings.GetText("error_NotFound") + ", ";
+                    }
                 }
                 storedUnitsLabel = storedUnitsLabel.TrimEnd(new char[] { ',', ' ' });
                 refreshStoredGUIDs = false;
@@ -365,13 +371,13 @@ namespace BagOfTricks {
                 unitStateGrid.RenderNoGroup();
                 GL.EndHorizontal();
                 if (!actionKeyMenu) {
-                    if (!Strings.ToBool(settings.toggleEnableActionKey)) {
+                    if (!StringUtils.ToToggleBool(settings.toggleEnableActionKey)) {
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("label_EnableActionKeyToSpawnHotkey") + ": ", GL.ExpandWidth(false));
                         ActionKey.MainToggle(7);
                         GL.EndHorizontal();
                     }
-                    else if (Strings.ToBool(settings.toggleEnableActionKey)) {
+                    else if (StringUtils.ToToggleBool(settings.toggleEnableActionKey)) {
                         GL.BeginVertical("box");
                         GL.BeginHorizontal();
                         if (settings.actionKeyIndex != 7) {
@@ -380,7 +386,7 @@ namespace BagOfTricks {
                                 settings.actionKeyIndex = 7;
                             }
                         }
-                        else if (!Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
+                        else if (!StringUtils.ToToggleBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
                             GL.Label(Strings.GetText("label_ActionKeyNotSetToSpawnUnitsFromUnitFavouritesStored") + ": ", GL.ExpandWidth(false));
                             MenuTools.ToggleButtonNoGroup(ref settings.toggleSpawnEnemiesFromUnitFavourites, "buttonToggle_ActionKeySpawnUnitsFromUnitFavourites", "tooltip_ActionKeySpawnUnitsFromUnitFavourites");
                         }
@@ -411,7 +417,7 @@ namespace BagOfTricks {
                 Common.SpawnHostileUnit(finalPos, guid);
             }
             else {
-                modLogger.Log("unitStateGrid index not regcognised!");
+                modLogger.Log("unitStateGrid index not recognised!");
             }
         }
 
@@ -442,9 +448,8 @@ namespace BagOfTricks {
                         GL.BeginHorizontal();
 
                         toggleFavouriteDescription.Add(false);
-                        toggleFavouriteDescription[i] = GL.Toggle(toggleFavouriteDescription[i], "", GL.ExpandWidth(false));
+                        toggleFavouriteDescription[i] = GL.Toggle(toggleFavouriteDescription[i], RichTextUtils.Bold($"{favouriteObjectNamesClean[i]} ({favouriteCR[i]})"), GL.ExpandWidth(false));
 
-                        GL.Label($"{favouriteObjectNamesClean[i]} ({favouriteCR[i]})");
                         MenuTools.AddRemoveButtonShiftAdd(ref storedGUIDs, unitsFavourites[i], ref refreshStoredGUIDs, "<b>-</b>", "<b>+</b>", Strings.GetText("tooltip_AddMultipleToStorage"));
 
                         if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false))) {
@@ -482,10 +487,17 @@ namespace BagOfTricks {
             favouriteCR.Clear();
             toggleFavouriteDescription.Clear();
             for (int i = 0; i < unitsFavourites.Count; i++) {
-                string stringUnitObjectName = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).name;
-                favouriteObjectNamesClean.Add(Strings.CleanName(stringUnitObjectName));
-                int intUnitCR = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]).CR;
-                favouriteCR.Add(intUnitCR);
+                BlueprintUnit blueprintUnit = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitsFavourites[i]);
+                if (blueprintUnit != null) {
+                    string stringUnitObjectName = blueprintUnit.name;
+                    favouriteObjectNamesClean.Add(Strings.CleanName(stringUnitObjectName));
+                    int intUnitCR = blueprintUnit.CR;
+                    favouriteCR.Add(intUnitCR);
+                }
+                else {
+                    favouriteObjectNamesClean.Add(unitsFavourites[i] + " " + Strings.GetText("error_NotFound"));
+                    favouriteCR.Add(-1);
+                }
             }
         }
 
@@ -525,7 +537,7 @@ namespace BagOfTricks {
             foreach (BlueprintUnit unit in blueprintUnits) {
                 bool unitAdded = false;
                 string guid = unit.AssetGuid;
-                if (Strings.ToBool(settings.toggleSearchByUnitObjectName)) {
+                if (StringUtils.ToToggleBool(settings.toggleSearchByUnitObjectName)) {
                     if (unit.name != null) {
                         if (unit.name.Contains(search, StringComparison.CurrentCultureIgnoreCase)) {
                             if (!searchResultGUIDs.Contains(guid)) {
@@ -535,7 +547,7 @@ namespace BagOfTricks {
                         }
                     }
                 }
-                else if (Strings.ToBool(settings.toggleSearchByUnitCharacterName)) {
+                else if (StringUtils.ToToggleBool(settings.toggleSearchByUnitCharacterName)) {
                     if (unit.CharacterName != null) {
                         if (unit.CharacterName.Contains(search, StringComparison.CurrentCultureIgnoreCase)) {
                             if (!searchResultGUIDs.Contains(guid)) {
@@ -545,7 +557,7 @@ namespace BagOfTricks {
                         }
                     }
                 }
-                else if (Strings.ToBool(settings.toggleSearchByUnitType)) {
+                else if (StringUtils.ToToggleBool(settings.toggleSearchByUnitType)) {
                     if (unit.Type?.Name != null) {
                         if (unit.Type.Name.ToString().Contains(search, StringComparison.CurrentCultureIgnoreCase)) {
                             if (!searchResultGUIDs.Contains(guid)) {
@@ -835,24 +847,29 @@ namespace BagOfTricks {
                 GL.BeginVertical("box");
 
                 BlueprintUnit unitByGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(unitGuid);
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_UnitName") + ": ") + $"{unitByGuid.CharacterName}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_UnitGUID") + ": ") + $"{unitByGuid.AssetGuid}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_ObjectName") + ": ") + $"{unitByGuid.name}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_ObjectNameClean") + ": ") + $"{Strings.CleanName(unitByGuid.name)}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_ChallengeRating") + ": ") + $"{unitByGuid.CR}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_UnitType") + ": ") + $"{unitByGuid.Type?.Name}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_Race") + ": ") + $"{unitByGuid.Race?.Name}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_Gender") + ": ") + $"{unitByGuid.Gender}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Strength") + ": ") + $"{unitByGuid.Strength}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Dexterity") + ": ") + $"{unitByGuid.Dexterity}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Constitution") + ": ") + $"{unitByGuid.Constitution}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Intelligence") + ": ") + $"{unitByGuid.Intelligence}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Wisdom") + ": ") + $"{unitByGuid.Wisdom}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Charisma") + ": ") + $"{unitByGuid.Charisma}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Speed") + ": ") + $"{unitByGuid.Speed}");
-                MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_BaseAttackBonus") + ": ") + $"{unitByGuid.BaseAttackBonus}");
+                if (unitByGuid != null) {
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_UnitName") + ": ") + $"{unitByGuid.CharacterName}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_UnitGUID") + ": ") + $"{unitByGuid.AssetGuid}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_ObjectName") + ": ") + $"{unitByGuid.name}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_ObjectNameClean") + ": ") + $"{Strings.CleanName(unitByGuid.name)}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_ChallengeRating") + ": ") + $"{unitByGuid.CR}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_UnitType") + ": ") + $"{unitByGuid.Type?.Name}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_Race") + ": ") + $"{unitByGuid.Race?.Name}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("label_Gender") + ": ") + $"{unitByGuid.Gender}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Strength") + ": ") + $"{unitByGuid.Strength}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Dexterity") + ": ") + $"{unitByGuid.Dexterity}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Constitution") + ": ") + $"{unitByGuid.Constitution}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Intelligence") + ": ") + $"{unitByGuid.Intelligence}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Wisdom") + ": ") + $"{unitByGuid.Wisdom}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Charisma") + ": ") + $"{unitByGuid.Charisma}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_Speed") + ": ") + $"{unitByGuid.Speed}");
+                    MenuTools.SingleLineLabelCopyBlueprintDetail(RichTextUtils.Bold(Strings.GetText("charStat_BaseAttackBonus") + ": ") + $"{unitByGuid.BaseAttackBonus}");
+                    MenuTools.CopyExportButtons("button_ExportUnitInfo", unitByGuid.name + ".txt", UnitInfo(unitByGuid), "label_CopyUnitInformationToClipboard");
+                }
+                else {
+                    MenuTools.SingleLineLabel(unitGuid + " " + Strings.GetText("error_NotFound"));
+                }
 
-                MenuTools.CopyExportButtons("button_ExportUnitInfo", unitByGuid.name + ".txt", UnitInfo(unitByGuid), "label_CopyUnitInformationToClipboard");
                 GL.EndVertical();
             }
         }

@@ -20,7 +20,7 @@ namespace BagOfTricks {
 
             MenuTools.ToggleButton(ref settings.toggleDevTools, "misc_Enable", "tooltip_DevTools");
 
-            if (Strings.ToBool(settings.toggleDevTools)) {
+            if (StringUtils.ToToggleBool(settings.toggleDevTools)) {
                 MenuTools.SingleLineLabel(Strings.GetText("label_SmartConsoleInfo"));
                 GL.Space(10);
                 MenuTools.ToggleButton(ref settings.toggleDevToolsLogToUmm, "buttonToggle_LogToUMM", "tooltip_LogToUMM");
@@ -38,7 +38,7 @@ namespace BagOfTricks {
                         settings.toggleUberLogger = Storage.isFalseString;
                     }
                 }
-                if (Strings.ToBool(settings.toggleUberLogger)) {
+                if (StringUtils.ToToggleBool(settings.toggleUberLogger)) {
                     if (GL.Button(MenuTools.TextWithTooltip("buttonToggle_UberLoggerForward", "tooltip_UberLoggerForward", $"{settings.toggleUberLoggerForward}" + " "), GL.ExpandWidth(false))) {
                         if (settings.toggleUberLoggerForward == Storage.isFalseString) {
                             UberLogger.Logger.ForwardMessages = true;
@@ -50,7 +50,7 @@ namespace BagOfTricks {
                             settings.toggleUberLoggerForward = Storage.isFalseString;
                         }
                     }
-                    if (Strings.ToBool(settings.toggleUberLoggerForward)) {
+                    if (StringUtils.ToToggleBool(settings.toggleUberLoggerForward)) {
                         MenuTools.ToggleButton(ref settings.toggleUberLoggerForwardPrefix, "buttonToggle_UberLoggerForwardPrefix", "tooltip_UberLoggerForwardPrefix");
                     }
                 }

@@ -60,6 +60,7 @@ using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.TextTools;
 using Kingmaker.UI;
 using Kingmaker.UI.Common;
+using Kingmaker.UI.FullScreenUITypes;
 using Kingmaker.UI.Group;
 using Kingmaker.UI.IngameMenu;
 using Kingmaker.UI.Kingdom;
@@ -209,7 +210,7 @@ namespace BagOfTricks
         {
             public static bool Prefix()
             {
-                if (!Strings.ToBool(settings.toggleFogOfWarVisuals))
+                if (!StringUtils.ToToggleBool(settings.toggleFogOfWarVisuals))
                 {
                     Shader.SetGlobalFloat("_FogOfWarGlobalFlag", 0.0f);
                     return false;
@@ -223,13 +224,13 @@ namespace BagOfTricks
         {
             static void Postfix(RuleCastSpell __instance, ref bool __result)
             {
-                if ((__instance.Spell.Caster?.Unit?.IsPlayerFaction ?? false) && (Strings.ToBool(settings.toggleArcaneSpellFailureRoll)))
+                if ((__instance.Spell.Caster?.Unit?.IsPlayerFaction ?? false) && (StringUtils.ToToggleBool(settings.toggleArcaneSpellFailureRoll)))
                 {
-                    if (!Strings.ToBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly))
+                    if (!StringUtils.ToToggleBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly))
                     {
                         __result = false;
                     }
-                    else if (Strings.ToBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly) && !__instance.Initiator.IsInCombat)
+                    else if (StringUtils.ToToggleBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly) && !__instance.Initiator.IsInCombat)
                     {
                         __result = false;
                     }
@@ -244,7 +245,7 @@ namespace BagOfTricks
             static void Postfix(RuleRollD20 __instance, ref int __result)
             {
                 Common.ModLoggerDebug("Initial D20Roll: " + __result);
-                if (Strings.ToBool(settings.toggleRollWithDisadvantage))
+                if (StringUtils.ToToggleBool(settings.toggleRollWithDisadvantage))
                 {
                     switch (settings.rollWithDisadvantageeIndex)
                     {
@@ -266,7 +267,7 @@ namespace BagOfTricks
                     }
                 }
 
-                if (Strings.ToBool(settings.toggleRollWithAdvantage))
+                if (StringUtils.ToToggleBool(settings.toggleRollWithAdvantage))
                 {
                     switch (settings.rollWithAdvantageIndex)
                     {
@@ -342,7 +343,7 @@ namespace BagOfTricks
                             __result = 20;
                             break;
                         case 3:
-                            if (Strings.ToBool(settings.toggleCustomTakeXAsMin))
+                            if (StringUtils.ToToggleBool(settings.toggleCustomTakeXAsMin))
                             {
                                 __result = Math.Max(Mathf.RoundToInt(settings.takeXCustom), __result);
                             }
@@ -355,7 +356,7 @@ namespace BagOfTricks
                     }
                 }
 
-                if (Strings.ToBool(settings.toggleMainCharacterRoll20))
+                if (StringUtils.ToToggleBool(settings.toggleMainCharacterRoll20))
                 {
                     if (__instance.Initiator.IsMainCharacter)
                     {
@@ -392,7 +393,7 @@ namespace BagOfTricks
         {
             static void Postfix(RuleInitiativeRoll __instance, ref int __result)
             {
-                if (Strings.ToBool(settings.toggleRoll20Initiative))
+                if (StringUtils.ToToggleBool(settings.toggleRoll20Initiative))
                 {
                     Common.ModLoggerDebug("Initial InitiativeRoll: " + __result);
                     switch (settings.roll20InitiativeIndex)
@@ -718,11 +719,11 @@ namespace BagOfTricks
         {
             public static void Postfix(ref bool __result, UnitCombatState __instance)
             {
-                if (Strings.ToBool(settings.toggleInstantCooldown) && __instance.Unit.IsDirectlyControllable)
+                if (StringUtils.ToToggleBool(settings.toggleInstantCooldown) && __instance.Unit.IsDirectlyControllable)
                 {
                     __result = false;
                 }
-                if (Strings.ToBool(settings.toggleInstantCooldownMainChar) && __instance.Unit.IsMainCharacter)
+                if (StringUtils.ToToggleBool(settings.toggleInstantCooldownMainChar) && __instance.Unit.IsMainCharacter)
                 {
                     __result = false;
                 }
@@ -735,11 +736,11 @@ namespace BagOfTricks
         {
             public static void Postfix(ref bool __result, UnitCombatState __instance)
             {
-                if (Strings.ToBool(settings.toggleInstantCooldown) && __instance.Unit.IsDirectlyControllable)
+                if (StringUtils.ToToggleBool(settings.toggleInstantCooldown) && __instance.Unit.IsDirectlyControllable)
                 {
                     __result = false;
                 }
-                if (Strings.ToBool(settings.toggleInstantCooldownMainChar) && __instance.Unit.IsMainCharacter)
+                if (StringUtils.ToToggleBool(settings.toggleInstantCooldownMainChar) && __instance.Unit.IsMainCharacter)
                 {
                     __result = false;
                 }
@@ -751,7 +752,7 @@ namespace BagOfTricks
         {
             public static bool Prefix(UnitCombatState __instance)
             {
-                if (__instance.Unit.IsDirectlyControllable && Strings.ToBool(settings.toggleInstantCooldown))
+                if (__instance.Unit.IsDirectlyControllable && StringUtils.ToToggleBool(settings.toggleInstantCooldown))
                 {
                     __instance.Cooldown.Initiative = 0f;
                     __instance.Cooldown.StandardAction = 0f;
@@ -759,7 +760,7 @@ namespace BagOfTricks
                     __instance.Cooldown.SwiftAction = 0f;
                     __instance.Cooldown.AttackOfOpportunity = 0f;
                 }
-                if (__instance.Unit.IsMainCharacter && Strings.ToBool(settings.toggleInstantCooldownMainChar))
+                if (__instance.Unit.IsMainCharacter && StringUtils.ToToggleBool(settings.toggleInstantCooldownMainChar))
                 {
                     __instance.Cooldown.Initiative = 0f;
                     __instance.Cooldown.StandardAction = 0f;
@@ -777,7 +778,7 @@ namespace BagOfTricks
 
             public static void Postfix(ref UnitCommand command)
             {
-                if (Strings.ToBool(settings.toggleInstantCooldown))
+                if (StringUtils.ToToggleBool(settings.toggleInstantCooldown))
                 {
                     if (!command.Executor.IsInCombat || command.IsIgnoreCooldown)
                     {
@@ -807,7 +808,7 @@ namespace BagOfTricks
                             throw new ArgumentOutOfRangeException();
                     }
                 }
-                if (Strings.ToBool(settings.toggleInstantCooldownMainChar))
+                if (StringUtils.ToToggleBool(settings.toggleInstantCooldownMainChar))
                 {
                     if (!command.Executor.IsInCombat || command.IsIgnoreCooldown)
                     {
@@ -1238,10 +1239,10 @@ namespace BagOfTricks
         {
             public static bool Prefix(UnitEntityData unit, Vector3 p, float? speedLimit, float orientation, float delay, bool showTargetMarker)
             {
-                if (Strings.ToBool(settings.toggleMoveSpeedAsOne))
+                if (StringUtils.ToToggleBool(settings.toggleMoveSpeedAsOne))
                 {
                     speedLimit = UnitEntityDataUtils.GetMaxSpeed(Game.Instance.UI.SelectionManager.SelectedUnits);
-                    if (Strings.ToBool(settings.togglePartyMovementSpeedMultiplier))
+                    if (StringUtils.ToToggleBool(settings.togglePartyMovementSpeedMultiplier))
                     {
                         speedLimit = speedLimit * settings.partyMovementSpeedMultiplierValue;
                     }
@@ -1312,7 +1313,7 @@ namespace BagOfTricks
                     {
                         speedLimit = selectedUnits.Aggregate(float.MinValue, (current, u) => Mathf.Max(current <= 0f ? 0f : current, u.ModifiedSpeedMps));
 
-                        if (Strings.ToBool(settings.togglePartyMovementSpeedMultiplier))
+                        if (StringUtils.ToToggleBool(settings.togglePartyMovementSpeedMultiplier))
                         {
                             speedLimit = speedLimit * settings.partyMovementSpeedMultiplierValue;
                         }
@@ -1707,7 +1708,7 @@ namespace BagOfTricks
                 {
                     GameModeType currentGameMode = Game.Instance.CurrentMode;
 
-                    if ((currentGameMode == GameModeType.Default || currentGameMode == GameModeType.EscMode) && Strings.ToBool(settings.toggleShowAreaName) && !Game.Instance.IsPaused)
+                    if ((currentGameMode == GameModeType.Default || currentGameMode == GameModeType.EscMode) && StringUtils.ToToggleBool(settings.toggleShowAreaName) && !Game.Instance.IsPaused)
                     {
                         Main.sceneAreaInfo.On();
                         Main.sceneAreaInfo.Text("<b>" + Game.Instance.CurrentlyLoadedArea.AreaName.ToString() + "</b>");
@@ -1717,7 +1718,7 @@ namespace BagOfTricks
                         Main.sceneAreaInfo.Off();
                     }
 
-                    if (currentGameMode != GameModeType.None && Strings.ToBool(settings.toggleDisplayObjectInfo))
+                    if (currentGameMode != GameModeType.None && StringUtils.ToToggleBool(settings.toggleDisplayObjectInfo))
                     {
                         if (Main.sceneAreaInfo.baseGameObject.activeSelf)
                         {
@@ -1848,12 +1849,12 @@ namespace BagOfTricks
                         ActionKey.rotateUnit = null;
                     }
 
-                    if (Input.GetKeyDown(settings.actionKey) && Strings.ToBool(settings.toggleEnableActionKey) && settings.actionKeyIndex != 0)
+                    if (Input.GetKeyDown(settings.actionKey) && StringUtils.ToToggleBool(settings.toggleEnableActionKey) && settings.actionKeyIndex != 0)
                     {
                         ActionKey.Functions(settings.actionKeyIndex);
                     }
 
-                    if (Strings.ToBool(settings.toggleHudToggle) && Game.Instance.Player.ControllableCharacters.Any()
+                    if (StringUtils.ToToggleBool(settings.toggleHudToggle) && Game.Instance.Player.ControllableCharacters.Any()
                     && Input.GetKeyDown(settings.hudToggleKey) && Game.Instance.CurrentMode != GameModeType.None)
                     {
                         Common.ToggleHUD();
@@ -1886,7 +1887,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref RandomEncounterAvoidanceCheckResult __result)
             {
-                if (Strings.ToBool(settings.toggleEnableAvoidanceSuccess) && Strings.ToBool(settings.toggleEnableRandomEncounterSettings))
+                if (StringUtils.ToToggleBool(settings.toggleEnableAvoidanceSuccess) && StringUtils.ToToggleBool(settings.toggleEnableRandomEncounterSettings))
                 {
                     __result = RandomEncounterAvoidanceCheckResult.Success;
                 }
@@ -1898,7 +1899,7 @@ namespace BagOfTricks
         {
             private static void Postfix(UnitEntityData selected)
             {
-                if (Strings.ToBool(settings.toggleEnableFocusCamera) && Strings.ToBool(settings.toggleEnableFocusCameraSelectedUnit))
+                if (StringUtils.ToToggleBool(settings.toggleEnableFocusCamera) && StringUtils.ToToggleBool(settings.toggleEnableFocusCameraSelectedUnit))
                 {
                     settings.partyMembersFocusPositionCounter = Storage.partyMembersFocusUnits.FindIndex(a => a == selected);
                 }
@@ -2102,7 +2103,7 @@ namespace BagOfTricks
         {
             private static void Postfix(EscMenuWindow __instance)
             {
-                if (Strings.ToBool(settings.toggleUnityModManagerButton) && Traverse.Create((object)__instance).Field("UnityModManager_Button").GetValue<Button>() == null)
+                if (StringUtils.ToToggleBool(settings.toggleUnityModManagerButton) && Traverse.Create((object)__instance).Field("UnityModManager_Button").GetValue<Button>() == null)
                 {
                     try
                     {
@@ -2145,7 +2146,7 @@ namespace BagOfTricks
             {
                 if (__instance != null)
                 {
-                    if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks) && Strings.ToBool(settings.toggleRepeatableLockPickingLockPicksInventoryText) && Traverse.Create((object)__instance).Field("LockPicks_Text").GetValue<TextMeshProUGUI>() == null)
+                    if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks) && StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicksInventoryText) && Traverse.Create((object)__instance).Field("LockPicks_Text").GetValue<TextMeshProUGUI>() == null)
                     {
                         try
                         {
@@ -2174,7 +2175,7 @@ namespace BagOfTricks
         {
             private static void Postfix(Inventory __instance)
             {
-                if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks) && Strings.ToBool(settings.toggleRepeatableLockPickingLockPicksInventoryText))
+                if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks) && StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicksInventoryText))
                 {
                     try
                     {
@@ -2193,7 +2194,7 @@ namespace BagOfTricks
         {
             private static void Postfix(Inventory __instance, TextMeshProUGUI ___PlayerMoneyNow)
             {
-                if (Strings.ToBool(settings.toggleScaleInventoryMoney))
+                if (StringUtils.ToToggleBool(settings.toggleScaleInventoryMoney))
                 {
                     try
                     {
@@ -2314,7 +2315,7 @@ namespace BagOfTricks
                 {
                     KingdomRoot.Instance.ArtisanMasterpieceChance = settings.artisanMasterpieceChance;
                 }
-                if (Strings.ToBool(settings.toggleNoResourcesClaimCost) && KingdomRoot.Instance != null)
+                if (StringUtils.ToToggleBool(settings.toggleNoResourcesClaimCost) && KingdomRoot.Instance != null)
                 {
                     KingdomRoot.Instance.DefaultMapResourceCost = 0;
                 }
@@ -2407,14 +2408,14 @@ namespace BagOfTricks
                     Cheats.RestoreAllItemCharges();
                 }
 
-                if (inCombat && Strings.ToBool(settings.toggleArmourChecksPenalty0) && Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                if (inCombat && StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0) && StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
                 {
                     foreach (UnitEntityData unitEntityData in Game.Instance.Player.Party)
                     {
                         Common.RecalculateArmourItemStats(unitEntityData);
                     }
                 }
-                if (!inCombat && Strings.ToBool(settings.toggleArmourChecksPenalty0) && Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                if (!inCombat && StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0) && StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
                 {
                     foreach (UnitEntityData unitEntityData in Game.Instance.Player.Party)
                     {
@@ -2429,13 +2430,13 @@ namespace BagOfTricks
         {
             private static void Postfix(ref LevelUpState state, ref ClassData classData, ref UnitDescriptor unit)
             {
-                if (Strings.ToBool(settings.toggleFullHitdiceEachLevel) && unit.IsPlayerFaction)
+                if (StringUtils.ToToggleBool(settings.toggleFullHitdiceEachLevel) && unit.IsPlayerFaction)
                 {
                     int hitDie = (int)classData.CharacterClass.HitDie;
 
                     unit.Stats.HitPoints.BaseValue += hitDie / 2;
                 }
-                else if (Strings.ToBool(settings.toggleRollHitDiceEachLevel) && unit.IsPlayerFaction)
+                else if (StringUtils.ToToggleBool(settings.toggleRollHitDiceEachLevel) && unit.IsPlayerFaction)
                 {
                     int hitDie = (int)classData.CharacterClass.HitDie;
                     DiceFormula diceFormula = new DiceFormula(1, classData.CharacterClass.HitDie);
@@ -2453,7 +2454,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleIgnoreFeaturePrerequisites))
+                if (StringUtils.ToToggleBool(settings.toggleIgnoreFeaturePrerequisites))
                 {
                     __result = true;
                 }
@@ -2465,7 +2466,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleIgnoreFeatureListPrerequisites))
+                if (StringUtils.ToToggleBool(settings.toggleIgnoreFeatureListPrerequisites))
                 {
                     __result = true;
                 }
@@ -2477,7 +2478,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleFeaturesIgnorePrerequisites))
+                if (StringUtils.ToToggleBool(settings.toggleFeaturesIgnorePrerequisites))
                 {
                     __result = true;
                 }
@@ -2519,7 +2520,7 @@ namespace BagOfTricks
                 }
 
 
-                if (found != -1 && Strings.ToBool(settings.toggleStopGameTime))
+                if (found != -1 && StringUtils.ToToggleBool(settings.toggleStopGameTime))
                 {
                     codes[found - 5].opcode = OpCodes.Ldc_I4_0;
                     codes[found - 4].opcode = OpCodes.Nop;
@@ -2539,7 +2540,7 @@ namespace BagOfTricks
         {
             public static bool Prefix(ref float ___SkipHours)
             {
-                if (Strings.ToBool(settings.toggleStopGameTime))
+                if (StringUtils.ToToggleBool(settings.toggleStopGameTime))
                 {
                     ___SkipHours = 0f;
 
@@ -2552,7 +2553,7 @@ namespace BagOfTricks
         {
             public static bool Prefix(ref float ___SkipHours)
             {
-                if (Strings.ToBool(settings.toggleStopGameTime))
+                if (StringUtils.ToToggleBool(settings.toggleStopGameTime))
                 {
                     ___SkipHours = 0f;
 
@@ -2566,7 +2567,7 @@ namespace BagOfTricks
         {
             public static bool Prefix(ref TimeSpan delta)
             {
-                if (Strings.ToBool(settings.toggleStopGameTime))
+                if (StringUtils.ToToggleBool(settings.toggleStopGameTime))
                 {
                     delta = TimeSpan.Zero;
                 }
@@ -2579,11 +2580,11 @@ namespace BagOfTricks
         {
             public static bool Prefix(RuleDealDamage __instance, ref int damage)
             {
-                if (Strings.ToBool(settings.toggleNoDamageFromEnemies) && __instance.Initiator.IsPlayersEnemy)
+                if (StringUtils.ToToggleBool(settings.toggleNoDamageFromEnemies) && __instance.Initiator.IsPlayersEnemy)
                 {
                     damage = 0;
                 }
-                if (Strings.ToBool(settings.togglePartyOneHitKills) && __instance.Initiator.IsPlayerFaction)
+                if (StringUtils.ToToggleBool(settings.togglePartyOneHitKills) && __instance.Initiator.IsPlayerFaction)
                 {
                     UnitEntityData unit = __instance.Target;
                     damage = unit.Descriptor.Stats.HitPoints.ModifiedValue + unit.Descriptor.Stats.TemporaryHitPoints.ModifiedValue + 1;
@@ -2597,13 +2598,13 @@ namespace BagOfTricks
         {
             private static void Postfix(RuleDealDamage __instance, ref int __result)
             {
-                if (Strings.ToBool(settings.toggleDamageDealtMultipliers))
+                if (StringUtils.ToToggleBool(settings.toggleDamageDealtMultipliers))
                 {
-                    if (Strings.ToBool(settings.toggleEnemiesDamageDealtMultiplier) && __instance.Initiator.IsPlayersEnemy)
+                    if (StringUtils.ToToggleBool(settings.toggleEnemiesDamageDealtMultiplier) && __instance.Initiator.IsPlayersEnemy)
                     {
                         __result = Mathf.RoundToInt(__result * settings.enemiesDamageDealtMultiplier);
                     }
-                    if (Strings.ToBool(settings.togglePartyDamageDealtMultiplier) && __instance.Initiator.IsPlayerFaction)
+                    if (StringUtils.ToToggleBool(settings.togglePartyDamageDealtMultiplier) && __instance.Initiator.IsPlayerFaction)
                     {
                         __result = Mathf.RoundToInt(__result * settings.partyDamageDealtMultiplier);
                     }
@@ -2616,22 +2617,22 @@ namespace BagOfTricks
         {
             public static bool Prefix(DisableDeviceRestriction __instance, ref UnitEntityData user)
             {
-                if (Strings.ToBool(settings.toggleAllDoorContainersUnlocked))
+                if (StringUtils.ToToggleBool(settings.toggleAllDoorContainersUnlocked))
                 {
                     DisableDeviceRestriction.DisableDeviceRestrictionData data = (DisableDeviceRestriction.DisableDeviceRestrictionData)__instance.Data;
                     data.Unlocked = true;
                     __instance.Data = data;
                 }
-                if (Strings.ToBool(settings.toggleRepeatableLockPicking))
+                if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPicking))
                 {
                     DisableDeviceRestriction.DisableDeviceRestrictionData data = (DisableDeviceRestriction.DisableDeviceRestrictionData)__instance.Data;
                     data.LastSkillRank.Clear();
                     __instance.Data = data;
-                    if (Strings.ToBool(settings.toggleRepeatableLockPickingWeariness))
+                    if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingWeariness))
                     {
                         user.Ensure<UnitPartWeariness>().AddWearinessHours(settings.finalRepeatableLockPickingWeariness);
                     }
-                    if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks))
+                    if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks))
                     {
                         Storage.unitLockPick = user;
                         Storage.checkLockPick = true;
@@ -2647,11 +2648,11 @@ namespace BagOfTricks
         {
             private static void Prefix([NotNull] UnitEntityData unit, StatType statType, ref int dc)
             {
-                if (Strings.ToBool(settings.togglePassSkillChecksIndividual) && Strings.ToBool(settings.togglePassSkillChecksIndividualDc99))
+                if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual) && StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualDc99))
                 {
                     for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == statType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == statType)
                         {
                             if (UnitEntityDataUtils.CheckUnitEntityData(unit, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
@@ -2669,11 +2670,11 @@ namespace BagOfTricks
         {
             private static void Prefix(StatType statType, ref int difficultyClass)
             {
-                if (Strings.ToBool(settings.togglePassSkillChecksIndividual) && Strings.ToBool(settings.togglePassSkillChecksIndividualDc99))
+                if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual) && StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualDc99))
                 {
                     for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == statType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == statType)
                         {
                             difficultyClass = -99;
                         }
@@ -2700,11 +2701,11 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Strings.ToBool(settings.togglePassSavingThrowIndividual))
+                if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSavingThrowIndividualArray.Count(); i++)
                     {
-                        if (Strings.ToBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                         {
                             if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
@@ -2713,11 +2714,11 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Strings.ToBool(settings.togglePassSkillChecksIndividual))
+                if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
                         {
                             if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
@@ -2726,7 +2727,7 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks) && __instance.StatType == StatType.SkillThievery && __instance.Initiator == Storage.unitLockPick && Storage.checkLockPick)
+                if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks) && __instance.StatType == StatType.SkillThievery && __instance.Initiator == Storage.unitLockPick && Storage.checkLockPick)
                 {
                     if (__result && Storage.lockPicks < 1)
                     {
@@ -2772,11 +2773,11 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Strings.ToBool(settings.togglePassSavingThrowIndividual))
+                if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSavingThrowIndividualArray.Count(); i++)
                     {
-                        if (Strings.ToBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                         {
                             if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
@@ -2785,11 +2786,11 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Strings.ToBool(settings.togglePassSkillChecksIndividual))
+                if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
                         {
                             if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
@@ -2806,9 +2807,9 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result, StaticEntityData __instance)
             {
-                if (Strings.ToBool(settings.togglePassSkillChecksIndividual))
+                if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual))
                 {
-                    if (Strings.ToBool(settings.togglePassSkillChecksIndividualArray[6]))
+                    if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[6]))
                     {
                         __result = true;
                     }
@@ -2821,7 +2822,7 @@ namespace BagOfTricks
         {
             private static void Postfix(RestController __instance)
             {
-                if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks))
+                if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks))
                 {
                     int newLockPicks = Storage.lockPicks;
                     int limit = 0;
@@ -2869,7 +2870,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleNoIngredientsRequired))
+                if (StringUtils.ToToggleBool(settings.toggleNoIngredientsRequired))
                 {
                     __result = true;
                 }
@@ -2881,7 +2882,7 @@ namespace BagOfTricks
         {
             public static bool Prefix(BlueprintCookingRecipe __instance)
             {
-                if (Strings.ToBool(settings.toggleNoIngredientsRequired))
+                if (StringUtils.ToToggleBool(settings.toggleNoIngredientsRequired))
                 {
                     __instance.Ingredients = new BlueprintCookingRecipe.ItemEntry[0];
                 }
@@ -2894,7 +2895,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref int __result)
             {
-                if (Strings.ToBool(settings.toggleNoBurnKineticist))
+                if (StringUtils.ToToggleBool(settings.toggleNoBurnKineticist))
                 {
                     __result = 0;
 
@@ -2907,7 +2908,7 @@ namespace BagOfTricks
         {
             public static bool Prefix(ref int ___BurnValue)
             {
-                if (Strings.ToBool(settings.toggleNoBurnKineticist))
+                if (StringUtils.ToToggleBool(settings.toggleNoBurnKineticist))
                 {
                     ___BurnValue = 0;
                 }
@@ -2921,7 +2922,7 @@ namespace BagOfTricks
         {
             private static void Postfix(SaveInfo save)
             {
-                if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks))
+                if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks))
                 {
                     SaveTools.SaveFile(save);
                 }
@@ -2933,7 +2934,7 @@ namespace BagOfTricks
         {
             private static void Postfix(SaveInfo saveInfo)
             {
-                if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks))
+                if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks))
                 {
                     SaveTools.LoadFile(saveInfo);
                 }
@@ -2947,7 +2948,7 @@ namespace BagOfTricks
         {
             private static void Postfix(SaveInfo saveInfo)
             {
-                if (Strings.ToBool(settings.toggleRepeatableLockPickingLockPicks))
+                if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks))
                 {
                     SaveTools.DeleteFile(saveInfo);
                 }
@@ -2959,7 +2960,7 @@ namespace BagOfTricks
         {
             private static void Postfix(UnitPartKineticist __instance)
             {
-                if (Strings.ToBool(settings.toggleMaximiseAcceptedBurn))
+                if (StringUtils.ToToggleBool(settings.toggleMaximiseAcceptedBurn))
                 {
                     for (int i = __instance.AcceptedBurn; i < __instance.MaxBurn; i++)
                     {
@@ -2977,7 +2978,7 @@ namespace BagOfTricks
         {
             private static void Postfix(UnitPartKineticist __instance)
             {
-                if (Strings.ToBool(settings.toggleMaximiseAcceptedBurn))
+                if (StringUtils.ToToggleBool(settings.toggleMaximiseAcceptedBurn))
                 {
                     for (int i = __instance.AcceptedBurn; i < __instance.MaxBurn; i++)
                     {
@@ -2993,7 +2994,7 @@ namespace BagOfTricks
         {
             private static void Postfix(Inventory __instance)
             {
-                if (Strings.ToBool(settings.toggleShowPetInventory))
+                if (StringUtils.ToToggleBool(settings.toggleShowPetInventory))
                 {
                     if (GroupController.Instance.GetCurrentCharacter().Descriptor.IsPet)
                     {
@@ -3008,7 +3009,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleDexBonusLimit99))
+                if (StringUtils.ToToggleBool(settings.toggleDexBonusLimit99))
                 {
                     __result = false;
                 }
@@ -3020,7 +3021,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref int __result)
             {
-                if (Strings.ToBool(settings.toggleDexBonusLimit99))
+                if (StringUtils.ToToggleBool(settings.toggleDexBonusLimit99))
                 {
                     __result = 99;
                 }
@@ -3032,7 +3033,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref float __result)
             {
-                if (Strings.ToBool(settings.toggleItemsWeighZero))
+                if (StringUtils.ToToggleBool(settings.toggleItemsWeighZero))
                 {
                     __result = 0f;
                 }
@@ -3044,7 +3045,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref float __result)
             {
-                if (Strings.ToBool(settings.toggleItemsWeighZero))
+                if (StringUtils.ToToggleBool(settings.toggleItemsWeighZero))
                 {
                     __result = 0f;
                 }
@@ -3056,7 +3057,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref float __result)
             {
-                if (Strings.ToBool(settings.toggleItemsWeighZero))
+                if (StringUtils.ToToggleBool(settings.toggleItemsWeighZero))
                 {
                     __result = 0f;
                 }
@@ -3068,7 +3069,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref float __result)
             {
-                if (Strings.ToBool(settings.toggleItemsWeighZero))
+                if (StringUtils.ToToggleBool(settings.toggleItemsWeighZero))
                 {
                     __result = 0f;
                 }
@@ -3080,7 +3081,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref float __result)
             {
-                if (Strings.ToBool(settings.toggleItemsWeighZero))
+                if (StringUtils.ToToggleBool(settings.toggleItemsWeighZero))
                 {
                     __result = 0f;
                 }
@@ -3092,7 +3093,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref float __result)
             {
-                if (Strings.ToBool(settings.toggleItemsWeighZero))
+                if (StringUtils.ToToggleBool(settings.toggleItemsWeighZero))
                 {
                     __result = 0f;
                 }
@@ -3104,7 +3105,7 @@ namespace BagOfTricks
         {
             private static void Postfix(RuleCalculateAttacksCount.AttacksCount ___PrimaryHand, RuleCalculateAttacksCount.AttacksCount ___SecondaryHand, RuleCalculateAttacksCount __instance)
             {
-                if (__instance.Initiator.IsPlayerFaction && Strings.ToBool(settings.toggleExtraAttacksParty))
+                if (__instance.Initiator.IsPlayerFaction && StringUtils.ToToggleBool(settings.toggleExtraAttacksParty))
                 {
                     ___PrimaryHand.MainAttacks += settings.extraAttacksPartyPrimaryHand;
                     if (!__instance.Initiator.Body.SecondaryHand.HasShield)
@@ -3121,7 +3122,7 @@ namespace BagOfTricks
             static void Postfix(UnitAlignment __instance, ref Vector2 __result, AlignmentShiftDirection direction)
             {
                 if (!Main.enabled) return;
-                if (Strings.ToBool(settings.toggleAlignmentFix))
+                if (StringUtils.ToToggleBool(settings.toggleAlignmentFix))
                 {
                     if (direction == AlignmentShiftDirection.NeutralGood) __result = new Vector2(0, 1);
                     if (direction == AlignmentShiftDirection.NeutralEvil) __result = new Vector2(0, -1);
@@ -3136,7 +3137,7 @@ namespace BagOfTricks
         {
             static void Prefix(UnitAlignment __instance, ref Alignment alignment)
             {
-                if (Strings.ToBool(settings.togglePreventAlignmentChanges))
+                if (StringUtils.ToToggleBool(settings.togglePreventAlignmentChanges))
                 {
                     alignment = __instance.Value;
                 }
@@ -3152,12 +3153,12 @@ namespace BagOfTricks
                 {
                     if (!Main.enabled) return true;
 
-                    if (Strings.ToBool(settings.togglePreventAlignmentChanges))
+                    if (StringUtils.ToToggleBool(settings.togglePreventAlignmentChanges))
                     {
                         value = 0;
                     }
 
-                    if (Strings.ToBool(settings.toggleAlignmentFix))
+                    if (StringUtils.ToToggleBool(settings.toggleAlignmentFix))
                     {
                         if (value == 0)
                         {
@@ -3199,7 +3200,7 @@ namespace BagOfTricks
         {
             static bool Prefix(ForbidSpellbookOnAlignmentDeviation __instance)
             {
-                if (Strings.ToBool(settings.toggleSpellbookAbilityAlignmentChecks))
+                if (StringUtils.ToToggleBool(settings.toggleSpellbookAbilityAlignmentChecks))
                 {
                     __instance.Alignment = __instance.Owner.Alignment.Value.ToMask();
                 }
@@ -3212,7 +3213,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleSpellbookAbilityAlignmentChecks))
+                if (StringUtils.ToToggleBool(settings.toggleSpellbookAbilityAlignmentChecks))
                 {
                     __result = true;
                 }
@@ -3224,16 +3225,16 @@ namespace BagOfTricks
         {
             static void Postfix(ref UnitEntityData unit)
             {
-                if (Strings.ToBool(settings.toggleSetSpeedOnSummon))
+                if (StringUtils.ToToggleBool(settings.toggleSetSpeedOnSummon))
                 {
                     unit.Descriptor.Stats.GetStat(StatType.Speed).BaseValue = settings.setSpeedOnSummonValue;
                 }
-                if (Strings.ToBool(settings.toggleMakeSummmonsControllable) && Storage.summonedByPlayerFaction)
+                if (StringUtils.ToToggleBool(settings.toggleMakeSummmonsControllable) && Storage.summonedByPlayerFaction)
                 {
                     Common.ModLoggerDebug($"SummonPool.Register: Unit [{unit.CharacterName}] [{unit.UniqueId}]");
                     UnitEntityDataUtils.Charm(unit);
 
-                    if (unit.Blueprint.AssetGuid == "6fdf7a3f850a1eb48bfbf44d9d0f45dd" && Strings.ToBool(settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians)) // WarpaintedSkullSummonedBarbarians
+                    if (unit.Blueprint.AssetGuid == "6fdf7a3f850a1eb48bfbf44d9d0f45dd" && StringUtils.ToToggleBool(settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians)) // WarpaintedSkullSummonedBarbarians
                     {
                         if (unit.Body.Head.HasItem && unit.Body.Head.Item?.Blueprint?.AssetGuid == "5d343648bb8887d42b24cbadfeb36991") // WarpaintedSkullItem
                         {
@@ -3243,7 +3244,7 @@ namespace BagOfTricks
                     }
                     Storage.summonedByPlayerFaction = false;
                 }
-                if (Strings.ToBool(settings.toggleRemoveSummonsGlow))
+                if (StringUtils.ToToggleBool(settings.toggleRemoveSummonsGlow))
                 {
                     unit.Buffs.RemoveFact(Utilities.GetBlueprintByGuid<BlueprintFact>("706c182e86d9be848b59ddccca73d13e")); // SummonedCreatureVisual
                     unit.Buffs.RemoveFact(Utilities.GetBlueprintByGuid<BlueprintFact>("e4b996b5168fe284ab3141a91895d7ea")); // NaturalAllyCreatureVisual
@@ -3256,7 +3257,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref TimeSpan? __result)
             {
-                if (__result != null && Strings.ToBool(settings.toggleFreezeTimedQuestAt90Days))
+                if (__result != null && StringUtils.ToToggleBool(settings.toggleFreezeTimedQuestAt90Days))
                 {
                     __result = TimeSpan.FromDays(90);
                 }
@@ -3268,7 +3269,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref TimeSpan? __result)
             {
-                if (__result != null && Strings.ToBool(settings.toggleFreezeTimedQuestAt90Days))
+                if (__result != null && StringUtils.ToToggleBool(settings.toggleFreezeTimedQuestAt90Days))
                 {
                     __result = TimeSpan.FromDays(90);
                 }
@@ -3280,7 +3281,7 @@ namespace BagOfTricks
         {
             static bool Prefix()
             {
-                if (Strings.ToBool(settings.togglePreventQuestFailure))
+                if (StringUtils.ToToggleBool(settings.togglePreventQuestFailure))
                 {
                     return false;
                 }
@@ -3293,7 +3294,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref bool __result, RuleCheckCastingDefensively __instance)
             {
-                if (Strings.ToBool(settings.toggleAlwaysSucceedCastingDefensively) && __instance.Initiator.IsPlayerFaction)
+                if (StringUtils.ToToggleBool(settings.toggleAlwaysSucceedCastingDefensively) && __instance.Initiator.IsPlayerFaction)
                 {
                     __result = true;
                 }
@@ -3305,7 +3306,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref bool __result, RuleCheckConcentration __instance)
             {
-                if (Strings.ToBool(settings.toggleAlwaysSucceedConcentration) && __instance.Initiator.IsPlayerFaction)
+                if (StringUtils.ToToggleBool(settings.toggleAlwaysSucceedConcentration) && __instance.Initiator.IsPlayerFaction)
                 {
                     __result = true;
                 }
@@ -3317,7 +3318,7 @@ namespace BagOfTricks
         {
             static bool Prefix(UnitEntityData unit, SpellBookToggle __instance, List<SpellbookClassTab> ___m_Tabs)
             {
-                if (Strings.ToBool(settings.toggleSortSpellbooksAlphabetically))
+                if (StringUtils.ToToggleBool(settings.toggleSortSpellbooksAlphabetically))
                 {
                     __instance.Initialize();
                     foreach (SpellbookClassTab tab in ___m_Tabs)
@@ -3354,7 +3355,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref List<AbilityData> __result)
             {
-                if (Strings.ToBool(settings.toggleSortSpellsAlphabetically))
+                if (StringUtils.ToToggleBool(settings.toggleSortSpellsAlphabetically))
                 {
                     __result = __result.OrderBy(d => d.Name).ToList();
                 }
@@ -3366,7 +3367,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref HitLevel __result)
             {
-                if (Strings.ToBool(settings.toggleSortSpellsAlphabetically))
+                if (StringUtils.ToToggleBool(settings.toggleSortSpellsAlphabetically))
                 {
                     __result = HitLevel.Crit;
                 }
@@ -3378,7 +3379,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref bool __result, RuleAttackRoll __instance)
             {
-                if (Strings.ToBool(settings.toggleAllHitsAreCritical) && __instance.Initiator.IsPlayerFaction)
+                if (StringUtils.ToToggleBool(settings.toggleAllHitsAreCritical) && __instance.Initiator.IsPlayerFaction)
                 {
                     __result = true;
                 }
@@ -3403,11 +3404,11 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Strings.ToBool(settings.togglePassSavingThrowIndividual))
+                if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividual))
                 {
                     for (int i = 0; i < settings.togglePassSavingThrowIndividualArray.Count(); i++)
                     {
-                        if (Strings.ToBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividualArray[i]) && Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                         {
                             if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
@@ -3424,7 +3425,7 @@ namespace BagOfTricks
         {
             static bool Prefix(UnitEntityData target)
             {
-                if (Strings.ToBool(settings.toggleNoAttacksOfOpportunity) && UnitEntityDataUtils.CheckUnitEntityData(target, (UnitSelectType)settings.indexNoAttacksOfOpportunity))
+                if (StringUtils.ToToggleBool(settings.toggleNoAttacksOfOpportunity) && UnitEntityDataUtils.CheckUnitEntityData(target, (UnitSelectType)settings.indexNoAttacksOfOpportunity))
                 {
                     return false;
                 }
@@ -3442,7 +3443,7 @@ namespace BagOfTricks
                 {
                     return;
                 }
-                if (Strings.ToBool(settings.toggleCookingAndHuntingInDungeons))
+                if (StringUtils.ToToggleBool(settings.toggleCookingAndHuntingInDungeons))
                 {
                     __result = false;
                 }
@@ -3458,11 +3459,11 @@ namespace BagOfTricks
                 Common.ModLoggerDebug(Game.Instance.CurrentlyLoadedArea.AssetGuid);
                 Common.ModLoggerDebug(SceneManager.GetActiveScene().name);
 
-                if (Strings.ToBool(settings.toggleUnlimitedCasting) && SceneManager.GetActiveScene().name == "HouseAtTheEdgeOfTime_Courtyard_Light")
+                if (StringUtils.ToToggleBool(settings.toggleUnlimitedCasting) && SceneManager.GetActiveScene().name == "HouseAtTheEdgeOfTime_Courtyard_Light")
                 {
                     UIUtility.ShowMessageBox(Strings.GetText("warning_UnlimitedCasting"), DialogMessageBoxBase.BoxType.Message, new Action<DialogMessageBoxBase.BoxButton>(Common.CloseMessageBox));
                 }
-                if (Strings.ToBool(settings.toggleNoDamageFromEnemies) && Game.Instance.CurrentlyLoadedArea.AssetGuid == "0ba5b24abcd5523459e54cd5877cb837")
+                if (StringUtils.ToToggleBool(settings.toggleNoDamageFromEnemies) && Game.Instance.CurrentlyLoadedArea.AssetGuid == "0ba5b24abcd5523459e54cd5877cb837")
                 {
                     UIUtility.ShowMessageBox(Strings.GetText("warning_NoDamageFromEnemies"), DialogMessageBoxBase.BoxType.Message, new Action<DialogMessageBoxBase.BoxButton>(Common.CloseMessageBox));
                 }
@@ -3476,7 +3477,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref Encumbrance __result)
             {
-                if (Strings.ToBool(settings.toggleSetEncumbrance))
+                if (StringUtils.ToToggleBool(settings.toggleSetEncumbrance))
                 {
                     __result = Common.IntToEncumbrance(settings.setEncumbrancIndex);
                 }
@@ -3488,7 +3489,7 @@ namespace BagOfTricks
         {
             static void Postfix(UnitDescriptor unit)
             {
-                if (Strings.ToBool(settings.toggleSetEncumbrance))
+                if (StringUtils.ToToggleBool(settings.toggleSetEncumbrance))
                 {
                     unit.Encumbrance = Common.IntToEncumbrance(settings.setEncumbrancIndex);
                     unit.Remove<UnitPartEncumbrance>();
@@ -3501,7 +3502,7 @@ namespace BagOfTricks
         {
             static bool Prefix()
             {
-                if (Strings.ToBool(settings.toggleSetEncumbrance))
+                if (StringUtils.ToToggleBool(settings.toggleSetEncumbrance))
                 {
                     player.Encumbrance = Common.IntToEncumbrance(settings.setEncumbrancIndex);
                     return false;
@@ -3515,7 +3516,7 @@ namespace BagOfTricks
         {
             static bool Prefix()
             {
-                if (Strings.ToBool(settings.toggleInstantPartyChange))
+                if (StringUtils.ToToggleBool(settings.toggleInstantPartyChange))
                 {
                     return false;
                 }
@@ -3528,7 +3529,7 @@ namespace BagOfTricks
         {
             static bool Prefix(IngameMenuManager __instance)
             {
-                if (Strings.ToBool(settings.toggleInstantPartyChange))
+                if (StringUtils.ToToggleBool(settings.toggleInstantPartyChange))
                 {
                     MethodInfo startChangedPartyOnGlobalMap = __instance.GetType().GetMethod("StartChangedPartyOnGlobalMap", BindingFlags.NonPublic | BindingFlags.Instance);
                     startChangedPartyOnGlobalMap.Invoke(__instance, new object[] { });
@@ -3543,7 +3544,7 @@ namespace BagOfTricks
         {
             static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleDevTools))
+                if (StringUtils.ToToggleBool(settings.toggleDevTools))
                 {
                     __result = true;
                 }
@@ -3555,7 +3556,7 @@ namespace BagOfTricks
         {
             static void Postfix(string message)
             {
-                if (Strings.ToBool(settings.toggleDevTools))
+                if (StringUtils.ToToggleBool(settings.toggleDevTools))
                 {
                     modLogger.Log(message);
                     UberLoggerAppWindow.Instance.Log(new UberLogger.LogInfo((UnityEngine.Object)null, nameof(SmartConsole), UberLogger.LogSeverity.Message, new List<UberLogger.LogStackFrame>(), (object)message, (object[])Array.Empty<object>()));
@@ -3569,21 +3570,21 @@ namespace BagOfTricks
         {
             static void Postfix()
             {
-                if (Strings.ToBool(settings.toggleDevTools))
+                if (StringUtils.ToToggleBool(settings.toggleDevTools))
                 {
                     SmartConsoleCommands.Register();
                 }
             }
         }
 
-        [HarmonyPatch(typeof(MainMenu), "Start")]
+        [HarmonyPatch(typeof(Kingmaker.MainMenu), "Start")]
         static class MainMenu_Start_Patch
         {
             static void Postfix()
             {
                 ModifiedBlueprintTools.Patch();
 
-                if (Strings.ToBool(settings.toggleNoTempHpKineticist))
+                if (StringUtils.ToToggleBool(settings.toggleNoTempHpKineticist))
                 {
                     Cheats.PatchBurnEffectBuff(0);
                 }
@@ -3595,7 +3596,7 @@ namespace BagOfTricks
         {
             static void Postfix()
             {
-                if (Strings.ToBool(settings.toggleAutomaticallyLoadLastSave) && Storage.firstStart)
+                if (StringUtils.ToToggleBool(settings.toggleAutomaticallyLoadLastSave) && Storage.firstStart)
                 {
                     Storage.firstStart = false;
                     EventBus.RaiseEvent<IUIMainMenu>((Action<IUIMainMenu>)(h => h.LoadLastGame()));
@@ -3609,7 +3610,7 @@ namespace BagOfTricks
         {
             static bool Prefix(UnitPartNegativeLevels __instance)
             {
-                if (Strings.ToBool(settings.toggleNoNegativeLevels) && __instance.Owner.IsPlayerFaction)
+                if (StringUtils.ToToggleBool(settings.toggleNoNegativeLevels) && __instance.Owner.IsPlayerFaction)
                 {
                     return false;
                 }
@@ -3623,7 +3624,7 @@ namespace BagOfTricks
         {
             static void Prefix(Kingmaker.Items.Slots.ItemSlot __instance, ItemEntity ___m_Item, UnitDescriptor ___Owner, ref ItemEntity __state)
             {
-                if (Game.Instance.CurrentMode == GameModeType.Default && Strings.ToBool(settings.togglAutoEquipConsumables))
+                if (Game.Instance.CurrentMode == GameModeType.Default && StringUtils.ToToggleBool(settings.togglAutoEquipConsumables))
                 {
                     __state = null;
                     if (___Owner.Body.QuickSlots.Any(x => x.HasItem && x.Item == ___m_Item))
@@ -3634,7 +3635,7 @@ namespace BagOfTricks
             }
             static void Postfix(Kingmaker.Items.Slots.ItemSlot __instance, ItemEntity ___m_Item, UnitDescriptor ___Owner, ItemEntity __state)
             {
-                if (Game.Instance.CurrentMode == GameModeType.Default && Strings.ToBool(settings.togglAutoEquipConsumables))
+                if (Game.Instance.CurrentMode == GameModeType.Default && StringUtils.ToToggleBool(settings.togglAutoEquipConsumables))
                 {
                     if (__state != null)
                     {
@@ -3658,7 +3659,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleIgnorePrerequisites))
+                if (StringUtils.ToToggleBool(settings.toggleIgnorePrerequisites))
                 {
                     __result = true;
                 }
@@ -3670,7 +3671,7 @@ namespace BagOfTricks
         {
             public static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleIgnoreCasterTypeSpellLevel))
+                if (StringUtils.ToToggleBool(settings.toggleIgnoreCasterTypeSpellLevel))
                 {
                     __result = true;
                 }
@@ -3682,7 +3683,7 @@ namespace BagOfTricks
         {
             public static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleIgnoreForbiddenArchetype))
+                if (StringUtils.ToToggleBool(settings.toggleIgnoreForbiddenArchetype))
                 {
                     __result = true;
                 }
@@ -3694,7 +3695,7 @@ namespace BagOfTricks
         {
             public static void Postfix(ref bool __result)
             {
-                if (Strings.ToBool(settings.toggleIgnorePrerequisiteStatValue))
+                if (StringUtils.ToToggleBool(settings.toggleIgnorePrerequisiteStatValue))
                 {
                     __result = true;
                 }
@@ -3706,7 +3707,7 @@ namespace BagOfTricks
         {
             public static void Prefix(ref UnitEntityData __instance)
             {
-                if (Strings.ToBool(settings.toggleSpiderBegone))
+                if (StringUtils.ToToggleBool(settings.toggleSpiderBegone))
                 {
                     SpidersBegone.CheckAndReplace(ref __instance);
                 }
@@ -3718,7 +3719,7 @@ namespace BagOfTricks
         {
             public static void Prefix(ref BlueprintUnit __instance)
             {
-                if (Strings.ToBool(settings.toggleSpiderBegone))
+                if (StringUtils.ToToggleBool(settings.toggleSpiderBegone))
                 {
                     SpidersBegone.CheckAndReplace(ref __instance);
                 }
@@ -3731,7 +3732,7 @@ namespace BagOfTricks
         {
             public static void Prefix(ref BlueprintUnit unit)
             {
-                if (Strings.ToBool(settings.toggleSpiderBegone))
+                if (StringUtils.ToToggleBool(settings.toggleSpiderBegone))
                 {
                     SpidersBegone.CheckAndReplace(ref unit);
                 }
@@ -3744,7 +3745,7 @@ namespace BagOfTricks
         {
             public static void Prefix(ref BlueprintUnit unit)
             {
-                if (Strings.ToBool(settings.toggleSpiderBegone))
+                if (StringUtils.ToToggleBool(settings.toggleSpiderBegone))
                 {
                     SpidersBegone.CheckAndReplace(ref unit);
                 }
@@ -3756,7 +3757,7 @@ namespace BagOfTricks
         {
             public static void Postfix(ref bool __result, ContextConditionAlignment __instance)
             {
-                if (Strings.ToBool(settings.toggleReverseCasterAlignmentChecks))
+                if (StringUtils.ToToggleBool(settings.toggleReverseCasterAlignmentChecks))
                 {
                     if (__instance.CheckCaster)
                     {
@@ -3772,17 +3773,17 @@ namespace BagOfTricks
         {
             public static void Prefix(UnitEntityData initiator, BlueprintUnit blueprint, Vector3 position, ref Rounds duration, ref int level, RuleSummonUnit __instance)
             {
-                if (Strings.ToBool(settings.toggleSummonDurationMultiplier) && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSummonDurationMultiplier))
+                if (StringUtils.ToToggleBool(settings.toggleSummonDurationMultiplier) && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSummonDurationMultiplier))
                 {
                     duration = new Rounds(Convert.ToInt32(duration.Value * settings.finalSummonDurationMultiplierValue)); ;
                 }
 
-                if (Strings.ToBool(settings.toggleSetSummonLevelTo20) && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSetSummonLevelTo20))
+                if (StringUtils.ToToggleBool(settings.toggleSetSummonLevelTo20) && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexSetSummonLevelTo20))
                 {
                     level = 20;
                 }
 
-                if (Strings.ToBool(settings.toggleMakeSummmonsControllable))
+                if (StringUtils.ToToggleBool(settings.toggleMakeSummmonsControllable))
                 {
                     Storage.summonedByPlayerFaction = initiator.IsPlayerFaction;
                 }
@@ -3799,7 +3800,7 @@ namespace BagOfTricks
             {
                 try
                 {
-                    if (Strings.ToBool(settings.toggleBuffDurationMultiplier) && duration != null
+                    if (StringUtils.ToToggleBool(settings.toggleBuffDurationMultiplier) && duration != null
                     && UnitEntityDataUtils.CheckUnitEntityData(initiator, (UnitSelectType)settings.indexBuffDurationMultiplier)
                     && UnitEntityDataUtils.CheckUnitEntityData(context.MaybeCaster, (UnitSelectType)settings.indexBuffDurationMultiplier))
                     {
@@ -3821,7 +3822,7 @@ namespace BagOfTricks
         {
             static void Prefix(ref object message)
             {
-                if (Strings.ToBool(settings.toggleUberLoggerForwardPrefix))
+                if (StringUtils.ToToggleBool(settings.toggleUberLoggerForwardPrefix))
                 {
                     string message1 = "[UberLogger] " + message as string;
                     message = message1 as object;
@@ -3873,14 +3874,14 @@ namespace BagOfTricks
         {
             private static bool Prefix(RuleCalculateArmorCheckPenalty __instance)
             {
-                if (Strings.ToBool(settings.toggleArmourChecksPenalty0))
+                if (StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0))
                 {
-                    if (!Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                    if (!StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
                     {
                         Traverse.Create(__instance).Property("Penalty").SetValue(0);
                         return false;
                     }
-                    else if (Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly) && !__instance.Armor.Wielder.Unit.IsInCombat)
+                    else if (StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly) && !__instance.Armor.Wielder.Unit.IsInCombat)
                     {
                         Traverse.Create(__instance).Property("Penalty").SetValue(0);
                         return false;
@@ -3896,15 +3897,15 @@ namespace BagOfTricks
         {
             private static void Postfix(ref UIUtilityItem.ArmorData __result, ref ItemEntityArmor armor)
             {
-                if (Strings.ToBool(settings.toggleArmourChecksPenalty0))
+                if (StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0))
                 {
-                    if (!Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                    if (!StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
                     {
                         UIUtilityItem.ArmorData armorData = __result;
                         armorData.ArmorCheckPenalty = 0;
                         __result = armorData;
                     }
-                    else if (Strings.ToBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
+                    else if (StringUtils.ToToggleBool(settings.toggleArmourChecksPenalty0OutOfCombatOnly))
                     {
                         Common.ModLoggerDebug(armor.Name);
                         if (armor.Wielder != null)
@@ -3943,7 +3944,7 @@ namespace BagOfTricks
             [HarmonyPriority(Priority.Low)]
             static void Postfix(ref Feet __result)
             {
-                if (Strings.ToBool(settings.toggleTabletopSpellAbilityRange))
+                if (StringUtils.ToToggleBool(settings.toggleTabletopSpellAbilityRange))
                 {
                     if (Main.callOfTheWild.ModIsActive())
                     {
@@ -3976,7 +3977,7 @@ namespace BagOfTricks
                         }
                     }
                 }
-                if (Strings.ToBool(settings.toggleCustomSpellAbilityRange))
+                if (StringUtils.ToToggleBool(settings.toggleCustomSpellAbilityRange))
                 {
                     if (Main.callOfTheWild.ModIsActive())
                     {
@@ -4010,7 +4011,7 @@ namespace BagOfTricks
                     }
 
                 }
-                if (Strings.ToBool(settings.toggleSpellAbilityRangeMultiplier))
+                if (StringUtils.ToToggleBool(settings.toggleSpellAbilityRangeMultiplier))
                 {
                     if (settings.useCustomSpellAbilityRangeMultiplier)
                     {
@@ -4029,7 +4030,7 @@ namespace BagOfTricks
         {
             private static void Postfix(ref IList<UnitEntityData> units)
             {
-                if (Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier) && Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplierCampEncounter))
+                if (StringUtils.ToToggleBool(settings.toggleEnemyBaseHitPointsMultiplier) && StringUtils.ToToggleBool(settings.toggleEnemyBaseHitPointsMultiplierCampEncounter))
                 {
                     foreach (UnitEntityData unit in units)
                     {
@@ -4056,8 +4057,8 @@ namespace BagOfTricks
         {
             private static void Postfix(ref UnitEntityData __result)
             {
-                if (__result == null || !Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplier) ||
-                    !Strings.ToBool(settings.toggleEnemyBaseHitPointsMultiplierUnitSpawner)) return;
+                if (__result == null || !StringUtils.ToToggleBool(settings.toggleEnemyBaseHitPointsMultiplier) ||
+                    !StringUtils.ToToggleBool(settings.toggleEnemyBaseHitPointsMultiplierUnitSpawner)) return;
                 if (__result.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
                 {
                     Common.ModLoggerDebug("UnitSpawner.Spawn: " + __result.CharacterName);
@@ -4071,7 +4072,7 @@ namespace BagOfTricks
         {
             public static void Prefix()
             {
-                if (Strings.ToBool(settings.toggleSetTargetFrameRate))
+                if (StringUtils.ToToggleBool(settings.toggleSetTargetFrameRate))
                 {
                     Application.targetFrameRate = settings.targetFrameRate;
                 }
@@ -4083,23 +4084,23 @@ namespace BagOfTricks
         {
             private static void Postfix(LogItemData data, bool visibleChannel)
             {
-                if (Strings.ToBool(settings.toggleCreateBattleLogFile))
+                if (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFile))
                 {
                     if (visibleChannel)
                     {
                         String msg = data.Msg;
 
-                        if (Strings.ToBool(settings.toggleCreateBattleLogFileLog))
+                        if (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFileLog))
                         {
                             Main.battleLoggerLog.Log(msg);
                         }
 
-                        if (Strings.ToBool(settings.toggleCreateBattleLogFileHtml))
+                        if (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFileHtml))
                         {
                             Main.battleLoggerHtml.Log(msg);
                         }
 
-                        if (Strings.ToBool(settings.toggleCreateBattleLogFileBotLog))
+                        if (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFileBotLog))
                         {
                             Main.botLoggerLog.Log(Storage.battleLogPrefix + " " + msg);
                         }
@@ -4114,7 +4115,7 @@ namespace BagOfTricks
         {
             public static void Postfix(ref int __result)
             {
-                if (Strings.ToBool(settings.toggleRespecCostMultiplier))
+                if (StringUtils.ToToggleBool(settings.toggleRespecCostMultiplier))
                 {
                     __result = Mathf.RoundToInt(__result * settings.repecCostMultiplier);
                 }
@@ -4126,9 +4127,36 @@ namespace BagOfTricks
         {
             static void Prefix()
             {
-                if (Strings.ToBool(settings.toggleAllowCampingEverywhere))
+                if (StringUtils.ToToggleBool(settings.toggleAllowCampingEverywhere))
                 {
                     Game.Instance.CurrentlyLoadedArea.CampingSettings.CampingAllowed = true;
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(GroupController), "WithRemote", MethodType.Getter)]
+        static class GroupController_WithRemote_Patch {
+            static void Postfix(GroupController __instance, ref bool __result) {
+                if (StringUtils.ToToggleBool(settings.toggleAccessRemoteCharacters)) {
+                    if (__instance.FullScreenEnabled) {
+                        switch (Traverse.Create(__instance).Field("m_FullScreenUIType").GetValue()) {
+                            case FullScreenUIType.Inventory:
+                            case FullScreenUIType.ChracterScreen:
+                            case FullScreenUIType.SpellBook:
+                            case FullScreenUIType.Vendor:
+                                __result = true;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(UnitEntityData), "IsDirectlyControllable", MethodType.Getter)]
+        public static class UnitEntityData_IsDirectlyControllable_Patch {
+            public static void Postfix(UnitEntityData __instance, ref bool __result) {
+                if (StringUtils.ToToggleBool(settings.toggleMakeSummmonsControllable) && !__result && __instance.Get<UnitPartSummonedMonster>() != null && !__instance.Descriptor.State.IsFinallyDead && !__instance.Descriptor.State.IsPanicked && !__instance.IsDetached && !__instance.PreventDirectControl) {
+                    __result = true;
                 }
             }
         }

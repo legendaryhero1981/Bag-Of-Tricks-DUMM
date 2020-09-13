@@ -90,12 +90,12 @@ namespace BagOfTricks {
                     break;
                 case 6:
                     teleportUnit = Common.GetUnitUnderMouse();
-                    if (teleportUnit != null && Strings.ToBool(Main.settings.toggleAddToLog)) {
+                    if (teleportUnit != null && StringUtils.ToToggleBool(Main.settings.toggleAddToLog)) {
                         Common.AddLogEntry(Strings.GetText("label_TeleportUnit") + $": {teleportUnit.CharacterName}", Color.black);
                     }
                     break;
                 case 7:
-                    if (Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
+                    if (StringUtils.ToToggleBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
                         try {
                             Vector3 pos = Common.MousePositionLocalMap();
                             float x = 0.0f;
@@ -115,7 +115,7 @@ namespace BagOfTricks {
                             modLogger.Log(e.ToString());
                         }
                     }
-                    else if (settings.actionKeySpawnRandomEnemy && Strings.ToBool(settings.toggleActionKeyExperimental)) {
+                    else if (settings.actionKeySpawnRandomEnemy && StringUtils.ToToggleBool(settings.toggleActionKeyExperimental)) {
                         try {
                             Common.SpawnHostileUnit(Common.MousePositionLocalMap(), ResourcesLibrary.GetBlueprints<BlueprintUnit>().RandomElement());
 
@@ -130,7 +130,7 @@ namespace BagOfTricks {
                     break;
                 case 8:
                     rotateUnit = Common.GetUnitUnderMouse();
-                    if (rotateUnit != null && Strings.ToBool(Main.settings.toggleAddToLog)) {
+                    if (rotateUnit != null && StringUtils.ToToggleBool(Main.settings.toggleAddToLog)) {
                         Common.AddLogEntry(Strings.GetText("arrayItem_ActionKeyMain_RotateUnit") + $": {rotateUnit.CharacterName}", Color.black);
                     }
                     break;
@@ -286,7 +286,7 @@ namespace BagOfTricks {
                 MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("warning_ActionKeyExperimentalMode")));
 
                 GL.BeginHorizontal();
-                if (!Strings.ToBool(settings.toggleActionKeyExperimental)) {
+                if (!StringUtils.ToToggleBool(settings.toggleActionKeyExperimental)) {
                     settings.actionKeyIndex = GL.SelectionGrid(settings.actionKeyIndex, mainArray, 3);
                 }
                 else {
@@ -303,7 +303,7 @@ namespace BagOfTricks {
 
                         break;
                     case 2:
-                        if (Strings.ToBool(settings.toggleActionKeyExperimental)) {
+                        if (StringUtils.ToToggleBool(settings.toggleActionKeyExperimental)) {
                             GL.Space(10);
                             GL.BeginHorizontal();
                             settings.actionKeyKillIndex = GL.SelectionGrid(settings.actionKeyKillIndex, experimentalKillArray, 3);
@@ -346,27 +346,27 @@ namespace BagOfTricks {
                     case 7:
 
                         MenuTools.ToggleButton(ref settings.toggleSpawnEnemiesFromUnitFavourites, "buttonToggle_ActionKeySpawnUnitsFromUnitFavourites", "tooltip_ActionKeySpawnUnitsFromUnitFavourites", nameof(settings.toggleSpawnEnemiesFromUnitFavourites));
-                        if (Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
+                        if (StringUtils.ToToggleBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
                             SpawnUnits.FavouritesMenu();
                         }
 
-                        if (Strings.ToBool(settings.toggleActionKeyExperimental)) {
+                        if (StringUtils.ToToggleBool(settings.toggleActionKeyExperimental)) {
                             GL.Space(10);
 
                             settings.actionKeySpawnRandomEnemy = GL.Toggle(settings.actionKeySpawnRandomEnemy, " " + Strings.GetText("toggle_SpawnRandomEnemy"), GL.ExpandWidth(false));
                         }
-                        if (Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites) && settings.actionKeySpawnRandomEnemy) {
+                        if (StringUtils.ToToggleBool(settings.toggleSpawnEnemiesFromUnitFavourites) && settings.actionKeySpawnRandomEnemy) {
                             MenuTools.SingleLineLabel(RichTextUtils.BoldRedFormat(Strings.GetText("warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites")));
                         }
 
                         GL.Space(10);
-                        if (!Strings.ToBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
+                        if (!StringUtils.ToToggleBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
                             MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("label_SpawnHostileBandits1")));
                         }
                         else {
-                            MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("label_SpawnHostileBandits1")) + " " + Strings.Parenthesis(RichTextUtils.BoldRedFormat(Strings.GetText("label_SpawnHostileBandits2"))));
+                            MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("label_SpawnHostileBandits1")) + " " + StringUtils.PutInParenthesis(RichTextUtils.BoldRedFormat(Strings.GetText("label_SpawnHostileBandits2"))));
                         }
-                        MenuTools.SingleLineLabel(Strings.GetText("label_ChallengeRating") + " " + Strings.Parenthesis(Strings.GetText("misc_Bandit")));
+                        MenuTools.SingleLineLabel(Strings.GetText("label_ChallengeRating") + " " + StringUtils.PutInParenthesis(Strings.GetText("misc_Bandit")));
                         GL.BeginHorizontal();
                         banidtCrIndex = GL.SelectionGrid(banidtCrIndex, numberArray0t7, 8);
                         GL.EndHorizontal();
@@ -422,7 +422,7 @@ namespace BagOfTricks {
             string assetGuid = blueprint.AssetGuid;
 
 
-            if (Strings.ToBool(Main.settings.toggleActionKeyLogInfo)) {
+            if (StringUtils.ToToggleBool(Main.settings.toggleActionKeyLogInfo)) {
                 Main.botLoggerLog.Log(blueprintName);
                 Main.botLoggerLog.Log(assetGuid);
             }

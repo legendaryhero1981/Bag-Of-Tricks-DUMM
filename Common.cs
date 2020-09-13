@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using BagOfTricks.Utils;
+using Harmony;
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Root;
@@ -165,50 +166,64 @@ namespace BagOfTricks
             GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
-                UnitEntityData player = Game.Instance.Player.MainCharacter.Value;
-                UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);
-                unit.Descriptor.SwitchFactions(Utilities.GetBlueprintByGuid<BlueprintFaction>("d8de50cc80eb4dc409a983991e0b77ad"), true); // d8de50cc80eb4dc409a983991e0b77ad Neutrals
-                unit.AttackFactions.Clear();
+                BlueprintUnit blueprintUnit = Utilities.GetBlueprintByGuid<BlueprintUnit>(guid);
+                if (blueprintUnit != null) {
+                    UnitEntityData player = Game.Instance.Player.MainCharacter.Value;
+                    UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);
+                    unit.Descriptor.SwitchFactions(Utilities.GetBlueprintByGuid<BlueprintFaction>("d8de50cc80eb4dc409a983991e0b77ad"), true); // d8de50cc80eb4dc409a983991e0b77ad Neutrals
+                    unit.AttackFactions.Clear();
+                }
             }
         }
+
         public static void SpawnFriendlyUnit(Vector3 position, string guid)
         {
             GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
-                UnitEntityData player = Game.Instance.Player.MainCharacter.Value;
-                UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);
-                unit.Descriptor.SwitchFactions(Game.Instance.BlueprintRoot.PlayerFaction, true);
+                BlueprintUnit blueprintUnit = Utilities.GetBlueprintByGuid<BlueprintUnit>(guid);
+                if (blueprintUnit != null) {
+                    UnitEntityData player = Game.Instance.Player.MainCharacter.Value;
+                    UnitEntityData unit = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(player.OrientationDirection), Game.Instance.CurrentScene.MainState);
+                    unit.Descriptor.SwitchFactions(Game.Instance.BlueprintRoot.PlayerFaction, true);
+                }
             }
         }
+
         public static void SpawnHostileUnit(Vector3 position, string guid)
         {
             GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
-                Player player = Game.Instance.Player;
-                UnitEntityData target = player.Party.Random<UnitEntityData>();
-                UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
-                if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
-                {
-                    executor.AttackFactions.Add(Game.Instance.BlueprintRoot.PlayerFaction);
+                BlueprintUnit blueprintUnit = Utilities.GetBlueprintByGuid<BlueprintUnit>(guid);
+                if (blueprintUnit != null) {
+                    Player player = Game.Instance.Player;
+                    UnitEntityData target = player.Party.Random<UnitEntityData>();
+                    UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
+                    if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
+                    {
+                        executor.AttackFactions.Add(Game.Instance.BlueprintRoot.PlayerFaction);
+                    }
+                    executor.Commands.Run(UnitAttack.CreateAttackCommand(executor, target));
                 }
-                executor.Commands.Run(UnitAttack.CreateAttackCommand(executor, target));
             }
         }
+
         public static void SpawnHostileUnit(Vector3 position, BlueprintUnit unit)
         {
             GameModeType currentMode = Game.Instance.CurrentMode;
             if (currentMode == GameModeType.Default || currentMode == GameModeType.Pause)
             {
-                Player player = Game.Instance.Player;
-                UnitEntityData target = player.Party.Random<UnitEntityData>();
-                UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit(unit, position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
-                if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
-                {
-                    executor.AttackFactions.Add(Game.Instance.BlueprintRoot.PlayerFaction);
+                if (unit != null) {
+                    Player player = Game.Instance.Player;
+                    UnitEntityData target = player.Party.Random<UnitEntityData>();
+                    UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit(unit, position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
+                    if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
+                    {
+                        executor.AttackFactions.Add(Game.Instance.BlueprintRoot.PlayerFaction);
+                    }
+                    executor.Commands.Run(UnitAttack.CreateAttackCommand(executor, target));
                 }
-                executor.Commands.Run(UnitAttack.CreateAttackCommand(executor, target));
             }
         }
 
@@ -595,7 +610,7 @@ namespace BagOfTricks
 
         public static string ExportPath()
         {
-            if (Strings.ToBool(settings.toggleExportToModFolder))
+            if (StringUtils.ToToggleBool(settings.toggleExportToModFolder))
             {
                 return Storage.modEntryPath + Storage.exportFolder;
             }

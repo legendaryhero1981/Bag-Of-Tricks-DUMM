@@ -35,7 +35,7 @@ namespace BagOfTricks
             {
                 if (toggle == Storage.isFalseString)
                 {
-                    if (!Strings.ToBool(dependancy))
+                    if (!StringUtils.ToToggleBool(dependancy))
                     {
                         dependancy = Storage.isTrueString;
                     }
@@ -312,8 +312,6 @@ namespace BagOfTricks
 
         public static ref string GetToggleButton(string toggleButton)
         {
-            try
-            {
                 switch (toggleButton)
                 {
                     case "toggleNoLevelUpRestirctions":
@@ -501,12 +499,6 @@ namespace BagOfTricks
                     default:
                         throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
                 }
-            }
-            catch (Exception e)
-            {
-                modLogger.Log(e.ToString());
-                throw;
-            }
         }
 
         public static void AddFavouriteButton(string methodName)
@@ -726,7 +718,7 @@ namespace BagOfTricks
                 GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
             }
 
-            stringSetting = GL.TextField(stringSetting, 6, GL.Width(50f));
+            stringSetting = GL.TextField(stringSetting, 6, GL.Width(240f));
             SettingParse(ref stringSetting, ref finalSetting, noZero);
             GL.EndHorizontal();
         }
@@ -846,7 +838,7 @@ namespace BagOfTricks
             MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_Alignment")));
             MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("warning_Alignment")));
 
-            if (Strings.ToBool(settings.togglePreventAlignmentChanges))
+            if (StringUtils.ToToggleBool(settings.togglePreventAlignmentChanges))
             {
                 GL.Space(10);
                 MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("warning_PreventAlignmentChanges")));
@@ -891,18 +883,20 @@ namespace BagOfTricks
         public static void AddSingleItemAmount(string itemGuid, int itemAmount, bool identify = false)
         {
             if (1 > itemAmount) itemAmount = 1;
-            if (settings.itemGuid != Main.ExcludeGuid)
+            var itemByGuid = Utilities.GetBlueprintByGuid<BlueprintItem>(itemGuid);
+            if (itemByGuid != null)
             {
-                var itemByGuid = Utilities.GetBlueprintByGuid<BlueprintItem>(itemGuid);
-                if (null == itemByGuid) return;
-                if (identify)
+                if (settings.itemGuid != Main.ExcludeGuid)
                 {
-                    ItemEntity itemEntity = Utilities.GetBlueprintByGuid<BlueprintItem>(itemGuid).CreateEntity();
-                    itemEntity.Identify();
-                    for (var i = 0; i < itemAmount; i++)
-                        Game.Instance.Player.Inventory.Add(itemEntity);
+                    if (identify)
+                    {
+                        ItemEntity itemEntity = Utilities.GetBlueprintByGuid<BlueprintItem>(itemGuid).CreateEntity();
+                        itemEntity.Identify();
+                        for (var i = 0; i < itemAmount; i++)
+                            Game.Instance.Player.Inventory.Add(itemEntity);
+                    }
+                    else Game.Instance.Player.Inventory.Add(itemByGuid, itemAmount);
                 }
-                else Game.Instance.Player.Inventory.Add(itemByGuid, itemAmount);
             }
             else modLogger.Log(Storage.notificationEkunQ2RewardArmor);
         }
@@ -938,7 +932,7 @@ namespace BagOfTricks
 
         public static void IncompatibilityWarning(string warningLabel, string toggleA, string toggleB)
         {
-            if (Strings.ToBool(toggleA) && Strings.ToBool(toggleB))
+            if (StringUtils.ToToggleBool(toggleA) && StringUtils.ToToggleBool(toggleB))
             {
                 SingleLineLabel(warningLabel);
             }
@@ -984,22 +978,6 @@ namespace BagOfTricks
             return remove;
         }
 
-        public static bool ToBool(string s)
-        {
-            if (s == Storage.isTrueString)
-            {
-                return true;
-            }
-            else if (s == Storage.isFalseString)
-            {
-                return false;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("StringToBool received an invalid string!");
-            }
-        }
-
         public static string GetText(string key)
         {
             string value;
@@ -1031,11 +1009,6 @@ namespace BagOfTricks
         public static string ToggleSpaceLeftFormat(string s)
         {
             return s = " " + s;
-        }
-
-        public static string Parenthesis(string s)
-        {
-            return s = "(" + s + ")";
         }
 
         public static string SpaceBeforeCaptialFormat(string s)
@@ -1255,7 +1228,7 @@ namespace BagOfTricks
         public void RenderFieldNoGroup(string newLabel)
         {
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
+            amount = GL.TextField(amount, GL.Width(240f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
         }
 
@@ -1285,7 +1258,7 @@ namespace BagOfTricks
         {
             GL.BeginHorizontal();
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
+            amount = GL.TextField(amount, GL.Width(240f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
             GL.EndHorizontal();
         }
@@ -1294,7 +1267,7 @@ namespace BagOfTricks
         {
             GL.BeginHorizontal();
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
+            amount = GL.TextField(amount, GL.Width(240f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
             GL.EndHorizontal();
         }
@@ -1302,14 +1275,14 @@ namespace BagOfTricks
         public void RenderFieldNoGroup()
         {
             GL.Label(Strings.GetText(label) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
+            amount = GL.TextField(amount, GL.Width(240f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
         }
 
         public void RenderFieldNoGroup(string newLabel)
         {
             GL.Label(Strings.GetText(newLabel) + ": ", GL.ExpandWidth(false));
-            amount = GL.TextField(amount, GL.Width(230f));
+            amount = GL.TextField(amount, GL.Width(240f));
             MenuTools.SettingParse(ref amount, ref finalAmount);
         }
 

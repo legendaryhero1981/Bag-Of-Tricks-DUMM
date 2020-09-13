@@ -1,5 +1,7 @@
 ﻿using BagOfTricks.Favourites;
 using BagOfTricks.Utils;
+using BagOfTricks.Utils.Kingmaker;
+using BagOfTricks.Utils.Mods;
 using Harmony12;
 using Kingmaker;
 using Kingmaker.Assets.UI;
@@ -140,20 +142,19 @@ namespace BagOfTricks
                 SerializeFallback();
             }
 
-            if (Strings.ToBool(settings.toggleActionKeyLogInfo) || (Strings.ToBool(settings.toggleCreateBattleLogFile) && Strings.ToBool(settings.toggleCreateBattleLogFileBotLog)))
+            if (StringUtils.ToToggleBool(settings.toggleActionKeyLogInfo) || (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFile) && StringUtils.ToToggleBool(settings.toggleCreateBattleLogFileBotLog)))
             {
                 LoggerUtils.InitBagOfTrickLogger();
             }
 
-            if (Strings.ToBool(settings.toggleCreateBattleLogFile))
+            if (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFile))
             {
-
-                if (Strings.ToBool(settings.toggleCreateBattleLogFileLog))
+                if (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFileLog))
                 {
                     LoggerUtils.InitBattleLogDefaultLogger();
                 }
 
-                if (Strings.ToBool(settings.toggleCreateBattleLogFileHtml))
+                if (StringUtils.ToToggleBool(settings.toggleCreateBattleLogFileHtml))
                 {
                     LoggerUtils.InitBattleLogHtmlLogger();
                 }
@@ -169,7 +170,7 @@ namespace BagOfTricks
 
             Storage.modAssemblyName = modEntry.Info.AssemblyName;
 
-            if (Strings.ToBool(settings.toggleEnableTaxCollector))
+            if (StringUtils.ToToggleBool(settings.toggleEnableTaxCollector))
             {
                 taxSettings = TaxCollector.Deserialize(Storage.modEntryPath + Storage.taxCollectorFolder + "\\" + Storage.taxCollectorFile);
                 TaxCollector.saveTimeGame = taxSettings.saveTime;
@@ -178,7 +179,7 @@ namespace BagOfTricks
             if (Storage.gamerVersionAtCreation != GameVersion.GetVersion())
             {
                 modLogger.Log(Strings.GetText("warning_GameVersion") + $": { GameVersion.GetVersion()}");
-                modLogger.Log(Strings.GetText("warning_GameVersion") + " " + Strings.Parenthesis(Strings.GetText("warning_Mod")) + $": {Storage.gamerVersionAtCreation}");
+                modLogger.Log(Strings.GetText("warning_GameVersion") + " " + StringUtils.PutInParenthesis(Strings.GetText("warning_Mod")) + $": {Storage.gamerVersionAtCreation}");
                 versionMismatch = true;
             }
 
@@ -452,16 +453,16 @@ namespace BagOfTricks
                 stealthDcIncrement.SetValue(null, settings.gameConstsMinWeaponRange.Feet());
             }
 
-            if (Strings.ToBool(settings.toggleUberLogger))
+            if (StringUtils.ToToggleBool(settings.toggleUberLogger))
             {
                 UberLogger.Logger.Enabled = true;
-                if (Strings.ToBool(settings.toggleUberLoggerForward))
+                if (StringUtils.ToToggleBool(settings.toggleUberLoggerForward))
                 {
                     UberLogger.Logger.ForwardMessages = true;
                 }
             }
 
-            if (!BuildModeUtility.IsDevelopment && Strings.ToBool(settings.toggleCombatDifficultyMessage))
+            if (!BuildModeUtility.IsDevelopment && StringUtils.ToToggleBool(settings.toggleCombatDifficultyMessage))
             {
                 EventBus.Subscribe(new CombatDifficultyMessage());
             }
@@ -514,37 +515,37 @@ namespace BagOfTricks
                 {
                     if (versionMismatch && !Storage.hideVersionMismatch)
                     {
-                        Menu.VersionMismatch();
+                        MainMenu.VersionMismatch();
                     }
 
                     GL.Space(10);
 
                     settings.mainToolbarIndex = GL.Toolbar(settings.mainToolbarIndex, Storage.mainToolbarStrings, WindowWidth);
 
-                    if (Strings.ToBool(settings.toggleBoTScrollBar))
+                    if (StringUtils.ToToggleBool(settings.toggleBoTScrollBar))
                     {
                         scrollPosition = GL.BeginScrollView(scrollPosition, GL.Width(Storage.ummWidth - 24f));
                     }
                     switch (settings.mainToolbarIndex)
                     {
                         case 0:
-                            ModUI.FavouriteFunctions.Render();
+                            ModUI.FavouriteFunctionsMenu.Render();
                             break;
                         case 1:
-                            Menu.Cheat();
+                            MainMenu.Cheat();
                             break;
                         case 2:
-                            Menu.Mods();
+                            MainMenu.Mods();
                             break;
                         case 3:
-                            Menu.Tools();
+                            MainMenu.Tools();
                             break;
                         case 4:
-                            Menu.Settings();
+                            MainMenu.Settings();
                             break;
                     }
 
-                    if (Strings.ToBool(settings.toggleBoTScrollBar))
+                    if (StringUtils.ToToggleBool(settings.toggleBoTScrollBar))
                     {
                         GL.EndScrollView();
                     }
@@ -553,7 +554,7 @@ namespace BagOfTricks
                 {
                     if (versionMismatch && !Storage.hideVersionMismatch)
                     {
-                        Menu.VersionMismatch();
+                        MainMenu.VersionMismatch();
                     }
                     GL.BeginHorizontal();
                     GL.Label(Strings.GetText("message_NotInGame"));
@@ -572,7 +573,7 @@ namespace BagOfTricks
             {
                 if (versionMismatch && !Storage.hideVersionMismatch)
                 {
-                    Menu.VersionMismatch();
+                    MainMenu.VersionMismatch();
                 }
                 if (Storage.loadOnce)
                 {
@@ -646,7 +647,7 @@ namespace BagOfTricks
             {
                 if (versionMismatch && !Storage.hideVersionMismatch)
                 {
-                    Menu.VersionMismatch();
+                    MainMenu.VersionMismatch();
                 }
                 MenuTools.SingleLineLabel(Strings.GetText("message_GameLoading"));
             }
@@ -845,7 +846,7 @@ namespace BagOfTricks
                 if (bpItem.name == "EkunQ2_rewardArmor") continue;
                 if (settings.toggleSearchOnlyCraftMagicItems == Storage.isTrueString)
                 {
-                    if (!bpItem.AssetGuid.Contains(Storage.scribeScrollBlueprintPrefix) && !bpItem.AssetGuid.Contains(Storage.craftMagicItemsBlueprintPrefix)) continue;
+                    if (!bpItem.AssetGuid.Contains(CraftMagicItemsUtils.oldBlueprintSuffix) && !bpItem.AssetGuid.Contains(CraftMagicItemsUtils.blueprintSuffix)) continue;
                     Storage.validItemObjectNames.Add(bpItem.name);
                     Storage.validItemNames.Add(bpItem.Name);
                     Storage.validItemDescriptions.Add(bpItem.Description);
@@ -946,7 +947,15 @@ namespace BagOfTricks
             Storage.toggleItemFavouriteDescription.Clear();
             for (var i = 0; i < FavouritesFactory.GetFavouriteItems.FavouritesList.Count; i++)
             {
-                Storage.itemFavouritesNames.Add(Utilities.GetBlueprintByGuid<BlueprintItem>(FavouritesFactory.GetFavouriteItems.FavouritesList[i]).Name);
+                BlueprintItem blueprintItem = Utilities.GetBlueprintByGuid<BlueprintItem>(FavouritesFactory.GetFavouriteItems.FavouritesList[i]);
+                if (blueprintItem != null)
+                {
+                    Storage.itemFavouritesNames.Add(blueprintItem.Name);
+                }
+                else
+                {
+                    Storage.itemFavouritesNames.Add(FavouritesFactory.GetFavouriteItems.FavouritesList[i] + " " + Strings.GetText("error_NotFound"));
+                }
             }
         }
 
@@ -971,7 +980,7 @@ namespace BagOfTricks
                 var bpBuff = bso as BlueprintBuff;
                 Storage.buffValidObjectNames.Add(bpBuff.name);
                 Storage.buffValidNames.Add(bpBuff.Name);
-                Storage.buffValidDescriptions.Add(GetBuffDescription(bso));
+                Storage.buffValidDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(bso));
                 foreach (var bc in bpBuff.CollectComponents())
                     Storage.buffValidComponents.Add(bc.name);
                 Storage.buffValidGuids.Add(bpBuff.AssetGuid);
@@ -989,10 +998,8 @@ namespace BagOfTricks
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
                             Storage.buffResultGuids.Add(stringBuffGuid);
-                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName)
-                                ? stringBuffName
-                                : stringBuffObjectNames);
-                            Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName) ? stringBuffName : stringBuffObjectNames);
+                            Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                         }
                     }
                 }
@@ -1003,10 +1010,8 @@ namespace BagOfTricks
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
                             Storage.buffResultGuids.Add(stringBuffGuid);
-                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName)
-                                ? stringBuffName
-                                : stringBuffObjectNames);
-                            Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName) ? stringBuffName : stringBuffObjectNames);
+                            Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                         }
                     }
                 }
@@ -1017,10 +1022,8 @@ namespace BagOfTricks
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
                             Storage.buffResultGuids.Add(stringBuffGuid);
-                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName)
-                                ? stringBuffName
-                                : stringBuffObjectNames);
-                            Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName) ? stringBuffName : stringBuffObjectNames);
+                            Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                         }
                     }
                 }
@@ -1031,20 +1034,12 @@ namespace BagOfTricks
                         if (!Storage.buffResultGuids.Contains(stringBuffGuid))
                         {
                             Storage.buffResultGuids.Add(stringBuffGuid);
-                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName)
-                                ? stringBuffName
-                                : stringBuffObjectNames);
-                            Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                            Storage.buffResultNames.Add(!string.IsNullOrEmpty(stringBuffName) ? stringBuffName : stringBuffObjectNames);
+                            Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                         }
                     }
                 }
             }
-        }
-
-        public static string GetBuffDescription(BlueprintScriptableObject bpObejct)
-        {
-            var context = new MechanicsContext((UnitEntityData)null, Game.Instance.Player.MainCharacter.Value.Descriptor, bpObejct, (MechanicsContext)null, (TargetWrapper)null);
-            return context.SelectUIData(UIDataType.Description)?.Description;
         }
 
         public static void RefreshBuffFavourites()
@@ -1054,17 +1049,17 @@ namespace BagOfTricks
             Storage.buffFavouritesDescriptions.Clear();
             for (var i = 0; i < FavouritesFactory.GetFavouriteBuffs.FavouritesList.Count; i++)
             {
-                var stringBuffName = Utilities.GetBlueprintByGuid<BlueprintBuff>(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i]).Name;
-                if (stringBuffName != "" && stringBuffName != null)
+                BlueprintBuff blueprintBuff = Utilities.GetBlueprintByGuid<BlueprintBuff>(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i]);
+                if (blueprintBuff != null)
                 {
-                    Storage.buffFavouritesNames.Add(stringBuffName);
+                    Storage.buffFavouritesNames.Add(BlueprintUtils.GetName(blueprintBuff) ?? FavouritesFactory.GetFavouriteBuffs.FavouritesList[i]);
+                    Storage.buffFavouritesDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(blueprintBuff));
                 }
                 else
                 {
-                    var stringBuffObjectNames = Utilities.GetBlueprintByGuid<BlueprintBuff>(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i]).name;
-                    Storage.buffFavouritesNames.Add(stringBuffObjectNames);
+                    Storage.buffFavouritesNames.Add(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i] + " " + Strings.GetText("error_NotFound"));
+                    Storage.buffFavouritesDescriptions.Add(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i] + " " + Strings.GetText("error_NotFound"));
                 }
-                Storage.buffFavouritesDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(FavouritesFactory.GetFavouriteBuffs.FavouritesList[i])));
             }
         }
 
@@ -1110,7 +1105,7 @@ namespace BagOfTricks
 
                         Storage.buffValidObjectNames.Add(bpBuff.name);
                         Storage.buffValidNames.Add(bpBuff.Name);
-                        Storage.buffValidDescriptions.Add(GetBuffDescription(bpObejct));
+                        Storage.buffValidDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(bpObejct));
 
                         foreach (var bc in bpBuff.CollectComponents())
                         {
@@ -1145,7 +1140,7 @@ namespace BagOfTricks
                                     Storage.buffResultNames.Add(stringBuffObjectNames);
                                 }
 
-                                Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                                Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                             }
                         }
                     }
@@ -1168,7 +1163,7 @@ namespace BagOfTricks
                                         Storage.buffResultNames.Add(stringBuffObjectNames);
                                     }
 
-                                    Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                                    Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                                 }
                             }
                         }
@@ -1192,7 +1187,7 @@ namespace BagOfTricks
                                         Storage.buffResultNames.Add(stringBuffObjectNames);
                                     }
 
-                                    Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                                    Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                                 }
                             }
                         }
@@ -1216,7 +1211,7 @@ namespace BagOfTricks
                                         Storage.buffResultNames.Add(stringBuffObjectNames);
                                     }
 
-                                    Storage.buffResultDescriptions.Add(GetBuffDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
+                                    Storage.buffResultDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(Utilities.GetBlueprintByGuid<BlueprintBuff>(stringBuffGuid)));
                                 }
                             }
                         }
@@ -1369,7 +1364,7 @@ namespace BagOfTricks
 
         public static void CheckRandomEncounterSettings()
         {
-            if (Strings.ToBool(settings.toggleEnableRandomEncounterSettings))
+            if (StringUtils.ToToggleBool(settings.toggleEnableRandomEncounterSettings))
             {
                 if (settings.toggleRandomEncountersEnabled == Storage.isFalseString)
                 {
@@ -1585,116 +1580,20 @@ namespace BagOfTricks
             for (var i = 0; i < FavouritesFactory.GetFavouriteFeats.FavouritesList.Count; i++)
             {
                 var stringFeatName = Utilities.GetBlueprintByGuid<BlueprintFeature>(FavouritesFactory.GetFavouriteFeats.FavouritesList[i]).Name;
-                if (stringFeatName != "" && stringFeatName != null)
+                if (StringUtils.IsGUID(FavouritesFactory.GetFavouriteFeats.FavouritesList[i]))
                 {
-                    Storage.featFavouritesNames.Add(stringFeatName);
-                }
-                else
-                {
-                    var stringFeatObjectNames = Utilities.GetBlueprintByGuid<BlueprintFeature>(FavouritesFactory.GetFavouriteFeats.FavouritesList[i]).name;
-                    Storage.featFavouritesNames.Add(stringFeatObjectNames);
-                }
-                Storage.featFavouritesDescriptions.Add(GetFeatDescription(Utilities.GetBlueprintByGuid<BlueprintFeature>(FavouritesFactory.GetFavouriteFeats.FavouritesList[i])));
-            }
-        }
-
-        public static string GetFeatDescription(BlueprintScriptableObject bpObejct)
-        {
-            var context = new MechanicsContext((UnitEntityData)null, Game.Instance.Player.MainCharacter.Value.Descriptor, bpObejct, (MechanicsContext)null, (TargetWrapper)null);
-            return context.SelectUIData(UIDataType.Description)?.Description;
-        }
-
-        public static void SearchValidFeats(List<string> validFeatTypesList)
-        {
-            Storage.featValidObjectNames.Clear();
-            Storage.featValidNames.Clear();
-            Storage.featValidDescriptions.Clear();
-            Storage.featValidGuids.Clear();
-            Storage.featResultNames.Clear();
-            Storage.featResultGuids.Clear();
-            Storage.featResultDescriptions.Clear();
-
-            if (string.IsNullOrEmpty(settings.featSearch)) return;
-            Storage.currentFeatSearch = settings.featSearch;
-            Storage.blueprintList = ResourcesLibrary.LibraryObject.GetAllBlueprints();
-
-            foreach (var bso in Storage.blueprintList)
-            {
-                if (validFeatTypesList.Contains(bso.GetType().Name))
-                {
-                    var bpFeat = bso as BlueprintFeature;
-                    Storage.featValidObjectNames.Add(bpFeat.name);
-                    Storage.featValidNames.Add(bpFeat.Name);
-                    Storage.featValidDescriptions.Add(GetFeatDescription(bso));
-                    Storage.featValidGuids.Add(bpFeat.AssetGuid);
-                }
-            }
-
-            for (var i = 0; i < Storage.featValidObjectNames.Count; i++)
-            {
-                var stringFeatName = Storage.featValidNames[i];
-                var stringFeatObjectNames = Storage.featValidObjectNames[i];
-                var stringFeatGuid = Storage.featValidGuids[i];
-                if (Storage.featValidObjectNames[i].Contains(settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (settings.toggleSearchByFeatObjectName == Storage.isTrueString)
+                    BlueprintFeature blueprintFeature = Utilities.GetBlueprintByGuid<BlueprintFeature>(FavouritesFactory.GetFavouriteFeats.FavouritesList[i]);
+                    if (blueprintFeature != null)
                     {
-                        if (!Storage.featResultGuids.Contains(stringFeatGuid))
-                        {
-                            Storage.featResultGuids.Add(stringFeatGuid);
-                            Storage.featResultNames.Add(!string.IsNullOrEmpty(stringFeatName)
-                                ? stringFeatName
-                                : stringFeatObjectNames);
-                            Storage.featResultDescriptions.Add(GetFeatDescription(Utilities.GetBlueprintByGuid<BlueprintFeature>(stringFeatGuid)));
-                        }
+                        Storage.featFavouritesNames.Add(BlueprintUtils.GetName(blueprintFeature) ?? FavouritesFactory.GetFavouriteFeats.FavouritesList[i]);
+                        Storage.featFavouritesDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(blueprintFeature));
+                    }
+                    else
+                    {
+                        Storage.featFavouritesNames.Add(FavouritesFactory.GetFavouriteFeats.FavouritesList[i] + " " + Strings.GetText("error_NotFound"));
+                        Storage.featFavouritesDescriptions.Add(FavouritesFactory.GetFavouriteFeats.FavouritesList[i] + " " + Strings.GetText("error_NotFound"));
                     }
                 }
-                if (Storage.featValidNames[i].Contains(settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (settings.toggleSearchByFeatName == Storage.isTrueString)
-                    {
-                        if (!Storage.featResultGuids.Contains(stringFeatGuid))
-                        {
-                            Storage.featResultGuids.Add(stringFeatGuid);
-                            Storage.featResultNames.Add(!string.IsNullOrEmpty(stringFeatName)
-                                ? stringFeatName
-                                : stringFeatObjectNames);
-                            Storage.featResultDescriptions.Add(GetFeatDescription(Utilities.GetBlueprintByGuid<BlueprintFeature>(stringFeatGuid)));
-                        }
-                    }
-                }
-                if (Storage.featValidDescriptions[i].Contains(settings.featSearch, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (settings.toggleSearchByFeatDescription == Storage.isTrueString)
-                    {
-                        if (!Storage.featResultGuids.Contains(stringFeatGuid))
-                        {
-                            Storage.featResultGuids.Add(stringFeatGuid);
-                            Storage.featResultNames.Add(!string.IsNullOrEmpty(stringFeatName)
-                                ? stringFeatName
-                                : stringFeatObjectNames);
-                            Storage.featResultDescriptions.Add(GetFeatDescription(Utilities.GetBlueprintByGuid<BlueprintFeature>(stringFeatGuid)));
-                        }
-                    }
-                }
-            }
-        }
-
-        public static void RefreshAllFeats(UnitEntityData unitEntityData)
-        {
-            Storage.featAllNames.Clear();
-            Storage.featAllObjectNames.Clear();
-            Storage.featAllRanks.Clear();
-            Storage.featAllGuids.Clear();
-            Storage.featAllDescriptions.Clear();
-
-            for (var i = 0; i < unitEntityData.Descriptor.Progression.Features.Count; i++)
-            {
-                Storage.featAllNames.Add(unitEntityData.Descriptor.Progression.Features[i].Name);
-                Storage.featAllObjectNames.Add(unitEntityData.Descriptor.Progression.Features[i].Blueprint.name);
-                Storage.featAllRanks.Add(unitEntityData.Descriptor.Progression.Features[i].GetRank());
-                Storage.featAllGuids.Add(unitEntityData.Descriptor.Progression.Features[i].Blueprint.AssetGuid);
-                Storage.featAllDescriptions.Add(GetFeatDescription(unitEntityData.Descriptor.Progression.Features[i].Blueprint));
             }
         }
 
@@ -1931,7 +1830,7 @@ namespace BagOfTricks
                 Storage.addAbilitiesAllNames.Add(unitEntityData.Descriptor.Abilities[i].Name);
                 Storage.addAbilitiesAllObjectNames.Add(unitEntityData.Descriptor.Abilities[i].Blueprint.name);
                 Storage.addAbilitiesAllGuids.Add(unitEntityData.Descriptor.Abilities[i].Blueprint.AssetGuid);
-                Storage.addAbilitiesAllDescriptions.Add(GetFeatDescription(unitEntityData.Descriptor.Abilities[i].Blueprint));
+                Storage.addAbilitiesAllDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(unitEntityData.Descriptor.Abilities[i].Blueprint));
             }
         }
 
@@ -1942,17 +1841,17 @@ namespace BagOfTricks
             Storage.abilitiesFavouritesDescriptions.Clear();
             for (var i = 0; i < FavouritesFactory.GetFavouriteAbilities.FavouritesList.Count; i++)
             {
-                var stringAbilityName = Utilities.GetBlueprintByGuid<BlueprintAbility>(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]).Name;
-                if (stringAbilityName != "" && stringAbilityName != null)
+                BlueprintAbility blueprintAbility = Utilities.GetBlueprintByGuid<BlueprintAbility>(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]);
+                if (blueprintAbility != null)
                 {
-                    Storage.abilitiesFavouritesNames.Add(stringAbilityName);
+                    Storage.abilitiesFavouritesNames.Add(BlueprintUtils.GetName(blueprintAbility) ?? FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]);
+                    Storage.abilitiesFavouritesDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(blueprintAbility));
                 }
                 else
                 {
-                    var stringAbilityObjectNames = Utilities.GetBlueprintByGuid<BlueprintAbility>(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]).name;
-                    Storage.abilitiesFavouritesNames.Add(stringAbilityObjectNames);
+                    Storage.abilitiesFavouritesNames.Add(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i] + " " + Strings.GetText("error_NotFound"));
+                    Storage.abilitiesFavouritesDescriptions.Add(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i] + " " + Strings.GetText("error_NotFound"));
                 }
-                Storage.abilitiesFavouritesDescriptions.Add(Utilities.GetBlueprintByGuid<BlueprintAbility>(FavouritesFactory.GetFavouriteAbilities.FavouritesList[i]).Description);
             }
         }
 

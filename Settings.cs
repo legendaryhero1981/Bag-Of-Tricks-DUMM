@@ -641,6 +641,8 @@ namespace BagOfTricks
         public string toggleCustomTakeXAsMin = Storage.isFalseString;
 
         public string toggleEnableRandomEncounterSettings = Storage.isFalseString;
+        public string toggleAccessRemoteCharacters = Storage.isFalseString;
+
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             Save(this, modEntry);

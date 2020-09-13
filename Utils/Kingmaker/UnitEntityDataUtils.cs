@@ -60,7 +60,6 @@ namespace BagOfTricks.Utils.Kingmaker
         public static void Charm(UnitEntityData unit) {
             if (unit != null) {
                 unit.Descriptor.SwitchFactions(Game.Instance.BlueprintRoot.PlayerFaction, true);
-
             }
             else {
                 Common.ModLoggerDebug("Unit is null!");

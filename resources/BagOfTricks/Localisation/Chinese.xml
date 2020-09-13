@@ -656,6 +656,7 @@
   <Localisation key="buttonToggle_CreateBattleLogFileBoT" value="使用百宝袋MOD格式的日志文件" />
   <Localisation key="buttonToggle_RespecCostMultiplier" value="角色重置消耗倍数" />
   <Localisation key="buttonToggle_toggleCustomTakeXAsMin" value="使用自定义最小投掷值" />
+  <Localisation key="buttonToggle_AccessRemoteCharacters" value="访问都城队友" />
   <Localisation key="arrayItem_Alignments_NoChange" value="无改变" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="混乱邪恶" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="中立邪恶" />
@@ -843,6 +844,7 @@
   <Localisation key="tooltip_VendorSellMultiplier" value="为出售给商人的商品启用倍数" />
   <Localisation key="tooltip_VendorsSellFor0" value="所有出售的物品价值为0" />
   <Localisation key="tooltip_VendorsBuyFor0" value="所有购买的物品价值为0。" />
+  <Localisation key="tooltip_AccessRemoteCharacters" value="允许您在首都之外访问队友的库存、角色界面和法术书。" />
   <Localisation key="tooltip_RepeatableLockPicking" value="锁可以重复地挑选。&#xA;锁的挑选需要引起疲劳和使用锁的挑选使用锁" />
   <Localisation key="tooltip_RepeatableLockPickingWeariness" value="每次尝试取锁都会导致疲劳。 低于此值时可以自定义（1.0 =每次尝试1小时的疲劳）。" />
   <Localisation key="tooltip_1EqualsHourWeariness" value="1.0 =每次尝试1小时的疲劳。" />
@@ -873,7 +875,7 @@
   <Localisation key="tooltip_AddMultipleItems" value="允许插入逗号分隔的多个GUID。" />
   <Localisation key="tooltip_ShowEnemies" value="显示敌人而不是队伍。" />
   <Localisation key="tooltip_ShowAllWeaponCategories" value="﻿启用此选项将允许您添加游戏中通常不包括的壮举版本，例如击剑恩典（巨木棒Greatclub？）。" />
-  <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="使用滑块或自定义倍数调整法术和能力范围。" />
+  <Localisation key="tooltip_SpellAbilityRangeMultiplier" value="使用滑块或自定义倍数调整法术和能力范围。&#xA;增加范围可以让敌人杀死他们无法正常瞄准的重要人物！" />
   <Localisation key="tooltip_EnemyBaseHitPointsMultiplier" value="使用滑块或自定义倍数调整敌人的基础命中点。&#xA;只影响随机遭遇战和尚未产生的敌人（例如未冒险过的区域）！" />
   <Localisation key="tooltip_EnemyBaseHitPointsMultiplierCampEncounter" value="在休息期间/之后为随机遭遇战中的敌人启用生命点倍数。" />
   <Localisation key="tooltip_EnemyBaseHitPointsMultiplierUnitSpawner" value="启用在未冒险过的本地区域中和在世界地图上的随机遭遇战中的敌人启用生命点倍数。" />
@@ -1061,6 +1063,7 @@
   <Localisation key="encumbrance_Overload" value="超载" />
   <Localisation key="error_EkunQ2" value="c5d4962385e0e9c439ab935d83361947（EkunQ2_rewardArmor）会导致错误，因此不会添加。" />
   <Localisation key="error_NotFound" value="没找到！" />
+  <Localisation key="error_InvalidGUID" value="是无效的GUID！" />
   <Localisation key="taxCollector_Lord" value="大臣" />
   <Localisation key="taxCollector_Lady" value="女士" />
   <Localisation key="taxCollector_Excellence" value="卓越" />

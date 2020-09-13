@@ -28,7 +28,7 @@ namespace BagOfTricks
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.1.1";
+        public static readonly string gamerVersionAtCreation = "2.1.2b";
 
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
         public static readonly string bagOfTicksLogFile = "BagOfTricks";
@@ -49,10 +49,6 @@ namespace BagOfTricks
         public static string currentItemSearch = "";
 
         public static List<string> itemMultipleGuid = new List<string>();
-
-        public static readonly string scribeScrollBlueprintPrefix = "#ScribeScroll";
-        public static readonly string craftMagicItemsBlueprintPrefix = "#CraftMagicItems";
-
 
         public static readonly List<string> validItemTypes = new List<string>
         {
@@ -363,11 +359,6 @@ namespace BagOfTricks
         public static List<string> featResultGuids = new List<string>();
         public static List<bool> featToggleResultDescription = new List<bool>();
         public static List<string> featResultDescriptions = new List<string>();
-
-        public static List<string> featValidObjectNames = new List<string>();
-        public static List<string> featValidNames = new List<string>();
-        public static List<string> featValidDescriptions = new List<string>();
-        public static List<string> featValidGuids = new List<string>();
 
         public static bool featAllLoad = true;
         public static List<string> featAllObjectNames = new List<string>();
