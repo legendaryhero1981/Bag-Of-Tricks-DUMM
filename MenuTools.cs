@@ -173,11 +173,13 @@ namespace BagOfTricks
                 }
             }
             GL.FlexibleSpace();
-            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(toggleName + "," + buttonText + "," + buttonTooltip)) {
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(toggleName + "," + buttonText + "," + buttonTooltip))
+            {
                 if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false)))
                     FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(toggleName + "," + buttonText + "," + buttonTooltip);
             }
-            else {
+            else
+            {
                 if (GL.Button(Storage.favouriteFalseString, GL.ExpandWidth(false)))
                     FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(toggleName + "," + buttonText + "," + buttonTooltip);
             }
@@ -312,202 +314,204 @@ namespace BagOfTricks
 
         public static ref string GetToggleButton(string toggleButton)
         {
-                switch (toggleButton)
-                {
-                    case "toggleNoLevelUpRestirctions":
-                        return ref settings.toggleNoLevelUpRestirctions;
-                    case "toggleInfiniteSkillpoints":
-                        return ref settings.toggleInfiniteSkillpoints;
-                    case "toggleIgnoreClassAlignment":
-                        return ref settings.toggleIgnoreClassAlignment;
-                    case "toggleIgnoreForbiddenFeatures":
-                        return ref settings.toggleIgnoreForbiddenFeatures;
-                    case "toggleNoRationsRequired":
-                        return ref settings.toggleNoRationsRequired;
-                    case "toggleVendorsSellFor0":
-                        return ref settings.toggleVendorsSellFor0;
-                    case "toggleVendorsBuyFor0":
-                        return ref settings.toggleVendorsBuyFor0;
-                    case "toggleInfiniteItems":
-                        return ref settings.toggleInfiniteItems;
-                    case "toggleEquipmentRestrictions":
-                        return ref settings.toggleEquipmentRestrictions;
-                    case "toggleUnlimitedCasting":
-                        return ref settings.toggleUnlimitedCasting;
-                    case "toggleMetamagic":
-                        return ref settings.toggleMetamagic;
-                    case "toggleMaterialComponent":
-                        return ref settings.toggleMaterialComponent;
-                    case "toggleSpontaneousCopyScrolls":
-                        return ref settings.toggleSpontaneousCopyScrolls;
-                    case "toggleInfiniteAbilities":
-                        return ref settings.toggleInfiniteAbilities;
-                    case "toggleRestoreSpellsAbilitiesAfterCombat":
-                        return ref settings.toggleRestoreSpellsAbilitiesAfterCombat;
-                    case "toggleUndetectableStealth":
-                        return ref settings.toggleUndetectableStealth;
-                    case "toggleFfAOE":
-                        return ref settings.toggleFfAoe;
-                    case "toggleFfAny":
-                        return ref settings.toggleFfAny;
-                    case "toggleInstantCooldown":
-                        return ref settings.toggleInstantCooldown;
-                    case "toggleMoveSpeedAsOne":
-                        return ref settings.toggleMoveSpeedAsOne;
-                    case "toggleEnableTeleport":
-                        return ref settings.toggleEnableTeleport;
-                    case "toggleEnableAvoidanceSuccess":
-                        return ref settings.toggleEnableAvoidanceSuccess;
-                    case "toggleInstantEvent":
-                        return ref settings.toggleInstantEvent;
-                    case "toggleKingdomEventResultSuccess":
-                        return ref settings.toggleKingdomEventResultSuccess;
-                    case "toggleSettlementRestrictions":
-                        return ref settings.toggleSettlementRestrictions;
-                    case "toggleEnemiesAlwaysRoll1":
-                        return ref settings.toggleEnemiesAlwaysRoll1;
-                    case "toggleEveryoneExceptPlayerFactionRolls1":
-                        return ref settings.toggleEveryoneExceptPlayerFactionRolls1;
-                    case "toggleDialogRestrictions":
-                        return ref settings.toggleDialogRestrictions;
-                    case "toggleNoInactiveCamp":
-                        return ref settings.toggleNoInactiveCamp;
-                    case "toggleEnableTaxCollector":
-                        return ref settings.toggleEnableTaxCollector;
-                    case "toggleShowTooltips":
-                        return ref settings.toggleShowTooltips;
-                    case "toggleAddToLog":
-                        return ref settings.toggleAddToLog;
-                    case "toggleInstantRestAfterCombat":
-                        return ref settings.toggleInstantRestAfterCombat;
-                    case "toggleFullHitdiceEachLevel":
-                        return ref settings.toggleFullHitdiceEachLevel;
-                    case "toggleRollHitDiceEachLevel":
-                        return ref settings.toggleRollHitDiceEachLevel;
-                    case "toggleIgnoreFeaturePrerequisites":
-                        return ref settings.toggleIgnoreFeaturePrerequisites;
-                    case "toggleIgnoreFeatureListPrerequisites":
-                        return ref settings.toggleIgnoreFeatureListPrerequisites;
-                    case "toggleFeaturesIgnorePrerequisites":
-                        return ref settings.toggleFeaturesIgnorePrerequisites;
-                    case "toggleNoDamageFromEnemies":
-                        return ref settings.toggleNoDamageFromEnemies;
-                    case "togglePartyOneHitKills":
-                        return ref settings.togglePartyOneHitKills;
-                    case "toggleAllDoorContainersUnlocked":
-                        return ref settings.toggleAllDoorContainersUnlocked;
-                    case "toggleNoIngredientsRequired":
-                        return ref settings.toggleNoIngredientsRequired;
-                    case "toggleUnityModManagerButton":
-                        return ref settings.toggleUnityModManagerButton;
-                    case "toggleDamageDealtMultipliers":
-                        return ref settings.toggleDamageDealtMultipliers;
-                    case "togglePartyDamageDealtMultiplier":
-                        return ref settings.togglePartyDamageDealtMultiplier;
-                    case "toggleEnemiesDamageDealtMultiplier":
-                        return ref settings.toggleEnemiesDamageDealtMultiplier;
-                    case "toggleScaleInventoryMoney":
-                        return ref settings.toggleScaleInventoryMoney;
-                    case "toggleNoBurnKineticist":
-                        return ref settings.toggleNoBurnKineticist;
-                    case "toggleMaximiseAcceptedBurn":
-                        return ref settings.toggleMaximiseAcceptedBurn;
-                    case "toggleMainCharacterRoll20":
-                        return ref settings.toggleMainCharacterRoll20;
-                    case "toggleShowPetInventory":
-                        return ref settings.toggleShowPetInventory;
-                    case "toggleAnimationCloseUMM":
-                        return ref settings.toggleAnimationCloseUmm;
-                    case "toggleInstantCooldownMainChar":
-                        return ref settings.toggleInstantCooldownMainChar;
-                    case "toggleDexBonusLimit99":
-                        return ref settings.toggleDexBonusLimit99;
-                    case "toggleItemsWeighZero":
-                        return ref settings.toggleItemsWeighZero;
-                    case "toggleAlignmentFix":
-                        return ref settings.toggleAlignmentFix;
-                    case "toggleSpellbookAbilityAlignmentChecks":
-                        return ref settings.toggleSpellbookAbilityAlignmentChecks;
-                    case "toggleFreezeTimedQuestAt90Days":
-                        return ref settings.toggleFreezeTimedQuestAt90Days;
-                    case "togglePreventQuestFailure":
-                        return ref settings.togglePreventQuestFailure;
-                    case "toggleAlwaysSucceedCastingDefensively":
-                        return ref settings.toggleAlwaysSucceedCastingDefensively;
-                    case "toggleAlwaysSucceedConcentration":
-                        return ref settings.toggleAlwaysSucceedConcentration;
-                    case "toggleSortSpellbooksAlphabetically":
-                        return ref settings.toggleSortSpellbooksAlphabetically;
-                    case "toggleSortSpellsAlphabetically":
-                        return ref settings.toggleSortSpellsAlphabetically;
-                    case "toggleAllHitsAreCritical":
-                        return ref settings.toggleAllHitsAreCritical;
-                    case "toggleCookingAndHuntingInDungeons":
-                        return ref settings.toggleCookingAndHuntingInDungeons;
-                    case "toggleInstantPartyChange":
-                        return ref settings.toggleInstantPartyChange;
-                    case "toggleSmartConsole":
-                        return ref settings.toggleDevTools;
-                    case "toggleBoTScrollBar":
-                        return ref settings.toggleBoTScrollBar;
-                    case "toggleNoNegativeLevels":
-                        return ref settings.toggleNoNegativeLevels;
-                    case "togglAutoEquipConsumables":
-                        return ref settings.togglAutoEquipConsumables;
-                    case "toggleIgnorePrerequisites":
-                        return ref settings.toggleIgnorePrerequisites;
-                    case "toggleIgnoreCasterTypeSpellLevel":
-                        return ref settings.toggleIgnoreCasterTypeSpellLevel;
-                    case "toggleIgnoreForbiddenArchetype":
-                        return ref settings.toggleIgnoreForbiddenArchetype;
-                    case "toggleIgnorePrerequisiteStatValue":
-                        return ref settings.toggleIgnorePrerequisiteStatValue;
-                    case "toggleSpiderBegone":
-                        return ref settings.toggleSpiderBegone;
-                    case "toggleNoTempHPKineticist":
-                        return ref settings.toggleNoTempHpKineticist;
-                    case "toggleShowAreaName":
-                        return ref settings.toggleShowAreaName;
-                    case "toggleRestoreItemChargesAfterCombat":
-                        return ref settings.toggleRestoreItemChargesAfterCombat;
-                    case "toggleReverseCasterAlignmentChecks":
-                        return ref settings.toggleReverseCasterAlignmentChecks;
-                    case "toggleDisplayObjectInfo":
-                        return ref settings.toggleDisplayObjectInfo;
-                    case "togglePreventAlignmentChanges":
-                        return ref settings.togglePreventAlignmentChanges;
-                    case "toggleExportToModFolder":
-                        return ref settings.toggleExportToModFolder;
-                    case "toggleMakeSummmonsControllable":
-                        return ref settings.toggleMakeSummmonsControllable;
-                    case "toggleArmourChecksPenalty0":
-                        return ref settings.toggleArmourChecksPenalty0;
-                    case "toggleDisableWarpaintedSkullAbilityForSummonedBarbarians":
-                        return ref settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians;
-                    case "toggleRemoveSummonsGlow":
-                        return ref settings.toggleRemoveSummonsGlow;
-                    case "toggleTabletopSpellAbilityRange":
-                        return ref settings.toggleTabletopSpellAbilityRange;
-                    case "toggleAutomaticallyLoadLastSave":
-                        return ref settings.toggleAutomaticallyLoadLastSave;
-                    case "toggleSpawnEnemiesFromUnitFavourites":
-                        return ref settings.toggleSpawnEnemiesFromUnitFavourites;
-                    case "toggleAllowCampingEverywhere":
-                        return ref settings.toggleAllowCampingEverywhere;
-                    case "toggleEnableRandomEncounterSettings":
-                        return ref settings.toggleEnableRandomEncounterSettings;
-                    default:
-                        throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
-                }
+            switch (toggleButton)
+            {
+                case "toggleNoLevelUpRestirctions":
+                    return ref settings.toggleNoLevelUpRestirctions;
+                case "toggleInfiniteSkillpoints":
+                    return ref settings.toggleInfiniteSkillpoints;
+                case "toggleIgnoreClassAlignment":
+                    return ref settings.toggleIgnoreClassAlignment;
+                case "toggleIgnoreForbiddenFeatures":
+                    return ref settings.toggleIgnoreForbiddenFeatures;
+                case "toggleNoRationsRequired":
+                    return ref settings.toggleNoRationsRequired;
+                case "toggleVendorsSellFor0":
+                    return ref settings.toggleVendorsSellFor0;
+                case "toggleVendorsBuyFor0":
+                    return ref settings.toggleVendorsBuyFor0;
+                case "toggleInfiniteItems":
+                    return ref settings.toggleInfiniteItems;
+                case "toggleEquipmentRestrictions":
+                    return ref settings.toggleEquipmentRestrictions;
+                case "toggleUnlimitedCasting":
+                    return ref settings.toggleUnlimitedCasting;
+                case "toggleMetamagic":
+                    return ref settings.toggleMetamagic;
+                case "toggleMaterialComponent":
+                    return ref settings.toggleMaterialComponent;
+                case "toggleSpontaneousCopyScrolls":
+                    return ref settings.toggleSpontaneousCopyScrolls;
+                case "toggleInfiniteAbilities":
+                    return ref settings.toggleInfiniteAbilities;
+                case "toggleRestoreSpellsAbilitiesAfterCombat":
+                    return ref settings.toggleRestoreSpellsAbilitiesAfterCombat;
+                case "toggleUndetectableStealth":
+                    return ref settings.toggleUndetectableStealth;
+                case "toggleFfAOE":
+                    return ref settings.toggleFfAoe;
+                case "toggleFfAny":
+                    return ref settings.toggleFfAny;
+                case "toggleInstantCooldown":
+                    return ref settings.toggleInstantCooldown;
+                case "toggleMoveSpeedAsOne":
+                    return ref settings.toggleMoveSpeedAsOne;
+                case "toggleEnableTeleport":
+                    return ref settings.toggleEnableTeleport;
+                case "toggleEnableAvoidanceSuccess":
+                    return ref settings.toggleEnableAvoidanceSuccess;
+                case "toggleInstantEvent":
+                    return ref settings.toggleInstantEvent;
+                case "toggleKingdomEventResultSuccess":
+                    return ref settings.toggleKingdomEventResultSuccess;
+                case "toggleSettlementRestrictions":
+                    return ref settings.toggleSettlementRestrictions;
+                case "toggleEnemiesAlwaysRoll1":
+                    return ref settings.toggleEnemiesAlwaysRoll1;
+                case "toggleEveryoneExceptPlayerFactionRolls1":
+                    return ref settings.toggleEveryoneExceptPlayerFactionRolls1;
+                case "toggleDialogRestrictions":
+                    return ref settings.toggleDialogRestrictions;
+                case "toggleNoInactiveCamp":
+                    return ref settings.toggleNoInactiveCamp;
+                case "toggleEnableTaxCollector":
+                    return ref settings.toggleEnableTaxCollector;
+                case "toggleShowTooltips":
+                    return ref settings.toggleShowTooltips;
+                case "toggleAddToLog":
+                    return ref settings.toggleAddToLog;
+                case "toggleInstantRestAfterCombat":
+                    return ref settings.toggleInstantRestAfterCombat;
+                case "toggleFullHitdiceEachLevel":
+                    return ref settings.toggleFullHitdiceEachLevel;
+                case "toggleRollHitDiceEachLevel":
+                    return ref settings.toggleRollHitDiceEachLevel;
+                case "toggleIgnoreFeaturePrerequisites":
+                    return ref settings.toggleIgnoreFeaturePrerequisites;
+                case "toggleIgnoreFeatureListPrerequisites":
+                    return ref settings.toggleIgnoreFeatureListPrerequisites;
+                case "toggleFeaturesIgnorePrerequisites":
+                    return ref settings.toggleFeaturesIgnorePrerequisites;
+                case "toggleNoDamageFromEnemies":
+                    return ref settings.toggleNoDamageFromEnemies;
+                case "togglePartyOneHitKills":
+                    return ref settings.togglePartyOneHitKills;
+                case "toggleAllDoorContainersUnlocked":
+                    return ref settings.toggleAllDoorContainersUnlocked;
+                case "toggleNoIngredientsRequired":
+                    return ref settings.toggleNoIngredientsRequired;
+                case "toggleUnityModManagerButton":
+                    return ref settings.toggleUnityModManagerButton;
+                case "toggleDamageDealtMultipliers":
+                    return ref settings.toggleDamageDealtMultipliers;
+                case "togglePartyDamageDealtMultiplier":
+                    return ref settings.togglePartyDamageDealtMultiplier;
+                case "toggleEnemiesDamageDealtMultiplier":
+                    return ref settings.toggleEnemiesDamageDealtMultiplier;
+                case "toggleScaleInventoryMoney":
+                    return ref settings.toggleScaleInventoryMoney;
+                case "toggleNoBurnKineticist":
+                    return ref settings.toggleNoBurnKineticist;
+                case "toggleMaximiseAcceptedBurn":
+                    return ref settings.toggleMaximiseAcceptedBurn;
+                case "toggleMainCharacterRoll20":
+                    return ref settings.toggleMainCharacterRoll20;
+                case "toggleShowPetInventory":
+                    return ref settings.toggleShowPetInventory;
+                case "toggleAnimationCloseUMM":
+                    return ref settings.toggleAnimationCloseUmm;
+                case "toggleInstantCooldownMainChar":
+                    return ref settings.toggleInstantCooldownMainChar;
+                case "toggleDexBonusLimit99":
+                    return ref settings.toggleDexBonusLimit99;
+                case "toggleItemsWeighZero":
+                    return ref settings.toggleItemsWeighZero;
+                case "toggleAlignmentFix":
+                    return ref settings.toggleAlignmentFix;
+                case "toggleSpellbookAbilityAlignmentChecks":
+                    return ref settings.toggleSpellbookAbilityAlignmentChecks;
+                case "toggleFreezeTimedQuestAt90Days":
+                    return ref settings.toggleFreezeTimedQuestAt90Days;
+                case "togglePreventQuestFailure":
+                    return ref settings.togglePreventQuestFailure;
+                case "toggleAlwaysSucceedCastingDefensively":
+                    return ref settings.toggleAlwaysSucceedCastingDefensively;
+                case "toggleAlwaysSucceedConcentration":
+                    return ref settings.toggleAlwaysSucceedConcentration;
+                case "toggleSortSpellbooksAlphabetically":
+                    return ref settings.toggleSortSpellbooksAlphabetically;
+                case "toggleSortSpellsAlphabetically":
+                    return ref settings.toggleSortSpellsAlphabetically;
+                case "toggleAllHitsAreCritical":
+                    return ref settings.toggleAllHitsAreCritical;
+                case "toggleCookingAndHuntingInDungeons":
+                    return ref settings.toggleCookingAndHuntingInDungeons;
+                case "toggleInstantPartyChange":
+                    return ref settings.toggleInstantPartyChange;
+                case "toggleSmartConsole":
+                    return ref settings.toggleDevTools;
+                case "toggleBoTScrollBar":
+                    return ref settings.toggleBoTScrollBar;
+                case "toggleNoNegativeLevels":
+                    return ref settings.toggleNoNegativeLevels;
+                case "togglAutoEquipConsumables":
+                    return ref settings.togglAutoEquipConsumables;
+                case "toggleIgnorePrerequisites":
+                    return ref settings.toggleIgnorePrerequisites;
+                case "toggleIgnoreCasterTypeSpellLevel":
+                    return ref settings.toggleIgnoreCasterTypeSpellLevel;
+                case "toggleIgnoreForbiddenArchetype":
+                    return ref settings.toggleIgnoreForbiddenArchetype;
+                case "toggleIgnorePrerequisiteStatValue":
+                    return ref settings.toggleIgnorePrerequisiteStatValue;
+                case "toggleSpiderBegone":
+                    return ref settings.toggleSpiderBegone;
+                case "toggleNoTempHPKineticist":
+                    return ref settings.toggleNoTempHpKineticist;
+                case "toggleShowAreaName":
+                    return ref settings.toggleShowAreaName;
+                case "toggleRestoreItemChargesAfterCombat":
+                    return ref settings.toggleRestoreItemChargesAfterCombat;
+                case "toggleReverseCasterAlignmentChecks":
+                    return ref settings.toggleReverseCasterAlignmentChecks;
+                case "toggleDisplayObjectInfo":
+                    return ref settings.toggleDisplayObjectInfo;
+                case "togglePreventAlignmentChanges":
+                    return ref settings.togglePreventAlignmentChanges;
+                case "toggleExportToModFolder":
+                    return ref settings.toggleExportToModFolder;
+                case "toggleMakeSummmonsControllable":
+                    return ref settings.toggleMakeSummmonsControllable;
+                case "toggleArmourChecksPenalty0":
+                    return ref settings.toggleArmourChecksPenalty0;
+                case "toggleDisableWarpaintedSkullAbilityForSummonedBarbarians":
+                    return ref settings.toggleDisableWarpaintedSkullAbilityForSummonedBarbarians;
+                case "toggleRemoveSummonsGlow":
+                    return ref settings.toggleRemoveSummonsGlow;
+                case "toggleTabletopSpellAbilityRange":
+                    return ref settings.toggleTabletopSpellAbilityRange;
+                case "toggleAutomaticallyLoadLastSave":
+                    return ref settings.toggleAutomaticallyLoadLastSave;
+                case "toggleSpawnEnemiesFromUnitFavourites":
+                    return ref settings.toggleSpawnEnemiesFromUnitFavourites;
+                case "toggleAllowCampingEverywhere":
+                    return ref settings.toggleAllowCampingEverywhere;
+                case "toggleEnableRandomEncounterSettings":
+                    return ref settings.toggleEnableRandomEncounterSettings;
+                default:
+                    throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
+            }
         }
 
         public static void AddFavouriteButton(string methodName)
         {
-            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(methodName)) {
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(methodName))
+            {
                 if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false)))
                     FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(methodName);
             }
-            else {
+            else
+            {
                 if (GL.Button(Storage.favouriteFalseString, GL.ExpandWidth(false)))
                     FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(methodName);
             }
@@ -515,11 +519,13 @@ namespace BagOfTricks
 
         public static void AddFavouriteButton(string methodName, int size)
         {
-            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(methodName)) {
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(methodName))
+            {
                 if (GL.Button(RichTextUtils.Size(Storage.favouriteTrueString, size), GL.ExpandWidth(false)))
                     FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(methodName);
             }
-            else {
+            else
+            {
                 if (GL.Button(RichTextUtils.Size(Storage.favouriteFalseString, size), GL.ExpandWidth(false)))
                     FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(methodName);
             }
@@ -669,17 +675,22 @@ namespace BagOfTricks
             }
         }
 
-        public static void AddUpDownButtons(string methodName, ref List<string> methods, int arrowSize) {
-            if (methods.IndexOf(methodName) > 0) {
-                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.upArrow, arrowSize), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false))) {
+        public static void AddUpDownButtons(string methodName, ref List<string> methods, int arrowSize)
+        {
+            if (methods.IndexOf(methodName) > 0)
+            {
+                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.upArrow, arrowSize), Strings.GetText("tooltip_ArrowUp")), GL.ExpandWidth(false)))
+                {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                         ListUtils.MakeElementFirst(ref methods, methodName);
                     else
                         ListUtils.MoveElementUp(ref methods, methodName);
                 }
             }
-            if (methods.IndexOf(methodName) < methods.Count - 1) {
-                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.downArrow, arrowSize), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false))) {
+            if (methods.IndexOf(methodName) < methods.Count - 1)
+            {
+                if (GL.Button(new GUIContent(RichTextUtils.Size(Storage.downArrow, arrowSize), Strings.GetText("tooltip_ArrowDown")), GL.ExpandWidth(false)))
+                {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                         ListUtils.MakeElementLast(ref methods, methodName);
                     else
@@ -1055,10 +1066,8 @@ namespace BagOfTricks
             {
                 Dictionary<string, string> dict;
                 XmlSerializer serializer = new XmlSerializer(typeof(Localisation[]), new XmlRootAttribute() { ElementName = "resources" });
-                using (var stream = File.OpenRead(Storage.modEntryPath + Storage.localisationFolder + "\\" + loc + ".xml"))
-                {
-                    dict = ((Localisation[])serializer.Deserialize(stream)).ToDictionary(i => i.key, i => i.value);
-                }
+                using var stream = File.OpenRead($@"{Storage.modEntryPath}{Storage.localisationFolder}\{loc}.xml");
+                dict = ((Localisation[])serializer.Deserialize(stream)).ToDictionary(i => i.key, i => i.value);
                 return dict;
             }
             catch (Exception e)
@@ -1074,6 +1083,26 @@ namespace BagOfTricks
             Storage.notificationEkunQ2RewardArmor = GetText("error_EkunQ2");
             Storage.individualSkillsArray = new[] { GetText("charStat_Athletics"), GetText("charStat_KnowledgeArcana"), GetText("charStat_KnowledgeWorld"), GetText("charStat_LoreNature"), GetText("charStat_LoreReligion"), GetText("charStat_Mobility"), GetText("charStat_Perception"), GetText("charStat_Persuasion"), GetText("charStat_Stealth"), GetText("charStat_Thievery"), GetText("charStat_UseMagicDevice"), GetText("charStat_Bluff"), GetText("charStat_Diplomacy"), GetText("charStat_Intimidate") };
             Storage.individualSavesArray = new[] { GetText("charStat_Fortitude"), GetText("charStat_Reflex"), GetText("charStat_Will") };
+            Storage.statsSkillsDict = new Dictionary<string, StatType>
+            {
+                {Storage.individualSkillsArray[0], StatType.SkillAthletics},
+                {Storage.individualSkillsArray[1], StatType.SkillKnowledgeArcana},
+                {Storage.individualSkillsArray[2], StatType.SkillKnowledgeWorld},
+                {Storage.individualSkillsArray[3], StatType.SkillLoreNature},
+                {Storage.individualSkillsArray[4], StatType.SkillLoreReligion},
+                {Storage.individualSkillsArray[5], StatType.SkillMobility},
+                {Storage.individualSkillsArray[6], StatType.SkillPerception},
+                {Storage.individualSkillsArray[7], StatType.SkillPersuasion},
+                {Storage.individualSkillsArray[8], StatType.SkillStealth},
+                {Storage.individualSkillsArray[9], StatType.SkillThievery},
+                {Storage.individualSkillsArray[10], StatType.SkillUseMagicDevice}
+            };
+            Storage.statsSocialSkillsDict = new Dictionary<string, StatType>
+            {
+                {Storage.individualSkillsArray[11], StatType.CheckBluff},
+                {Storage.individualSkillsArray[12], StatType.CheckDiplomacy},
+                {Storage.individualSkillsArray[13], StatType.CheckIntimidate},
+            };
             Storage.statsAttributesDict = new Dictionary<string, StatType>
             {
                 { GetText("charStat_Strength"), StatType.Strength},
@@ -1110,8 +1139,9 @@ namespace BagOfTricks
             Storage.unitEntityDataArray = new[] { GetText("arrayItem_UnityEntityData_Party"), GetText("arrayItem_UnityEntityData_ControllableCharacters"), GetText("arrayItem_UnityEntityData_ActiveCompanions"), GetText("arrayItem_UnityEntityData_AllCharacters"), GetText("arrayItem_UnityEntityData_Mercenaries"), GetText("arrayItem_UnityEntityData_Pets"), GetText("arrayItem_UnityEntityData_Enemies") };
             Storage.unitEntityDataArrayNoEnemies = Storage.unitEntityDataArray.Take(Storage.unitEntityDataArray.Count() - 1).ToArray();
             Storage.encumbranceArray = new[] { GetText("encumbrance_Light"), GetText("encumbrance_Medium"), GetText("encumbrance_Heavy"), GetText("encumbrance_Overload") };
-            Storage.inventoryItemTypesArray = new [] { RichTextUtils.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"), Strings.GetText("label_Belts"), Strings.GetText("label_Footwear"), Strings.GetText("label_Gloves"), Strings.GetText("label_Headwear"), Strings.GetText("label_Neckwear"), Strings.GetText("label_NonUsable"), Strings.GetText("misc_Other"), Strings.GetText("label_Rings"), Strings.GetText("label_Shields"), Strings.GetText("label_ShoulderItems"), Strings.GetText("label_UsableItems"), Strings.GetText("label_Weapons"), Strings.GetText("label_WristItems") };
+            Storage.inventoryItemTypesArray = new[] { RichTextUtils.Bold(Strings.GetText("misc_All")), Strings.GetText("label_Armours"), Strings.GetText("label_Belts"), Strings.GetText("label_Footwear"), Strings.GetText("label_Gloves"), Strings.GetText("label_Headwear"), Strings.GetText("label_Neckwear"), Strings.GetText("label_NonUsable"), Strings.GetText("misc_Other"), Strings.GetText("label_Rings"), Strings.GetText("label_Shields"), Strings.GetText("label_ShoulderItems"), Strings.GetText("label_UsableItems"), Strings.GetText("label_Weapons"), Strings.GetText("label_WristItems") };
             Storage.weatherArray = new[] { GetText("arrayItem_Weather_Normal"), GetText("arrayItem_Weather_Rain"), GetText("arrayItem_Weather_Snow") };
+            Storage.mainToolbarStrings = new[] { RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
         }
     }
 

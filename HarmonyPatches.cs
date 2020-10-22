@@ -2048,16 +2048,14 @@ namespace BagOfTricks
                         if (codes[i].opcode == OpCodes.Callvirt && codes[i - 1].opcode == OpCodes.Call && codes[i - 2].opcode == OpCodes.Call)
                         {
                             foundFovMin = i - 4;
-                            foundFovMax = i - 6;
+                            foundFovMax = i - 5;
                             break;
                         }
                     }
 
-                    codes[foundFovMin - 1].opcode = OpCodes.Nop;
                     codes[foundFovMin].opcode = OpCodes.Ldc_R4;
                     codes[foundFovMin].operand = float.Parse(settings.savedFovMin);
 
-                    codes[foundFovMax - 1].opcode = OpCodes.Nop;
                     codes[foundFovMax].opcode = OpCodes.Ldc_R4;
                     codes[foundFovMax].operand = float.Parse(settings.savedFovMax);
 
@@ -2650,14 +2648,21 @@ namespace BagOfTricks
             {
                 if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual) && StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualDc99))
                 {
-                    for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
+                    var skillsDict = Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict)
+                        .ToDictionary(d => d.Key, d => d.Value);
+                    for (var i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == statType)
+                        try
                         {
-                            if (UnitEntityDataUtils.CheckUnitEntityData(unit, (UnitSelectType)settings.indexPassSkillChecksIndividual))
+                            if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && skillsDict[Storage.individualSkillsArray[i]] == statType && UnitEntityDataUtils.CheckUnitEntityData(unit, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
                                 dc = -99;
+                                return;
                             }
+                        }
+                        catch (Exception e)
+                        {
+                            modLogger.Log(e.ToString());
                         }
                     }
                 }
@@ -2672,11 +2677,14 @@ namespace BagOfTricks
             {
                 if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual) && StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualDc99))
                 {
-                    for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
+                    var skillsDict = Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict)
+                        .ToDictionary(d => d.Key, d => d.Value);
+                    for (var i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == statType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && skillsDict[Storage.individualSkillsArray[i]] == statType)
                         {
                             difficultyClass = -99;
+                            return;
                         }
                     }
                 }
@@ -2690,15 +2698,9 @@ namespace BagOfTricks
             {
                 if (settings.toggleFfAny == Storage.isTrueString)
                 {
-                    if (__instance.Reason != null)
+                    if (__instance.Reason != null && __instance.Reason.Ability != null && __instance.Reason.Caster != null && __instance.Reason.Caster.IsPlayerFaction && __instance.Initiator.IsPlayerFaction && __instance.Reason.Ability.Blueprint != null && ((__instance.Reason.Ability.Blueprint.EffectOnAlly == AbilityEffectOnUnit.Harmful) || (__instance.Reason.Ability.Blueprint.EffectOnEnemy == AbilityEffectOnUnit.Harmful)))
                     {
-                        if (__instance.Reason.Ability != null)
-                        {
-                            if (__instance.Reason.Caster != null && __instance.Reason.Caster.IsPlayerFaction && __instance.Initiator.IsPlayerFaction && __instance.Reason.Ability.Blueprint != null && ((__instance.Reason.Ability.Blueprint.EffectOnAlly == AbilityEffectOnUnit.Harmful) || (__instance.Reason.Ability.Blueprint.EffectOnEnemy == AbilityEffectOnUnit.Harmful)))
-                            {
-                                __result = true;
-                            }
-                        }
+                        __result = true;
                     }
                 }
                 if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividual))
@@ -2710,20 +2712,28 @@ namespace BagOfTricks
                             if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
                                 __result = true;
+                                break;
                             }
                         }
                     }
                 }
                 if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual))
                 {
+                    var skillsDict = Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict)
+                        .ToDictionary(d => d.Key, d => d.Value);
                     for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
+                        try
                         {
-                            if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
+                            if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && skillsDict[Storage.individualSkillsArray[i]] == __instance.StatType && UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
                                 __result = true;
+                                break;
                             }
+                        }
+                        catch (Exception e)
+                        {
+                            modLogger.Log(e.ToString());
                         }
                     }
                 }
@@ -2762,15 +2772,9 @@ namespace BagOfTricks
             {
                 if (settings.toggleFfAny == Storage.isTrueString)
                 {
-                    if (__instance.Reason != null)
+                    if (__instance.Reason != null && __instance.Reason.Ability != null && __instance.Reason.Caster != null && __instance.Reason.Caster.IsPlayerFaction && __instance.Initiator.IsPlayerFaction && __instance.Reason.Ability.Blueprint != null && ((__instance.Reason.Ability.Blueprint.EffectOnAlly == AbilityEffectOnUnit.Harmful) || (__instance.Reason.Ability.Blueprint.EffectOnEnemy == AbilityEffectOnUnit.Harmful)))
                     {
-                        if (__instance.Reason.Ability != null)
-                        {
-                            if (__instance.Reason.Caster != null && __instance.Reason.Caster.IsPlayerFaction && __instance.Initiator.IsPlayerFaction && __instance.Reason.Ability.Blueprint != null && ((__instance.Reason.Ability.Blueprint.EffectOnAlly == AbilityEffectOnUnit.Harmful) || (__instance.Reason.Ability.Blueprint.EffectOnEnemy == AbilityEffectOnUnit.Harmful)))
-                            {
-                                __result = true;
-                            }
-                        }
+                        __result = true;
                     }
                 }
                 if (StringUtils.ToToggleBool(settings.togglePassSavingThrowIndividual))
@@ -2782,20 +2786,21 @@ namespace BagOfTricks
                             if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                             {
                                 __result = true;
+                                break;
                             }
                         }
                     }
                 }
                 if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual))
                 {
+                    var skillsDict = Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict)
+                        .ToDictionary(d => d.Key, d => d.Value);
                     for (int i = 0; i < settings.togglePassSkillChecksIndividualArray.Count(); i++)
                     {
-                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && Storage.statsSkillsDict.Union(Storage.statsSocialSkillsDict).ToDictionary(d => d.Key, d => d.Value)[Storage.individualSkillsArray[i]] == __instance.StatType)
+                        if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) && skillsDict[Storage.individualSkillsArray[i]] == __instance.StatType && UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
                         {
-                            if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator, (UnitSelectType)settings.indexPassSkillChecksIndividual))
-                            {
-                                __result = true;
-                            }
+                            __result = true;
+                            break;
                         }
                     }
                 }
@@ -2807,12 +2812,9 @@ namespace BagOfTricks
         {
             private static void Postfix(ref bool __result, StaticEntityData __instance)
             {
-                if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual))
+                if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual) && StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[6]))
                 {
-                    if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[6]))
-                    {
-                        __result = true;
-                    }
+                    __result = true;
                 }
             }
         }
@@ -3107,10 +3109,10 @@ namespace BagOfTricks
             {
                 if (__instance.Initiator.IsPlayerFaction && StringUtils.ToToggleBool(settings.toggleExtraAttacksParty))
                 {
-                    ___PrimaryHand.MainAttacks += settings.extraAttacksPartyPrimaryHand;
+                    ___PrimaryHand.AdditionalAttacks += settings.extraAttacksPartyPrimaryHand;
                     if (!__instance.Initiator.Body.SecondaryHand.HasShield)
                     {
-                        ___SecondaryHand.MainAttacks += settings.extraAttacksPartySecondaryHand;
+                        ___SecondaryHand.AdditionalAttacks += settings.extraAttacksPartySecondaryHand;
                     }
                 }
             }
@@ -4135,11 +4137,16 @@ namespace BagOfTricks
         }
 
         [HarmonyPatch(typeof(GroupController), "WithRemote", MethodType.Getter)]
-        static class GroupController_WithRemote_Patch {
-            static void Postfix(GroupController __instance, ref bool __result) {
-                if (StringUtils.ToToggleBool(settings.toggleAccessRemoteCharacters)) {
-                    if (__instance.FullScreenEnabled) {
-                        switch (Traverse.Create(__instance).Field("m_FullScreenUIType").GetValue()) {
+        static class GroupController_WithRemote_Patch
+        {
+            static void Postfix(GroupController __instance, ref bool __result)
+            {
+                if (StringUtils.ToToggleBool(settings.toggleAccessRemoteCharacters))
+                {
+                    if (__instance.FullScreenEnabled)
+                    {
+                        switch (Traverse.Create(__instance).Field("m_FullScreenUIType").GetValue())
+                        {
                             case FullScreenUIType.Inventory:
                             case FullScreenUIType.ChracterScreen:
                             case FullScreenUIType.SpellBook:
@@ -4153,9 +4160,12 @@ namespace BagOfTricks
         }
 
         [HarmonyPatch(typeof(UnitEntityData), "IsDirectlyControllable", MethodType.Getter)]
-        public static class UnitEntityData_IsDirectlyControllable_Patch {
-            public static void Postfix(UnitEntityData __instance, ref bool __result) {
-                if (StringUtils.ToToggleBool(settings.toggleMakeSummmonsControllable) && !__result && __instance.Get<UnitPartSummonedMonster>() != null && !__instance.Descriptor.State.IsFinallyDead && !__instance.Descriptor.State.IsPanicked && !__instance.IsDetached && !__instance.PreventDirectControl) {
+        public static class UnitEntityData_IsDirectlyControllable_Patch
+        {
+            public static void Postfix(UnitEntityData __instance, ref bool __result)
+            {
+                if (StringUtils.ToToggleBool(settings.toggleMakeSummmonsControllable) && !__result && __instance.Get<UnitPartSummonedMonster>() != null && !__instance.Descriptor.State.IsFinallyDead && !__instance.Descriptor.State.IsPanicked && !__instance.IsDetached && !__instance.PreventDirectControl)
+                {
                     __result = true;
                 }
             }

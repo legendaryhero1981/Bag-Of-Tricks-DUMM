@@ -334,7 +334,7 @@ namespace BagOfTricks
         {
             GL.BeginVertical("box");
 
-            MenuTools.ToggleButtonFavouritesMenu(ref settings.togglePassSkillChecksIndividual, "buttonToggle_PassSkillChecksIndividual", "tooltip_PassSkillChecksIndividual");
+            MenuTools.ToggleButtonFavouritesMenu(ref settings.togglePassSkillChecksIndividual, "buttonToggle_PassSkillChecksIndividual", "tooltip_PassSkillChecksIndividual", true);
             MenuTools.FlexibleSpaceFavouriteButtonEndHorizontal(nameof(PassSkillChecksIndividual));
 
             if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividual))

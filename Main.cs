@@ -256,7 +256,6 @@ namespace BagOfTricks
                         Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
                     }
                     Strings.RefreshStrings();
-                    Storage.mainToolbarStrings = new string[] { RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
                     settings.filterButtonText = Strings.GetText("misc_Enable");
                     settings.currentSceneString = Strings.GetText("misc_Display");
                     settings.showAllBuffs = Strings.GetText("misc_Display");

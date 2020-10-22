@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <resources xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Localisation key="locale" value="zhCN" />
   <Localisation key="contributors" value="——" />
@@ -15,7 +15,7 @@
   <Localisation key="mainCategory_MapTravel" value="地图和旅行" />
   <Localisation key="mainCategory_Kingdom" value="王国" />
   <Localisation key="mainCategory_Dice" value="骰子" />
-  <Localisation key="mainCategory_CameraTools" value="摄像机工具" />
+  <Localisation key="mainCategory_CameraTools" value="摄影机工具" />
   <Localisation key="mainCategory_DevTools" value="开发人员工具" />
   <Localisation key="mainCategory_BlueprintModding" value="蓝图修改" />
   <Localisation key="mainCategory_Misc" value="杂项" />
@@ -150,7 +150,7 @@
   <Localisation key="label_CurrentBuildPoints" value="当前国库BP数" />
   <Localisation key="label_CurrentBaseBuildPointIncome" value="当前王国地区基本BP收入数" />
   <Localisation key="label_AlwaysRoll20ForIntiativeInfo" value="影响同伴和敌人！" />
-  <Localisation key="label_CameraTurnRate" value="摄像机转动速度" />
+  <Localisation key="label_CameraTurnRate" value="摄影机转动速度" />
   <Localisation key="label_CurrentRotation" value="当前旋转值" />
   <Localisation key="label_CurrentDefaultRotation" value="当前默认旋转值" />
   <Localisation key="label_RotateLeftKey" value="向左旋转热键" />
@@ -160,16 +160,16 @@
   <Localisation key="label_CurrentUpperZoomLimit" value="当前最大缩放值限制" />
   <Localisation key="label_GlobalMapZoomLevelRestartButtonChange" value="世界地图缩放级别（重启后生效）" />
   <Localisation key="label_GlobalMapZoomLevelRestart" value="您必须重新启动游戏才能应用世界地图缩放级别的更改！" />
-  <Localisation key="label_FocusCameraKey" value="摄像机焦点热键" />
+  <Localisation key="label_FocusCameraKey" value="摄影机焦点热键" />
   <Localisation key="label_CycleFocusKey" value="循环焦点热键" />
   <Localisation key="label_CurrentFocus" value="当前焦点" />
   <Localisation key="label_CurrentGameLocale" value="当前游戏区域设置" />
   <Localisation key="label_CurrentGameID" value="当前游戏ID" />
   <Localisation key="label_Teleport" value="传送" />
-  <Localisation key="label_RotateCameraLeft" value="摄像机向左旋转" />
-  <Localisation key="label_RotateCameraRight" value="摄像机向右旋转" />
-  <Localisation key="label_ResetCameraRotation" value="摄像机旋转重置" />
-  <Localisation key="label_FocusCamera" value="摄像机焦点" />
+  <Localisation key="label_RotateCameraLeft" value="摄影机向左旋转" />
+  <Localisation key="label_RotateCameraRight" value="摄影机向右旋转" />
+  <Localisation key="label_ResetCameraRotation" value="摄影机旋转重置" />
+  <Localisation key="label_FocusCamera" value="摄影机焦点" />
   <Localisation key="label_CycleFocus" value="循环焦点" />
   <Localisation key="label_TogglePartyAlwaysRolls20" value="切换队伍投角色掷骰子时总是取值20" />
   <Localisation key="label_CurrentSearchResultLimit" value="当前查询结果限制" />
@@ -177,7 +177,7 @@
   <Localisation key="label_CurrentMinimalUnitSpeed" value="当前最小单元速度" />
   <Localisation key="label_CurrentMinimalWeaponRange" value="当前最小武器攻击距离" />
   <Localisation key="label_CurrentStealthDCIncrement" value="当前潜行难度值增量" />
-  <Localisation key="label_ResetCutsceneLock" value="最好与摄像机焦点配合使用" />
+  <Localisation key="label_ResetCutsceneLock" value="最好与摄影机焦点配合使用" />
   <Localisation key="label_ResetCutsceneLockKey" value="重置场景锁定热键" />
   <Localisation key="label_CurrentXP" value="当前经验值" />
   <Localisation key="label_CurrentLevel" value="当前等级" />
@@ -348,7 +348,7 @@
   <Localisation key="headerOption_Stability" value="稳定" />
   <Localisation key="headerOption_Culture" value="文化" />
   <Localisation key="headerOption_Espionage" value="间谍" />
-  <Localisation key="headerOption_CameraScrollSpeed" value="摄像机滚动速度" />
+  <Localisation key="headerOption_CameraScrollSpeed" value="摄影机滚动速度" />
   <Localisation key="headerOption_SearchResultLimit" value="查询结果限制" />
   <Localisation key="headerOption_FlyingHeight" value="飞行高度" />
   <Localisation key="headerOption_UseSlider" value="使用滑块" />
@@ -535,12 +535,12 @@
   <Localisation key="buttonToggle_EnableHotkey" value="启用热键" />
   <Localisation key="buttonToggle_EnemiesAlwaysRoll1" value="敌人总是投掷1" />
   <Localisation key="buttonToggle_AlwaysRoll20ForInitiative" value="先攻总是投掷20" />
-  <Localisation key="buttonToggle_CameraRotation" value="摄像机旋转" />
-  <Localisation key="buttonToggle_CameraScrollSpeed" value="摄像机滚动速度" />
-  <Localisation key="buttonToggle_CameraZoomUnlocked" value="解锁摄像机缩放" />
-  <Localisation key="buttonToggle_EnableFocusCamera" value="启用摄像机焦点" />
-  <Localisation key="buttonToggle_DisableCameraBounds" value="禁用摄像机边界" />
-  <Localisation key="buttonToggle_MoveCameraToPlayer" value="移动摄像机到玩家" />
+  <Localisation key="buttonToggle_CameraRotation" value="摄影机旋转" />
+  <Localisation key="buttonToggle_CameraScrollSpeed" value="摄影机滚动速度" />
+  <Localisation key="buttonToggle_CameraZoomUnlocked" value="解锁摄影机缩放" />
+  <Localisation key="buttonToggle_EnableFocusCamera" value="启用摄影机焦点" />
+  <Localisation key="buttonToggle_DisableCameraBounds" value="禁用摄影机边界" />
+  <Localisation key="buttonToggle_MoveCameraToPlayer" value="移动摄影机到玩家" />
   <Localisation key="buttonToggle_IgnoreDialogueRestrictions" value="忽略对话限制" />
   <Localisation key="buttonToggle_ReverseCasterAlignmentChecks" value="反转施法者阵营检定" />
   <Localisation key="buttonToggle_PreventAlignmentChanges" value="阻止阵营改变" />
@@ -942,7 +942,7 @@
   <Localisation key="tooltip_EnableFocusCamera" value="可以将相机聚焦在队伍成员上，并通过热键循环播放。" />
   <Localisation key="tooltip_EnableFocusCameraSelectedUnit" value="选择角色的肖像将使相机对焦于它们。" />
   <Localisation key="tooltip_DisableCameraBounds" value="禁用相机边界，并允许您自由移动相机。" />
-  <Localisation key="tooltip_MoveCameraToPlayer" value="将摄像机对准玩家角色。" />
+  <Localisation key="tooltip_MoveCameraToPlayer" value="将摄影机对准玩家角色。" />
   <Localisation key="tooltip_ResetCutsceneLock" value="允许你在过场动画时移动。 最好与聚焦相机一起使用，以覆盖游戏的焦点。" />
   <Localisation key="tooltip_EnableResetCutsceneLockHotkey" value="允许通过热键切换重置剪辑场景锁定选项。" />
   <Localisation key="tooltip_AnimationCloseUMM" value="一旦按下了播放按钮，就自动关闭DUMM窗口。" />
