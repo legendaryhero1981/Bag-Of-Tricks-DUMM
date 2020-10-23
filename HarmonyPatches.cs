@@ -3107,10 +3107,10 @@ namespace BagOfTricks
         {
             private static void Postfix(RuleCalculateAttacksCount.AttacksCount ___PrimaryHand, RuleCalculateAttacksCount.AttacksCount ___SecondaryHand, RuleCalculateAttacksCount __instance)
             {
-                if (__instance.Initiator.IsPlayerFaction && StringUtils.ToToggleBool(settings.toggleExtraAttacksParty))
+                if (StringUtils.ToToggleBool(settings.toggleExtraAttacksParty) && __instance.Initiator.IsPlayerFaction)
                 {
                     ___PrimaryHand.AdditionalAttacks += settings.extraAttacksPartyPrimaryHand;
-                    if (!__instance.Initiator.Body.SecondaryHand.HasShield)
+                    if (__instance.Initiator.Body.SecondaryHand.HasWeapon && (__instance.Initiator.Body.PrimaryHand.MaybeWeapon == null || !__instance.Initiator.Body.PrimaryHand.MaybeWeapon.Blueprint.IsTwoHanded))
                     {
                         ___SecondaryHand.AdditionalAttacks += settings.extraAttacksPartySecondaryHand;
                     }

@@ -20,7 +20,7 @@
     <Copyright>Copyright © Legend 2020</Copyright>
     <Description>《开拓者：拥王者》百宝袋Mod，适用于DUMM的特别版本。</Description>
     <AssemblyTitle>$(Description)</AssemblyTitle>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug|Release'">
     <PlatformTarget>x64</PlatformTarget>
