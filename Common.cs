@@ -237,33 +237,6 @@ namespace BagOfTricks
             }
         }
 
-        public static List<UnitEntityData> GetCustomCompanions()
-        {
-            List<UnitEntityData> unitEntityData = Game.Instance.Player.AllCharacters;
-            List<UnitEntityData> unitEntityDataNew = new List<UnitEntityData>();
-
-            foreach (UnitEntityData unit in unitEntityData)
-            {
-                if (unit.IsCustomCompanion())
-                {
-                    unitEntityDataNew.Add(unit);
-                }
-            }
-            return unitEntityDataNew;
-        }
-        public static List<UnitEntityData> GetPets()
-        {
-            List<UnitEntityData> unitEntityData = Game.Instance.Player.AllCharacters;
-            List<UnitEntityData> unitEntityDataNew = new List<UnitEntityData>();
-            foreach (UnitEntityData unit in unitEntityData)
-            {
-                if (unit.Descriptor.IsPet)
-                {
-                    unitEntityDataNew.Add(unit);
-                }
-            }
-            return unitEntityDataNew;
-        }
         public static List<UnitEntityData> GetEnemies()
         {
             List<UnitEntityData> enemyUnits = new List<UnitEntityData>();

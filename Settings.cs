@@ -264,6 +264,7 @@ namespace BagOfTricks
         public KeyCode cameraReset = KeyCode.Slash;
         public string toggleEnableCameraRotation = Storage.isFalseString;
         public string toggleEnableCameraScrollSpeed = Storage.isFalseString;
+        public float cameraScrollSpeed = 10.0f;
         public string toggleEnableCameraZoom = Storage.isFalseString;
         public float finalFovValue = 1f;
         public string savedFovMin = Defaults.fovMin;
@@ -643,6 +644,7 @@ namespace BagOfTricks
         public string toggleEnableRandomEncounterSettings = Storage.isFalseString;
         public string toggleAccessRemoteCharacters = Storage.isFalseString;
 
+        public string toggleShowAllPartyPortraits = Storage.isFalseString;
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             Save(this, modEntry);

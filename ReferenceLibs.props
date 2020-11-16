@@ -24,6 +24,10 @@
       <HintPath>F:\games\Pathfinder Kingmaker\Kingmaker_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>F:\games\Pathfinder Kingmaker\Kingmaker_Data\Managed\DOTween.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>E:\Decompile\Code\lib\Unity2018.4\UnityEngine.dll</HintPath>
       <Private>False</Private>

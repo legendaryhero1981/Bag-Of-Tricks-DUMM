@@ -1,6 +1,6 @@
 ﻿namespace BagOfTricks
 {
-    public static class Defaults
+    public static  class Defaults
     {
         public static readonly float randomEncounterChanceOnGlobalMap = 0.3f;
         public static readonly float randomEncounterChanceOnCamp = 0.4f;
@@ -27,7 +27,10 @@
 
         public static readonly float sillyBloddChance = 0.1f;
         public static readonly float debugTimeScale = 1f;
+
         public static readonly float artisanMasterpieceChance = 0.33f;
         public static readonly int defaultMapResourceCost = 15;
+
+        public static readonly float cameraScrollSpeed = 25f;
     }
 }

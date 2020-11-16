@@ -64,10 +64,10 @@ namespace BagOfTricks.ModUI.CheatsUI
                         Storage.featsUnitEntityData = player.AllCharacters;
                         break;
                     case 4:
-                        Storage.featsUnitEntityData = Common.GetCustomCompanions();
+                        Storage.featsUnitEntityData = PartyUtils.GetCustomCompanions();
                         break;
                     case 5:
-                        Storage.featsUnitEntityData = Common.GetPets();
+                        Storage.featsUnitEntityData = PartyUtils.GetPets();
                         break;
                     case 6:
                         Storage.featsUnitEntityData = Common.GetEnemies();

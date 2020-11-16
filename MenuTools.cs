@@ -16,6 +16,7 @@ using System.Media;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
+using BagOfTricks.Utils.Kingmaker;
 using UnityEngine;
 using GL = UnityEngine.GUILayout;
 using UnityModManager = UnityModManagerNet.UnityModManager;
@@ -69,18 +70,67 @@ namespace BagOfTricks
             GL.EndHorizontal();
         }
 
-        public static void ToggleButtonActionAtOnFavouritesMenu(ref string toggle, Action action, string buttonText, string buttonTooltip)
-        {
+        public static void ToggleButtonActionAtOn(ref string toggle, Action action, string buttonText, string buttonTooltip, string toggleName, bool boldText = false) {
+            GL.BeginVertical("box");
             GL.BeginHorizontal();
-            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", ""), GL.ExpandWidth(false)))
-            {
-                if (toggle == Storage.isFalseString)
-                {
+            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", "", boldText), GL.ExpandWidth(false))) {
+                if (toggle == Storage.isFalseString) {
                     action();
                     toggle = Storage.isTrueString;
+                } else if (toggle == Storage.isTrueString) {
+                    toggle = Storage.isFalseString;
                 }
-                else if (toggle == Storage.isTrueString)
-                {
+            }
+            GL.FlexibleSpace();
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(toggleName + "," + buttonText + "," + buttonTooltip)) {
+                if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false))) {
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(toggleName + "," + buttonText + "," + buttonTooltip);
+                }
+            } else {
+                if (GL.Button(Storage.favouriteFalseString, GL.ExpandWidth(false))) {
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(toggleName + "," + buttonText + "," + buttonTooltip);
+                }
+            }
+            GL.EndHorizontal();
+            GL.EndVertical();
+        }
+
+        public static void ToggleButtonActions(ref string toggle, Action actionBefore, Action actionAfter, string buttonText, string buttonTooltip, string toggleName, bool boldText = false)
+        {
+            GL.BeginVertical("box");
+            GL.BeginHorizontal();
+            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", "", boldText), GL.ExpandWidth(false))) {
+                if (toggle == Storage.isFalseString) {
+                    actionBefore();
+                    toggle = Storage.isTrueString;
+                } else if (toggle == Storage.isTrueString) {
+                    actionAfter();
+                    toggle = Storage.isFalseString;
+                }
+            }
+            GL.FlexibleSpace();
+            if (FavouritesFactory.GetFavouriteFunctions.FavouritesList.Contains(toggleName + "," + buttonText + "," + buttonTooltip)) {
+                if (GL.Button(Storage.favouriteTrueString, GL.ExpandWidth(false))) {
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Remove(toggleName + "," + buttonText + "," + buttonTooltip);
+                }
+            } else {
+                if (GL.Button(Storage.favouriteFalseString, GL.ExpandWidth(false))) {
+                    FavouritesFactory.GetFavouriteFunctions.FavouritesList.Add(toggleName + "," + buttonText + "," + buttonTooltip);
+                }
+            }
+            GL.EndHorizontal();
+            GL.EndVertical();
+        }
+
+        public static void ToggleButtonActionAtOnFavouritesMenu(ref string toggle, Action action, string buttonText, string buttonTooltip) {
+            GL.BeginHorizontal();
+            if (GL.Button(TextWithTooltip(buttonText, buttonTooltip, $"{toggle}" + " ", ""), GL.ExpandWidth(false))) {
+                if (toggle == Storage.isFalseString) {
+                    action();
+                    toggle = Storage.isTrueString;
+
+                }
+                else if (toggle == Storage.isTrueString) {
                     toggle = Storage.isFalseString;
                 }
             }
@@ -498,6 +548,8 @@ namespace BagOfTricks
                     return ref settings.toggleAllowCampingEverywhere;
                 case "toggleEnableRandomEncounterSettings":
                     return ref settings.toggleEnableRandomEncounterSettings;
+                case "toggleShowAllPartyPortraits":
+                    return ref settings.toggleShowAllPartyPortraits;
                 default:
                     throw new ArgumentException($"GetToggleButton received an invalid toggle name ({toggleButton})!");
             }
@@ -1177,10 +1229,10 @@ namespace BagOfTricks
                     unitEntityData = _player.AllCharacters;
                     break;
                 case 4:
-                    unitEntityData = Common.GetCustomCompanions();
+                    unitEntityData = PartyUtils.GetCustomCompanions();
                     break;
                 case 5:
-                    unitEntityData = Common.GetPets();
+                    unitEntityData = PartyUtils.GetPets();
                     break;
                 case 6:
                     unitEntityData = Common.GetEnemies();

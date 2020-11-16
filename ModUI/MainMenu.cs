@@ -1256,10 +1256,10 @@ namespace BagOfTricks
                         Storage.spellSpellbooksUnitEntityData = player.AllCharacters;
                         break;
                     case 4:
-                        Storage.spellSpellbooksUnitEntityData = Common.GetCustomCompanions();
+                        Storage.spellSpellbooksUnitEntityData = PartyUtils.GetCustomCompanions();
                         break;
                     case 5:
-                        Storage.spellSpellbooksUnitEntityData = Common.GetPets();
+                        Storage.spellSpellbooksUnitEntityData = PartyUtils.GetPets();
                         break;
                     case 6:
                         Storage.spellSpellbooksUnitEntityData = Common.GetEnemies();
@@ -1812,10 +1812,10 @@ namespace BagOfTricks
                     Storage.xpUnitEntityData = player.AllCharacters;
                     break;
                 case 4:
-                    Storage.xpUnitEntityData = Common.GetCustomCompanions();
+                    Storage.xpUnitEntityData = PartyUtils.GetCustomCompanions();
                     break;
                 case 5:
-                    Storage.xpUnitEntityData = Common.GetPets();
+                    Storage.xpUnitEntityData = PartyUtils.GetPets();
                     break;
             }
 
@@ -2360,405 +2360,7 @@ namespace BagOfTricks
 
         public static void PartyOptions()
         {
-            GL.BeginVertical("box");
-            GL.BeginHorizontal();
-            settings.showPartyStatisticsCategory = GL.Toggle(settings.showPartyStatisticsCategory, RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_PartyStats")), GL.ExpandWidth(false));
-            if (!settings.showPartyStatisticsCategory)
-            {
-                GL.EndHorizontal();
-            }
-            else
-            {
-                MenuTools.FlexibleSpaceCategoryMenuElementsEndHorizontal("PartyOptions");
-
-                GL.Space(10);
-
-                MenuTools.ToggleButton(ref settings.toggleAccessRemoteCharacters, "buttonToggle_AccessRemoteCharacters", "tooltip_AccessRemoteCharacters", nameof(settings.toggleVendorsBuyFor0));
-
-                GL.Space(10);
-
-                GL.BeginHorizontal();
-                Storage.statsFilterUnitEntityDataIndex = GL.SelectionGrid(Storage.statsFilterUnitEntityDataIndex, Storage.unitEntityDataArrayNoEnemies, 3);
-                GL.EndHorizontal();
-                var player = Game.Instance.Player;
-                switch (Storage.statsFilterUnitEntityDataIndex)
-                {
-                    case 0:
-                        Storage.statsUnitEntityData = player.Party;
-                        break;
-                    case 1:
-                        Storage.statsUnitEntityData = player.ControllableCharacters;
-                        break;
-                    case 2:
-                        Storage.statsUnitEntityData = player.ActiveCompanions;
-                        break;
-                    case 3:
-                        Storage.statsUnitEntityData = player.AllCharacters;
-                        break;
-                    case 4:
-                        Storage.statsUnitEntityData = Common.GetCustomCompanions();
-                        break;
-                    case 5:
-                        Storage.statsUnitEntityData = Common.GetPets();
-                        break;
-                }
-
-                if (Storage.statsFilterUnitEntityDataIndex != Storage.statsFilterUnitEntityDataIndexOld)
-                {
-                    Storage.reloadPartyStats = true;
-                    Storage.statsFilterUnitEntityDataIndexOld = Storage.statsFilterUnitEntityDataIndex;
-                }
-
-                GL.Space(10);
-
-                if (Storage.statsUnitEntityData.Any())
-                {
-                    if (Storage.reloadPartyStats)
-                    {
-                        Storage.statsSelectedControllableCharacterIndex = 0;
-                        Storage.statsPartyMembers = Storage.statsUnitEntityData;
-                        Storage.statsControllableCharacterNamesList.Clear();
-                        foreach (var controllableCharacter in Storage.statsUnitEntityData)
-                            Storage.statsControllableCharacterNamesList.Add(controllableCharacter.CharacterName);
-                        Storage.reloadPartyStats = false;
-                    }
-
-                    if (!Storage.reloadPartyStats)
-                    {
-                        GL.BeginHorizontal();
-                        Storage.statsSelectedControllableCharacterIndex = GL.SelectionGrid(Storage.statsSelectedControllableCharacterIndex, Storage.statsControllableCharacterNamesList.ToArray(), 3);
-                        GL.EndHorizontal();
-
-                        GL.Space(10);
-
-                        CurrentHitPointsOptions();
-
-                        GL.Space(10);
-
-                        ChangeName();
-
-                        GL.Space(10);
-
-                        ChangeGender();
-
-                        GL.Space(10);
-
-                        ClassData();
-
-                        GL.Space(10);
-
-                        //Menu.RaceData();
-
-                        //GL.Space(10);
-
-                        /*
-                        if (GL.Button(MenuTools.TextWithTooltip("button_RemoveEquippedItems", "tooltip_RemoveEquippedItems", false), GL.ExpandWidth(false)))
-                        {
-                            foreach (ItemEntity itemEntity in Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Inventory.Items)
-                            {
-                                if (itemEntity.Owner == Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor)
-                                {
-                                    itemEntity.HoldingSlot.RemoveItem();
-                                }
-                            }
-                        }
-                        GL.Space(10);*/
-
-                        GL.BeginVertical("box");
-                        GL.BeginHorizontal();
-                        if (GL.Button(
-                            MenuTools.TextWithTooltip("button_ResetCharacterLevel", "tooltip_ResetCharacterLevel",
-                                false), GL.ExpandWidth(false)))
-                        {
-                            var level = 21;
-                            var xp = Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]
-                                .Descriptor.Progression.Experience;
-                            var xpTable = BlueprintRoot.Instance.Progression.XPTable;
-
-                            for (var i = 20; i >= 1; i--)
-                            {
-                                var xpBonus = xpTable.GetBonus(i);
-
-                                modLogger.Log(i + ": " + xpBonus + " | " + xp);
-
-                                if (xp - xpBonus >= 0)
-                                {
-                                    modLogger.Log(i + ": " + (xp - xpBonus));
-                                    level = i;
-                                    break;
-                                }
-                            }
-
-                            var type = Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]
-                                .Descriptor.Progression.GetType();
-                            var propertyInfo = type.GetProperty("CharacterLevel");
-                            propertyInfo.SetValue(
-                                Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor
-                                    .Progression, level, null);
-                        }
-
-                        GL.EndHorizontal();
-
-                        GL.Space(10);
-
-                        GL.BeginHorizontal();
-                        Storage.setCharLevel = GL.HorizontalSlider(Storage.setCharLevel, 1f, 20f, GL.Width(250f));
-                        GL.Label($" {Mathf.RoundToInt(Storage.setCharLevel)}", GL.ExpandWidth(false));
-                        GL.EndHorizontal();
-                        GL.BeginHorizontal();
-                        if (GL.Button(
-                            MenuTools.TextWithTooltip("button_SetCharacterLevel", "tooltip_SetCharacterLevel", "",
-                                $" {Mathf.RoundToInt(Storage.setCharLevel)}" + " " + StringUtils.PutInParenthesis(Storage
-                                    .statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].CharacterName)),
-                            GL.ExpandWidth(false)))
-                        {
-                            var type = Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]
-                                .Descriptor.Progression.GetType();
-                            var propertyInfoLvl = type.GetProperty("CharacterLevel");
-                            propertyInfoLvl.SetValue(
-                                Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor
-                                    .Progression, Mathf.RoundToInt(Storage.setCharLevel), null);
-
-                            var newXp = BlueprintRoot.Instance.Progression.XPTable.GetBonus(
-                                Mathf.RoundToInt(Storage.setCharLevel));
-                            var propertyInfoXp = type.GetProperty("Experience");
-                            propertyInfoXp.SetValue(
-                                Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor
-                                    .Progression, newXp, null);
-                        }
-
-                        GL.EndHorizontal();
-                        MenuTools.SingleLineLabel(Strings.GetText("warning_SetCharacterLevel"));
-                        GL.EndVertical();
-
-                        GL.Space(10);
-
-                        MenuTools.UnitAlignment(Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]);
-
-                        GL.Space(10);
-
-                        GL.BeginVertical("box");
-
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_Size")));
-                        GL.BeginHorizontal();
-                        Storage.partySelectedSizeIndex = GL.SelectionGrid(Storage.partySelectedSizeIndex, Storage.charSizeArray, 3);
-                        GL.EndHorizontal();
-                        GL.Space(10);
-                        GL.BeginHorizontal();
-                        if (GL.Button(
-                            MenuTools.TextWithTooltip("button_SetSizeTo", "tooltip_SetSize", "",
-                                $" {Storage.charSizeArray[Storage.partySelectedSizeIndex]}"), GL.ExpandWidth(false)))
-                            Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor.State
-                                .Size = (Size)Storage.partySelectedSizeIndex;
-                        GL.EndHorizontal();
-                        GL.BeginHorizontal();
-                        if (GL.Button(
-                            MenuTools.TextWithTooltip("button_SetToOriginalSize", "tooltip_SetToOriginalSize", "",
-                                $" ({Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor.OriginalSize})"),
-                            GL.ExpandWidth(false)))
-                            Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor.State
-                                .Size = Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]
-                                .Descriptor.OriginalSize;
-                        GL.EndHorizontal();
-                        MenuTools.SingleLineLabel(Strings.GetText("label_CurrentSize") + ": " +
-                                                  Common.SizeToString(Storage
-                                                      .statsPartyMembers[
-                                                          Storage.statsSelectedControllableCharacterIndex].Descriptor
-                                                      .State.Size));
-                        GL.EndVertical();
-
-                        GL.Space(10);
-
-                        GL.BeginHorizontal();
-                        GL.Label(MenuTools.TextWithTooltip("header_Statistics", "tooltip_Statistics", true));
-                        GL.EndHorizontal();
-
-                        GL.BeginHorizontal();
-                        settings.partyStatsAmount = GL.TextField(settings.partyStatsAmount, 3, GL.Width(120f));
-                        MenuTools.SettingParse(ref settings.partyStatsAmount, ref settings.partyFinalStatsAmount);
-                        GL.EndHorizontal();
-
-                        var charStats = Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].Descriptor.Stats;
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_AttributesBaseValues")));
-                        foreach (var entry in Storage.statsAttributesDict)
-                            MenuTools.CreateStatInterface(entry.Key, charStats, entry.Value, settings.partyFinalStatsAmount);
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_SkillsRanks")));
-
-                        MenuTools.ToggleButton(ref settings.toggleShowOnlyClassSkills, "buttonToggle_ShowOnlyClassSkills", "tooltip_ShowOnlyClassSkills");
-
-                        foreach (var entry in Storage.statsSkillsDict)
-                            if (StringUtils.ToToggleBool(settings.toggleShowOnlyClassSkills))
-                            {
-                                var stat = charStats.GetStat(entry.Value) as ModifiableValueSkill;
-                                if (stat.ClassSkill && stat.BaseValue > 0)
-                                    MenuTools.CreateStatInterface(entry.Key, charStats, entry.Value,
-                                        settings.partyFinalStatsAmount);
-                            }
-                            else
-                            {
-                                MenuTools.CreateStatInterface(entry.Key, charStats, entry.Value,
-                                    settings.partyFinalStatsAmount, true);
-                            }
-
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_SocialSkillsBaseValues")));
-                        foreach (var entry in Storage.statsSocialSkillsDict)
-                            MenuTools.CreateStatInterface(entry.Key, charStats, entry.Value, settings.partyFinalStatsAmount);
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_StatsSaves")));
-                        foreach (var entry in Storage.statsSavesDict)
-                            MenuTools.CreateStatInterface(entry.Key, charStats, entry.Value, settings.partyFinalStatsAmount);
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_StatsCombat")));
-                        foreach (var entry in Storage.statsCombatDict)
-                            MenuTools.CreateStatInterface(entry.Key, charStats, entry.Value, settings.partyFinalStatsAmount);
-                        GL.Space(10);
-
-                        GL.BeginHorizontal();
-                        GL.Label(MenuTools.TextWithTooltip("header_PartyMultipliers", "tooltip_PartyMultipliers",
-                            true));
-                        GL.EndHorizontal();
-
-                        GL.BeginHorizontal();
-                        settings.partyStatMultiplier =
-                            GL.HorizontalSlider(settings.partyStatMultiplier, 0.1f, 10f, GL.Width(300f));
-                        GL.Label($" {Math.Round(settings.partyStatMultiplier, 1)}", GL.ExpandWidth(false));
-                        GL.EndHorizontal();
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_Attributes")));
-                        foreach (var entry in Storage.statsAttributesDict)
-                            MenuTools.CreateStatMultiplierInterface(entry.Key, charStats, entry.Value, Storage.statsPartyMembers, settings.partyStatMultiplier);
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_Skills")));
-                        foreach (var entry in Storage.statsSkillsDict)
-                            MenuTools.CreateStatMultiplierInterface(entry.Key, charStats, entry.Value, Storage.statsPartyMembers, settings.partyStatMultiplier);
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_SocialSkills")));
-                        foreach (var entry in Storage.statsSocialSkillsDict)
-                            MenuTools.CreateStatMultiplierInterface(entry.Key, charStats, entry.Value, Storage.statsPartyMembers, settings.partyStatMultiplier);
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_Saves")));
-                        foreach (var entry in Storage.statsSavesDict)
-                            MenuTools.CreateStatMultiplierInterface(entry.Key, charStats, entry.Value, Storage.statsPartyMembers, settings.partyStatMultiplier);
-                        MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("header_Combat")));
-                        foreach (var entry in Storage.statsCombatDict)
-                            MenuTools.CreateStatMultiplierInterface(entry.Key, charStats, entry.Value, Storage.statsPartyMembers, settings.partyStatMultiplier);
-
-                        GL.BeginHorizontal();
-                        if (GL.Button(
-                            MenuTools.TextWithTooltip("button_ExportCharInfo", "tooltip_ExportCharInfo", false),
-                            GL.ExpandWidth(false)))
-                        {
-                            var charInfoTxt = new List<string>();
-                            charInfoTxt.Add(
-                                $"{Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].CharacterName}");
-                            charInfoTxt.Add("");
-                            charInfoTxt.Add(Strings.GetText("header_AttributesBaseValues"));
-                            foreach (var entry in Storage.statsAttributesDict)
-                                charInfoTxt.Add(
-                                    $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                            charInfoTxt.Add("");
-                            charInfoTxt.Add(Strings.GetText("header_SkillsRanks"));
-                            foreach (var entry in Storage.statsSkillsDict)
-                                charInfoTxt.Add(
-                                    $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                            charInfoTxt.Add("");
-                            charInfoTxt.Add(Strings.GetText("header_SocialSkillsBaseValues"));
-                            foreach (var entry in Storage.statsSocialSkillsDict)
-                                charInfoTxt.Add(
-                                    $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                            charInfoTxt.Add("");
-                            charInfoTxt.Add(Strings.GetText("header_StatsSaves"));
-                            foreach (var entry in Storage.statsSavesDict)
-                                charInfoTxt.Add(
-                                    $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                            charInfoTxt.Add("");
-                            charInfoTxt.Add(Strings.GetText("header_StatsCombat"));
-                            foreach (var entry in Storage.statsCombatDict)
-                                charInfoTxt.Add(
-                                    $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-
-                            File.WriteAllLines(
-                                Path.Combine(Common.ExportPath(),
-                                    $"{Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].CharacterName}.txt"),
-                                charInfoTxt.ToArray());
-                        }
-                        GL.EndHorizontal();
-
-                        GL.BeginHorizontal();
-                        GL.Label(" " + Strings.GetText("label_Location") +
-                                 $": {Path.Combine(Common.ExportPath(), $"{Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].CharacterName}.txt")}", GL.ExpandWidth(false));
-                        GL.EndHorizontal();
-
-                        if (File.Exists(Storage.modEntryPath + Storage.charactersImportFolder + "\\" +
-                                        Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]
-                                            .CharacterName + ".txt"))
-                            if (GL.Button(
-                                MenuTools.TextWithTooltip("button_ImportStatsFrom", "tooltip_ImportStatsFrom", "",
-                                    $" {Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].CharacterName}.txt"),
-                                GL.ExpandWidth(false)))
-                            {
-                                if (settings.settingCreateBackupBeforeImport)
-                                {
-                                    var charInfoTxt = new List<string>();
-                                    charInfoTxt.Add(
-                                        $"{Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].CharacterName}");
-                                    charInfoTxt.Add("");
-                                    charInfoTxt.Add(Strings.GetText("header_AttributesBaseValues"));
-                                    foreach (var entry in Storage.statsAttributesDict)
-                                        charInfoTxt.Add(
-                                            $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                                    charInfoTxt.Add("");
-                                    charInfoTxt.Add(Strings.GetText("header_SkillsRanks"));
-                                    foreach (var entry in Storage.statsSkillsDict)
-                                        charInfoTxt.Add(
-                                            $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                                    charInfoTxt.Add("");
-                                    charInfoTxt.Add(Strings.GetText("header_SocialSkillsBaseValues"));
-                                    foreach (var entry in Storage.statsSocialSkillsDict)
-                                        charInfoTxt.Add(
-                                            $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                                    charInfoTxt.Add("");
-                                    charInfoTxt.Add(Strings.GetText("header_StatsSaves"));
-                                    foreach (var entry in Storage.statsSavesDict)
-                                        charInfoTxt.Add(
-                                            $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                                    charInfoTxt.Add("");
-                                    charInfoTxt.Add(Strings.GetText("header_StatsCombat"));
-                                    foreach (var entry in Storage.statsCombatDict)
-                                        charInfoTxt.Add(
-                                            $"{entry.Key}: {charStats.GetStat(entry.Value).BaseValue} ({charStats.GetStat(entry.Value).ModifiedValue})");
-                                    File.WriteAllLines(
-                                        Path.Combine(Storage.modEntryPath + Storage.charactersImportFolder + "\\" +
-                                                     Storage.statsPartyMembers[
-                                                             Storage.statsSelectedControllableCharacterIndex]
-                                                         .CharacterName + "_Backup.txt"), charInfoTxt.ToArray());
-                                }
-
-                                var lines = File.ReadAllLines(Storage.modEntryPath + Storage.charactersImportFolder +
-                                                              "\\" + Storage
-                                                                  .statsPartyMembers[
-                                                                      Storage.statsSelectedControllableCharacterIndex]
-                                                                  .CharacterName + ".txt");
-                                lines = lines.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                                lines = lines.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-                                for (var i = 0; i < lines.Length; i++)
-                                    if (Regex.IsMatch(lines[i], @"[\x20A-Za-z()]+:\s*[0-9]+"))
-                                    {
-                                        var match = Regex.Match(lines[i], @"[\x20A-Za-z()]+:\s*[0-9]+");
-                                        lines[i] = match.Value;
-                                        var splitLine = lines[i].Split(':');
-                                        var allStats = Storage.statsAttributesDict.Union(Storage.statsSkillsDict)
-                                            .Union(Storage.statsSocialSkillsDict).Union(Storage.statsSavesDict)
-                                            .Union(Storage.statsCombatDict).ToDictionary(k => k.Key, v => v.Value);
-                                        if (allStats.TryGetValue(splitLine[0], out var statType) &&
-                                            int.TryParse(splitLine[1], out var baseValue))
-                                            charStats.GetStat(statType).BaseValue = baseValue;
-                                    }
-
-                            }
-                    }
-                }
-                else
-                {
-                    MenuTools.SingleLineLabel(Strings.GetText("message_NoUnitFound"));
-                }
-            }
-
-            GL.EndVertical();
+            PartyOptionsMenu.Render();
         }
 
         public static void ChangeGender()
@@ -4409,10 +4011,10 @@ namespace BagOfTricks
                         Storage.buffsUnitEntityData = player.AllCharacters;
                         break;
                     case 4:
-                        Storage.buffsUnitEntityData = Common.GetCustomCompanions();
+                        Storage.buffsUnitEntityData = PartyUtils.GetCustomCompanions();
                         break;
                     case 5:
-                        Storage.buffsUnitEntityData = Common.GetPets();
+                        Storage.buffsUnitEntityData = PartyUtils.GetPets();
                         break;
                     case 6:
                         Storage.buffsUnitEntityData = Common.GetEnemies();
@@ -4817,10 +4419,10 @@ namespace BagOfTricks
                         Storage.addAbilitiesUnitEntityData = player.AllCharacters;
                         break;
                     case 4:
-                        Storage.addAbilitiesUnitEntityData = Common.GetCustomCompanions();
+                        Storage.addAbilitiesUnitEntityData = PartyUtils.GetCustomCompanions();
                         break;
                     case 5:
-                        Storage.addAbilitiesUnitEntityData = Common.GetPets();
+                        Storage.addAbilitiesUnitEntityData = PartyUtils.GetPets();
                         break;
                     case 6:
                         Storage.addAbilitiesUnitEntityData = Common.GetEnemies();
@@ -6089,16 +5691,16 @@ namespace BagOfTricks
             MenuTools.ToggleButton(ref settings.toggleEnableCameraScrollSpeed, "buttonToggle_CameraScrollSpeed",
                 "tooltip_CameraScrollSpeed");
 
-            if (settings.toggleEnableCameraScrollSpeed == Storage.isTrueString)
+            if (StringUtils.ToToggleBool(settings.toggleEnableCameraScrollSpeed))
             {
                 GL.BeginHorizontal();
                 GL.Label(Strings.GetText("headerOption_CameraScrollSpeed") + ": ", GL.ExpandWidth(false));
-                unsafe
-                {
-                    if (Main.cameraScrollSpeed != null)
-                        *Main.cameraScrollSpeed = GL.HorizontalSlider(*Main.cameraScrollSpeed, 0f, 250f);
+                settings.cameraScrollSpeed = GL.HorizontalSlider(settings.cameraScrollSpeed, 0f, 250f);
+                GL.EndHorizontal();
+                GL.BeginHorizontal();
+                if (GL.Button(Strings.GetText("button_ResetToDefault"), GL.ExpandWidth(false))) {
+                    settings.cameraScrollSpeed = Defaults.cameraScrollSpeed;
                 }
-
                 GL.EndHorizontal();
                 GL.Space(10);
             }
@@ -7300,7 +6902,7 @@ namespace BagOfTricks
             {
                 FieldInfo stealthDcIncrement = typeof(GameConsts).GetField("StealthDCIncrement");
                 stealthDcIncrement.SetValue(null, settings.finalGameConstsAmount.Feet());
-                settings.gameConstsMinWeaponRange = settings.finalGameConstsAmount;
+                settings.gameConstsStealthDcIncrement = settings.finalGameConstsAmount;
             }
             MenuTools.SingleLineLabel(Strings.GetText("label_CurrentStealthDCIncrement") + $": {typeof(GameConsts).GetField("StealthDCIncrement").GetValue(null)}");
             GL.EndHorizontal();
@@ -7984,8 +7586,22 @@ namespace BagOfTricks
                 GL.Space(10);
 
                 MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("about_KingmakerModsPW") + "："));
-                MenuTools.SingleLineLabel(
-                    "\"The MIT License(MIT)\n\nCopyright(c) 2018 fireundubh < fireundubh@gmail.com >\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files(the \"Software\"), to deal in\nthe Software without restriction, including without limitation the rights to\nuse, copy, modify, merge, publish, distribute, sublicense, and / or sell copies of\nthe Software, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER\nIN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN\nCONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. \"");
+                MenuTools.SingleLineLabel("\"The MIT License(MIT)" +
+                                          "\n\nCopyright(c) 2018 fireundubh < fireundubh@gmail.com >" +
+                                          "\nPermission is hereby granted, free of charge, to any person obtaining a copy of" +
+                                          "\nthis software and associated documentation files(the \"Software\"), to deal in" +
+                                          "\nthe Software without restriction, including without limitation the rights to" +
+                                          "\nuse, copy, modify, merge, publish, distribute, sublicense, and / or sell copies of" +
+                                          "\nthe Software, and to permit persons to whom the Software is furnished to do so," +
+                                          "\nsubject to the following conditions:" +
+                                          "\n\nThe above copyright notice and this permission notice shall be included in all" +
+                                          "\ncopies or substantial portions of the Software." +
+                                          "\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR" +
+                                          "\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS" +
+                                          "\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR" +
+                                          "\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER" +
+                                          "\nIN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN" +
+                                          "\nCONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. \"");
                 GL.BeginHorizontal();
                 if (GL.Button(
                     new GUIContent("KingmakerMods.pw on GitHub", "https://github.com/fireundubh/KingmakerMods.pw"),
@@ -7994,6 +7610,31 @@ namespace BagOfTricks
                 GL.BeginHorizontal();
                 if (GL.Button(new GUIContent("fireundubh on Patreon", "https://www.patreon.com/fireundubh"),
                     GL.ExpandWidth(false))) Application.OpenURL("https://www.patreon.com/fireundubh");
+                GL.EndHorizontal();
+                GL.Space(10);
+
+                MenuTools.SingleLineLabel(RichTextUtils.Bold(Strings.GetText("about_KingmakerUIExtensionsMod") + ":"));
+                MenuTools.SingleLineLabel("\"The MIT License(MIT)" +
+                                          "\n\nCopyright (c) 2019 Hsinyu Chan" +
+                                          "\nPermission is hereby granted, free of charge, to any person obtaining a copy of" +
+                                          "\nthis software and associated documentation files(the \"Software\"), to deal in" +
+                                          "\nthe Software without restriction, including without limitation the rights to" +
+                                          "\nuse, copy, modify, merge, publish, distribute, sublicense, and / or sell copies of" +
+                                          "\nthe Software, and to permit persons to whom the Software is furnished to do so," +
+                                          "\nsubject to the following conditions:" +
+                                          "\n\nThe above copyright notice and this permission notice shall be included in all" +
+                                          "\ncopies or substantial portions of the Software." +
+                                          "\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR" +
+                                          "\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY," +
+                                          "\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE" +
+                                          "\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER" +
+                                          "\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM," +
+                                          "\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE " +
+                                          "\nSOFTWARE. \"");
+                GL.BeginHorizontal();
+                if (GL.Button(new GUIContent("KingmakerUIExtensionsMod on GitHub", "https://github.com/hsinyuhcan/KingmakerUIExtensionsMod"), GL.ExpandWidth(false))) {
+                    Application.OpenURL("https://github.com/hsinyuhcan/KingmakerUIExtensionsMod");
+                }
                 GL.EndHorizontal();
             }
 

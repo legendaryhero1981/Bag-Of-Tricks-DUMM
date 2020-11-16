@@ -69,7 +69,6 @@ namespace BagOfTricks
 
         public static bool enabled;
 
-        public static unsafe float* cameraScrollSpeed = null;
         public static LocalMap localMap = null;
         public static bool rotationChanged = false;
 

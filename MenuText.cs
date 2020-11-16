@@ -522,7 +522,7 @@ namespace BagOfTricks
             {"button_RemoveAllBuffs", "Remove All Buffs"},
             {"button_RemoveAllNegativeEffects", "Remove All Negative Effects"},
             {"button_AllBuffs", "All Buffs"},
-            {"button_AddToParty", "Add To Party"},
+            {"button_AddRemoteCompanionToParty", "Add Remote Companion To Party"},
             {"button_AddFavouritesTo", "Add Favourites To"},
             {"button_Default", "Default"},
             {"button_BaseBPIncome", "Base BP Income"},
@@ -588,6 +588,7 @@ namespace BagOfTricks
             {"button_RemoveEquippedItems", "Remove All Equipped Items"},
             {"button_Spawn", "Spawn"},
             {"button_RunPerceptionTriggerActions", "Run Perception Trigger Actions"},
+            {"button_AddToParty", "Add To Party"},
             //button end
 
             //buttonToggle start
@@ -743,6 +744,7 @@ namespace BagOfTricks
             {"buttonToggle_RespecCostMultiplier", "Respec Cost Multiplier"},
             {"buttonToggle_toggleCustomTakeXAsMin", "Use Custom Value As Minimum Roll"},
             {"buttonToggle_AccessRemoteCharacters", "Access Remote Characters"},
+            {"buttonToggle_ShowAllPartyPortraits", "Show All Party Portraits"},
             //buttonToggle end
 
             //arrayItem start
@@ -816,6 +818,7 @@ namespace BagOfTricks
             {"arrayItem_UnityEntityData_Mercenaries", "Mercenaries (Custom Companions)"},
             {"arrayItem_UnityEntityData_Pets", "Pets"},
             {"arrayItem_UnityEntityData_Enemies", "Enemies"},
+            {"arrayItem_UnityEntityData_RemoteCharacters", "Remote Characters"},
 
 
             {"arrayItem_Weather_Normal", "Normal"},
@@ -977,7 +980,10 @@ namespace BagOfTricks
             },
             {"warning_PreventAlignmentChanges", "Prevent Alignment Changes is active!"},
             {"warning_RevealLocations", "Revealing locations can't be reversed!"},
-            {"warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites", "Spawn Random Hostile Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!"},
+            {"warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites", "Spawn Random Hostibutton_AddToPartyle Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!"},
+            {"warning_SelectRemoteCharacters", "Select Remote Characters to add companions to your party.\nThe party limit of six does not apply when adding from this menu!"},
+            {"warning_PartyLimitShowAllPartyPortraits", "Your party size exceeds the game's limit. It is recommended to enable Show All Party Portraits."},
+
             //warning end
 
             //tooltip start
@@ -1065,6 +1071,8 @@ namespace BagOfTricks
             {"tooltip_VendorsSellFor0", "All items sold are worth 0."},
             {"tooltip_VendorsBuyFor0", "All items bought are worth 0."},
             {"tooltip_AccessRemoteCharacters", "Allows you to access remote characters' inventories, character screens and spell books while outside of the capital."},
+            {"tooltip_ShowAllPartyPortraits", "Displays all active party members' portraits including pets. Works with party sizes larger than six!"},
+            {"tooltip_AddRemoteCompanionToParty", "Adds the selected remote companion to your party.\nThe party limit of six does not apply when adding from this menu!"},
 
             {
                 "tooltip_RepeatableLockPicking",
@@ -1526,10 +1534,8 @@ namespace BagOfTricks
 
 
             //about start
-            {
-                "about_KingmakerModsPW",
-                "Includes code from KingmakerMods.pw - Copyright (c) 2018 fireundubh <fireundubh@gmail.com>, MIT License (MIT)"
-            },
+            {"about_KingmakerModsPW", "Includes code from KingmakerMods.pw - Copyright (c) 2018 fireundubh <fireundubh@gmail.com>, MIT License (MIT)"},
+            {"about_KingmakerUIExtensionsMod", "Includes code from KingmakerUIExtensionsMod - Copyright (c) 2019 Hsinyu Chan, MIT License (MIT)"},
             //about end
         };
     }

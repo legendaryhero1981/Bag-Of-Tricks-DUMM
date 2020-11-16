@@ -439,7 +439,7 @@
   <Localisation key="button_RemoveAllBuffs" value="Remove All Buffs" />
   <Localisation key="button_RemoveAllNegativeEffects" value="Remove All Negative Effects" />
   <Localisation key="button_AllBuffs" value="All Buffs" />
-  <Localisation key="button_AddToParty" value="Add To Party" />
+  <Localisation key="button_AddRemoteCompanionToParty" value="Add Remote Companion To Party" />
   <Localisation key="button_AddFavouritesTo" value="Add Favourites To" />
   <Localisation key="button_Default" value="Default" />
   <Localisation key="button_BaseBPIncome" value="Base BP Income" />
@@ -505,6 +505,7 @@
   <Localisation key="button_RemoveEquippedItems" value="Remove All Equipped Items" />
   <Localisation key="button_Spawn" value="Spawn" />
   <Localisation key="button_RunPerceptionTriggerActions" value="Run Perception Trigger Actions" />
+  <Localisation key="button_AddToParty" value="Add To Party" />
   <Localisation key="buttonToggle_PartyAlwaysRolls20" value="Party Always Rolls 20" />
   <Localisation key="buttonToggle_InfiniteSkillPoints" value="Infinite Skill Points" />
   <Localisation key="buttonToggle_IgnoreClassAlignment" value="Ignore Class Alignment Restrictions" />
@@ -657,6 +658,7 @@
   <Localisation key="buttonToggle_RespecCostMultiplier" value="Respec Cost Multiplier" />
   <Localisation key="buttonToggle_toggleCustomTakeXAsMin" value="Use Custom Value As Minimum Roll" />
   <Localisation key="buttonToggle_AccessRemoteCharacters" value="Access Remote Characters" />
+  <Localisation key="buttonToggle_ShowAllPartyPortraits" value="Show All Party Portraits" />
   <Localisation key="arrayItem_Alignments_NoChange" value="No Change" />
   <Localisation key="arrayItem_Alignments_ChaoticEvil" value="Chaotic Evil" />
   <Localisation key="arrayItem_Alignments_NeutralEvil" value="Neutral Evil" />
@@ -719,6 +721,7 @@
   <Localisation key="arrayItem_UnityEntityData_Mercenaries" value="Mercenaries (Custom Companions)" />
   <Localisation key="arrayItem_UnityEntityData_Pets" value="Pets" />
   <Localisation key="arrayItem_UnityEntityData_Enemies" value="Enemies" />
+  <Localisation key="arrayItem_UnityEntityData_RemoteCharacters" value="Remote Characters" />
   <Localisation key="arrayItem_Weather_Normal" value="Normal" />
   <Localisation key="arrayItem_Weather_Rain" value="Rain" />
   <Localisation key="arrayItem_Weather_Snow" value="Snow" />
@@ -808,6 +811,8 @@
   <Localisation key="warning_PreventAlignmentChanges" value="Prevent Alignment Changes is active!" />
   <Localisation key="warning_RevealLocations" value="Revealing locations can't be reversed!" />
   <Localisation key="warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites" value="Spawn Random Hostile Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!" />
+  <Localisation key="warning_SelectRemoteCharacters" value="Select Remote Characters to add companions to your party.&#xA;The party limit of six does not apply when adding from this menu!" />
+  <Localisation key="warning_PartyLimitShowAllPartyPortraits" value="Your party size exceeds the game's limit. It is recommended to enable Show All Party Portraits." />
   <Localisation key="tooltip_RespecCostMultiplier" value="Sets a multiplier for the respec cost. Values lesser than one will result in price decrease." />
   <Localisation key="tooltip_BuffDurationMultiplier" value="The duration of buffs cast by the selection will be multiplied by the selected value.&#xA;Note that extremely high multipliers might prevent it from being applied to very long running buffs.&#xA;If that is the case you will be able to see an error in the log (System.OverflowException)." />
   <Localisation key="tooltip_SetEncumbrance" value="Sets the encumbrance for individual characters and the party as a whole to the chosen value." />
@@ -845,6 +850,8 @@
   <Localisation key="tooltip_VendorsSellFor0" value="All items sold are worth 0." />
   <Localisation key="tooltip_VendorsBuyFor0" value="All items bought are worth 0." />
   <Localisation key="tooltip_AccessRemoteCharacters" value="Allows you to access remote characters' inventories, character screens and spell books while outside of the capital." />
+  <Localisation key="tooltip_ShowAllPartyPortraits" value="Displays all active party members' portraits including pets. Works with party sizes larger than six!" />
+  <Localisation key="tooltip_AddRemoteCompanionToParty" value="Adds the selected remote companion to your party.&#xA;The party limit of six does not apply when adding from this menu!" />
   <Localisation key="tooltip_RepeatableLockPicking" value="Locks can be picked repeatedly.&#xA;Required for Lock Picking Causes Weariness and Use Lock Pick" />
   <Localisation key="tooltip_RepeatableLockPickingWeariness" value="Each attempt at picking a lock causes weariness.&#xA;Below the value can be customized (1.0 = 1 hour of weariness per attempt)." />
   <Localisation key="tooltip_1EqualsHourWeariness" value="1.0 = 1 hour of weariness per attempt." />
@@ -1084,4 +1091,5 @@
   <Localisation key="taxCollector_EmployTaxCollector" value="Employ Tax Collector" />
   <Localisation key="taxCollector_Approach" value="Approach" />
   <Localisation key="about_KingmakerModsPW" value="Includes code from KingmakerMods.pw - Copyright (c) 2018 fireundubh &lt;fireundubh@gmail.com&gt;, MIT License (MIT)" />
+  <Localisation key="about_KingmakerUIExtensionsMod" value="Includes code from KingmakerUIExtensionsMod - Copyright (c) 2019 Hsinyu Chan, MIT License (MIT)" />
 </resources>
