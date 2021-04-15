@@ -198,7 +198,7 @@ namespace BagOfTricks
                 BlueprintUnit blueprintUnit = Utilities.GetBlueprintByGuid<BlueprintUnit>(guid);
                 if (blueprintUnit != null) {
                     Player player = Game.Instance.Player;
-                    UnitEntityData target = player.Party.Random<UnitEntityData>();
+                    UnitEntityData target = player.Party.Random();
                     UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit((BlueprintUnit)Utilities.GetBlueprintByGuid<BlueprintUnit>(guid), position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
                     if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
                     {
@@ -216,7 +216,7 @@ namespace BagOfTricks
             {
                 if (unit != null) {
                     Player player = Game.Instance.Player;
-                    UnitEntityData target = player.Party.Random<UnitEntityData>();
+                    UnitEntityData target = player.Party.Random();
                     UnitEntityData executor = Game.Instance.EntityCreator.SpawnUnit(unit, position, Quaternion.LookRotation(target.OrientationDirection), Game.Instance.CurrentScene.MainState);
                     if (!executor.AttackFactions.Contains(Game.Instance.BlueprintRoot.PlayerFaction))
                     {
@@ -596,12 +596,12 @@ namespace BagOfTricks
         public static int GetEncounterCR()
         {
             if ((bool)((SerializedScriptableObject)BlueprintRoot.Instance.Progression.CRTable))
-                return Utilities.GetTotalChallengeRating(Game.Instance.State.Units.Where<UnitEntityData>((Func<UnitEntityData, bool>)(u =>
+                return Utilities.GetTotalChallengeRating(Game.Instance.State.Units.Where((Func<UnitEntityData, bool>)(u =>
                 {
                     if (u.IsInCombat)
                         return !u.IsPlayerFaction;
                     return false;
-                })).Select<UnitEntityData, BlueprintUnit>((Func<UnitEntityData, BlueprintUnit>)(u => u.Blueprint)).ToList<BlueprintUnit>());
+                })).Select((Func<UnitEntityData, BlueprintUnit>)(u => u.Blueprint)).ToList());
             UberDebug.LogChannel("SmartConsole", "CR table not found at Assets/Mechanics/Blueprints/Classes/Basic/CRTable.asset or 19b09eaa18b203645b6f1d5f2edcb1e4, cannot calculate", (object[])Array.Empty<object>());
             return -1;
         }
@@ -641,7 +641,7 @@ namespace BagOfTricks
             try
             {
                 array = Directory.GetFiles(Storage.modEntryPath + folder, $"*.{fileFormat}");
-                Array.Sort<string>(array);
+                Array.Sort(array);
             }
             catch (IOException exception)
             {

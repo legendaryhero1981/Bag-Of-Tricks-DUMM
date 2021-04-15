@@ -440,6 +440,7 @@
   <Localisation key="button_RemoveAllNegativeEffects" value="Remove All Negative Effects" />
   <Localisation key="button_AllBuffs" value="All Buffs" />
   <Localisation key="button_AddRemoteCompanionToParty" value="Add Remote Companion To Party" />
+  <Localisation key="button_AddAllRemoteCompanionsToParty" value="Add All Remote Companions To Party" />
   <Localisation key="button_AddFavouritesTo" value="Add Favourites To" />
   <Localisation key="button_Default" value="Default" />
   <Localisation key="button_BaseBPIncome" value="Base BP Income" />
@@ -813,6 +814,7 @@
   <Localisation key="warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites" value="Spawn Random Hostile Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!" />
   <Localisation key="warning_SelectRemoteCharacters" value="Select Remote Characters to add companions to your party.&#xA;The party limit of six does not apply when adding from this menu!" />
   <Localisation key="warning_PartyLimitShowAllPartyPortraits" value="Your party size exceeds the game's limit. It is recommended to enable Show All Party Portraits." />
+  <Localisation key="warning_SpawnUnitsAddToParty" value="Make sure to save and create backups before using the 'Add To Party' option!" />
   <Localisation key="tooltip_RespecCostMultiplier" value="Sets a multiplier for the respec cost. Values lesser than one will result in price decrease." />
   <Localisation key="tooltip_BuffDurationMultiplier" value="The duration of buffs cast by the selection will be multiplied by the selected value.&#xA;Note that extremely high multipliers might prevent it from being applied to very long running buffs.&#xA;If that is the case you will be able to see an error in the log (System.OverflowException)." />
   <Localisation key="tooltip_SetEncumbrance" value="Sets the encumbrance for individual characters and the party as a whole to the chosen value." />
@@ -852,6 +854,7 @@
   <Localisation key="tooltip_AccessRemoteCharacters" value="Allows you to access remote characters' inventories, character screens and spell books while outside of the capital." />
   <Localisation key="tooltip_ShowAllPartyPortraits" value="Displays all active party members' portraits including pets. Works with party sizes larger than six!" />
   <Localisation key="tooltip_AddRemoteCompanionToParty" value="Adds the selected remote companion to your party.&#xA;The party limit of six does not apply when adding from this menu!" />
+  <Localisation key="tooltip_AddAllRemoteCompanionsToParty" value="Adds all remote companions to your party.&#xA;The party limit of six does not apply when adding from this menu!" />
   <Localisation key="tooltip_RepeatableLockPicking" value="Locks can be picked repeatedly.&#xA;Required for Lock Picking Causes Weariness and Use Lock Pick" />
   <Localisation key="tooltip_RepeatableLockPickingWeariness" value="Each attempt at picking a lock causes weariness.&#xA;Below the value can be customized (1.0 = 1 hour of weariness per attempt)." />
   <Localisation key="tooltip_1EqualsHourWeariness" value="1.0 = 1 hour of weariness per attempt." />
@@ -1021,6 +1024,7 @@
   <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="Set Armour Check Penalty To 0 will only be active outside of combat encounters.&#xA;Unequipped items will always display an armour check penalty of 0." />
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="No Arcane Spell Failure will only be active outside of combat encounters." />
   <Localisation key="tooltip_ActionKeySpawnUnitsFromUnitFavourites" value="Enables picking enemies to spawn from the unit favourites / stored units." />
+  <Localisation key="tooltip_SpawnUnitsAddToParty" value="Adds the selected units to your party. Make sure to save and create backups before using this option!" />
   <Localisation key="tooltip_AddMultipleToStorage" value="Click to remove&#xA;the unit from storage&#xA;or shift-click to&#xA;add it again." />
   <Localisation key="misc_Close" value="Close" />
   <Localisation key="misc_Medium" value="Medium" />

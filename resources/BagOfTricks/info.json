@@ -2,8 +2,8 @@
     "Id": "BagOfTricks",
     "DisplayName": "百宝袋Mod",
     "Author": "李允",
-    "Version": "1.16.11.33",
-    "ManagerVersion": "0.22.13.39",
+    "Version": "1.16.12.34",
+    "ManagerVersion": "0.23.4.45",
     "EntryMethod": "BagOfTricks.Main.Load",
     "HomePage": "https://github.com/legendaryhero1981/Bag-Of-Tricks-DUMM",
     "Repository": "https://raw.githubusercontent.com/legendaryhero1981/Bag-Of-Tricks-DUMM/master/Repository.json"

@@ -18,7 +18,11 @@ namespace BagOfTricks {
             MenuTools.AddFavouriteButton("DevToolsRender");
             GL.EndHorizontal();
 
-            MenuTools.ToggleButton(ref settings.toggleDevTools, "misc_Enable", "tooltip_DevTools");
+            MenuTools.ToggleButton(ref settings.toggleDevTools, "misc_Enable", "tooltip_DevTools", () => {
+                ToggleUberLoggerTrue();
+            }, () => {
+                ToggleUberLoggerFalse();
+            });
 
             if (StringUtils.ToToggleBool(settings.toggleDevTools)) {
                 MenuTools.SingleLineLabel(Strings.GetText("label_SmartConsoleInfo"));
@@ -27,15 +31,10 @@ namespace BagOfTricks {
                 GL.Space(10);
                 if (GL.Button(MenuTools.TextWithTooltip("buttonToggle_UberLogger", "tooltip_UberLogger", $"{settings.toggleUberLogger}" + " "), GL.ExpandWidth(false))) {
                     if (settings.toggleUberLogger == Storage.isFalseString) {
-                        UberLogger.Logger.Enabled = true;
-                        settings.toggleUberLogger = Storage.isTrueString;
+                        ToggleUberLoggerTrue();
                     }
                     else if (settings.toggleUberLogger == Storage.isTrueString) {
-                        UberLogger.Logger.ForwardMessages = false;
-                        UberLogger.Logger.Enabled = false;
-                        settings.toggleUberLoggerForwardPrefix = Storage.isFalseString;
-                        settings.toggleUberLoggerForward = Storage.isFalseString;
-                        settings.toggleUberLogger = Storage.isFalseString;
+                        ToggleUberLoggerFalse();
                     }
                 }
                 if (StringUtils.ToToggleBool(settings.toggleUberLogger)) {
@@ -65,6 +64,19 @@ namespace BagOfTricks {
 
             }
             GL.EndVertical();
+        }
+
+        private static void ToggleUberLoggerTrue() {
+            UberLogger.Logger.Enabled = true;
+            settings.toggleUberLogger = Storage.isTrueString;
+        }
+
+        private static void ToggleUberLoggerFalse() {
+            UberLogger.Logger.ForwardMessages = false;
+            UberLogger.Logger.Enabled = false;
+            settings.toggleUberLoggerForwardPrefix = Storage.isFalseString;
+            settings.toggleUberLoggerForward = Storage.isFalseString;
+            settings.toggleUberLogger = Storage.isFalseString;
         }
     }
 

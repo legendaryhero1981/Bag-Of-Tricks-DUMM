@@ -280,7 +280,7 @@ namespace BagOfTricks
         public string toggleCameraBounds = Storage.isFalseString;
         public string toggleCameraAllowScroll = Storage.isFalseString;
 
-        public string toggleEnableTaxCollector = Storage.isTrueString;
+        public string toggleEnableTaxCollector = Storage.isFalseString;
         public bool showTaxCollectorCategory = false;
 
         public string toggleAddToLog = Storage.isTrueString;

@@ -1,4 +1,5 @@
 ﻿using BagOfTricks.Favourites;
+using BagOfTricks.ModUI.CheatsUI;
 using BagOfTricks.Utils;
 using BagOfTricks.Utils.Kingmaker;
 using BagOfTricks.Utils.Mods;
@@ -73,20 +74,20 @@ namespace BagOfTricks
         public static bool rotationChanged = false;
 
         public static Settings settings;
-        public static TaxCollectorSettings taxSettings = new TaxCollectorSettings();
-        public static SaveData saveData = new SaveData();
+        public static TaxCollectorSettings taxSettings = new();
+        public static SaveData saveData = new();
         public static ModEntry.ModLogger modLogger;
         public static ModEntryCheck scaleXp;
         public static ModEntryCheck craftMagicItems;
         public static ModEntryCheck advancedMartialArts;
         public static ModEntryCheck callOfTheWild;
         public static ModEntryCheck eldritchArcana;
-        public static bool versionMismatch = false;
+        public static bool versionMismatch;
         public static Vector2 scrollPosition;
 
-        public static UICanvas mainCanvas = new UICanvas("BoT_MainCanvas");
-        public static UITMPText sceneAreaInfo = new UITMPText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
-        public static UITMPText objectInfo = new UITMPText(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
+        public static UICanvas mainCanvas = new("BoT_MainCanvas");
+        public static UITMPText sceneAreaInfo = new(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
+        public static UITMPText objectInfo = new(mainCanvas.baseGameObject, "BoT_SceneAndAreaInfo");
 
         public static Logger botLoggerLog;
         public static Logger battleLoggerLog;
@@ -125,15 +126,6 @@ namespace BagOfTricks
             if (File.Exists(modEntry.Path + "fastload"))
             {
                 settings.toggleAutomaticallyLoadLastSave = Storage.isTrueString;
-            }
-
-            try
-            {
-                CreateDirectories();
-            }
-            catch (Exception e)
-            {
-                modLogger.Log(e.ToString());
             }
 
             if (File.Exists(modEntry.Path + "dictxml"))
@@ -236,31 +228,11 @@ namespace BagOfTricks
 
             Storage.flyingHeightSlider = Mathf.Clamp(Storage.flyingHeightSlider, -10f, 100f);
 
-            if (!settings.settingKeepGuids)
-            {
-                settings.itemGuid = "";
-            }
+            if (!settings.settingKeepGuids) settings.itemGuid = "";
 
             try
             {
-                if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml"))
-                {
-                    Strings.temp = Strings.XmLtoDict(settings.selectedLocalisationName);
-                    if (Strings.temp.Count == MenuText.fallback.Count && Strings.temp.Keys == MenuText.fallback.Keys)
-                    {
-                        Strings.current = Strings.temp;
-                    }
-                    else
-                    {
-                        Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
-                    }
-                    Strings.RefreshStrings();
-                    settings.filterButtonText = Strings.GetText("misc_Enable");
-                    settings.currentSceneString = Strings.GetText("misc_Display");
-                    settings.showAllBuffs = Strings.GetText("misc_Display");
-                    settings.showAllFeats = Strings.GetText("misc_Display");
-                    settings.showAllAbilities = Strings.GetText("misc_Display");
-                }
+                CreateDirectories();
                 Storage.localisationsXmlFiles.Clear();
                 Storage.localisationsXml = Directory.GetFiles(Storage.modEntryPath + Storage.localisationFolder, "*.xml");
                 foreach (var s in Storage.localisationsXml)
@@ -276,24 +248,9 @@ namespace BagOfTricks
                 {
                     settings.selectedLocalisation = Storage.localisationsXmlFiles.FindIndex(a => a.Contains(settings.selectedLocalisationName));
                 }
+
                 SortLocalisationsAndFlags();
-
-                Storage.selectedLocalisationOld = settings.selectedLocalisation;
-
-                if (settings.settingSearchForCsv)
-                {
-                    Common.RefreshArrayFromFile(ref Storage.itemSetsCsv, Storage.itemSetsFolder, "csv");
-                    string[] temp = SpawnUnits.UnitSetsCsv;
-                    Common.RefreshArrayFromFile(ref temp, SpawnUnits.UnitSetsFolder, "csv");
-                    SpawnUnits.UnitSetsCsv = temp;
-                }
-                if (settings.settingSearchForTxt)
-                {
-                    Common.RefreshArrayFromFile(ref Storage.itemSetsTxt, Storage.itemSetsFolder, "txt");
-                    string[] temp = SpawnUnits.UnitSetsTxt;
-                    Common.RefreshArrayFromFile(ref temp, SpawnUnits.UnitSetsFolder, "txt");
-                    SpawnUnits.UnitSetsTxt = temp;
-                }
+                DoLocalisation();
             }
             catch (IOException exception)
             {
@@ -488,7 +445,6 @@ namespace BagOfTricks
         static bool OnToggle(ModEntry modEntry, bool value)
         {
             enabled = value;
-
             return true;
         }
 
@@ -507,7 +463,7 @@ namespace BagOfTricks
                     Storage.settingsWarning = false;
                 }
             }
-            else if (!settings.firstLaunch && !Storage.settingsWarning)
+            else if (!settings.firstLaunch)
             {
                 if (Game.Instance.Player.ControllableCharacters.Any())
                 {
@@ -567,7 +523,7 @@ namespace BagOfTricks
                     GL.EndHorizontal();
                 }
             }
-            else if (settings.firstLaunch && SceneManager.GetActiveScene().name != "Start" && !Storage.settingsWarning)
+            else if (SceneManager.GetActiveScene().name != "Start")
             {
                 if (versionMismatch && !Storage.hideVersionMismatch)
                 {
@@ -608,37 +564,28 @@ namespace BagOfTricks
                 GL.BeginHorizontal();
                 settings.selectedLocalisation = GL.SelectionGrid(settings.selectedLocalisation, Storage.localeGrid.ToArray(), 1, GL.ExpandWidth(false));
                 GL.EndHorizontal();
-                if (settings.selectedLocalisation != Storage.selectedLocalisationOld)
-                {
-                    Storage.selectedLocalisationOld = settings.selectedLocalisation;
-                    settings.selectedLocalisationName = Path.GetFileNameWithoutExtension(Storage.localisationsXmlFiles.ToArray()[settings.selectedLocalisation]);
-                    if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml"))
-                    {
-                        Strings.temp = Strings.XmLtoDict(settings.selectedLocalisationName);
-                        if (Strings.temp.Count == MenuText.fallback.Count && Strings.temp.Keys == MenuText.fallback.Keys)
-                        {
-                            Strings.current = Strings.temp;
-                        }
-                        else
-                        {
-                            Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
-                        }
-                        Strings.RefreshStrings();
-                        Storage.mainToolbarStrings = new string[] { RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
-                        settings.filterButtonText = Strings.GetText("misc_Enable");
-                        settings.currentSceneString = Strings.GetText("misc_Display");
-                        settings.showAllBuffs = Strings.GetText("misc_Display");
-                        settings.showAllFeats = Strings.GetText("misc_Display");
-                        settings.showAllAbilities = Strings.GetText("misc_Display");
 
-                    }
-                }
+                if (settings.selectedLocalisation != Storage.selectedLocalisationOld) DoLocalisation();
 
                 GL.Space(10);
 
                 if (GL.Button(RichTextUtils.Bold(Strings.GetText("button_Confirm")), GL.ExpandWidth(false)))
                 {
                     settings.firstLaunch = false;
+                    if (settings.settingSearchForCsv)
+                    {
+                        Common.RefreshArrayFromFile(ref Storage.itemSetsCsv, Storage.itemSetsFolder, "csv");
+                        var temp = SpawnUnitsMenu.UnitSetsCsv;
+                        Common.RefreshArrayFromFile(ref temp, Storage.unitSetsFolder, "csv");
+                        SpawnUnitsMenu.UnitSetsCsv = temp;
+                    }
+                    if (settings.settingSearchForTxt)
+                    {
+                        Common.RefreshArrayFromFile(ref Storage.itemSetsTxt, Storage.itemSetsFolder, "txt");
+                        var temp = SpawnUnitsMenu.UnitSetsTxt;
+                        Common.RefreshArrayFromFile(ref temp, Storage.unitSetsFolder, "txt");
+                        SpawnUnitsMenu.UnitSetsTxt = temp;
+                    }
                 }
             }
             else
@@ -651,6 +598,24 @@ namespace BagOfTricks
             }
 
             if (settings.toggleShowTooltips == Storage.isTrueString) ShowTooltip();
+        }
+
+        public static void DoLocalisation()
+        {
+            Storage.selectedLocalisationOld = settings.selectedLocalisation;
+            settings.selectedLocalisationName = Path.GetFileNameWithoutExtension(Storage.localisationsXmlFiles.ToArray()[settings.selectedLocalisation]);
+            if (!File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml")) return;
+            Strings.temp = Strings.XmlToDict(settings.selectedLocalisationName);
+            if (Strings.temp.Count == MenuText.fallback.Count && Strings.temp.Keys == MenuText.fallback.Keys)
+                Strings.current = Strings.temp;
+            else
+                Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
+            Strings.RefreshStrings();
+            settings.filterButtonText = Strings.GetText("misc_Enable");
+            settings.currentSceneString = Strings.GetText("misc_Display");
+            settings.showAllBuffs = Strings.GetText("misc_Display");
+            settings.showAllFeats = Strings.GetText("misc_Display");
+            settings.showAllAbilities = Strings.GetText("misc_Display");
         }
 
         public static List<string> BlueprintsByTypes(string[] validTypes)
@@ -1676,7 +1641,7 @@ namespace BagOfTricks
             Directory.CreateDirectory(Storage.modEntryPath + Storage.modifiedBlueprintsFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.savesFolder);
             Directory.CreateDirectory(Storage.modEntryPath + Storage.taxCollectorFolder);
-            Directory.CreateDirectory(Storage.modEntryPath + SpawnUnits.UnitSetsFolder);
+            Directory.CreateDirectory(Storage.modEntryPath + Storage.unitSetsFolder);
         }
 
         public static string IntToAlignment(int i)

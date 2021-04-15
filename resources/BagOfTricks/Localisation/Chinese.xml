@@ -440,6 +440,7 @@
   <Localisation key="button_RemoveAllNegativeEffects" value="移除所有负面效果" />
   <Localisation key="button_AllBuffs" value="所有增益效果" />
   <Localisation key="button_AddRemoteCompanionToParty" value="添加离队英雄到队伍" />
+  <Localisation key="button_AddAllRemoteCompanionsToParty" value="添加所有离队英雄到队伍" />
   <Localisation key="button_AddFavouritesTo" value="从收藏夹添加到" />
   <Localisation key="button_Default" value="默认值" />
   <Localisation key="button_BaseBPIncome" value="基本BP收入" />
@@ -810,9 +811,10 @@
   <Localisation key="warning_NoDamageFromEnemies" value="如果你还没有清除该区域的所有战斗遭遇，强烈建议暂时禁用该区域的“敌人不能伤害队伍”！&#xA;否则同伴的任务可能会失败！" />
   <Localisation key="warning_PreventAlignmentChanges" value="阻止阵营改变处于活动状态！" />
   <Localisation key="warning_RevealLocations" value="不能反转已暴露位置！" />
-  <Localisation key="warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites" value="随机生成敌对单元（实验）和从单元收藏夹或存储单元中生成敌人同时激活！" />
+  <Localisation key="warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites" value="随机生成敌对单元（实验）和从单元收藏夹或存储单元中生成并激活敌人！" />
   <Localisation key="warning_SelectRemoteCharacters" value="选择离队英雄可将同伴添加到队伍中。&#xA;从该菜单添加时，将解除队伍最多6人的限制！" />
   <Localisation key="warning_PartyLimitShowAllPartyPortraits" value="你的队伍人数超过了游戏的限制。建议启用显示所有队员头像。" />
+  <Localisation key="warning_SpawnUnitsAddToParty" value="在使用“添加到队伍”选项之前，请确认已保存并创建备份！" />
   <Localisation key="tooltip_RespecCostMultiplier" value="设置相应成本的倍数。小于1的值将导致价格下降。" />
   <Localisation key="tooltip_BuffDurationMultiplier" value="选择所产生的增益效果持续时间将乘以所选值。&#xA;请注意，非常高的倍数可能会阻止它应用于持续时间非常长的增益效果。&#xA;如果是这种情况，您将能够在日志中看到错误（System.OverflowException）。" />
   <Localisation key="tooltip_SetEncumbrance" value="设置负重上限为单个角色和队伍共享的选择值。" />
@@ -852,6 +854,7 @@
   <Localisation key="tooltip_AccessRemoteCharacters" value="允许您在首都之外访问队友的库存、角色界面和法术书。" />
   <Localisation key="tooltip_ShowAllPartyPortraits" value="显示所有活跃队员的头像，包括宠物。适用于大于6人的队伍！" />
   <Localisation key="tooltip_AddRemoteCompanionToParty" value="将选定的离队英雄添加到队伍中。&#xA;从该菜单添加时，将解除队伍最多6人的限制！" />
+  <Localisation key="tooltip_AddAllRemoteCompanionsToParty" value="将所有的离队英雄添加到队伍中。&#xA;从该菜单添加时，将解除队伍最多6人的限制！" />
   <Localisation key="tooltip_RepeatableLockPicking" value="锁可以重复地挑选。&#xA;锁的挑选需要引起疲劳和使用锁的挑选使用锁" />
   <Localisation key="tooltip_RepeatableLockPickingWeariness" value="每次尝试取锁都会导致疲劳。 低于此值时可以自定义（1.0 =每次尝试1小时的疲劳）。" />
   <Localisation key="tooltip_1EqualsHourWeariness" value="1.0 =每次尝试1小时的疲劳。" />
@@ -1021,6 +1024,7 @@
   <Localisation key="tooltip_OutOfCombatOnly_ArmourChecksPenalty0" value="将护甲检定惩罚设置为0将仅在战斗遭遇之外有效。&#xA;未装备的物品将始终显示护甲检定惩罚0。" />
   <Localisation key="tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll" value="无奥术法术失败将只在战斗遭遇之外有效。" />
   <Localisation key="tooltip_ActionKeySpawnUnitsFromUnitFavourites" value="使选择的敌人从单元收藏夹或储存单元中产生。" />
+  <Localisation key="tooltip_SpawnUnitsAddToParty" value="将选定的单元添加到队伍中。 在使用此选项之前，请确认已保存并创建备份！" />
   <Localisation key="tooltip_AddMultipleToStorage" value="单击以删除&#xA;已存储单元&#xA;或按住shift键单击&#xA;再次添加。" />
   <Localisation key="misc_Close" value="近程" />
   <Localisation key="misc_Medium" value="中程" />

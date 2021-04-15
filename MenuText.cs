@@ -4,7 +4,7 @@ namespace BagOfTricks
 {
     internal class MenuText
     {
-        public static Dictionary<string, string> fallback = new Dictionary<string, string>
+        public static Dictionary<string, string> fallback = new()
         {
             /*
             Pathfinder Kingmaker locales:
@@ -523,6 +523,7 @@ namespace BagOfTricks
             {"button_RemoveAllNegativeEffects", "Remove All Negative Effects"},
             {"button_AllBuffs", "All Buffs"},
             {"button_AddRemoteCompanionToParty", "Add Remote Companion To Party"},
+            {"button_AddAllRemoteCompanionsToParty", "Add All Remote Companions To Party"},
             {"button_AddFavouritesTo", "Add Favourites To"},
             {"button_Default", "Default"},
             {"button_BaseBPIncome", "Base BP Income"},
@@ -980,9 +981,11 @@ namespace BagOfTricks
             },
             {"warning_PreventAlignmentChanges", "Prevent Alignment Changes is active!"},
             {"warning_RevealLocations", "Revealing locations can't be reversed!"},
-            {"warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites", "Spawn Random Hostibutton_AddToPartyle Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!"},
+            {"warning_SpawnRandomHostileUnit_ActionKeySpawnEnemiesFromUnitFavourites", "Spawn Random Hostile Unit (Experimental) and Spawn Enemies From Unit Favourites / Stored Units are active at the same time!"},
             {"warning_SelectRemoteCharacters", "Select Remote Characters to add companions to your party.\nThe party limit of six does not apply when adding from this menu!"},
             {"warning_PartyLimitShowAllPartyPortraits", "Your party size exceeds the game's limit. It is recommended to enable Show All Party Portraits."},
+            {"warning_SpawnUnitsAddToParty", "Make sure to save and create backups before using the 'Add To Party' option!"},
+
 
             //warning end
 
@@ -1073,6 +1076,7 @@ namespace BagOfTricks
             {"tooltip_AccessRemoteCharacters", "Allows you to access remote characters' inventories, character screens and spell books while outside of the capital."},
             {"tooltip_ShowAllPartyPortraits", "Displays all active party members' portraits including pets. Works with party sizes larger than six!"},
             {"tooltip_AddRemoteCompanionToParty", "Adds the selected remote companion to your party.\nThe party limit of six does not apply when adding from this menu!"},
+            {"tooltip_AddAllRemoteCompanionsToParty", "Adds all remote companions to your party.\nThe party limit of six does not apply when adding from this menu!"},
 
             {
                 "tooltip_RepeatableLockPicking",
@@ -1435,6 +1439,7 @@ namespace BagOfTricks
             {"tooltip_OutOfCombatOnly_ArcaneSpellFailureRoll", "No Arcane Spell Failure will only be active outside of combat encounters."},
 
             {"tooltip_ActionKeySpawnUnitsFromUnitFavourites", "Enables picking enemies to spawn from the unit favourites / stored units."},
+            {"tooltip_SpawnUnitsAddToParty", "Adds the selected units to your party. Make sure to save and create backups before using this option!"},
             {
                 "tooltip_AddMultipleToStorage",
                 "Click to remove" +
@@ -1442,6 +1447,7 @@ namespace BagOfTricks
                 "\nor shift-click to" +
                 "\nadd it again."
             },
+
             //tooltip end                               
 
 

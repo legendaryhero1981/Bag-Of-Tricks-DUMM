@@ -27,7 +27,8 @@ namespace BagOfTricks.Utils.HarmonyPatches
             "51c66b0783a748c4b9538f0f0678c4d7", // CR7_GiantSpiderDoombringing
             "07467e9a29a215346ab66fec7963eb62", // CR7_GiantSpiderQuickling
             "63897b4df57da2f4396ca8a6f34723e7", // CR11_BloomInfusedSpiderMatriarch
-            "ed734a6c822bdac448b98abfd7c03814", // GiantSpider_Cutscene
+            "ed734a6c822bdac448b98abfd7c03814", // GiantSpider_Cutscene                Common.ModLoggerDebug((StringUtils.ToToggleBool(settings.togglePartyAlwaysRoll20) + " | " + (settings.takeXIndex != 0) +  " | " + __instance.Initiator.IsPlayerFaction + " | " + !__instance.Initiator.IsInCombat));
+
             "4622aca7715007147b26b7fc26db3df8", // GiantSpiderBloomInfused
             "5bb1781abca825f49a53869ff79a2c6f", // GiantSpiderMiniboss
             "9e120b5e0ad3c794491c049aa24b9fde", // GiantSpiderSummoned
@@ -73,7 +74,6 @@ namespace BagOfTricks.Utils.HarmonyPatches
 
         private static bool IsSpiderBlueprintUnit(string blueprintUnitGuid) {
             return spiderGuids.Contains(blueprintUnitGuid);
-
         }
     }
 }

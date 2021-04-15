@@ -1,5 +1,6 @@
 ﻿using BagOfTricks.Favourites;
 using BagOfTricks.ModUI;
+using BagOfTricks.ModUI.CheatsUI;
 using BagOfTricks.Utils;
 using BagOfTricks.Utils.Kingmaker;
 using Kingmaker;
@@ -100,9 +101,9 @@ namespace BagOfTricks {
                             Vector3 pos = Common.MousePositionLocalMap();
                             float x = 0.0f;
                             float z = 0.0f;
-                            foreach (string guid in SpawnUnits.GetStoredGUIDs) {
+                            foreach (string guid in SpawnUnitsMenu.GetStoredGUIDs) {
                                 Vector3 finalPos = new Vector3(pos.x + 1.5f * x, pos.y, pos.z + 1.5f * z);
-                                SpawnUnits.UnitSpawner(finalPos, guid);
+                                SpawnUnitsMenu.UnitSpawner(finalPos, guid);
                                 x++;
                                 if (x > 10f) {
                                     x = 0.0f;
@@ -347,7 +348,7 @@ namespace BagOfTricks {
 
                         MenuTools.ToggleButton(ref settings.toggleSpawnEnemiesFromUnitFavourites, "buttonToggle_ActionKeySpawnUnitsFromUnitFavourites", "tooltip_ActionKeySpawnUnitsFromUnitFavourites", nameof(settings.toggleSpawnEnemiesFromUnitFavourites));
                         if (StringUtils.ToToggleBool(settings.toggleSpawnEnemiesFromUnitFavourites)) {
-                            SpawnUnits.FavouritesMenu();
+                            SpawnUnitsMenu.FavouritesMenu();
                         }
 
                         if (StringUtils.ToToggleBool(settings.toggleActionKeyExperimental)) {

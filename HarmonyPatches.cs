@@ -112,6 +112,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Kingmaker.UnitLogic.Class.LevelUp.LevelUpState;
+using AbilityExecutionContext = Kingmaker.UnitLogic.Abilities.AbilityExecutionContext;
 using UnityModManager = UnityModManagerNet.UnityModManager;
 
 namespace BagOfTricks
@@ -346,9 +347,7 @@ namespace BagOfTricks
                     }
                 }
 
-                modLogger.Log(StringUtils.ToToggleBool(settings.togglePartyAlwaysRoll20) + " | " +
-                              (settings.takeXIndex != 0) + " | " + __instance.Initiator.IsPlayerFaction + " | " +
-                              !__instance.Initiator.IsInCombat);
+                Common.ModLoggerDebug((StringUtils.ToToggleBool(settings.togglePartyAlwaysRoll20) + " | " + (settings.takeXIndex != 0) +  " | " + __instance.Initiator.IsPlayerFaction + " | " + !__instance.Initiator.IsInCombat));
                 if (!StringUtils.ToToggleBool(settings.togglePartyAlwaysRoll20) && settings.takeXIndex != 0 &&
                     __instance.Initiator.IsPlayerFaction && !__instance.Initiator.IsInCombat)
                 {

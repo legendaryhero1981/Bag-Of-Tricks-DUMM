@@ -73,7 +73,7 @@ namespace BagOfTricks
 
         public static void SpawnUnitsMenu()
         {
-            SpawnUnits.RenderMenu();
+            ModUI.CheatsUI.SpawnUnitsMenu.RenderMenu();
         }
 
         public static void ClassData()
@@ -652,7 +652,7 @@ namespace BagOfTricks
                         GL.BeginHorizontal();
                         GL.Label(Strings.GetText("headerOption_SettingsValue") + ": ", GL.ExpandWidth(false));
                         settings.randomEncounterSettingFloatAmountLimited =
-                            GL.HorizontalSlider(settings.randomEncounterSettingFloatAmountLimited, 0f, 1f,GL.Width(400f));
+                            GL.HorizontalSlider(settings.randomEncounterSettingFloatAmountLimited, 0f, 1f, GL.Width(400f));
                         GL.Label($" {Math.Round(settings.randomEncounterSettingFloatAmountLimited, 2)}",
                             GL.ExpandWidth(false));
                         GL.EndHorizontal();
@@ -5698,7 +5698,8 @@ namespace BagOfTricks
                 settings.cameraScrollSpeed = GL.HorizontalSlider(settings.cameraScrollSpeed, 0f, 250f);
                 GL.EndHorizontal();
                 GL.BeginHorizontal();
-                if (GL.Button(Strings.GetText("button_ResetToDefault"), GL.ExpandWidth(false))) {
+                if (GL.Button(Strings.GetText("button_ResetToDefault"), GL.ExpandWidth(false)))
+                {
                     settings.cameraScrollSpeed = Defaults.cameraScrollSpeed;
                 }
                 GL.EndHorizontal();
@@ -5713,8 +5714,8 @@ namespace BagOfTricks
                     MenuTools.SettingsFieldNoLabel(ref Storage.fovValue, ref settings.finalFovValue, 10, 250f);
 
                     GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("label_CurrentLowerZoomLimit") + $": {settings.savedFovMin}",GL.Width(250f));
-                    if (GL.Button(Strings.GetText("button_SetLowerZoomLimit") + $" {settings.finalFovValue}",GL.ExpandWidth(false)))
+                    GL.Label(Strings.GetText("label_CurrentLowerZoomLimit") + $": {settings.savedFovMin}", GL.Width(250f));
+                    if (GL.Button(Strings.GetText("button_SetLowerZoomLimit") + $" {settings.finalFovValue}", GL.ExpandWidth(false)))
                     {
                         settings.savedFovMin = settings.finalFovValue.ToString();
                         HarmonyInstance.Create("kingmaker.camerazoom").Patch(AccessTools.Method(typeof(CameraZoom), "TickSmoothZoomToTargetValue"), new HarmonyMethod(typeof(BagOfTricks.HarmonyPatches).GetMethod("CameraZoom_TickSmoothZoomToTargetValue_Patch")), null);
@@ -5729,8 +5730,8 @@ namespace BagOfTricks
                     GL.EndHorizontal();
 
                     GL.BeginHorizontal();
-                    GL.Label(Strings.GetText("label_CurrentUpperZoomLimit") + $": {settings.savedFovMax}",GL.Width(250f));
-                    if (GL.Button(Strings.GetText("button_SetUpperZoomLimit") + $" {settings.finalFovValue}",GL.ExpandWidth(false)))
+                    GL.Label(Strings.GetText("label_CurrentUpperZoomLimit") + $": {settings.savedFovMax}", GL.Width(250f));
+                    if (GL.Button(Strings.GetText("button_SetUpperZoomLimit") + $" {settings.finalFovValue}", GL.ExpandWidth(false)))
                     {
                         settings.savedFovMax = settings.finalFovValue.ToString();
                         HarmonyInstance.Create("kingmaker.camerazoom").Patch(AccessTools.Method(typeof(CameraZoom), "TickSmoothZoomToTargetValue"), new HarmonyMethod(typeof(BagOfTricks.HarmonyPatches).GetMethod("CameraZoom_TickSmoothZoomToTargetValue_Patch")), null);
@@ -5748,7 +5749,7 @@ namespace BagOfTricks
 
                     GL.BeginHorizontal();
                     GL.Label($"{Storage.globalString}: {settings.savedFovGlobalMap}", GL.Width(250f));
-                    if (GL.Button(Strings.GetText("button_SetGlobalMapZoomLevel") + $" {settings.finalFovValue}",GL.ExpandWidth(false)))
+                    if (GL.Button(Strings.GetText("button_SetGlobalMapZoomLevel") + $" {settings.finalFovValue}", GL.ExpandWidth(false)))
                     {
                         settings.savedFovGlobalMap = settings.finalFovValue.ToString();
                         Storage.globalChanged = true;
@@ -6459,6 +6460,21 @@ namespace BagOfTricks
 
                     if (settings.settingShowDebugInfo)
                     {
+                        GL.BeginVertical("box");
+                        MenuTools.SingleLineLabel(new GUIContent("AbilitySwitchDualCompanion.IsPlaying: " + (bool)AbilitySwitchDualCompanion.IsPlaying));
+                        if (GL.Button("++AbilitySwitchDualCompanion.IsPlaying (true)"))
+                        {
+                            modLogger.Log("AbilitySwitchDualCompanion.IsPlaying: " + (bool)AbilitySwitchDualCompanion.IsPlaying);
+                            ++AbilitySwitchDualCompanion.IsPlaying;
+                            modLogger.Log("=> AbilitySwitchDualCompanion.IsPlaying: " + (bool)AbilitySwitchDualCompanion.IsPlaying);
+                        }
+                        if (GL.Button("--AbilitySwitchDualCompanion.IsPlaying (false)"))
+                        {
+                            modLogger.Log("AbilitySwitchDualCompanion.IsPlaying: " + (bool)AbilitySwitchDualCompanion.IsPlaying);
+                            --AbilitySwitchDualCompanion.IsPlaying;
+                            modLogger.Log("=> AbilitySwitchDualCompanion.IsPlaying: " + (bool)AbilitySwitchDualCompanion.IsPlaying);
+                        }
+                        GL.EndVertical();
 
 
                         if (GL.Button("Roll D20"))
@@ -7462,54 +7478,7 @@ namespace BagOfTricks
                 GL.BeginHorizontal();
                 settings.selectedLocalisation = GL.SelectionGrid(settings.selectedLocalisation, Storage.localeGrid.ToArray(), 1, GL.ExpandWidth(false));
                 GL.EndHorizontal();
-                if (settings.selectedLocalisation != Storage.selectedLocalisationOld)
-                {
-                    Storage.selectedLocalisationOld = settings.selectedLocalisation;
-                    settings.selectedLocalisationName = Path.GetFileNameWithoutExtension(Storage.localisationsXmlFiles.ToArray()[settings.selectedLocalisation]);
-                    if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml"))
-                    {
-                        Strings.temp = Strings.XmLtoDict(settings.selectedLocalisationName);
-                        if (Strings.temp.Count == MenuText.fallback.Count && Strings.temp.Keys == MenuText.fallback.Keys)
-                        {
-                            Strings.current = Strings.temp;
-                        }
-                        else
-                        {
-                            Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
-                        }
-                        Strings.RefreshStrings();
-                        Storage.mainToolbarStrings = new string[] { RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
-                        settings.filterButtonText = Strings.GetText("misc_Enable");
-                        settings.currentSceneString = Strings.GetText("misc_Display");
-                        settings.showAllBuffs = Strings.GetText("misc_Display");
-                        settings.showAllFeats = Strings.GetText("misc_Display");
-                        settings.showAllAbilities = Strings.GetText("misc_Display");
-                        if (settings.selectedLocalisation != Storage.selectedLocalisationOld)
-                        {
-                            Storage.selectedLocalisationOld = settings.selectedLocalisation;
-                            settings.selectedLocalisationName = Path.GetFileNameWithoutExtension(Storage.localisationsXmlFiles.ToArray()[settings.selectedLocalisation]);
-                            if (File.Exists(Storage.modEntryPath + Storage.localisationFolder + "\\" + settings.selectedLocalisationName + ".xml"))
-                            {
-                                Strings.temp = Strings.XmLtoDict(settings.selectedLocalisationName);
-                                if (Strings.temp.Count == MenuText.fallback.Count && Strings.temp.Keys == MenuText.fallback.Keys)
-                                {
-                                    Strings.current = Strings.temp;
-                                }
-                                else
-                                {
-                                    Strings.current = Strings.temp.Union(MenuText.fallback).GroupBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.First().Value);
-                                }
-                                Strings.RefreshStrings();
-                                Storage.mainToolbarStrings = new string[] { RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_FavouriteFunctions")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Cheats")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Mods")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Tools")), RichTextUtils.MainCategoryFormat(Strings.GetText("mainCategory_Settings")) };
-                                settings.filterButtonText = Strings.GetText("misc_Enable");
-                                settings.currentSceneString = Strings.GetText("misc_Display");
-                                settings.showAllBuffs = Strings.GetText("misc_Display");
-                                settings.showAllFeats = Strings.GetText("misc_Display");
-                                settings.showAllAbilities = Strings.GetText("misc_Display");
-                            }
-                        }
-                    }
-                }
+                if (settings.selectedLocalisation != Storage.selectedLocalisationOld) Main.DoLocalisation();
             }
 
             GL.EndVertical();
@@ -7632,7 +7601,8 @@ namespace BagOfTricks
                                           "\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE " +
                                           "\nSOFTWARE. \"");
                 GL.BeginHorizontal();
-                if (GL.Button(new GUIContent("KingmakerUIExtensionsMod on GitHub", "https://github.com/hsinyuhcan/KingmakerUIExtensionsMod"), GL.ExpandWidth(false))) {
+                if (GL.Button(new GUIContent("KingmakerUIExtensionsMod on GitHub", "https://github.com/hsinyuhcan/KingmakerUIExtensionsMod"), GL.ExpandWidth(false)))
+                {
                     Application.OpenURL("https://github.com/hsinyuhcan/KingmakerUIExtensionsMod");
                 }
                 GL.EndHorizontal();

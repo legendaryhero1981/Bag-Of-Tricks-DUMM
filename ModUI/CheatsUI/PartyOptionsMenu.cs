@@ -24,7 +24,7 @@ namespace BagOfTricks.ModUI.CheatsUI
         private static UnityModManager.ModEntry.ModLogger modLogger = Main.modLogger;
 
 
-        private static string[] unitEntityDataFiltersArray = new string[] { Strings.GetText("arrayItem_UnityEntityData_Party"), Strings.GetText("arrayItem_UnityEntityData_ControllableCharacters"), Strings.GetText("arrayItem_UnityEntityData_ActiveCompanions"), Strings.GetText("arrayItem_UnityEntityData_AllCharacters"), Strings.GetText("arrayItem_UnityEntityData_RemoteCharacters"), Strings.GetText("arrayItem_UnityEntityData_Mercenaries"), Strings.GetText("arrayItem_UnityEntityData_Pets") };
+        private static string[] unitEntityDataFiltersArray = { Strings.GetText("arrayItem_UnityEntityData_Party"), Strings.GetText("arrayItem_UnityEntityData_ControllableCharacters"), Strings.GetText("arrayItem_UnityEntityData_ActiveCompanions"), Strings.GetText("arrayItem_UnityEntityData_AllCharacters"), Strings.GetText("arrayItem_UnityEntityData_RemoteCharacters"), Strings.GetText("arrayItem_UnityEntityData_Mercenaries"), Strings.GetText("arrayItem_UnityEntityData_Pets") };
 
         public static void Render()
         {
@@ -111,14 +111,17 @@ namespace BagOfTricks.ModUI.CheatsUI
                         }
                         else
                         {
-
-                            if (GL.Button(MenuTools.TextWithTooltip("button_AddRemoteCompanionToParty", "tooltip_AddRemoteCompanionToParty", false), GL.ExpandWidth(false)))
-                            {
+                            GL.BeginHorizontal();
+                            if (GL.Button(MenuTools.TextWithTooltip("button_AddRemoteCompanionToParty", "tooltip_AddRemoteCompanionToParty", "", $" [{Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex].CharacterName}]", false), GL.ExpandWidth(false))) {
                                 UnitEntityDataUtils.AddCompanion(Storage.statsPartyMembers[Storage.statsSelectedControllableCharacterIndex]);
                             }
                             GL.Space(10);
-                            if (!StringUtils.ToToggleBool(settings.toggleShowAllPartyPortraits) && Game.Instance.Player.Party.Count > 6)
-                            {
+                            if (GL.Button(MenuTools.TextWithTooltip("button_AddAllRemoteCompanionsToParty", "tooltip_AddAllRemoteCompanionsToParty", false), GL.ExpandWidth(false))) {
+                                Storage.statsUnitEntityData.ForEach(UnitEntityDataUtils.AddCompanion);
+                            }
+                            GL.EndHorizontal();
+                            if (!StringUtils.ToToggleBool(settings.toggleShowAllPartyPortraits) && Game.Instance.Player.Party.Count > 6) {
+                                GL.Space(10);
                                 MenuTools.SingleLineLabelGt("warning_PartyLimitShowAllPartyPortraits");
                             }
                         }
