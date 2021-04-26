@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Harmony;
-
+﻿using Harmony;
 using Kingmaker;
+using Kingmaker.Blueprints.Items.Equipment;
 using Kingmaker.Cheats;
 using Kingmaker.Controllers.Rest;
 using Kingmaker.EntitySystem.Entities;
@@ -13,13 +9,16 @@ using Kingmaker.GameModes;
 using Kingmaker.Globalmap;
 using Kingmaker.Globalmap.Blueprints;
 using Kingmaker.Globalmap.State;
+using Kingmaker.Items;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Parts;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityModManagerNet;
 
 namespace BagOfTricks
@@ -97,7 +96,12 @@ namespace BagOfTricks
 
         public static void RestoreAllItemCharges()
         {
-            foreach (var itemEntity in Game.Instance.Player.Inventory) itemEntity.RestoreCharges();
+            foreach (ItemEntity itemEntity in Game.Instance.Player.Inventory) {
+                BlueprintItemEquipment blueprint = itemEntity.Blueprint as BlueprintItemEquipment;
+                if (blueprint != null && blueprint.GainAbility  && blueprint.SpendCharges) {
+                    itemEntity.Charges = blueprint.Charges;
+                }
+            }
         }
 
         private static void UpdateMap(GlobalMapRules instance, GlobalMapState globalMap, IEnumerable<BlueprintMapEdge> blueprintMapEdgeSet)
