@@ -20,7 +20,7 @@ namespace BagOfTricks {
 
         public static bool settingsWarning = false;
 
-        public static readonly string gamerVersionAtCreation = "2.1.5d";
+        public static readonly string gamerVersionAtCreation = "2.1.7b";
         public static readonly string gameHistoryLogPrefix = "[BagOfTricks] ";
         public static readonly string bagOfTicksLogFile = "BagOfTricks";
         public static readonly string battleLogPrefix = "[BattleLog] ";
