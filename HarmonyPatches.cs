@@ -347,7 +347,7 @@ namespace BagOfTricks
                     }
                 }
 
-                Common.ModLoggerDebug((StringUtils.ToToggleBool(settings.togglePartyAlwaysRoll20) + " | " + (settings.takeXIndex != 0) +  " | " + __instance.Initiator.IsPlayerFaction + " | " + !__instance.Initiator.IsInCombat));
+                Common.ModLoggerDebug((StringUtils.ToToggleBool(settings.togglePartyAlwaysRoll20) + " | " + (settings.takeXIndex != 0) + " | " + __instance.Initiator.IsPlayerFaction + " | " + !__instance.Initiator.IsInCombat));
                 if (!StringUtils.ToToggleBool(settings.togglePartyAlwaysRoll20) && settings.takeXIndex != 0 &&
                     __instance.Initiator.IsPlayerFaction && !__instance.Initiator.IsInCombat)
                 {
@@ -457,7 +457,7 @@ namespace BagOfTricks
                 {
                     if (settings.useCustomspellsPerDayMultiplier == false)
                     {
-                        __result = Mathf.RoundToInt(__result * (float) Math.Round(settings.spellsPerDayMultiplier, 1));
+                        __result = Mathf.RoundToInt(__result * (float)Math.Round(settings.spellsPerDayMultiplier, 1));
                     }
                     else if (settings.useCustomspellsPerDayMultiplier == true)
                     {
@@ -762,7 +762,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(UnitCombatState), "HasCooldownForCommand")]
-            [HarmonyPatch(new Type[] {typeof(UnitCommand)})]
+            [HarmonyPatch(new Type[] { typeof(UnitCommand) })]
             public static class UnitCombatState_HasCooldownForCommand_Patch1
             {
                 public static void Postfix(ref bool __result, UnitCombatState __instance)
@@ -782,7 +782,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(UnitCombatState), "HasCooldownForCommand")]
-            [HarmonyPatch(new Type[] {typeof(UnitCommand.CommandType)})]
+            [HarmonyPatch(new Type[] { typeof(UnitCommand.CommandType) })]
             public static class UnitCombatState_HasCooldownForCommand_Patch2
             {
                 public static void Postfix(ref bool __result, UnitCombatState __instance)
@@ -991,7 +991,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(LevelUpState), MethodType.Constructor)]
-            [HarmonyPatch(new Type[] {typeof(UnitDescriptor), typeof(LevelUpState.CharBuildMode)})]
+            [HarmonyPatch(new Type[] { typeof(UnitDescriptor), typeof(LevelUpState.CharBuildMode) })]
             public static class LevelUpState_Patch
             {
                 [HarmonyPriority(Priority.Low)]
@@ -1046,7 +1046,7 @@ namespace BagOfTricks
 
                         foreach (BlueprintFeature item2 in features.OfType<BlueprintFeature>())
                         {
-                            Feature feature = (Feature) unit.AddFact(item2);
+                            Feature feature = (Feature)unit.AddFact(item2);
                             BlueprintProgression blueprintProgression = item2 as BlueprintProgression;
                             if (blueprintProgression != null)
                             {
@@ -1071,7 +1071,7 @@ namespace BagOfTricks
                 }
             }
 
-            [HarmonyPatch(typeof(MapMovementController), "GetRegionalModifier", new Type[] {typeof(Vector3)})]
+            [HarmonyPatch(typeof(MapMovementController), "GetRegionalModifier", new Type[] { typeof(Vector3) })]
             public static class MovementSpeed_GetRegionalModifier_Patch2
             {
                 public static void Postfix(ref float __result)
@@ -1191,7 +1191,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(KingdomEvent), "Resolve",
-                new Type[] {typeof(int), typeof(AlignmentMaskType), typeof(LeaderType)})]
+                new Type[] { typeof(int), typeof(AlignmentMaskType), typeof(LeaderType) })]
             public static class KingdomEvent_Resolve_Patch
             {
                 public static bool Prefix(KingdomEvent __instance, ref int checkMargin, ref AlignmentMaskType alignment)
@@ -1302,7 +1302,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(BlueprintSettlementBuilding), "CheckRestrictions",
-                new Type[] {typeof(SettlementState)})]
+                new Type[] { typeof(SettlementState) })]
             public static class BlueprintSettlementBuilding_CheckRestrictions_Patch1
             {
                 public static void Postfix(ref bool __result)
@@ -1315,7 +1315,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(BlueprintSettlementBuilding), "CheckRestrictions",
-                new Type[] {typeof(SettlementState), typeof(SettlementGridTopology.Slot)})]
+                new Type[] { typeof(SettlementState), typeof(SettlementGridTopology.Slot) })]
             public static class BlueprintSettlementBuilding_CheckRestrictions_Patch2
             {
                 public static void Postfix(ref bool __result)
@@ -1358,15 +1358,15 @@ namespace BagOfTricks
 
                             }
 
-                            unitMoveTo2.MovementType = (UnitAnimationActionLocoMotion.WalkSpeedType) moveType;
+                            unitMoveTo2.MovementType = (UnitAnimationActionLocoMotion.WalkSpeedType)moveType;
                         }
 
                         unitMoveTo2.OverrideSpeed = speedLimit;
                         unitMoveTo2.SpeedLimit = speedLimit;
                         unitMoveTo2.ShowTargetMarker = showTargetMarker;
-                        unit.Commands.Run((UnitCommand) unitMoveTo2);
+                        unit.Commands.Run((UnitCommand)unitMoveTo2);
                         if (unit.Commands.Queue.FirstOrDefault<UnitCommand>(
-                            (Func<UnitCommand, bool>) (c => c is UnitMoveTo)) != unitMoveTo2 && !Game.Instance.IsPaused)
+                            (Func<UnitCommand, bool>)(c => c is UnitMoveTo)) != unitMoveTo2 && !Game.Instance.IsPaused)
                         {
 
                         }
@@ -1547,7 +1547,7 @@ namespace BagOfTricks
                 }
             }
 
-            [HarmonyPatch(typeof(ItemEntity), "SpendCharges", new Type[] {typeof(UnitDescriptor)})]
+            [HarmonyPatch(typeof(ItemEntity), "SpendCharges", new Type[] { typeof(UnitDescriptor) })]
             public static class ItemEntity_SpendCharges_Patch
             {
                 public static bool Prefix(ref bool __state)
@@ -1577,7 +1577,7 @@ namespace BagOfTricks
                         if (__instance.Charges > 0)
                         {
                             ItemEntityUsable itemEntityUsable =
-                                new ItemEntityUsable((BlueprintItemEquipmentUsable) __instance.Blueprint);
+                                new ItemEntityUsable((BlueprintItemEquipmentUsable)__instance.Blueprint);
                             if (user.State.Features.HandOfMagusDan &&
                                 itemEntityUsable.Blueprint.Type == UsableItemType.Scroll)
                             {
@@ -1825,7 +1825,7 @@ namespace BagOfTricks
                     if (__instance.Blueprint.AllSpellsKnown)
                     {
                         Traverse addSpecialMethod = Traverse.Create(__instance).Method("AddSpecial",
-                            new Type[] {typeof(int), typeof(BlueprintAbility)});
+                            new Type[] { typeof(int), typeof(BlueprintAbility) });
                         for (int i = maxSpellLevel + 1; i <= maxSpellLevel2; i++)
                         {
                             foreach (BlueprintAbility spell in __instance.Blueprint.SpellList.GetSpells(i))
@@ -1857,7 +1857,7 @@ namespace BagOfTricks
                 }
             }
 
-            [HarmonyPatch(typeof(GlobalMapLocation), "HandleHoverChange", new Type[] {typeof(bool)})]
+            [HarmonyPatch(typeof(GlobalMapLocation), "HandleHoverChange", new Type[] { typeof(bool) })]
             internal static class GlobalMapLocation_HandleHoverChange_Patch
             {
                 private static void Postfix(GlobalMapLocation __instance, ref bool isHover)
@@ -1917,7 +1917,7 @@ namespace BagOfTricks
                             BlueprintScriptableObject[] scriptableObjectArray = ActionKey.Tooltip();
                             if (unitUnderMouse != null)
                             {
-                                blueprint = (BlueprintScriptableObject) unitUnderMouse.Blueprint;
+                                blueprint = (BlueprintScriptableObject)unitUnderMouse.Blueprint;
                             }
                             else
                             {
@@ -1937,7 +1937,7 @@ namespace BagOfTricks
                             Main.objectInfo.Off();
                         }
 
-                        DisplayObjectInfoEnd:
+                    DisplayObjectInfoEnd:
 
                         if (settings.toggleEnableFocusCamera == Storage.isTrueString &&
                             Game.Instance?.UI?.GetCameraRig() != null && (currentGameMode == GameModeType.Default ||
@@ -2249,30 +2249,34 @@ namespace BagOfTricks
                 static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
                 {
                     var codes = new List<CodeInstruction>(instructions);
+
                     if (settings.toggleEnableCameraZoom == Storage.isTrueString)
                     {
-
-                        int foundFovMin = -1;
-                        int foundFovMax = -1;
-
                         for (int i = 0; i < codes.Count; i++)
                         {
                             if (codes[i].opcode == OpCodes.Callvirt && codes[i - 1].opcode == OpCodes.Call &&
                                 codes[i - 2].opcode == OpCodes.Call)
                             {
-                                foundFovMin = i - 4;
-                                foundFovMax = i - 5;
+                                var min = i - 4;
+                                var max = min - 2;
+                                var isOriginal = codes[min].opcode.Equals(OpCodes.Ldfld);
+                                codes[min].opcode = OpCodes.Ldc_R4;
+                                codes[min].operand = float.Parse(settings.savedFovMin);
+                                if (isOriginal)
+                                {
+                                    codes[max].opcode = OpCodes.Ldc_R4;
+                                    codes[max].operand = float.Parse(settings.savedFovMax);
+                                    codes.RemoveAt(max - 1);
+                                    codes.RemoveAt(max);
+                                }
+                                else
+                                {
+                                    codes[++max].opcode = OpCodes.Ldc_R4;
+                                    codes[max].operand = float.Parse(settings.savedFovMax);
+                                }
                                 break;
                             }
                         }
-
-                        codes[foundFovMin].opcode = OpCodes.Ldc_R4;
-                        codes[foundFovMin].operand = float.Parse(settings.savedFovMin);
-
-                        codes[foundFovMax].opcode = OpCodes.Ldc_R4;
-                        codes[foundFovMax].operand = float.Parse(settings.savedFovMax);
-
-                        return codes.AsEnumerable();
                     }
 
                     return codes.AsEnumerable();
@@ -2318,18 +2322,18 @@ namespace BagOfTricks
                 private static void Postfix(EscMenuWindow __instance)
                 {
                     if (StringUtils.ToToggleBool(settings.toggleUnityModManagerButton) && Traverse
-                        .Create((object) __instance).Field("UnityModManager_Button").GetValue<Button>() == null)
+                        .Create((object)__instance).Field("UnityModManager_Button").GetValue<Button>() == null)
                     {
                         try
                         {
-                            Button saveButton = Traverse.Create((object) __instance).Field("ButtonSave")
+                            Button saveButton = Traverse.Create((object)__instance).Field("ButtonSave")
                                 .GetValue<Button>();
                             Transform saveButtonParent = saveButton.transform.parent;
                             Button ummButton = UnityEngine.Object.Instantiate<Button>(saveButton);
                             ummButton.name = "UnityModManager_Button";
                             ummButton.transform.SetParent(saveButtonParent, false);
                             ummButton.onClick = new Button.ButtonClickedEvent();
-                            ummButton.onClick.AddListener((UnityAction) (() => OnClick()));
+                            ummButton.onClick.AddListener((UnityAction)(() => OnClick()));
                             ummButton.GetComponentInChildren<TextMeshProUGUI>().text =
                                 Strings.GetText("misc_UnityModManager");
                             ummButton.transform.SetSiblingIndex(ummButton.transform.GetSiblingIndex() -
@@ -2367,12 +2371,12 @@ namespace BagOfTricks
                     {
                         if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicks) &&
                             StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingLockPicksInventoryText) &&
-                            Traverse.Create((object) __instance).Field("LockPicks_Text").GetValue<TextMeshProUGUI>() ==
+                            Traverse.Create((object)__instance).Field("LockPicks_Text").GetValue<TextMeshProUGUI>() ==
                             null)
                         {
                             try
                             {
-                                TextMeshProUGUI playerMoneyNow = Traverse.Create((object) __instance)
+                                TextMeshProUGUI playerMoneyNow = Traverse.Create((object)__instance)
                                     .Field("PlayerMoneyNow").GetValue<TextMeshProUGUI>();
                                 Transform playerMoneyNowParent = playerMoneyNow.transform.parent;
                                 Storage.lockPicksNow = UnityEngine.Object.Instantiate<TextMeshProUGUI>(playerMoneyNow);
@@ -2428,7 +2432,7 @@ namespace BagOfTricks
                     {
                         try
                         {
-                            int digits = Math.Abs((int) Math.Floor(Math.Log10(player.Money)) + 1);
+                            int digits = Math.Abs((int)Math.Floor(Math.Log10(player.Money)) + 1);
                             String s = player.Money.ToString();
                             switch (digits)
                             {
@@ -2545,7 +2549,7 @@ namespace BagOfTricks
             {
                 private static void Postfix()
                 {
-                    Storage.defaultVendorSellPriceMultiplier = (float) Game.Instance.BlueprintRoot.Vendors.SellModifier;
+                    Storage.defaultVendorSellPriceMultiplier = (float)Game.Instance.BlueprintRoot.Vendors.SellModifier;
                     Main.CheckRandomEncounterSettings();
                     if (settings.artisanMasterpieceChance != Defaults.artisanMasterpieceChance &&
                         KingdomRoot.Instance != null)
@@ -2677,13 +2681,13 @@ namespace BagOfTricks
                 {
                     if (StringUtils.ToToggleBool(settings.toggleFullHitdiceEachLevel) && unit.IsPlayerFaction)
                     {
-                        int hitDie = (int) classData.CharacterClass.HitDie;
+                        int hitDie = (int)classData.CharacterClass.HitDie;
 
                         unit.Stats.HitPoints.BaseValue += hitDie / 2;
                     }
                     else if (StringUtils.ToToggleBool(settings.toggleRollHitDiceEachLevel) && unit.IsPlayerFaction)
                     {
-                        int hitDie = (int) classData.CharacterClass.HitDie;
+                        int hitDie = (int)classData.CharacterClass.HitDie;
                         DiceFormula diceFormula = new DiceFormula(1, classData.CharacterClass.HitDie);
 
                         int roll = RuleRollDice.Dice.D(diceFormula);
@@ -2886,7 +2890,7 @@ namespace BagOfTricks
                     if (StringUtils.ToToggleBool(settings.toggleAllDoorContainersUnlocked))
                     {
                         DisableDeviceRestriction.DisableDeviceRestrictionData data =
-                            (DisableDeviceRestriction.DisableDeviceRestrictionData) __instance.Data;
+                            (DisableDeviceRestriction.DisableDeviceRestrictionData)__instance.Data;
                         data.Unlocked = true;
                         __instance.Data = data;
                     }
@@ -2894,7 +2898,7 @@ namespace BagOfTricks
                     if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPicking))
                     {
                         DisableDeviceRestriction.DisableDeviceRestrictionData data =
-                            (DisableDeviceRestriction.DisableDeviceRestrictionData) __instance.Data;
+                            (DisableDeviceRestriction.DisableDeviceRestrictionData)__instance.Data;
                         data.LastSkillRank.Clear();
                         __instance.Data = data;
                         if (StringUtils.ToToggleBool(settings.toggleRepeatableLockPickingWeariness))
@@ -2915,7 +2919,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(RuleSkillCheck), MethodType.Constructor)]
-            [HarmonyPatch(new Type[] {typeof(UnitEntityData), typeof(StatType), typeof(int)})]
+            [HarmonyPatch(new Type[] { typeof(UnitEntityData), typeof(StatType), typeof(int) })]
             public static class RuleSkillCheck_RollResult_Patch
             {
                 private static void Prefix([NotNull] UnitEntityData unit, StatType statType, ref int dc)
@@ -2932,7 +2936,7 @@ namespace BagOfTricks
                                 if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) &&
                                     skillsDict[Storage.individualSkillsArray[i]] == statType &&
                                     UnitEntityDataUtils.CheckUnitEntityData(unit,
-                                        (UnitSelectType) settings.indexPassSkillChecksIndividual))
+                                        (UnitSelectType)settings.indexPassSkillChecksIndividual))
                                 {
                                     dc = -99;
                                     return;
@@ -2948,7 +2952,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(RulePartySkillCheck), MethodType.Constructor)]
-            [HarmonyPatch(new Type[] {typeof(StatType), typeof(int)})]
+            [HarmonyPatch(new Type[] { typeof(StatType), typeof(int) })]
             public static class RulePartySkillCheckk_RollResult_Patch
             {
                 private static void Prefix(StatType statType, ref int difficultyClass)
@@ -2996,7 +3000,7 @@ namespace BagOfTricks
                                 Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                             {
                                 if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator,
-                                    (UnitSelectType) settings.indexPassSavingThrowIndividuall))
+                                    (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                                 {
                                     __result = true;
                                     break;
@@ -3016,7 +3020,7 @@ namespace BagOfTricks
                                 if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) &&
                                     skillsDict[Storage.individualSkillsArray[i]] == __instance.StatType &&
                                     UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator,
-                                        (UnitSelectType) settings.indexPassSkillChecksIndividual))
+                                        (UnitSelectType)settings.indexPassSkillChecksIndividual))
                                 {
                                     __result = true;
                                     break;
@@ -3087,7 +3091,7 @@ namespace BagOfTricks
                                 Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                             {
                                 if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator,
-                                    (UnitSelectType) settings.indexPassSavingThrowIndividuall))
+                                    (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                                 {
                                     __result = true;
                                     break;
@@ -3105,7 +3109,7 @@ namespace BagOfTricks
                             if (StringUtils.ToToggleBool(settings.togglePassSkillChecksIndividualArray[i]) &&
                                 skillsDict[Storage.individualSkillsArray[i]] == __instance.StatType &&
                                 UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator,
-                                    (UnitSelectType) settings.indexPassSkillChecksIndividual))
+                                    (UnitSelectType)settings.indexPassSkillChecksIndividual))
                             {
                                 __result = true;
                                 break;
@@ -3461,7 +3465,7 @@ namespace BagOfTricks
                 }
             }
 
-            [HarmonyPatch(typeof(UnitAlignment), "Set", new Type[] {typeof(Alignment), typeof(bool)})]
+            [HarmonyPatch(typeof(UnitAlignment), "Set", new Type[] { typeof(Alignment), typeof(bool) })]
             static class UnitAlignment_Set_Patch
             {
                 static void Prefix(UnitAlignment __instance, ref Alignment alignment)
@@ -3474,7 +3478,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(UnitAlignment), "Shift",
-                new Type[] {typeof(AlignmentShiftDirection), typeof(int), typeof(IAlignmentShiftProvider)})]
+                new Type[] { typeof(AlignmentShiftDirection), typeof(int), typeof(IAlignmentShiftProvider) })]
             static class UnitAlignment_Shift_Patch
             {
                 static bool Prefix(UnitAlignment __instance, AlignmentShiftDirection direction, ref int value,
@@ -3497,9 +3501,9 @@ namespace BagOfTricks
                             }
 
                             Vector2 vector = __instance.Vector;
-                            float num = (float) value / 50f;
+                            float num = (float)value / 50f;
                             var directionVector = Traverse.Create(__instance)
-                                .Method("GetDirection", new object[] {direction}).GetValue<Vector2>();
+                                .Method("GetDirection", new object[] { direction }).GetValue<Vector2>();
                             Vector2 newAlignment = __instance.Vector + directionVector * num;
                             if (newAlignment.magnitude > 1f)
                             {
@@ -3524,7 +3528,7 @@ namespace BagOfTricks
                                     typeof(AlignmentShiftDirection), typeof(Vector2), typeof(IAlignmentShiftProvider),
                                     typeof(bool)
                                 },
-                                new object[] {direction, vector, provider, true}).GetValue();
+                                new object[] { direction, vector, provider, true }).GetValue();
                             return false;
                         }
                     }
@@ -3782,7 +3786,7 @@ namespace BagOfTricks
                                 Storage.statsSavesDict[Storage.individualSavesArray[i]] == __instance.StatType)
                             {
                                 if (UnitEntityDataUtils.CheckUnitEntityData(__instance.Initiator,
-                                    (UnitSelectType) settings.indexPassSavingThrowIndividuall))
+                                    (UnitSelectType)settings.indexPassSavingThrowIndividuall))
                                 {
                                     __result = true;
                                 }
@@ -3799,7 +3803,7 @@ namespace BagOfTricks
                 {
                     if (StringUtils.ToToggleBool(settings.toggleNoAttacksOfOpportunity) &&
                         UnitEntityDataUtils.CheckUnitEntityData(target,
-                            (UnitSelectType) settings.indexNoAttacksOfOpportunity))
+                            (UnitSelectType)settings.indexNoAttacksOfOpportunity))
                     {
                         return false;
                     }
@@ -3855,7 +3859,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(EncumbranceHelper.CarryingCapacity), "GetEncumbrance")]
-            [HarmonyPatch(new Type[] {typeof(float)})]
+            [HarmonyPatch(new Type[] { typeof(float) })]
             static class EncumbranceHelperCarryingCapacity_GetEncumbrance_Patch
             {
                 static void Postfix(ref Encumbrance __result)
@@ -3946,9 +3950,9 @@ namespace BagOfTricks
                     if (StringUtils.ToToggleBool(settings.toggleDevTools))
                     {
                         modLogger.Log(message);
-                        UberLoggerAppWindow.Instance.Log(new UberLogger.LogInfo((UnityEngine.Object) null,
+                        UberLoggerAppWindow.Instance.Log(new UberLogger.LogInfo((UnityEngine.Object)null,
                             nameof(SmartConsole), UberLogger.LogSeverity.Message, new List<UberLogger.LogStackFrame>(),
-                            (object) message, (object[]) Array.Empty<object>()));
+                            (object)message, (object[])Array.Empty<object>()));
 
                     }
                 }
@@ -3988,7 +3992,7 @@ namespace BagOfTricks
                     if (StringUtils.ToToggleBool(settings.toggleAutomaticallyLoadLastSave) && Storage.firstStart)
                     {
                         Storage.firstStart = false;
-                        EventBus.RaiseEvent<IUIMainMenu>((Action<IUIMainMenu>) (h => h.LoadLastGame()));
+                        EventBus.RaiseEvent<IUIMainMenu>((Action<IUIMainMenu>)(h => h.LoadLastGame()));
                     }
 
                     Storage.firstStart = false;
@@ -4010,7 +4014,7 @@ namespace BagOfTricks
             }
 
             [HarmonyPatch(typeof(Kingmaker.Items.Slots.ItemSlot), "RemoveItem")]
-            [HarmonyPatch(new Type[] {typeof(bool)})]
+            [HarmonyPatch(new Type[] { typeof(bool) })]
             static class ItemSlot_RemoveItem_Patch
             {
                 static void Prefix(Kingmaker.Items.Slots.ItemSlot __instance, ItemEntity ___m_Item,
@@ -4180,7 +4184,7 @@ namespace BagOfTricks
                 {
                     if (StringUtils.ToToggleBool(settings.toggleSummonDurationMultiplier) &&
                         UnitEntityDataUtils.CheckUnitEntityData(initiator,
-                            (UnitSelectType) settings.indexSummonDurationMultiplier))
+                            (UnitSelectType)settings.indexSummonDurationMultiplier))
                     {
                         duration = new Rounds(
                             Convert.ToInt32(duration.Value * settings.finalSummonDurationMultiplierValue));
@@ -4189,7 +4193,7 @@ namespace BagOfTricks
 
                     if (StringUtils.ToToggleBool(settings.toggleSetSummonLevelTo20) &&
                         UnitEntityDataUtils.CheckUnitEntityData(initiator,
-                            (UnitSelectType) settings.indexSetSummonLevelTo20))
+                            (UnitSelectType)settings.indexSetSummonLevelTo20))
                     {
                         level = 20;
                     }
@@ -4214,7 +4218,7 @@ namespace BagOfTricks
                     if (StringUtils.ToToggleBool(settings.toggleMakeSummmonsControllable) &&
                         CombatController.IsInTurnBasedCombat())
                     {
-                        Traverse.Create((object) __instance).Method("ShowTurnPanel", Array.Empty<object>()).GetValue();
+                        Traverse.Create((object)__instance).Method("ShowTurnPanel", Array.Empty<object>()).GetValue();
                     }
                 }
             }
@@ -4234,9 +4238,9 @@ namespace BagOfTricks
                     {
                         if (StringUtils.ToToggleBool(settings.toggleBuffDurationMultiplier) && duration != null
                             && UnitEntityDataUtils.CheckUnitEntityData(initiator,
-                                (UnitSelectType) settings.indexBuffDurationMultiplier)
+                                (UnitSelectType)settings.indexBuffDurationMultiplier)
                             && UnitEntityDataUtils.CheckUnitEntityData(context.MaybeCaster,
-                                (UnitSelectType) settings.indexBuffDurationMultiplier))
+                                (UnitSelectType)settings.indexBuffDurationMultiplier))
                         {
                             duration = TimeSpan.FromTicks(
                                 Convert.ToInt64(duration.Value.Ticks * settings.finalBuffDurationMultiplierValue));
@@ -4675,8 +4679,8 @@ namespace BagOfTricks
                     if (StringUtils.ToToggleBool(settings.toggleShowAllPartyPortraits))
                     {
                         float y = eventData.scrollDelta.y;
-                        if ((double) Math.Abs(y) < (double) Mathf.Epsilon ||
-                            !__instance.NavigateCharacters((double) y < 0.0))
+                        if ((double)Math.Abs(y) < (double)Mathf.Epsilon ||
+                            !__instance.NavigateCharacters((double)y < 0.0))
                         {
                             return false;
                         }
