@@ -1872,12 +1872,12 @@ namespace BagOfTricks
             [HarmonyPatch(typeof(UnityModManager.UI), "Update")]
             internal static class UnityModManager_UI_Update_Patch
             {
-                private static void Postfix(UnityModManager.UI __instance, ref Rect ____mWindowRect,
-                    ref Vector2[] ___MScrollPosition, ref int ____tabId)
+                private static void Postfix(UnityModManager.UI __instance, ref Rect ___mWindowRect,
+                    ref Vector2[] ___mScrollPosition, ref int ___tabId)
                 {
-                    Storage.ummRect = ____mWindowRect;
-                    Storage.ummScrollPosition = ___MScrollPosition;
-                    Storage.ummTabId = ____tabId;
+                    Storage.ummRect = ___mWindowRect;
+                    Storage.ummScrollPosition = ___mScrollPosition;
+                    Storage.ummTabId = ___tabId;
 
                     if (Main.enabled)
                     {
