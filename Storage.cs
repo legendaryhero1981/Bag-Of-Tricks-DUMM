@@ -25,7 +25,6 @@ namespace BagOfTricks {
         public static readonly string bagOfTicksLogFile = "BagOfTricks";
         public static readonly string battleLogPrefix = "[BattleLog] ";
         public static readonly string battleLogFile = "BattleLog";
-
         public static readonly string assetBundlesFolder = "AssetBundles";
         public static readonly string charactersImportFolder = "Characters";
         public static readonly string favouritesFolder = "Favourites";

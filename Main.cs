@@ -945,7 +945,7 @@ namespace BagOfTricks
                 Storage.buffValidNames.Add(bpBuff.Name);
                 Storage.buffValidDescriptions.Add(BlueprintScriptableObjectUtils.GetDescription(bso));
                 foreach (var bc in bpBuff.CollectComponents())
-                    Storage.buffValidComponents.Add(bc.name);
+                    if (bc != null) Storage.buffValidComponents.Add(bc.name);
                 Storage.buffValidGuids.Add(bpBuff.AssetGuid);
             }
 
