@@ -1048,6 +1048,8 @@ namespace BagOfTricks
                             }
                             else if (!UIUtilityUnit.IsClassDeterminator(@group)
                                      && FeatureGroup.OppositionSchool != @group
+                                     && FeatureGroup.EldritchKnightSpellbook != @group
+                                     && FeatureGroup.DragonDiscipleSpellbook != @group
                                      && FeatureGroup.DraconicBloodlineSelection != @group
                                      || @group is FeatureGroup.SpecialistSchool)
                                 state.AddSelection(null, source, item, level);
