@@ -1038,23 +1038,30 @@ namespace BagOfTricks
                     int level)
                 {
                     for (int i = 0; i < settings.featMultiplier; ++i)
-                    {
                         foreach (BlueprintFeatureSelection item in features.OfType<BlueprintFeatureSelection>())
                         {
-                            state.AddSelection(null, source, item, level);
-                        }
-
-                        foreach (BlueprintFeature item2 in features.OfType<BlueprintFeature>())
-                        {
-                            Feature feature = (Feature)unit.AddFact(item2);
-                            BlueprintProgression blueprintProgression = item2 as BlueprintProgression;
-                            if (blueprintProgression != null)
+                            var group = UIUtilityUnit.GetFeatureGroup(item);
+                            if (0 == i)
                             {
-                                LevelUpHelper.UpdateProgression(state, unit, blueprintProgression);
+                                if (FeatureGroup.OppositionSchool != @group)
+                                    state.AddSelection(null, source, item, level);
                             }
-
-                            feature.Source = source;
+                            else if (!UIUtilityUnit.IsClassDeterminator(@group)
+                                     && FeatureGroup.OppositionSchool != @group
+                                     && FeatureGroup.DraconicBloodlineSelection != @group
+                                     || @group is FeatureGroup.SpecialistSchool)
+                                state.AddSelection(null, source, item, level);
                         }
+                    foreach (BlueprintFeature item2 in features.OfType<BlueprintFeature>())
+                    {
+                        Feature feature = (Feature)unit.AddFact(item2);
+                        BlueprintProgression blueprintProgression = item2 as BlueprintProgression;
+                        if (blueprintProgression != null)
+                        {
+                            LevelUpHelper.UpdateProgression(state, unit, blueprintProgression);
+                        }
+
+                        feature.Source = source;
                     }
 
                     return false;
